@@ -18,13 +18,11 @@ class _KarKam extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '_KarKam',
-
       //  BasePage invokes a generic page layout: a similar UI is
       //  presented for each page(route).
-      home: Container(),
-      // home: BasePage(
-      //   pageSpec: settingsPage,
-      // ),
+      home: BasePage(
+        pageSpec: settingsPage,
+      ),
     );
   }
 }
