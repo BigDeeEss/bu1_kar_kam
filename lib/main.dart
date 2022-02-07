@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-// import 'package:dash_cam_app/base_page.dart';
-// import 'package:dash_cam_app/page_specs.dart';
+import 'package:kar_kam/base_page.dart';
+import 'package:kar_kam/page_specs.dart';
 
 //  App start point.
 void main() {
