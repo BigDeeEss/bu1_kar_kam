@@ -58,7 +58,7 @@ class AppSettings {
   /// Used for debugging widget screen location.
   static bool drawLayoutBounds = true;
 
-  // /// [pageTransitionTime] defines the time in milliseconds allowed
-  // /// for the transitioning the page.
-  // static int pageTransitionTime = 750;
+  /// [pageTransitionTime] defines the time in milliseconds allowed
+  /// for the transitioning the page.
+  static int pageTransitionTime = 750;
 }

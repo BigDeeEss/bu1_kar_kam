@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:dash_cam_app/lib/custom_icons.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/page_specs.dart';
-// import 'package:dash_cam_app/zoom_page_transition.dart';
+import 'package:kar_kam/zoom_page_transition.dart';
 
 class ButtonSpec {
   /// Class for ease of reference to specific button settings.
@@ -31,9 +31,9 @@ ButtonSpec homeButton = ButtonSpec(
   // icon: Icon(CustomIcons.home),
   icon: Icon(FontAwesomeIcons.home),
   onPressed: (context) {
-    // Navigator.of(context).pushReplacement(ZoomPageTransition(
-    //   pageSpec: homePage,
-    // ));
+    Navigator.of(context).pushReplacement(ZoomPageTransition(
+      pageSpec: homePage,
+    ));
   },
   size: AppSettings.buttonSize,
 );
@@ -43,9 +43,9 @@ ButtonSpec filesButton = ButtonSpec(
   // icon: Icon(CustomIcons.file_video),
   icon: Icon(FontAwesomeIcons.fileVideo),
   onPressed: (context) {
-    // Navigator.of(context).pushReplacement(ZoomPageTransition(
-    //   pageSpec: filesPage,
-    // ));
+    Navigator.of(context).pushReplacement(ZoomPageTransition(
+      pageSpec: filesPage,
+    ));
   },
   size: AppSettings.buttonSize,
 );
@@ -55,9 +55,9 @@ ButtonSpec settingsButton = ButtonSpec(
   // icon: Icon(CustomIcons.cog_1),
   icon: Icon(FontAwesomeIcons.cog),
   onPressed: (context) {
-    // Navigator.of(context).pushReplacement(ZoomPageTransition(
-    //   pageSpec: settingsPage,
-    // ));
+    Navigator.of(context).pushReplacement(ZoomPageTransition(
+      pageSpec: settingsPage,
+    ));
   },
   size: AppSettings.buttonSize,
 );
