@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/page_specs.dart';
 
@@ -22,8 +23,31 @@ class BasePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(pageSpec.title),
       ),
-      //  Place page contents and ButtonArray; ensure  that ButtonArray sits
-      //  above the page content by placing it last in a Stack list of children.
+      //  Use Builder widget because it is not possible to get the appBar
+      //  height from the current BuildContext when it doesn't yet include the
+      //  Scaffold class being returned by the parent widget.
+      //
+      //  The Builder class delegates its build to a callback.
+      bottomNavigationBar: Builder(
+        builder: (BuildContext context) {
+          double appBarHeight =
+              MediaQuery.of(context).padding.top + kToolbarHeight;
+
+          return BottomAppBar(
+            color: Colors.blue,
+            child: SizedBox(
+              //  Set height of the BottomAppBar class variable using
+              //  SizedBox. Get height from [context] by first
+              //  extracting the Scaffold that immediately wraps this
+              //  widget, and then getting the value for appBarMaxHeight.
+              height: appBarHeight * AppSettings.appBarHeightScaleFactor,
+            ),
+          );
+        },
+      ),
+      //  Place page contents and ButtonArray on screen.
+      //  Ensure that ButtonArray sits above the page content by placing
+      //  it last in a Stack list of children.
       body: Stack(
         children: <Widget>[
           pageSpec.contents,

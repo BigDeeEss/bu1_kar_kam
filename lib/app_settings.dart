@@ -3,9 +3,9 @@ import 'package:flutter/painting.dart';
 
 /// Class for ease of import of app settings.
 class AppSettings {
-  // /// [appBarHeightScaleFactor] defines a simple scale factor to apply to
-  // /// appBar when calculating bottomNavigationBar height in BasePage class.
-  // static double appBarHeightScaleFactor = 1.0;
+  /// [appBarHeightScaleFactor] defines a simple scale factor to apply to
+  /// appBar when calculating bottomNavigationBar height in BasePage class.
+  static double appBarHeightScaleFactor = 1.0;
   //
   /// [buttonAlignment] defines the anchor point for button placement
   /// in ButtonArray class.
