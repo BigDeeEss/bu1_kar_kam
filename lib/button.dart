@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_specs.dart';
-// import 'package:kar_kam/global_key_extension.dart';
 
-//  Geometrical and functional button specs for [ButtonArray].
+/// [Button] implements a FloatingActionButton copy, including the
+/// geometrical and functional aspects of buttonSpecs.
 class Button extends StatelessWidget {
   /// Implements a single button item in ButtonArray.
   Button(this.buttonSpec, {
@@ -29,8 +29,8 @@ class Button extends StatelessWidget {
     //       '${RectGetter.getRectFromKey(rectGetterKey)}');
     // });
 
-    //  An IconButton with a circular background and geometry-dependent
-    //  padding. The RectGetter class provides a method for obtaining
+    //  IconButton with a circular background and geometry-dependent padding.
+    //  The RectGetter class provides a method for obtaining
     //  a widget's bounding rectangle.
     return Container(
       decoration: BoxDecoration(

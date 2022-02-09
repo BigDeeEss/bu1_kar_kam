@@ -6,8 +6,8 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/base_page.dart';
 
+/// [ZoomPageTransition] implements a zoom page transition from the centre out.
 class ZoomPageTransition extends PageRouteBuilder {
-  /// Implements a zooming page transition from the centre out.
   final PageSpec pageSpec;
 
   ZoomPageTransition({
@@ -23,7 +23,7 @@ class ZoomPageTransition extends PageRouteBuilder {
       pageSpec: pageSpec,
     ),
 
-    //  Define page transition PLUS button animation time.
+    //  Define page transition animation time.
     transitionDuration: Duration(milliseconds: AppSettings.pageTransitionTime),
 
     transitionsBuilder: (

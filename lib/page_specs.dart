@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 
+/// [PageSpec] allows for ease of reference to specific page settings.
 class PageSpec {
-  /// Class for ease of reference to specific page settings.
   const PageSpec({
     required this.title,
     required this.contents,

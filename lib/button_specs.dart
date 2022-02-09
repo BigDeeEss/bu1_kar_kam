@@ -8,27 +8,26 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/zoom_page_transition.dart';
 
+/// [ButtonSpec] is a simple class containing the specs for on-screen buttons.
 class ButtonSpec {
-  /// Class for ease of reference to specific button settings.
   const ButtonSpec({
     required this.icon,
     required this.onPressed,
     required this.size,
   });
 
-  //  The [icon] indicating the the destination page or action.
+  /// [icon] indicating the the destination page or action.
   final Icon icon;
 
-  //  [onPressed] defines the action to be taken when the button is activated.
+  /// [onPressed] defines the action to be taken when the button is activated.
   final void Function(BuildContext context) onPressed;
 
-  //  [size] is the button characteristic dimension.
+  /// [size] is the button characteristic dimension.
   final double size;
 }
 
 //  Home page button specs.
 ButtonSpec homeButton = ButtonSpec(
-  // icon: Icon(CustomIcons.home),
   icon: Icon(FontAwesomeIcons.home),
   onPressed: (context) {
     Navigator.of(context).pushReplacement(ZoomPageTransition(
@@ -40,7 +39,6 @@ ButtonSpec homeButton = ButtonSpec(
 
 //  Files page button specs.
 ButtonSpec filesButton = ButtonSpec(
-  // icon: Icon(CustomIcons.file_video),
   icon: Icon(FontAwesomeIcons.fileVideo),
   onPressed: (context) {
     Navigator.of(context).pushReplacement(ZoomPageTransition(
@@ -52,7 +50,6 @@ ButtonSpec filesButton = ButtonSpec(
 
 //  Settings page button specs.
 ButtonSpec settingsButton = ButtonSpec(
-  // icon: Icon(CustomIcons.cog_1),
   icon: Icon(FontAwesomeIcons.cog),
   onPressed: (context) {
     Navigator.of(context).pushReplacement(ZoomPageTransition(

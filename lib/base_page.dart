@@ -26,8 +26,6 @@ class BasePage extends StatelessWidget {
       //  Use Builder widget because it is not possible to get the appBar
       //  height from the current BuildContext when it doesn't yet include the
       //  Scaffold class being returned by the parent widget.
-      //
-      //  The Builder class delegates its build to a callback.
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           double appBarHeight =
