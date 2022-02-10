@@ -1,5 +1,6 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:rect_getter/rect_getter.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
@@ -16,6 +17,13 @@ class BasePage extends StatelessWidget {
 
   /// [pageSpec] defines the page content.
   final PageSpec pageSpec;
+
+  /// [buttonArrayRect] is instantiated with ButtonArray rect data using
+  /// WidgetsBinding.instance!.addPostFrameCallback().
+  late Rect buttonArrayRect;
+
+  /// [butonArrayGlobalKey] allows rectgetter to be called from anywhere
+  var butonArrayGlobalKey = RectGetter.createGlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +57,10 @@ class BasePage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           pageSpec.contents,
-          ButtonArray(),
+          RectGetter(
+            key: butonArrayGlobalKey,
+            child: ButtonArray(),
+          ),
         ],
       ),
     );
