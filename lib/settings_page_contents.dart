@@ -1,17 +1,32 @@
 //  Import flutter packages.
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/notification_notifier.dart';
 
 /// [SettingsPageContents] implements a bespoke settings page by calling
 /// [_SettingsPageContentsList]. This introduces an additional layer in the
 /// widget tree for an instance of NotificationNotifier.
 class SettingsPageContents extends StatelessWidget {
-  const SettingsPageContents({Key? key}) : super(key: key);
+  SettingsPageContents({Key? key}) : super(key: key);
+
+  ValueNotifier<double> notificationData = ValueNotifier(0.0);
 
   @override
   Widget build(BuildContext context) {
-    return _SettingsPageContentsList();
+    return NotificationNotifier<ScrollNotification, double>(
+      child: _SettingsPageContentsList(),
+      notificationData: notificationData,
+      onNotification: (notification) {
+        if (notification is ScrollUpdateNotification) {
+          notificationData.value = notification.metrics.pixels;
+        }
+        //  Return true to stop notifications of this type
+        //  continuing up the widget tree.
+        return true;
+      },
+    );
   }
 }
 
@@ -47,6 +62,17 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
+          ValueListenableBuilder<double>(
+            valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
+            builder: (BuildContext context, double value, __,){
+              return Container(
+                height: 20.0 + 80 * math.pow(math.cos(value/50), 2),
+                width: 50,
+                alignment: Alignment.center,
+                color: colors[3],
+              );
+            },
+          ),
         Container(
           height: 50,
           width: 50,
