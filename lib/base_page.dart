@@ -22,6 +22,11 @@ class BasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      print('Absolute coordinates on screen: '
+          '${buttonGlobalKey.globalPaintBounds}');
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(pageSpec.title),
