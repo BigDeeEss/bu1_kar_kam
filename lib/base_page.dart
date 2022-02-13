@@ -23,7 +23,7 @@ class BasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      print('Absolute coordinates on screen: '
+      print('From buttonGlobalKey, absolute coordinates on screen: '
           '${buttonGlobalKey.globalPaintBounds}');
     });
 
