@@ -19,14 +19,19 @@ class BasePage extends StatelessWidget {
   final PageSpec pageSpec;
 
   /// [buttonArrayRect] is instantiated with ButtonArray rect data using
-  /// WidgetsBinding.instance!.addPostFrameCallback().
+  /// WidgetsBinding.instance!.addPostFrameCallback((_) {}).
   late Rect buttonArrayRect;
 
-  /// [butonArrayGlobalKey] allows rectgetter to be called from anywhere
-  var butonArrayGlobalKey = RectGetter.createGlobalKey();
+  /// [buttonArrayGlobalKey] allows RectGetter to be called from anywhere
+  var buttonArrayGlobalKey = RectGetter.createGlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      print('RectGetter: absolute coordinates on screen: '
+          '${RectGetter.getRectFromKey(buttonArrayGlobalKey)}');
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(pageSpec.title),
@@ -58,7 +63,7 @@ class BasePage extends StatelessWidget {
         children: <Widget>[
           pageSpec.contents,
           RectGetter(
-            key: butonArrayGlobalKey,
+            key: buttonArrayGlobalKey,
             child: ButtonArray(),
           ),
         ],
