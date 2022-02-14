@@ -19,8 +19,6 @@ class ButtonArray extends StatelessWidget {
     homeButton,
   ];
 
-  final alignGlobalKey = GlobalKey();
-  final flexGlobalKey = GlobalKey();
   final buttonListGlobalKey = <GlobalKey>[
     GlobalKey(),
     GlobalKey(),
@@ -47,10 +45,6 @@ class ButtonArray extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      print('From alignGlobalKey, absolute coordinates on screen: '
-          '${alignGlobalKey.globalPaintBounds}');
-      print('From flexGlobalKey, absolute coordinates on screen: '
-          '${flexGlobalKey.globalPaintBounds}');
       print('From buttonListGlobalKey, absolute coordinates on screen: '
           '${buttonListGlobalKey[0].globalPaintBounds}');
       print('From buttonListGlobalKey, absolute coordinates on screen: '
@@ -63,6 +57,8 @@ class ButtonArray extends StatelessWidget {
     return Container(
       //  Request that this container expands to fit the entire screen.
       //  Required for calculating the button start position off-screen.
+      //  Only required if heightFactor and widthFactor of Align widget is
+      //  non-null.
       constraints: BoxConstraints.expand(
         width: double.infinity,
         height: double.infinity,
@@ -70,12 +66,13 @@ class ButtonArray extends StatelessWidget {
       //  Position the button array according to Align specs.
       //  Specs provided by AppSettings.
       child: Align(
-        key: alignGlobalKey,
+        //  Request that Align sets its height and width to exactly that
+        //  of its child.
+        //  Only required if constraints are set for parent Container widget.
         heightFactor: 1.0,
         widthFactor: 1.0,
         alignment: AppSettings.buttonAlignment,
         child: Flex(
-          key: flexGlobalKey,
           direction: AppSettings.buttonAxis,
           textDirection: (AppSettings.buttonAlignment.x < 0)
               ? TextDirection.ltr

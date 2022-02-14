@@ -18,15 +18,8 @@ class BasePage extends StatelessWidget {
   /// [pageSpec] defines the page content.
   final PageSpec pageSpec;
 
-  final buttonGlobalKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      print('From buttonGlobalKey, absolute coordinates on screen: '
-          '${buttonGlobalKey.globalPaintBounds}');
-    });
-
     return Scaffold(
       appBar: AppBar(
         title: Text(pageSpec.title),
@@ -57,9 +50,7 @@ class BasePage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           pageSpec.contents,
-          ButtonArray(
-            key: buttonGlobalKey,
-          ),
+          ButtonArray(),
         ],
       ),
     );
