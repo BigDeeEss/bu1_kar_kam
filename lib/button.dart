@@ -10,8 +10,9 @@ import 'package:kar_kam/button_specs.dart';
 /// geometrical and functional aspects of buttonSpecs.
 class Button extends StatelessWidget {
   /// Implements a single button item in ButtonArray.
-  Button(this.buttonSpec, {
+  Button({
     Key? key,
+    required this.buttonSpec,
   }) : super(key: key);
 
   /// [buttonSpec] defines the button characteristics.
