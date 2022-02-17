@@ -52,6 +52,32 @@ class Button extends StatelessWidget {
             : null,
       ),
       child: Padding(
+        padding: AppSettings.buttonPadding,
+        child: Container(
+          decoration: BoxDecoration(
+            border: AppSettings.drawLayoutBounds
+                ? Border.all(width: 0.0, color: Colors.redAccent)
+                : null,
+          ),
+          child: CircleAvatar(
+            radius: this.buttonSpec.size / 2.0,
+            backgroundColor: Colors.lightBlue,
+            child: IconButton(
+              icon: this.buttonSpec.icon,
+              color: Colors.white,
+              onPressed: () => this.buttonSpec.onPressed(context),
+            ),
+          ),
+        ),
+      ),
+    );
+    return Container(
+      decoration: BoxDecoration(
+        border: AppSettings.drawLayoutBounds
+            ? Border.all(width: 0.0, color: Colors.redAccent)
+            : null,
+      ),
+      child: Padding(
         padding: (AppSettings.buttonAlignment.y < 0)
             ? AppSettings.buttonPaddingDown
             : AppSettings.buttonPaddingUp,

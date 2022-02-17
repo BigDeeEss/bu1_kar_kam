@@ -22,6 +22,10 @@ class AppSettings {
   // /// for the button animation in BasePage.
   // static int buttonAnimationTime = 1500;
 
+  /// [buttonPadding] defines the padding surrounding each button.
+  static EdgeInsetsDirectional buttonPadding =
+      EdgeInsetsDirectional.all(buttonPaddingMainAxis);
+
   /// [buttonPaddingDown] defines the padding for downward direction
   /// button positioning in Button class.
   static EdgeInsetsDirectional buttonPaddingDown =
@@ -51,13 +55,11 @@ class AppSettings {
     buttonPaddingMainAxis,
   );
 
-  static double buttonPadding = 15.0;
-
   /// [buttonSize] defines the button radius in Button class.
   static double buttonRadiusInner = 56.0;
 
   /// [buttonSize] defines the button radius plus padding in Button class.
-  static double buttonRadiusOuter = buttonRadiusInner + buttonPadding;
+  static double buttonRadiusOuter = buttonRadiusInner + buttonPaddingMainAxis;
 
   /// [buttonSize] defines the button size in Button class.
   static double buttonSize = 56.0;
