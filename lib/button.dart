@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_specs.dart';
 
-/// [Button] implements a FloatingActionButton copy, including the
+/// [Button] implements a copy of FloatingActionButton, including the
 /// geometrical and functional aspects of buttonSpecs.
 class Button extends StatelessWidget {
-  /// Implements a single button item in ButtonArray.
   Button({
     Key? key,
     required this.buttonSpec,
@@ -20,24 +19,23 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //  IconButton with a circular background and geometry-dependent padding.
-    //  The RectGetter class provides a method for obtaining
-    //  a widget's bounding rectangle.
+    //  Insert an instance of Container in order to offer layout bounds.
     return Container(
       decoration: BoxDecoration(
-        border: AppSettings.drawLayoutBounds
+        border: this.buttonSpec.drawLayoutBounds
             ? Border.all(width: 0.0, color: Colors.redAccent)
             : null,
       ),
       child: Padding(
-        padding: AppSettings.buttonPadding,
+        padding: this.buttonSpec.buttonPadding,
         child: Container(
           decoration: BoxDecoration(
-            border: AppSettings.drawLayoutBounds
+            border: this.buttonSpec.drawLayoutBounds
                 ? Border.all(width: 0.0, color: Colors.redAccent)
                 : null,
           ),
           child: CircleAvatar(
-            radius: this.buttonSpec.size / 2.0,
+            radius: this.buttonSpec.size,
             backgroundColor: Colors.lightBlue,
             child: IconButton(
               icon: this.buttonSpec.icon,

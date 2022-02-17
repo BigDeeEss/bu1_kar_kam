@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:dash_cam_app/lib/custom_icons.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/zoom_page_transition.dart';
 
 /// [ButtonSpec] is a simple class containing the specs for on-screen buttons.
 class ButtonSpec {
-  const ButtonSpec({
+  ButtonSpec({
     required this.icon,
     required this.onPressed,
-    required this.size,
   });
+
+  /// [drawLayoutBounds] toggles whether layout bounds are drawn or not.
+  final bool drawLayoutBounds = AppSettings.drawLayoutBounds;
 
   /// [icon] indicating the the destination page or action.
   final Icon icon;
@@ -22,8 +23,11 @@ class ButtonSpec {
   /// [onPressed] defines the action to be taken when the button is activated.
   final void Function(BuildContext context) onPressed;
 
+  /// [buttonPadding] is the radial amount of padding beyond [buttonRadiusInner].
+  final EdgeInsetsDirectional buttonPadding = AppSettings.buttonPadding;
+
   /// [size] is the button characteristic dimension.
-  final double size;
+  final double size = AppSettings.buttonRadiusInner;
 }
 
 //  Home page button specs.
@@ -34,7 +38,6 @@ ButtonSpec homeButton = ButtonSpec(
       pageSpec: homePage,
     ));
   },
-  size: AppSettings.buttonSize,
 );
 
 //  Files page button specs.
@@ -45,7 +48,6 @@ ButtonSpec filesButton = ButtonSpec(
       pageSpec: filesPage,
     ));
   },
-  size: AppSettings.buttonSize,
 );
 
 //  Settings page button specs.
@@ -56,6 +58,5 @@ ButtonSpec settingsButton = ButtonSpec(
       pageSpec: settingsPage,
     ));
   },
-  size: AppSettings.buttonSize,
 );
 

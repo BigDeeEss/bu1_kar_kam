@@ -19,13 +19,14 @@ class ButtonArray extends StatelessWidget {
     homeButton,
   ];
 
-  final buttonListGlobalKey = <GlobalKey>[
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-  ];
+  /// [buttonListGlobalKey] is an array of GlobalKeys which will be sent
+  /// up the widget tree and then back down to SettingsPageContents.
+  //
+  //  The length of this list is determined by buttonSpecList via
+  //  class method buttonList.
+  final buttonListGlobalKey = <GlobalKey>[];
 
-  //  [buttonList] generates a list of buttons from buttonSpecList.
+  /// [buttonList] generates a list of buttons from buttonSpecList.
   List<Widget> buttonList(List<ButtonSpec> buttonSpecList) {
     //  Initialise widgetList so that it is ready for population.
     List<Widget> widgetList = [];
@@ -33,23 +34,27 @@ class ButtonArray extends StatelessWidget {
     //  Loop over items in buttonSpecList and convert each to its
     //  corresponding button.
     for (int i = 0; i < buttonSpecList.length; i++) {
+      buttonListGlobalKey.add(GlobalKey());
+
       //  Treat horizontal and vertical axes differently.
       if (AppSettings.buttonAxis == Axis.horizontal) {
         //  The top/bottom inputs to Positioned must be either 0.0/null,
-        //  depending on which axis type is selected.
+        //  depending on whether selected alignment is top, or the reverse
+        //  if bottom.
         //
         //  The left/right inputs to Positioned must be non-zero
-        //  coordinates/null, depending on which alignment is selected.
+        //  coordinates/null, depending on whether selected alignment is
+        //  left, or the reverse if right.
         widgetList.add(Positioned(
           top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
           bottom: (AppSettings.buttonAlignment.y > 0) ? 0 : null,
           left: (AppSettings.buttonAlignment.x < 0)
-              ? (AppSettings.buttonRadiusOuter +
-                  AppSettings.buttonPaddingMainAxisExtra) * i
+              ? (AppSettings.buttonRadiusInner +
+              AppSettings.buttonPaddingMainAxisExtra) * 2 * i
               : null,
           right: (AppSettings.buttonAlignment.x > 0)
-              ? (AppSettings.buttonRadiusOuter +
-                  AppSettings.buttonPaddingMainAxisExtra) * i
+              ? (AppSettings.buttonRadiusInner +
+              AppSettings.buttonPaddingMainAxisExtra) * 2 * i
               : null,
           child: Button(
             buttonSpec: buttonSpecList[i],
@@ -60,18 +65,20 @@ class ButtonArray extends StatelessWidget {
       //  Treat horizontal and vertical axes differently.
       if (AppSettings.buttonAxis == Axis.vertical) {
         //  The left/right inputs to Positioned must be either 0.0/null,
-        //  depending on which alignment type is selected.
+        //  depending on whether selected alignment is left, or the reverse
+        //  if right.
         //
         //  The top/bottom inputs to Positioned must be non-zero
-        //  coordinates/null, depending on which axis is selected.
+        //  coordinates/null, depending on whether selected alignment is
+        //  top, or the reverse if bottom.
         widgetList.add(Positioned(
           top: (AppSettings.buttonAlignment.y < 0)
-              ? (AppSettings.buttonRadiusOuter +
-                  AppSettings.buttonPaddingMainAxisExtra) * i
+              ? (AppSettings.buttonRadiusInner +
+              AppSettings.buttonPaddingMainAxisExtra) * 2 * i
               : null,
           bottom: (AppSettings.buttonAlignment.y > 0)
-              ? (AppSettings.buttonRadiusOuter +
-                  AppSettings.buttonPaddingMainAxisExtra) * i
+              ? (AppSettings.buttonRadiusInner +
+                  AppSettings.buttonPaddingMainAxisExtra) * 2 * i
               : null,
           left: (AppSettings.buttonAlignment.x < 0) ? 0.0 : null,
           right: (AppSettings.buttonAlignment.x > 0) ? 0.0 : null,
@@ -82,7 +89,6 @@ class ButtonArray extends StatelessWidget {
         ));
       }
     }
-
     return widgetList;
   }
 
@@ -96,6 +102,7 @@ class ButtonArray extends StatelessWidget {
       print('From buttonListGlobalKey, absolute coordinates on screen: '
           '${buttonListGlobalKey[2].globalPaintBounds}');
     });
+    //  Return a Stack with a children list defined by class method buttonList.
     return Stack(
       children: buttonList(buttonSpecList),
     );
