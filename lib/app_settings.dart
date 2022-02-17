@@ -9,13 +9,13 @@ class AppSettings {
   //
   /// [buttonAlignment] defines the anchor point for button placement
   /// in ButtonArray class.
-  // static Alignment buttonAlignment = Alignment.bottomLeft;
+//   static Alignment buttonAlignment = Alignment.bottomLeft;
   static Alignment buttonAlignment = Alignment.bottomRight;
-  // static Alignment buttonAlignment = Alignment.topLeft;
-  // static Alignment buttonAlignment = Alignment.topRight;
+//   static Alignment buttonAlignment = Alignment.topLeft;
+//   static Alignment buttonAlignment = Alignment.topRight;
 
   /// [buttonAxis] sets the button axis in ButtonArray.
-  // static Axis buttonAxis = Axis.horizontal;
+//   static Axis buttonAxis = Axis.horizontal;
   static Axis buttonAxis = Axis.vertical;
 
   // /// [buttonAnimationTime] defines the time in milliseconds allowed
@@ -50,6 +50,14 @@ class AppSettings {
     buttonPaddingCrossAxis,
     buttonPaddingMainAxis,
   );
+
+  static double buttonPadding = 15.0;
+
+  /// [buttonSize] defines the button radius in Button class.
+  static double buttonRadiusInner = 56.0;
+
+  /// [buttonSize] defines the button radius plus padding in Button class.
+  static double buttonRadiusOuter = buttonRadiusInner + buttonPadding;
 
   /// [buttonSize] defines the button size in Button class.
   static double buttonSize = 56.0;

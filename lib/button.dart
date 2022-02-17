@@ -18,6 +18,18 @@ class Button extends StatelessWidget {
   /// [buttonSpec] defines the button characteristics.
   final ButtonSpec buttonSpec;
 
+  static double? mainAxisPos(int i) {
+    return (AppSettings.buttonAlignment.x < 0)
+        ? 100.0*i
+      : 0.0;
+  }
+
+  static double? crossAxisPos(int i) {
+    return (AppSettings.buttonAlignment.x > 0)
+      ? 100.0*i
+      : 0.0;
+  }
+
   // /// [rectGetterKey] is a unique global key which can be passed to
   // /// RectGetter.getRectFromKey in order to get the bounding rectangle
   // /// for the Button class.
