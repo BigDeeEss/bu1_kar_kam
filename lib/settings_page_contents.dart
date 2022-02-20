@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/global_key_extension.dart';
 import 'package:kar_kam/notification_notifier.dart';
 
 /// [SettingsPageContents] implements a bespoke settings page by calling

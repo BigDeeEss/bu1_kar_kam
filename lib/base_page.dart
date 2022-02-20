@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
+import 'package:kar_kam/data_notification.dart';
+import 'package:kar_kam/notification_notifier.dart';
 import 'package:kar_kam/page_specs.dart';
 
 /// [BasePage] implements a generic page layout design so that a
@@ -16,6 +18,9 @@ class BasePage extends StatelessWidget {
 
   /// [pageSpec] defines the page content.
   final PageSpec pageSpec;
+
+  ValueNotifier<Rect> notificationData
+      = ValueNotifier(Offset(0.0, 0.0) & Size(0.0, 0.0));
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +48,27 @@ class BasePage extends StatelessWidget {
           );
         },
       ),
-      //  Place page contents and ButtonArray on screen.
-      //  Ensure that ButtonArray sits above the page content by placing
-      //  it last in a Stack list of children.
-      body: Stack(
-        children: <Widget>[
-          pageSpec.contents,
-          ButtonArray(),
-        ],
+      //  Page (Stack) contents are placed within an instance of
+      //  NotificationNotifier since DataNotification is required
+      //  by SettingsPageContents.
+      body: NotificationNotifier<DataNotification, Rect>(
+        notificationData: notificationData,
+        onNotification: (notification) {
+          if (notification is DataNotification) {
+            notificationData.value = notification.data;
+            print(notificationData.value);
+          }
+          return true;
+        },
+        //  Place page contents and ButtonArray on screen.
+        //  Ensure that ButtonArray sits above the page content by placing
+        //  it last in a Stack list of children.
+        child: Stack(
+          children: <Widget>[
+            pageSpec.contents,
+            ButtonArray(),
+          ],
+        ),
       ),
     );
   }
