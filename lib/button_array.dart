@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
+import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/global_key_extension.dart';
 
 /// [ButtonArray] implements a linear button array on screen.
@@ -92,15 +93,34 @@ class ButtonArray extends StatelessWidget {
     return widgetList;
   }
 
+  Rect? getRect() {
+    // List<Rect?> rectList = [];
+    // for (int i = 0; i < buttonSpecList.length; i++) {
+    //   rectList.add(buttonListGlobalKey[i].globalPaintBounds);
+    // }
+    //
+    // Rect? rect = buttonListGlobalKey[0].globalPaintBounds;
+    // for (int i = 1; i < buttonSpecList.length; i++) {
+    //   rect.expandToInclude(buttonListGlobalKey[i].globalPaintBounds);
+    // }
+    Rect? rect = null;
+    for (int i = 0; i < buttonListGlobalKey.length; i++) {
+      Rect? buttonRect = buttonListGlobalKey[i].globalPaintBounds;
+      if (buttonRect != null) {
+        (rect == null) ? rect = buttonRect
+            : rect.expandToInclude(buttonRect);
+      }
+    }
+    return rect;
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      print('From buttonListGlobalKey, absolute coordinates on screen: '
-          '${buttonListGlobalKey[0].globalPaintBounds}');
-      print('From buttonListGlobalKey, absolute coordinates on screen: '
-          '${buttonListGlobalKey[1].globalPaintBounds}');
-      print('From buttonListGlobalKey, absolute coordinates on screen: '
-          '${buttonListGlobalKey[2].globalPaintBounds}');
+      Rect? buttonArrayRect = getRect();
+      DataNotification(
+        data: buttonArrayRect,
+      ).dispatch(context);
     });
     //  Return a Stack with a children list defined by class method buttonList.
     return Stack(
