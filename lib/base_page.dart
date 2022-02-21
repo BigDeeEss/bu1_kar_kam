@@ -19,7 +19,9 @@ class BasePage extends StatelessWidget {
   /// [pageSpec] defines the page content.
   final PageSpec pageSpec;
 
-  ValueNotifier<Rect> notificationData
+  /// [buttonArrayRectData] stores Rect information that is dispatched as
+  /// notifications by ButtonArray.
+  final ValueNotifier<Rect> buttonArrayRectData
       = ValueNotifier(Offset(0.0, 0.0) & Size(0.0, 0.0));
 
   @override
@@ -29,38 +31,37 @@ class BasePage extends StatelessWidget {
         title: Text(pageSpec.title),
       ),
       //  Use Builder widget because it is not possible to get the appBar
-      //  height from the current BuildContext when it doesn't yet include the
-      //  Scaffold class being returned by the parent widget.
+      //  height from the current BuildContext when it doesn't yet include
+      //  information associated by the Scaffold class being built.
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           double appBarHeight =
               MediaQuery.of(context).padding.top + kToolbarHeight;
-
+          // This instance of Builder returns BottomAppBar.
           return BottomAppBar(
             color: Colors.blue,
             child: SizedBox(
-              //  Set height of the BottomAppBar class variable using
-              //  SizedBox. Get height from [context] by first
-              //  extracting the Scaffold that immediately wraps this
-              //  widget, and then getting the value for appBarMaxHeight.
+              //  Set height of BottomAppBar using izedBox. Get height from
+              //  context by extracting the Scaffold that immediately wraps
+              //  this widget, and then getting the value for appBarMaxHeight.
               height: appBarHeight * AppSettings.appBarHeightScaleFactor,
             ),
           );
         },
       ),
-      //  Page (Stack) contents are placed within an instance of
-      //  NotificationNotifier since DataNotification is required
-      //  by SettingsPageContents.
+      //  The Scaffold body contents are placed within an instance of
+      //  NotificationNotifier inorder to transfer [buttonArrayRectData]
+      //  down to SettingsPageContents.
       body: NotificationNotifier<DataNotification, Rect>(
-        notificationData: notificationData,
+        notificationData: buttonArrayRectData,
         onNotification: (notification) {
           if (notification is DataNotification) {
-            notificationData.value = notification.data;
-            print(notificationData.value);
+            buttonArrayRectData.value = notification.data;
+            print(buttonArrayRectData.value);
           }
           return true;
         },
-        //  Place page contents and ButtonArray on screen.
+        //  Place page contents and ButtonArray on screen using Stack.
         //  Ensure that ButtonArray sits above the page content by placing
         //  it last in a Stack list of children.
         child: Stack(

@@ -20,10 +20,11 @@ class _NotificationNotifierService<T, U> extends InheritedWidget {
   /// [child] is the immediate descendant of [_NotificationNotifierService].
   final Widget child;
 
-  /// [notificationData] stores notification data.
+  /// [notificationData] stores data that listenable objects below
+  /// [_NotificationNotifierService] in the widget tree can access.
   ///
   /// The value stored in [notificationData] is defined by the callback
-  /// associated with the instance of [NotificationNotifier].
+  /// functon defined by the user.
   final ValueNotifier<U> notificationData;
 
   /// Allow [_NotificationNotifierService] to notify listenable objects
@@ -55,9 +56,10 @@ class NotificationNotifier<T extends Notification, U> extends StatelessWidget {
   /// [child] is the immediate descendant of [NotificationNotifier].
   final Widget child;
 
-  /// [notificationData] is passed to [_NotificationNotifierService] which
-  /// can notify listenable objects below it in the widget tree
-  /// of updates (to [notificationData]).
+  /// [notificationData] is passed to [_NotificationNotifierService].
+  ///
+  /// [_NotificationNotifierService] notifies listenable objects below it
+  /// in the widget tree of updates (to [notificationData]).
   ///
   /// The [of] method bound to [NotificationNotifier] makes [notificationData]
   /// available to listenable objects below it in the widget tree.
@@ -67,9 +69,12 @@ class NotificationNotifier<T extends Notification, U> extends StatelessWidget {
   /// listenable variables are notified of updates to [notificationData].
   NotificationNotifierCallback onNotification;
 
-  /// [listener] listens out for notifications of type T. On condition of
-  /// onNotification callback defined below, defined in terms of notifications
-  /// of type U, it updates [notificationData].
+  /// [listener] listens out for notifications of type T.
+  ///
+  /// On the condition(s) defined by the user in [onNotification], [listener]
+  /// updates [notificationData], [_NotificationNotifierService] and therefore
+  /// listenable objects below [NotificationNotifier] in the widget tree
+  /// of these changes.
   late NotificationListener<T> listener;
 
   /// [notificationNotifier] notifies listenable objects below it in the
@@ -92,21 +97,17 @@ class NotificationNotifier<T extends Notification, U> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  Define a listener object for notifications of type T, updating
-    //  [notificationData] when T is of type U.
+    //  Define a listener object for notifications of type T.
     listener = NotificationListener<T>(
       onNotification: onNotification,
       child: child,
     );
-
-    //  Define a notification notifier object using [listener] and
-    //  [notificationData] which issues notifiers to listenable objects
-    //  below it in the widget tree.
+    //  Define a notificationNotifier object using listener and
+    //  notificationData.
     notificationNotifier = _NotificationNotifierService<T, U>(
       child: listener,
       notificationData: notificationData,
     );
-
     return notificationNotifier;
   }
 }

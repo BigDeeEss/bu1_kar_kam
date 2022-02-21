@@ -9,7 +9,8 @@ import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/global_key_extension.dart';
 
-/// [ButtonArray] implements a linear button array on screen.
+/// [ButtonArray] implements a linear horizontal or vertical button array
+/// in any of the four screen corners.
 class ButtonArray extends StatelessWidget {
   ButtonArray({Key? key}) : super(key: key);
 
@@ -20,15 +21,16 @@ class ButtonArray extends StatelessWidget {
     homeButton,
   ];
 
-  /// [buttonListGlobalKey] is an array of GlobalKeys which will be sent
-  /// up the widget tree and then back down to SettingsPageContents.
+  /// [buttonListGlobalKey] is an array of GlobalKeys that enable Rect
+  /// data from each button to be obtained using the GlobalKeyExtension
+  /// method, globalPaintBounds.
   //
   //  The length of this list is determined by buttonSpecList via
   //  class method buttonList.
   final buttonListGlobalKey = <GlobalKey>[];
 
   /// [buttonList] generates a list of buttons from buttonSpecList.
-  List<Widget> buttonList(List<ButtonSpec> buttonSpecList) {
+  List<Widget> buttonList() {
     //  Initialise widgetList so that it is ready for population.
     List<Widget> widgetList = [];
 
@@ -94,19 +96,17 @@ class ButtonArray extends StatelessWidget {
   }
 
   Rect? getRect() {
-    // List<Rect?> rectList = [];
-    // for (int i = 0; i < buttonSpecList.length; i++) {
-    //   rectList.add(buttonListGlobalKey[i].globalPaintBounds);
-    // }
-    //
-    // Rect? rect = buttonListGlobalKey[0].globalPaintBounds;
-    // for (int i = 1; i < buttonSpecList.length; i++) {
-    //   rect.expandToInclude(buttonListGlobalKey[i].globalPaintBounds);
-    // }
+    // Instantiate rect as null.
     Rect? rect = null;
+
+    //  Loop over buttonListGlobalKey. buttonListGlobalKey has the same
+    //  length as buttonSpecList.
     for (int i = 0; i < buttonListGlobalKey.length; i++) {
+      //  Get Rect data for ith button.
       Rect? buttonRect = buttonListGlobalKey[i].globalPaintBounds;
       if (buttonRect != null) {
+        //  If rect is null then overwrite with buttonRect, else expand
+        //  rect to include buttonRect.
         (rect == null) ? rect = buttonRect
             : rect.expandToInclude(buttonRect);
       }
@@ -122,9 +122,11 @@ class ButtonArray extends StatelessWidget {
         data: buttonArrayRect,
       ).dispatch(context);
     });
-    //  Return a Stack with a children list defined by class method buttonList.
+    //  Return a Stack with a list of children defined by buttonList.
+    //  Output from buttonList is a list of buttons of length equal to
+    //  buttonSpecList.length.
     return Stack(
-      children: buttonList(buttonSpecList),
+      children: buttonList(),
     );
   }
 }
