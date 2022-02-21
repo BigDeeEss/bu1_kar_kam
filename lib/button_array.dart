@@ -98,7 +98,6 @@ class ButtonArray extends StatelessWidget {
   Rect? getRect() {
     // Instantiate rect as null.
     Rect? rect = null;
-
     //  Loop over buttonListGlobalKey. buttonListGlobalKey has the same
     //  length as buttonSpecList.
     for (int i = 0; i < buttonListGlobalKey.length; i++) {
@@ -107,8 +106,11 @@ class ButtonArray extends StatelessWidget {
       if (buttonRect != null) {
         //  If rect is null then overwrite with buttonRect, else expand
         //  rect to include buttonRect.
-        (rect == null) ? rect = buttonRect
-            : rect.expandToInclude(buttonRect);
+        if (rect == null) {
+          rect = buttonRect;
+        } else {
+          rect = rect.expandToInclude(buttonRect);
+        }
       }
     }
     return rect;
