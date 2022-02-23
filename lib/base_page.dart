@@ -21,7 +21,7 @@ class BasePage extends StatelessWidget {
 
   /// [buttonArrayRectData] stores Rect information that is dispatched as
   /// notifications by ButtonArray.
-  final ValueNotifier<Rect> buttonArrayRectData
+  final ValueNotifier<Rect?> buttonArrayRectData
       = ValueNotifier(Offset(0.0, 0.0) & Size(0.0, 0.0));
 
   @override
@@ -52,11 +52,12 @@ class BasePage extends StatelessWidget {
       //  The Scaffold body contents are placed within an instance of
       //  NotificationNotifier inorder to transfer [buttonArrayRectData]
       //  down to SettingsPageContents.
-      body: NotificationNotifier<DataNotification, Rect>(
+      body: NotificationNotifier<DataNotification, Rect?>(
         notificationData: buttonArrayRectData,
         onNotification: (notification) {
           if (notification is DataNotification) {
             buttonArrayRectData.value = notification.data;
+            print(notification.data);
           }
           return true;
         },

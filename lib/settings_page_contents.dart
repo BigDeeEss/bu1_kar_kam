@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/notification_notifier.dart';
 
 /// [SettingsPageContents] implements a bespoke settings page by calling
@@ -13,8 +14,13 @@ class SettingsPageContents extends StatelessWidget {
 
   ValueNotifier<double> notificationData = ValueNotifier(0.0);
 
+  late ValueNotifier<Rect?> buttonArrayRect;
+
   @override
   Widget build(BuildContext context) {
+    buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData;
+
+    print(buttonArrayRect);
     return NotificationNotifier<ScrollNotification, double>(
       child: _SettingsPageContentsList(),
       notificationData: notificationData,
@@ -37,7 +43,8 @@ class _SettingsPageContentsList extends StatelessWidget {
     Colors.blueGrey,
     Colors.green,
     Colors.deepOrange,
-    Colors.purple
+    Colors.purple,
+    Colors.pink,
   ];
 
   @override
@@ -64,6 +71,19 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
+          ValueListenableBuilder<Rect?>(
+            valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
+            builder: (BuildContext context, Rect? value, __,){
+              return Container(
+                height: value?.height ?? 30,
+                width: 50,
+                alignment: Alignment.center,
+                color: colors[4],
+                // child: Text('${value?.height ?? 30}'),
+                child: Text('${value}, ${value?.height ?? 30}'),
+              );
+            },
+          ),
           ValueListenableBuilder<double>(
             valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
             builder: (BuildContext context, double value, __,){
