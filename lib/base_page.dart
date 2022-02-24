@@ -57,7 +57,7 @@ class BasePage extends StatelessWidget {
         onNotification: (notification) {
           if (notification is DataNotification) {
             buttonArrayRectData.value = notification.data;
-            print(notification.data);
+            print('BasePage, notification.data = ${notification.data}');
           }
           return true;
         },

@@ -20,7 +20,11 @@ class SettingsPageContents extends StatelessWidget {
   Widget build(BuildContext context) {
     buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData;
 
-    print('buttonArrayRect = ${buttonArrayRect}');
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      print('SettingsPageContents, in addPostFrameCallback, buttonArrayRect = ${buttonArrayRect}');
+    });
+
+    print('SettingsPageContents, buttonArrayRect = ${buttonArrayRect}');
     return NotificationNotifier<ScrollNotification, double>(
       child: _SettingsPageContentsList(),
       notificationData: notificationData,
@@ -49,7 +53,7 @@ class _SettingsPageContentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(NotificationNotifier.of <DataNotification, Rect?> (context).notificationData);
+    // print(NotificationNotifier.of <DataNotification, Rect?> (context).notificationData);
     // print(buttonGlobalKey);
     // print(buttonGlobalKey.globalPaintBounds);
     return ListView(
