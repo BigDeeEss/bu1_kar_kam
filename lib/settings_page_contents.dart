@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/data_notification.dart';
+import 'package:kar_kam/multi_value_listener_builder.dart';
 import 'package:kar_kam/notification_notifier.dart';
 
 /// [SettingsPageContents] implements a bespoke settings page by calling
@@ -76,30 +77,39 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
-          ValueListenableBuilder<Rect?>(
-            valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
-            builder: (BuildContext context, Rect? value, __,){
-              return Container(
-                height: value?.height ?? 30,
-                width: 50,
-                alignment: Alignment.center,
-                color: colors[4],
-                // child: Text('${value?.height ?? 30}'),
-                child: Text('${value}, ${value?.height ?? 30}'),
-              );
-            },
-          ),
-          ValueListenableBuilder<double>(
-            valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
-            builder: (BuildContext context, double value, __,){
-              return Container(
-                height: 20.0 + 80 * math.pow(math.cos(value/50), 2),
-                width: 50,
-                alignment: Alignment.center,
-                color: colors[3],
-              );
-            },
-          ),
+        MultiValueListenerBuilder(
+          valueListenables: [
+            NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
+            NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
+          ],
+          builder: (BuildContext context, List<dynamic> values, __,){
+            return Container();
+          },
+        ),
+        ValueListenableBuilder<Rect?>(
+          valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
+          builder: (BuildContext context, Rect? value, __,){
+            return Container(
+              height: value?.height ?? 30,
+              width: 50,
+              alignment: Alignment.center,
+              color: colors[4],
+              // child: Text('${value?.height ?? 30}'),
+              child: Text('${value}, ${value?.height ?? 30}'),
+            );
+          },
+        ),
+        ValueListenableBuilder<double>(
+          valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
+          builder: (BuildContext context, double value, __,){
+            return Container(
+              height: 20.0 + 80 * math.pow(math.cos(value/50), 2),
+              width: 50,
+              alignment: Alignment.center,
+              color: colors[3],
+            );
+          },
+        ),
         Container(
           height: 50,
           width: 50,

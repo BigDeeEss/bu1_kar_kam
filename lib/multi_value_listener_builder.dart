@@ -1,37 +1,69 @@
-//  Import flutter packages.
+// Copyright 2014 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/foundation.dart';
+
+// import 'framework.dart';
 import 'package:flutter/material.dart';
 
-typedef MultiValueWidgetBuilder
-    = Widget Function(BuildContext context, List<dynamic> value, Widget? child);
+typedef MultiValueWidgetBuilder =
+    Widget Function(BuildContext context, List<dynamic> values, Widget? child);
 
-class MultiValueListenerBuilder extends StatelessWidget {
+class MultiValueListenerBuilder extends StatefulWidget {
   const MultiValueListenerBuilder({
     Key? key,
     required this.valueListenables,
     required this.builder,
     this.child,
-  })  : super(key: key);
+  })  : assert(valueListenables.length != 0),
+        super(key: key);
 
-  /// List of [ValueListenable]s to listen to.
-  final ValueNotifier<List<dynamic>> valueListenables;
+  final List<ValueListenable<dynamic>> valueListenables;
 
-  /// The builder function to be called when value of any of the [ValueListenable] changes.
-  /// The order of values list will be same as [valueListenables] list.
-  final Widget Function(BuildContext context,
-      List<dynamic> values, Widget? child) builder;
-  // final MultiValueWidgetBuilder builder;
+  final MultiValueWidgetBuilder builder;
 
-  /// An optional child widget which will be avaliable as child parameter in [builder].
   final Widget? child;
 
   @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<List<dynamic>>(
-      valueListenable: valueListenables,
-      builder: (BuildContext context, List<dynamic> values, Widget? child)
-          => builder(context, values, child),
-    );
-  }
+  State<StatefulWidget> createState() => _MultiValueListenerBuilderState();
 }
 
+class _MultiValueListenerBuilderState extends State<MultiValueListenerBuilder> {
+  late List<dynamic> values;
+
+  @override
+  void initState() {
+    super.initState();
+    values = [];
+    for (int i = 0; i < widget.valueListenables.length; i++) {
+      values.add(widget.valueListenables[i].value);
+    }
+    // widget.valueListenable.addListener(_valueChanged);
+  }
+
+//   @override
+//   void didUpdateWidget(MultiValueListenerBuilder<T> oldWidget) {
+//     if (oldWidget.valueListenable != widget.valueListenable) {
+//       oldWidget.valueListenable.removeListener(_valueChanged);
+//       value = widget.valueListenable.value;
+//       widget.valueListenable.addListener(_valueChanged);
+//     }
+//     super.didUpdateWidget(oldWidget);
+//   }
+//
+//   @override
+//   void dispose() {
+//     widget.valueListenable.removeListener(_valueChanged);
+//     super.dispose();
+//   }
+//
+//   void _valueChanged() {
+//     setState(() { value = widget.valueListenable.value; });
+//   }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(context, values, widget.child);
+  }
+}
