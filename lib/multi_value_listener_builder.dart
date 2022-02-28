@@ -38,29 +38,37 @@ class _MultiValueListenerBuilderState extends State<MultiValueListenerBuilder> {
     values = [];
     for (int i = 0; i < widget.valueListenables.length; i++) {
       values.add(widget.valueListenables[i].value);
+      widget.valueListenables[i].addListener(_valueChanged);
     }
-    // widget.valueListenable.addListener(_valueChanged);
   }
 
-//   @override
-//   void didUpdateWidget(MultiValueListenerBuilder<T> oldWidget) {
-//     if (oldWidget.valueListenable != widget.valueListenable) {
-//       oldWidget.valueListenable.removeListener(_valueChanged);
-//       value = widget.valueListenable.value;
-//       widget.valueListenable.addListener(_valueChanged);
-//     }
-//     super.didUpdateWidget(oldWidget);
-//   }
-//
-//   @override
-//   void dispose() {
-//     widget.valueListenable.removeListener(_valueChanged);
-//     super.dispose();
-//   }
-//
-//   void _valueChanged() {
-//     setState(() { value = widget.valueListenable.value; });
-//   }
+  @override
+  void didUpdateWidget(MultiValueListenerBuilder oldWidget) {
+    if (oldWidget.valueListenables != widget.valueListenables) {
+      for (int i = 0; i < widget.valueListenables.length; i++) {
+        oldWidget.valueListenables[i].removeListener(_valueChanged);
+        values[i] = widget.valueListenables[i].value;
+        widget.valueListenables[i].addListener(_valueChanged);
+      }
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    for (int i = 0; i < widget.valueListenables.length; i++) {
+      widget.valueListenables[i].removeListener(_valueChanged);
+    }
+    super.dispose();
+  }
+
+  void _valueChanged() {
+    setState(() {
+      for (int i = 0; i < widget.valueListenables.length; i++) {
+        values[i] = widget.valueListenables[i].value;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
