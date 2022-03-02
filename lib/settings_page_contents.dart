@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/data_notification.dart';
-import 'package:kar_kam/multi_value_listener_builder.dart';
 import 'package:kar_kam/notification_notifier.dart';
+import 'package:kar_kam/settings_page_list_tile.dart';
 
 /// [SettingsPageContents] implements a bespoke settings page by calling
 /// [_SettingsPageContentsList]. This introduces an additional layer in the
@@ -77,15 +77,7 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
-        MultiValueListenerBuilder(
-          valueListenables: [
-            NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
-            NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
-          ],
-          builder: (BuildContext context, List<dynamic> values, __,){
-            return Container();
-          },
-        ),
+        SettingsPageListTile(),
         ValueListenableBuilder<Rect?>(
           valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
           builder: (BuildContext context, Rect? value, __,){

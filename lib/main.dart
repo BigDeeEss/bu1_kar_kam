@@ -21,7 +21,7 @@ class _KarKam extends StatelessWidget {
       //  BasePage invokes a generic page layout so that a similar UI is
       //  presented for each page(route).
       home: BasePage(
-        pageSpec: homePage,
+        pageSpec: settingsPage,
       ),
     );
   }
