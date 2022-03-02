@@ -95,7 +95,7 @@ class ButtonArray extends StatelessWidget {
     return widgetList;
   }
 
-  Rect? getRect() {
+  Rect? getRectAbsolute() {
     // Instantiate rect as null.
     Rect? rect = null;
     //  Loop over buttonListGlobalKey. buttonListGlobalKey has the same
@@ -119,7 +119,7 @@ class ButtonArray extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      Rect? buttonArrayRect = getRect();
+      Rect? buttonArrayRect = getRectAbsolute();
       DataNotification(
         data: buttonArrayRect,
       ).dispatch(context);

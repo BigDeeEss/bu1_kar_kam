@@ -102,6 +102,7 @@ class _SettingsPageContentsList extends StatelessWidget {
             );
           },
         ),
+        SettingsPageListTile(),
         Container(
           height: 50,
           width: 50,
@@ -124,6 +125,7 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[1],
         ),
+        SettingsPageListTile(),
         Container(
           height: 50,
           width: 50,
