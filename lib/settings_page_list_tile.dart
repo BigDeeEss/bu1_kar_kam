@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/data_notification.dart';
+import 'package:kar_kam/global_key_extension.dart';
 import 'package:kar_kam/notification_notifier.dart';
 
 /// [SettingsPageListTileGlobalKeyNotifier] implements a method for
@@ -25,8 +26,8 @@ class SettingsPageListTileGlobalKeyNotifier extends InheritedWidget {
   /// parent class.
   static SettingsPageListTileGlobalKeyNotifier of(BuildContext context) {
     final SettingsPageListTileGlobalKeyNotifier? result =
-        context.dependOnInheritedWidgetOfExactType
-            <SettingsPageListTileGlobalKeyNotifier>();
+        context.dependOnInheritedWidgetOfExactType<
+            SettingsPageListTileGlobalKeyNotifier>();
     assert(result != null,
         'No SettingsPageListTileGlobalKeyNotifier found in context');
     return result!;
@@ -44,14 +45,14 @@ class SettingsPageListTileGlobalKeyNotifier extends InheritedWidget {
 class SettingsPageListTile extends StatelessWidget {
   SettingsPageListTile({Key? key}) : super(key: key);
 
-  final GlobalKey SettingsPageListTileGlobalKey = GlobalKey();
+  final GlobalKey settingsPageListTileGlobalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return SettingsPageListTileGlobalKeyNotifier(
-      settingsPageListTileGlobalKey: SettingsPageListTileGlobalKey,
+      settingsPageListTileGlobalKey: settingsPageListTileGlobalKey,
       child: _SettingsPageListTileWithGlobalKey(
-        key: SettingsPageListTileGlobalKey,
+        key: settingsPageListTileGlobalKey,
       ),
     );
   }
@@ -86,6 +87,11 @@ class _SettingsPageListTileWithGlobalKey extends StatelessWidget {
         double value,
         __,
       ) {
+        // print('_SettingsPageListTileWithGlobalKey, settingsPageListTileGlobalKey = ${SettingsPageListTileGlobalKeyNotifier.of(context)
+        //     .settingsPageListTileGlobalKey}');
+        GlobalKey settingsPageListTileGlobalKey = SettingsPageListTileGlobalKeyNotifier.of(context)
+            .settingsPageListTileGlobalKey;
+        print(settingsPageListTileGlobalKey.globalPaintBounds);
         return Card(
           child: Container(
             height: 20.0 + 80 * math.pow(math.cos(value / 50), 2),
