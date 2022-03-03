@@ -27,7 +27,9 @@ class SettingsPageContents extends StatelessWidget {
 
     // print('SettingsPageContents, buttonArrayRect = ${buttonArrayRect}');
     return NotificationNotifier<ScrollNotification, double>(
-      child: _SettingsPageContentsList(),
+      child: _SettingsPageContentsList(
+        buttonArrayRect: buttonArrayRect.value,
+      ),
       notificationData: notificationData,
       onNotification: (notification) {
         if (notification is ScrollUpdateNotification) {
@@ -42,7 +44,10 @@ class SettingsPageContents extends StatelessWidget {
 }
 
 class _SettingsPageContentsList extends StatelessWidget {
-  const _SettingsPageContentsList({Key? key}) : super(key: key);
+  const _SettingsPageContentsList({
+    Key? key,
+    required this.buttonArrayRect,
+  }) : super(key: key);
 
   final List<Color> colors = const [
     Colors.blueGrey,
@@ -51,6 +56,8 @@ class _SettingsPageContentsList extends StatelessWidget {
     Colors.purple,
     Colors.pink,
   ];
+
+  final Rect? buttonArrayRect;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +84,9 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
-        SettingsPageListTile(),
+        SettingsPageListTile(
+          buttonArrayRect: buttonArrayRect,
+        ),
         ValueListenableBuilder<Rect?>(
           valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
           builder: (BuildContext context, Rect? value, __,){
