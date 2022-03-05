@@ -3,37 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/global_key_extension.dart';
 import 'package:kar_kam/notification_notifier.dart';
-
-
-class _SettingsPageListTileShape extends CustomClipper<Path>{
-  _SettingsPageListTileShape({
-    required this.rect1,
-    required this.rect2,
-    Listenable? reclip,
-  })  : super(reclip: reclip);
-
-  Rect rect1;
-
-  Rect rect2;
-
-  @override
-  Path getClip(Size size) {
-    Path path1 = Path();
-    path1.addRect(rect1);
-    Path path2 = Path();
-    path2.addRect(rect2);
-    Path path = Path.combine(PathOperation.difference, path1, path2);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
-  }
-}
+import 'package:kar_kam/settings_page_list_tile_clipper.dart';
 
 
 /// [_SettingsPageListTileGlobalKeyNotifier] implements a method for
@@ -101,18 +73,8 @@ class _SettingsPageListTileWithGlobalKey extends StatelessWidget {
 
   final Rect? buttonArrayRect;
 
-  // late Path? clipPath;
-  //
-  // Path? PathFromRect(Rect? rect) {
-  //   Path path = Path();
-  //   if (rect != null) {
-  //     path.addRect(rect);
-  //   }
-  //   return path;
-  // }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext contzext) {
     // clipPath = PathFromRect(
     //     NotificationNotifier.of<DataNotification, Rect?>(context)
     //         .notificationData
@@ -137,6 +99,66 @@ class _SettingsPageListTileWithGlobalKey extends StatelessWidget {
           clipper: _SettingsPageListTileShape(
             rect1: listTileRect,
             rect2: buttonArrayRect,
+          ),
+          child: Container(
+            height: 20.0 + 80 * math.pow(math.cos(value / 50), 2),
+            width: 50,
+            alignment: Alignment.center,
+            child: Text('SettingsPageListTile'),
+            color: Colors.tealAccent,
+          ),
+        );
+        return Card(
+          child: Container(
+            height: 20.0 + 80 * math.pow(math.cos(value / 50), 2),
+            width: 50,
+            alignment: Alignment.center,
+            child: Text('SettingsPageListTile'),
+            color: Colors.tealAccent,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SettingsPageListTileWithGlobalKeyState extends State<_SettingsPageListTileWithGlobalKey> {
+  // late Path? clipPath;
+
+  // Rect? listTileRect = settingsPageListTileGlobalKey.globalPaintBounds;
+
+  @override
+  Widget build(BuildContext context) {
+    // clipPath = PathFromRect(
+    //     NotificationNotifier.of<DataNotification, Rect?>(context)
+    //         .notificationData
+    //         .value);
+
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+
+    });
+
+
+    return ValueListenableBuilder<double>(
+      valueListenable:
+          NotificationNotifier.of<ScrollNotification, double>(context)
+              .notificationData,
+      builder: (
+        BuildContext context,
+        double value,
+        __,
+      ) {
+        // print('_SettingsPageListTileWithGlobalKey, settingsPageListTileGlobalKey = ${_SettingsPageListTileGlobalKeyNotifier.of(context)
+        //     .settingsPageListTileGlobalKey}');
+        GlobalKey settingsPageListTileGlobalKey =
+            _SettingsPageListTileGlobalKeyNotifier.of(context)
+                .settingsPageListTileGlobalKey;
+        Rect? listTileRect = settingsPageListTileGlobalKey.globalPaintBounds;
+        return ClipPath(
+          clipper: SettingsPageListTileClipper(
+            rect1: listTileRect,
+            rect2: widget.buttonArrayRect,
           ),
           child: Container(
             height: 20.0 + 80 * math.pow(math.cos(value / 50), 2),
