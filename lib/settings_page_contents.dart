@@ -15,21 +15,10 @@ class SettingsPageContents extends StatelessWidget {
 
   ValueNotifier<double> notificationData = ValueNotifier(0.0);
 
-  late ValueNotifier<Rect?> buttonArrayRect;
-
   @override
   Widget build(BuildContext context) {
-    buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData;
-
-    // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //   print('SettingsPageContents, in addPostFrameCallback, buttonArrayRect = ${buttonArrayRect}');
-    // });
-
-    // print('SettingsPageContents, buttonArrayRect = ${buttonArrayRect}');
     return NotificationNotifier<ScrollNotification, double>(
-      child: _SettingsPageContentsList(
-        buttonArrayRect: buttonArrayRect.value,
-      ),
+      child: _SettingsPageContentsList(),
       notificationData: notificationData,
       onNotification: (notification) {
         if (notification is ScrollUpdateNotification) {
@@ -46,7 +35,6 @@ class SettingsPageContents extends StatelessWidget {
 class _SettingsPageContentsList extends StatelessWidget {
   const _SettingsPageContentsList({
     Key? key,
-    required this.buttonArrayRect,
   }) : super(key: key);
 
   final List<Color> colors = const [
@@ -56,8 +44,6 @@ class _SettingsPageContentsList extends StatelessWidget {
     Colors.purple,
     Colors.pink,
   ];
-
-  final Rect? buttonArrayRect;
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +70,7 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
-        SettingsPageListTile(
-          buttonArrayRect: buttonArrayRect,
-        ),
+        SettingsPageListTile(),
         ValueListenableBuilder<Rect?>(
           valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
           builder: (BuildContext context, Rect? value, __,){
