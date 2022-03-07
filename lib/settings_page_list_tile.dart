@@ -1,30 +1,72 @@
 //  Import flutter packages.
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:kar_kam/global_key_extension.dart';
 
+
+/// [SettingsPageListTile] is the root widget providing a single bespoke
+/// ListTile instance for SettingsPageContents.
 class SettingsPageListTile extends StatefulWidget {
-  const SettingsPageListTile({Key? key}) : super(key: key);
+  SettingsPageListTile({Key? key}) : super(key: key);
 
   @override
   State<SettingsPageListTile> createState() => _SettingsPageListTileState();
 }
 
 class _SettingsPageListTileState extends State<SettingsPageListTile> {
+  /// [cardGlobalKey], and the method defined in
+  /// global_key_extension.dart, provides the mechanism by which
+  /// [SettingsPageListTileOverlayEntry] gets Rect information from the
+  /// instance of Card defined below.
+  final GlobalKey cardGlobalKey = GlobalKey();
+
+  /// [overlayEntry], an instance of OverlayEntry, uses overlays to
+  /// create a second listTile which takes Rect data from, and sits directly
+  /// over, an opaque listTile that provides positional information.
+  late OverlayEntry SettingsPageListTileOverlayEntry;
+
+  @override
+  void dispose() {
+    // removeSettingsPageListTileOverlay();
+    SettingsPageListTileOverlayEntry.remove();
+    SettingsPageListTileOverlayEntry.dispose();
+    super.dispose();
+  }
+
+  void showSettingsPageListTileOverlay(BuildContext context) {
+    //  Instantiate instance of OverlayState? and
+    //  SettingsPageListTileOverlayEntry.
+    OverlayState? SettingsPageListTileOverlayState = Overlay.of(context);
+    SettingsPageListTileOverlayEntry = OverlayEntry(builder: (context) {
+      Rect? cardRect = cardGlobalKey.globalPaintBounds;
+      print('cardRect = $cardRect');
+      return Card(
+        child: testTile
+      );
+    });
+    // Inserting the [SettingsPageListTileOverlayEntry] into the Overlay.
+    SettingsPageListTileOverlayState?.insert(SettingsPageListTileOverlayEntry);
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-
+      showSettingsPageListTileOverlay(context);
     });
-
-    return Card(
-      child: testTile,
+    return Opacity(
+        opacity: 0.5,
+        child: Card(
+            key: cardGlobalKey,
+            child: testTile
+        )
     );
   }
 }
 
+
 const testTile = ListTile(
   leading: FlutterLogo(size: 72.0),
-  title: Text('Three-line ListTile'),
+  title: Text('SettingsPageListTile'),
   subtitle: Text(
       'A sufficiently long subtitle warrants three lines.'
   ),

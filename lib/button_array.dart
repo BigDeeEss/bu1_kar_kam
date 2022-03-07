@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
-import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/global_key_extension.dart';
 
 /// [ButtonArray] implements a linear horizontal or vertical button array
