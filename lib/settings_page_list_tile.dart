@@ -1,7 +1,10 @@
 //  Import flutter packages.
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/global_key_extension.dart';
+import 'package:kar_kam/notification_notifier.dart';
+import 'package:kar_kam/settings_page_list_tile_clipper.dart';
 
 
 /// [SettingsPageListTile] is the root widget providing a single bespoke
@@ -39,9 +42,16 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     OverlayState? SettingsPageListTileOverlayState = Overlay.of(context);
     SettingsPageListTileOverlayEntry = OverlayEntry(builder: (context) {
       Rect? cardRect = cardGlobalKey.globalPaintBounds;
+      Rect? buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value;
       print('cardRect = $cardRect');
-      return Card(
-        child: testTile
+      return ClipPath(
+        clipper: SettingsPageListTileClipper(
+          rect1: cardRect,
+          rect2: buttonArrayRect,
+        ),
+        child: Card(
+          child: testTile,
+        )
       );
     });
     // Inserting the [SettingsPageListTileOverlayEntry] into the Overlay.
