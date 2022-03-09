@@ -42,15 +42,16 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     OverlayState? SettingsPageListTileOverlayState = Overlay.of(context);
     SettingsPageListTileOverlayEntry = OverlayEntry(builder: (context) {
       Rect? cardRect = cardGlobalKey.globalPaintBounds;
-      Rect? buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value;
+      // Rect? buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value;
       print('cardRect = $cardRect');
       return ClipPath(
         clipper: SettingsPageListTileClipper(
           rect1: cardRect,
-          rect2: buttonArrayRect,
+          rect2: cardRect,
+          // rect2: buttonArrayRect,
         ),
         child: Card(
-          child: testTile,
+          child: BackGroundListTile(),
         )
       );
     });
@@ -58,28 +59,46 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     SettingsPageListTileOverlayState?.insert(SettingsPageListTileOverlayEntry);
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return ValueListenableBuilder<double>(
+  //     valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
+  //     builder: (BuildContext context, double value, __,){
+  //       return Container(
+  //         height: 20.0 + 80 * math.pow(math.cos(value/50), 2),
+  //         width: 50,
+  //         alignment: Alignment.center,
+  //         color: colors[3],
+  //       );
+  //     },
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       showSettingsPageListTileOverlay(context);
     });
-    return Opacity(
-        opacity: 0.5,
-        child: Card(
-            key: cardGlobalKey,
-            child: testTile
-        )
-    );
+    return BackGroundListTile(key: cardGlobalKey);
   }
 }
 
+class BackGroundListTile extends StatelessWidget {
+  const BackGroundListTile({Key? key}) : super(key: key);
 
-const testTile = ListTile(
-  leading: FlutterLogo(size: 72.0),
-  title: Text('SettingsPageListTile'),
-  subtitle: Text(
-      'A sufficiently long subtitle warrants three lines.'
-  ),
-  trailing: Icon(Icons.more_vert),
-  isThreeLine: true,
-);
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: 0.5,
+      child: ListTile(
+        leading: FlutterLogo(size: 72.0),
+        title: Text('SettingsPageListTile'),
+        subtitle: Text(
+            'A sufficiently long subtitle warrants three lines.'
+        ),
+        trailing: Icon(Icons.more_vert),
+        isThreeLine: true,
+      )
+    );
+  }
+}
