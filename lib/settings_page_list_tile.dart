@@ -44,9 +44,9 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
   /// [SettingsPageListTileOverlayEntry] over everything representing
   /// the current UI.
   void showSettingsPageListTileOverlay(BuildContext context) {
-    //  Instantiate instance of OverlayState? and
+    //  Instantiate instance of OverlayState and
     //  SettingsPageListTileOverlayEntry.
-    OverlayState? SettingsPageListTileOverlayState = Overlay.of(context);
+    OverlayState SettingsPageListTileOverlayState = Overlay.of(context)!;
 
     //  Instantiate instance of RenderBox
     //  Build [SettingsPageListTileOverlayEntry].
@@ -54,40 +54,25 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
       Rect? cardRect = settingsPageListTileGlobalKey.globalPaintBounds;
       // Rect? buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value;
       print('cardRect = $cardRect');
+      // print('cardRect.size = ${cardRect!.size}');
+      // print('cardRect.size.width = ${cardRect.size.width}');
       if (cardRect != null) {
-        return CompositedTransformFollower(
-          link: settingsPageListTileLayerLink,
-          // showWhenUnlinked: false,
-          child: Positioned(
-            width: cardRect.size.width,
-            height: cardRect.size.height,
-            child: BackGroundListTile(color: Colors.blueGrey),
+        return Positioned(
+          width: cardRect.size.width,
+          height: cardRect.size.height,
+          child: CompositedTransformFollower(
+            link: settingsPageListTileLayerLink,
+            showWhenUnlinked: false,
+            offset: Offset(0, cardRect.size.height + 100),
+            child: BackGroundListTile(color: Colors.blueGrey, opacity: 0.5,),
           ),
         );
-        // return Positioned(
-        //   left: cardRect.left,
-        //   top: cardRect.top,
-        //   width: cardRect.size.width,
-        //   height: cardRect.size.height,
-        //   child: BackGroundListTile(color: Colors.blueGrey),
-        // );
       } else {
         return Container();
       }
-      // return BackGroundListTile();
-      // return ClipPath(
-      //     clipper: SettingsPageListTileClipper(
-      //       rect1: cardRect,
-      //       rect2: cardRect,
-      //       // rect2: buttonArrayRect,
-      //     ),
-      //     child: Card(
-      //       child: BackGroundListTile(),
-      //     )
-      // );
     });
     // Insert [SettingsPageListTileOverlayEntry] into the Overlay.
-    SettingsPageListTileOverlayState?.insert(SettingsPageListTileOverlayEntry);
+    SettingsPageListTileOverlayState.insert(SettingsPageListTileOverlayEntry);
   }
 
   @override
@@ -96,53 +81,38 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     child: BackGroundListTile(
       key: settingsPageListTileGlobalKey,
       color: Colors.lightGreen,
+      opacity: 1.0,
     ),
   );
-  // {
-  //   return BackGroundListTile(
-  //     key: settingsPageListTileGlobalKey,
-  //     color: Colors.lightGreen,
-  //   );
-  // }
 }
 
 class BackGroundListTile extends StatelessWidget {
-  const BackGroundListTile({
+  BackGroundListTile({
     Key? key,
     required this.color,
-  }) : super(key: key);
+    required this.opacity,
+  })  : assert(opacity.abs() <= 1.0),
+        super(key: key);
 
   final Color color;
+  final double opacity;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Opacity(
-        opacity: 0.5,
+    return Opacity(
+      opacity: opacity,
+      child: Material(
         child: Card(
           child: ListTile(
             leading: FlutterLogo(size: 72.0),
             title: Text('BackGroundListTile'),
-            subtitle: Text(
-                'Example.'
-            ),
+            subtitle: Text('Example: $color, ${opacity}'),
             trailing: Icon(Icons.more_vert),
             tileColor: color
           ),
         ),
       ),
     );
-    // return Opacity(
-    //     opacity: 0.5,
-    //     child: ListTile(
-    //       leading: FlutterLogo(size: 72.0),
-    //       title: Text('BackGroundListTile'),
-    //       subtitle: Text(
-    //           'Example.'
-    //       ),
-    //       trailing: Icon(Icons.more_vert),
-    //     )
-    // );
   }
 }
 
