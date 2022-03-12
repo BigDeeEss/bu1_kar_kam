@@ -14,11 +14,15 @@ class SettingsPageListTile extends StatefulWidget {
 }
 
 class _SettingsPageListTileState extends State<SettingsPageListTile> {
-  /// [cardGlobalKey] and the method defined in
+  /// [settingsPageListTileGlobalKey] and the method defined in
   /// global_key_extension.dart provide the mechanism by which
   /// [SettingsPageListTileOverlayEntry] gets Rect information from the
   /// instance of Card defined below.
-  final GlobalKey cardGlobalKey = GlobalKey();
+  final GlobalKey settingsPageListTileGlobalKey = GlobalKey();
+
+  /// [settingsPageListTileLayerLink] is the object which links
+  /// [SettingsPageListTileOverlayEntry] with [BackGroundListTile].
+  final settingsPageListTileLayerLink = LayerLink();
 
   /// [SettingsPageListTileOverlayEntry] uses an overlay to create a second
   /// listTile which takes Rect data from, and sits directly over, an
@@ -47,16 +51,26 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     //  Instantiate instance of RenderBox
     //  Build [SettingsPageListTileOverlayEntry].
     SettingsPageListTileOverlayEntry = OverlayEntry(builder: (context) {
-      Rect? cardRect = cardGlobalKey.globalPaintBounds;
+      Rect? cardRect = settingsPageListTileGlobalKey.globalPaintBounds;
       // Rect? buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value;
       print('cardRect = $cardRect');
       if (cardRect != null) {
-        return Positioned(
-          left: cardRect.left,
-          top: cardRect.top,
-          width: cardRect.size.width,
-          child: BackGroundListTile(color: Colors.blueGrey),
+        return CompositedTransformFollower(
+          link: settingsPageListTileLayerLink,
+          // showWhenUnlinked: false,
+          child: Positioned(
+            width: cardRect.size.width,
+            height: cardRect.size.height,
+            child: BackGroundListTile(color: Colors.blueGrey),
+          ),
         );
+        // return Positioned(
+        //   left: cardRect.left,
+        //   top: cardRect.top,
+        //   width: cardRect.size.width,
+        //   height: cardRect.size.height,
+        //   child: BackGroundListTile(color: Colors.blueGrey),
+        // );
       } else {
         return Container();
       }
@@ -77,9 +91,19 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BackGroundListTile(key: cardGlobalKey, color: Colors.lightGreen);
-  }
+  Widget build(BuildContext context) => CompositedTransformTarget(
+    link: settingsPageListTileLayerLink,
+    child: BackGroundListTile(
+      key: settingsPageListTileGlobalKey,
+      color: Colors.lightGreen,
+    ),
+  );
+  // {
+  //   return BackGroundListTile(
+  //     key: settingsPageListTileGlobalKey,
+  //     color: Colors.lightGreen,
+  //   );
+  // }
 }
 
 class BackGroundListTile extends StatelessWidget {
