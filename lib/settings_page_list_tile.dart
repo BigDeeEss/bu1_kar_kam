@@ -55,9 +55,7 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
           left: cardRect.left,
           top: cardRect.top,
           width: cardRect.size.width,
-          child: Card(
-            child: BackGroundListTile(),
-          ),
+          child: BackGroundListTile(color: Colors.blueGrey),
         );
       } else {
         return Container();
@@ -80,27 +78,35 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return BackGroundListTile(key: cardGlobalKey);
+    return BackGroundListTile(key: cardGlobalKey, color: Colors.lightGreen);
   }
 }
 
 class BackGroundListTile extends StatelessWidget {
-  const BackGroundListTile({Key? key}) : super(key: key);
+  const BackGroundListTile({
+    Key? key,
+    required this.color,
+  }) : super(key: key);
+
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Opacity(
         opacity: 0.5,
-        child: ListTile(
-          leading: FlutterLogo(size: 72.0),
-          title: Text('BackGroundListTile'),
-          subtitle: Text(
-              'Example.'
+        child: Card(
+          child: ListTile(
+            leading: FlutterLogo(size: 72.0),
+            title: Text('BackGroundListTile'),
+            subtitle: Text(
+                'Example.'
+            ),
+            trailing: Icon(Icons.more_vert),
+            tileColor: color
           ),
-          trailing: Icon(Icons.more_vert),
-        )
-      )
+        ),
+      ),
     );
     // return Opacity(
     //     opacity: 0.5,
