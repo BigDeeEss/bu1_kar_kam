@@ -8,5 +8,6 @@ class DataNotification extends LayoutChangedNotification {
     required this.data,
   });
 
+  /// [data] can be of any type.
   var data;
 }

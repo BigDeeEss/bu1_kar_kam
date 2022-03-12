@@ -85,8 +85,12 @@ class NotificationNotifier<T extends Notification, U> extends StatelessWidget {
   /// the data stored in [notificationData] via the [notificationNotifier]
   /// instance of [_NotificationNotifierService].
   static _NotificationNotifierService<T, U> of <T, U> (BuildContext context) {
+    //  Attempt to get nearest instance of [_NotificationNotifierService]
+    //  above this in the widget tree.
     final _NotificationNotifierService<T, U>? result = context
         .dependOnInheritedWidgetOfExactType<_NotificationNotifierService<T, U>>();
+
+    //  Force app to crash with error statement if result is null.
     assert(result != null,
       'No _NotificationNotifierService found in context: '
       'Try wrapping the call to [of] in a builder.'
@@ -102,12 +106,14 @@ class NotificationNotifier<T extends Notification, U> extends StatelessWidget {
       onNotification: onNotification,
       child: child,
     );
+
     //  Define a notificationNotifier object using listener and
     //  notificationData.
     notificationNotifier = _NotificationNotifierService<T, U>(
       child: listener,
       notificationData: notificationData,
     );
+
     return notificationNotifier;
   }
 }

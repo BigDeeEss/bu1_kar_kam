@@ -64,6 +64,7 @@ class ButtonArray extends StatelessWidget {
           ),
         ));
       }
+
       //  Treat horizontal and vertical axes differently.
       if (AppSettings.buttonAxis == Axis.vertical) {
         //  The left/right inputs to Positioned must be either 0.0/null,
@@ -91,6 +92,7 @@ class ButtonArray extends StatelessWidget {
         ));
       }
     }
+
     return widgetList;
   }
 
@@ -102,6 +104,9 @@ class ButtonArray extends StatelessWidget {
     for (int i = 0; i < buttonListGlobalKey.length; i++) {
       //  Get Rect data for ith button.
       Rect? buttonRect = buttonListGlobalKey[i].globalPaintBounds;
+
+      //  Build [rect] by giving it buttonRect initially, and then expanding it
+      //  by sequentially adding the Rect that encloses each button.
       if (buttonRect != null) {
         //  If rect is null then overwrite with buttonRect, else expand
         //  rect to include buttonRect.

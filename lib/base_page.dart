@@ -37,6 +37,7 @@ class BasePage extends StatelessWidget {
         builder: (BuildContext context) {
           double appBarHeight =
               MediaQuery.of(context).padding.top + kToolbarHeight;
+
           // This instance of Builder returns BottomAppBar.
           return BottomAppBar(
             color: Colors.blue,
