@@ -32,6 +32,14 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
   late OverlayEntry SettingsPageListTileOverlayEntry;
 
   @override
+  void dispose() {
+    // Solves my null problem associated with cardRect.
+    SettingsPageListTileOverlayEntry.remove();
+    // SettingsPageListTileOverlayEntry.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState() ;
     //  After build of [BackGroundListTile] initiate build of
