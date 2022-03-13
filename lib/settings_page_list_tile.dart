@@ -79,7 +79,11 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
               color: Colors.blueGrey,
               opacity: 0.5,
               text: 'Secondary BackgroundListTile...',
-              // clipper:
+              // clipper: SettingsPageListTileClipper(
+              //   rect1: cardRect,
+              //   rect2: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value,
+              // ),
+              // ToDo: get rect data into  SettingsPageListTileClipper and write SettingsPageListTileClipper.
             ),
           ),
         );
@@ -114,6 +118,7 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
 class BackgroundListTile extends StatelessWidget {
   BackgroundListTile({
     Key? key,
+    this.clipper,
     required this.color,
     this.listenable,
     required this.opacity,
@@ -121,6 +126,7 @@ class BackgroundListTile extends StatelessWidget {
   })  : assert(opacity.abs() <= 1.0),
         super(key: key);
 
+  final CustomClipper<Path>? clipper;
   final Color color;
   final double opacity;
   final ValueNotifier<double>? listenable;
@@ -150,7 +156,10 @@ class BackgroundListTile extends StatelessWidget {
         valueListenable: listenable!,
         builder: (BuildContext context, double value, __,){
           print(value);
-          return buildChild();
+          return ClipPath(
+            clipper: clipper,
+            child: buildChild(),
+          );
         },
       );
     } else {
