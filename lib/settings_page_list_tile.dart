@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/global_key_extension.dart';
+import 'package:kar_kam/notification_notifier.dart';
 
 /// [SettingsPageListTile] is the root widget providing a single bespoke
 /// ListTile instance for SettingsPageContents.
@@ -61,7 +62,8 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     overlayEntry = OverlayEntry(builder: (context) {
       Rect? cardRect = globalKey.globalPaintBounds;
       // Rect? buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value;
-      print('cardRect = $cardRect');
+      // print(NotificationNotifier.of <ScrollNotification, double> (context).notificationData);
+      // print('cardRect = $cardRect');
       // print('cardRect.size = ${cardRect!.size}');
       // print('cardRect.size.width = ${cardRect.size.width}');
       if (cardRect != null) {
@@ -87,14 +89,16 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
   //  instance takes [globalKey] as input. Note also [layerLink] and the
   //  use of CompositedTransformTarget(...).
   @override
-  Widget build(BuildContext context) => CompositedTransformTarget(
-    link: layerLink,
-    child: BackgroundListTile(
-      key: globalKey,
-      color: Colors.lightGreen,
-      opacity: 1.0,
-    ),
-  );
+  Widget build(BuildContext context) {
+    return CompositedTransformTarget(
+      link: layerLink,
+      child: BackgroundListTile(
+        key: globalKey,
+        color: Colors.lightGreen,
+        opacity: 1.0,
+      ),
+    );
+  }
 }
 
 class BackgroundListTile extends StatelessWidget {
