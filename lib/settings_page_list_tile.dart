@@ -32,9 +32,11 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
   /// [BackgroundListTile] which takes Rect data from, and sits directly over,
   /// a primary instance of [BackgroundListTile] controlled by ListView.
   late OverlayEntry overlayEntry;
-  
+
   /// [overlayState] is the overlay produced by [SettingsPageListTile].
   late OverlayState overlayState;
+
+  late ValueNotifier<double> scrollNotificationNotifier;
 
   @override
   void dispose() {
@@ -46,10 +48,9 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
 
   @override
   void initState() {
-    super.initState() ;
+    super.initState();
     //  After build of primary [BackgroundListTile] build [overlayEntry].
-    WidgetsBinding.instance!.addPostFrameCallback((_)
-      => showOverlay(context));
+    WidgetsBinding.instance!.addPostFrameCallback((_) => showOverlay(context));
   }
 
   /// [showOverlay] builds and inserts [overlayEntry]
@@ -73,8 +74,13 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
           child: CompositedTransformFollower(
             link: layerLink,
             showWhenUnlinked: false,
-            offset: Offset(0, cardRect.size.height + 10),
-            child: BackgroundListTile(color: Colors.blueGrey, opacity: 0.5,),
+            // offset: Offset(0, cardRect.size.height + 10),
+            child: BackgroundListTile(
+              color: Colors.blueGrey,
+              opacity: 0.5,
+              text: 'Secondary BackgroundListTile...',
+              // clipper:
+            ),
           ),
         );
       } else {
@@ -90,12 +96,16 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
   //  use of CompositedTransformTarget(...).
   @override
   Widget build(BuildContext context) {
+    scrollNotificationNotifier = NotificationNotifier
+        .of <ScrollNotification, double>(context).notificationData;
     return CompositedTransformTarget(
       link: layerLink,
       child: BackgroundListTile(
         key: globalKey,
         color: Colors.lightGreen,
+        listenable: scrollNotificationNotifier,
         opacity: 1.0,
+        text: 'Primary BackgroundListTile...',
       ),
     );
   }
@@ -105,15 +115,18 @@ class BackgroundListTile extends StatelessWidget {
   BackgroundListTile({
     Key? key,
     required this.color,
+    this.listenable,
     required this.opacity,
+    this.text,
   })  : assert(opacity.abs() <= 1.0),
         super(key: key);
 
   final Color color;
   final double opacity;
+  final ValueNotifier<double>? listenable;
+  final String? text;
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildChild() {
     return Opacity(
       opacity: opacity,
       child: Material(
@@ -121,13 +134,28 @@ class BackgroundListTile extends StatelessWidget {
           child: ListTile(
             leading: FlutterLogo(size: 72.0),
             title: Text('BackgroundListTile'),
-            subtitle: Text('Example: $color, ${opacity}'),
+            subtitle: Text(text ?? ''),
             trailing: Icon(Icons.more_vert),
             tileColor: color
           ),
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (listenable != null) {
+      return ValueListenableBuilder<double>(
+        valueListenable: listenable!,
+        builder: (BuildContext context, double value, __,){
+          print(value);
+          return buildChild();
+        },
+      );
+    } else {
+      return buildChild();
+    }
   }
 }
 
