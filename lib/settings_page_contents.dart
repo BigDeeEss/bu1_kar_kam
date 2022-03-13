@@ -102,6 +102,7 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
+        SettingsPageListTile(),
         Card(
           child: ListTile(
             title: Text("Codesinsider.com"),
