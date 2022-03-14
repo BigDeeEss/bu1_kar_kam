@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/clipped_rounded_rectangle_border.dart';
 import 'package:kar_kam/global_key_extension.dart';
 import 'package:kar_kam/notification_notifier.dart';
 
@@ -41,8 +42,8 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
       valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
       builder: (BuildContext context, double value, __,){
         return Card(
-          shape: BeveledRectangleBorder(
-            borderRadius: BorderRadius.circular(value % 10 + 10),
+          shape: ClippedRoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(value % 50 + 20),
           ),
           elevation: value,
           key: globalKey,
