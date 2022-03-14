@@ -15,14 +15,14 @@ class SettingsPageListTile extends StatefulWidget {
 class _SettingsPageListTileState extends State<SettingsPageListTile> {
   @override
   Widget build(BuildContext context) {
-    return _SettingsPageListTileChild(
+    return SettingsPageListTileChild(
       color: Colors.yellow,
     );
   }
 }
 
-class _SettingsPageListTileChild extends StatefulWidget {
-  _SettingsPageListTileChild({
+class SettingsPageListTileChild extends StatefulWidget {
+  SettingsPageListTileChild({
     Key? key,
     this.color,
     this.opacity,
@@ -34,10 +34,10 @@ class _SettingsPageListTileChild extends StatefulWidget {
   final String? text;
 
   @override
-  State<_SettingsPageListTileChild> createState() => _SettingsPageListTileChildState();
+  State<SettingsPageListTileChild> createState() => SettingsPageListTileChildState();
 }
 
-class _SettingsPageListTileChildState extends State<_SettingsPageListTileChild> {
+class SettingsPageListTileChildState extends State<SettingsPageListTileChild> {
   final GlobalKey globalKey = GlobalKey();
 
   Rect? rect = null;
@@ -56,15 +56,21 @@ class _SettingsPageListTileChildState extends State<_SettingsPageListTileChild> 
     return ValueListenableBuilder(
       valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
       builder: (BuildContext context, double value, __,){
+        print(value);
+        print('BorderRadius.circular(value % 10 + 10) = ${value % 10 + 10}');
         return Card(
-          // ToDo: implement shape: shape,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.circular(value % 10 + 10),
+            // borderRadius: BorderRadius.circular(15),
+          ),
+          elevation: value,
           key: globalKey,
+          color: widget.color,
           child: ListTile(
-              leading: FlutterLogo(size: 72.0),
-              title: Text('_SettingsPageListTileChild'),
-              subtitle: Text(widget.text ?? ''),
-              trailing: Icon(Icons.more_vert),
-              tileColor: widget.color
+            leading: FlutterLogo(size: 72.0),
+            title: Text('SettingsPageListTileChild'),
+            subtitle: Text(widget.text ?? ''),
+            trailing: Icon(Icons.more_vert),
           ),
         );
       },
@@ -73,7 +79,7 @@ class _SettingsPageListTileChildState extends State<_SettingsPageListTileChild> 
       key: globalKey,
       child: ListTile(
         leading: FlutterLogo(size: 72.0),
-        title: Text('_SettingsPageListTileChild'),
+        title: Text('SettingsPageListTileChild'),
         subtitle: Text(widget.text ?? ''),
         trailing: Icon(Icons.more_vert),
         tileColor: widget.color

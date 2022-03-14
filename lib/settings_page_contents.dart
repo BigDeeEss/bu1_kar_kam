@@ -70,7 +70,7 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
-        SettingsPageListTile(),
+        // SettingsPageListTile(),
         ValueListenableBuilder<Rect?>(
           valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
           builder: (BuildContext context, Rect? value, __,){
@@ -103,6 +103,7 @@ class _SettingsPageContentsList extends StatelessWidget {
           color: colors[0],
         ),
         SettingsPageListTile(),
+        SettingsPageListTileChild(),
         Card(
           child: ListTile(
             title: Text("Codesinsider.com"),
