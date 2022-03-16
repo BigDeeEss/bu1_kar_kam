@@ -45,43 +45,43 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     );
   }
 
-  @override
-  ShapeBorder? lerpFrom(ShapeBorder? a, double t) {
-    assert(t != null);
-    if (a is ClippedRoundedRectangleBorder) {
-      return ClippedRoundedRectangleBorder(
-        side: BorderSide.lerp(a.side, side, t),
-        borderRadius: BorderRadiusGeometry.lerp(a.borderRadius, borderRadius, t)!,
-      );
-    }
-    // if (a is CircleBorder) {
-    //   return _RoundedRectangleToCircleBorder(
-    //     side: BorderSide.lerp(a.side, side, t),
-    //     borderRadius: borderRadius,
-    //     circleness: 1.0 - t,
-    //   );
-    // }
-    return super.lerpFrom(a, t);
-  }
+  // @override
+  // ShapeBorder? lerpFrom(ShapeBorder? a, double t) {
+  //   assert(t != null);
+  //   if (a is ClippedRoundedRectangleBorder) {
+  //     return ClippedRoundedRectangleBorder(
+  //       side: BorderSide.lerp(a.side, side, t),
+  //       borderRadius: BorderRadiusGeometry.lerp(a.borderRadius, borderRadius, t)!,
+  //     );
+  //   }
+  //   // if (a is CircleBorder) {
+  //   //   return _RoundedRectangleToCircleBorder(
+  //   //     side: BorderSide.lerp(a.side, side, t),
+  //   //     borderRadius: borderRadius,
+  //   //     circleness: 1.0 - t,
+  //   //   );
+  //   // }
+  //   return super.lerpFrom(a, t);
+  // }
 
-  @override
-  ShapeBorder? lerpTo(ShapeBorder? b, double t) {
-    assert(t != null);
-    if (b is ClippedRoundedRectangleBorder) {
-      return ClippedRoundedRectangleBorder(
-        side: BorderSide.lerp(side, b.side, t),
-        borderRadius: BorderRadiusGeometry.lerp(borderRadius, b.borderRadius, t)!,
-      );
-    }
-    // if (b is CircleBorder) {
-    //   return _RoundedRectangleToCircleBorder(
-    //     side: BorderSide.lerp(side, b.side, t),
-    //     borderRadius: borderRadius,
-    //     circleness: t,
-    //   );
-    // }
-    return super.lerpTo(b, t);
-  }
+  // @override
+  // ShapeBorder? lerpTo(ShapeBorder? b, double t) {
+  //   assert(t != null);
+  //   if (b is ClippedRoundedRectangleBorder) {
+  //     return ClippedRoundedRectangleBorder(
+  //       side: BorderSide.lerp(side, b.side, t),
+  //       borderRadius: BorderRadiusGeometry.lerp(borderRadius, b.borderRadius, t)!,
+  //     );
+  //   }
+  //   // if (b is CircleBorder) {
+  //   //   return _RoundedRectangleToCircleBorder(
+  //   //     side: BorderSide.lerp(side, b.side, t),
+  //   //     borderRadius: borderRadius,
+  //   //     circleness: t,
+  //   //   );
+  //   // }
+  //   return super.lerpTo(b, t);
+  // }
 
   /// Returns a copy of this ClippedRoundedRectangleBorder with the given fields
   /// replaced with the new values.
@@ -124,22 +124,22 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     }
   }
 
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType)
-      return false;
-    return other is ClippedRoundedRectangleBorder
-        && other.side == side
-        && other.borderRadius == borderRadius;
-  }
+  // @override
+  // bool operator ==(Object other) {
+  //   if (other.runtimeType != runtimeType)
+  //     return false;
+  //   return other is ClippedRoundedRectangleBorder
+  //       && other.side == side
+  //       && other.borderRadius == borderRadius;
+  // }
 
-  @override
-  int get hashCode => hashValues(side, borderRadius);
+  // @override
+  // int get hashCode => hashValues(side, borderRadius);
 
-  @override
-  String toString() {
-    return '${objectRuntimeType(this, 'ClippedRoundedRectangleBorder')}($side, $borderRadius)';
-  }
+  // @override
+  // String toString() {
+  //   return '${objectRuntimeType(this, 'ClippedRoundedRectangleBorder')}($side, $borderRadius)';
+  // }
 }
 
 // class _RoundedRectangleToCircleBorder extends OutlinedBorder {

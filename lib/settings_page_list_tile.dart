@@ -41,9 +41,12 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
     return ValueListenableBuilder(
       valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
       builder: (BuildContext context, double value, __,){
+        print(value/10 % 50 + 10);
+        print('globalKey $globalKey');
         return Card(
           shape: ClippedRoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(value % 50 + 20),
+          // shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(value/10 % 50 + 10),
           ),
           elevation: value,
           key: globalKey,

@@ -132,6 +132,7 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
+        SettingsPageListTile(color: Colors.yellow),
         ListTile(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
           selected: true,
