@@ -25,12 +25,15 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
   const ClippedRoundedRectangleBorder({
     BorderSide side = BorderSide.none,
     this.borderRadius = BorderRadius.zero,
+    this.guestRect,
   }) : assert(side != null),
         assert(borderRadius != null),
         super(side: side);
 
   /// The radii for each corner.
   final BorderRadiusGeometry borderRadius;
+
+  final Rect? guestRect;
 
   @override
   EdgeInsetsGeometry get dimensions {
@@ -42,6 +45,7 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     return ClippedRoundedRectangleBorder(
       side: side.scale(t),
       borderRadius: borderRadius * t,
+      guestRect: guestRect,
     );
   }
 
@@ -90,39 +94,79 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     return ClippedRoundedRectangleBorder(
       side: side ?? this.side,
       borderRadius: borderRadius ?? this.borderRadius,
+      guestRect: guestRect,
     );
   }
 
   @override
   Path getInnerPath(Rect rect, { TextDirection? textDirection }) {
-    return Path()
+    print('getInnerPath, borderRadius = $borderRadius');
+    Path hostPath = Path()
       ..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
+    Path guestPath = Path();
+    print('guestRect = $guestRect');
+    if (guestRect != null) {
+      guestPath..addRRect(borderRadius.resolve(textDirection).toRRect(guestRect!).inflate(side.width));
+    }
+    print('paint, hostPath = ${hostPath.toString()}');
+    print('paint, guestPath = ${guestPath.toString()}');
+    return Path.combine(PathOperation.difference, hostPath, guestPath);
+    // return Path()
+    //   ..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
   }
 
   @override
   Path getOuterPath(Rect rect, { TextDirection? textDirection }) {
-    return Path()
+    print('getOuterPath, borderRadius = $borderRadius');
+    Path hostPath = Path()
       ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
+    Path guestPath = Path();
+    print('guestRect = $guestRect');
+    if (guestRect != null) {
+      guestPath..addRRect(borderRadius.resolve(textDirection).toRRect(guestRect!));
+    }
+    print('paint, hostPath = ${hostPath.toString()}');
+    print('paint, guestPath = ${guestPath.toString()}');
+    return Path.combine(PathOperation.difference, hostPath, guestPath);
+    // return Path()
+    //   ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
   }
 
   @override
   void paint(Canvas canvas, Rect rect, { TextDirection? textDirection }) {
+    if (rect.isEmpty)
+      return;
     switch (side.style) {
       case BorderStyle.none:
         break;
       case BorderStyle.solid:
-        final double width = side.width;
-        if (width == 0.0) {
-          canvas.drawRRect(borderRadius.resolve(textDirection).toRRect(rect), side.toPaint());
-        } else {
-          final RRect outer = borderRadius.resolve(textDirection).toRRect(rect);
-          final RRect inner = outer.deflate(width);
-          final Paint paint = Paint()
-            ..color = side.color;
-          canvas.drawDRRect(outer, inner, paint);
-        }
+        final Path path = getOuterPath(rect, textDirection: textDirection)
+          ..addPath(getInnerPath(rect, textDirection: textDirection), Offset.zero);
+        print('paint, path = $path');
+        canvas.drawPath(path, side.toPaint());
+        break;
     }
   }
+
+  // @override
+  // void paint(Canvas canvas, Rect rect, { TextDirection? textDirection }) {
+  //   print(borderRadius);
+  //   switch (side.style) {
+  //     case BorderStyle.none:
+  //       break;
+  //     case BorderStyle.solid:
+  //       final double width = side.width;
+  //       if (width == 0.0) {
+  //         canvas.drawRRect(borderRadius.resolve(textDirection).toRRect(rect), side.toPaint());
+  //       } else {
+  //         final RRect outer = borderRadius.resolve(textDirection).toRRect(rect);
+  //         final RRect inner = outer.deflate(width);
+  //         final Paint paint = Paint()
+  //           ..color = side.color;
+  //         canvas.drawDRRect(outer, inner, paint);
+  //       }
+  //   }
+  // }
 
   // @override
   // bool operator ==(Object other) {

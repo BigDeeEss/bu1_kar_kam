@@ -7,10 +7,10 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 
-import 'basic_types.dart';
-import 'border_radius.dart';
-import 'borders.dart';
-import 'edge_insets.dart';
+import '../basic_types.dart';
+import '../border_radius.dart';
+import '../borders.dart';
+import '../edge_insets.dart';
 
 /// A rectangular border with smooth continuous transitions between the straight
 /// sides and the rounded corners.

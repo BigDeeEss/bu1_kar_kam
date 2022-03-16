@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/clipped_rounded_rectangle_border.dart';
+import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/global_key_extension.dart';
 import 'package:kar_kam/notification_notifier.dart';
 
@@ -47,6 +48,7 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
           shape: ClippedRoundedRectangleBorder(
           // shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(value/10 % 50 + 10),
+            guestRect: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value,
           ),
           elevation: value,
           key: globalKey,
