@@ -5,6 +5,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui show lerpDouble;
+import 'dart:math' as math;
 
 /// A rectangular border with rounded corners.
 ///
@@ -98,52 +99,119 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     );
   }
 
+  double _clampToShortest(RRect rrect, double value) {
+    return value > rrect.shortestSide ? rrect.shortestSide : value;
+  }
+
+  Path _getPath(RRect rrect) {
+    final double left = rrect.left;
+    final double right = rrect.right;
+    final double top = rrect.top;
+    final double bottom = rrect.bottom;
+    //  Radii will be clamped to the value of the shortest side
+    // of rrect to avoid strange tie-fighter shapes.
+    final double tlRadiusX =
+    math.max(0.0, _clampToShortest(rrect, rrect.tlRadiusX));
+    final double tlRadiusY =
+    math.max(0.0, _clampToShortest(rrect, rrect.tlRadiusY));
+    final double trRadiusX =
+    math.max(0.0, _clampToShortest(rrect, rrect.trRadiusX));
+    final double trRadiusY =
+    math.max(0.0, _clampToShortest(rrect, rrect.trRadiusY));
+    final double blRadiusX =
+    math.max(0.0, _clampToShortest(rrect, rrect.blRadiusX));
+    final double blRadiusY =
+    math.max(0.0, _clampToShortest(rrect, rrect.blRadiusY));
+    final double brRadiusX =
+    math.max(0.0, _clampToShortest(rrect, rrect.brRadiusX));
+    final double brRadiusY =
+    math.max(0.0, _clampToShortest(rrect, rrect.brRadiusY));
+
+    Path hostPath = Path();
+    hostPath
+      ..addRRect(rrect.deflate(20));
+    return hostPath;
+
+    return Path()
+      ..moveTo(left, top + tlRadiusX)
+      ..cubicTo(left, top, left, top, left + tlRadiusY, top)
+      ..lineTo(right - trRadiusX, top)
+      ..cubicTo(right, top, right, top, right, top + trRadiusY)
+      ..lineTo(right, bottom - brRadiusX)
+      ..cubicTo(right, bottom, right, bottom, right - brRadiusY, bottom)
+      ..lineTo(left + blRadiusX, bottom)
+      ..cubicTo(left, bottom, left, bottom, left, bottom - blRadiusY)
+      ..close();
+  }
+
+
   @override
   Path getInnerPath(Rect rect, { TextDirection? textDirection }) {
-    print('getInnerPath, borderRadius = $borderRadius');
-    Path hostPath = Path()
-      ..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
-    Path guestPath = Path();
-    // print('guestRect = $guestRect');
-    if (guestRect != null) {
-      guestPath..addRRect(borderRadius.resolve(textDirection).toRRect(guestRect!).inflate(side.width));
-    }
-    // print('paint, hostPath = ${hostPath.toString()}');
-    // print('paint, guestPath = ${guestPath.toString()}');
-    return Path.combine(PathOperation.difference, hostPath, guestPath);
-    // return Path()
-    //   ..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
+    return _getPath(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
   }
 
   @override
   Path getOuterPath(Rect rect, { TextDirection? textDirection }) {
-    // print('getOuterPath, borderRadius = $borderRadius');
-    Path hostPath = Path()
-      ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
-    Path guestPath = Path();
-    // print('guestRect = $guestRect');
-    if (guestRect != null) {
-      guestPath..addRRect(borderRadius.resolve(textDirection).toRRect(guestRect!));
-    }
-    // print('paint, hostPath = ${hostPath.toString()}');
-    // print('paint, guestPath = ${guestPath.toString()}');
-    return Path.combine(PathOperation.difference, hostPath, guestPath);
-    // return Path()
-    //   ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
+    return _getPath(borderRadius.resolve(textDirection).toRRect(rect));
   }
+
+  // @override
+  // Path getInnerPath(Rect rect, { TextDirection? textDirection }) {
+  //   Path hostPath = Path()
+  //     ..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
+  //   Path guestPath = Path();
+  //   // print('getInnerPath, borderRadius = $borderRadius');
+  //   // print('getInnerPath, rect = $rect');
+  //   // print('getInnerPath, guestRect = $guestRect');
+  //   if (guestRect != null) {
+  //     guestPath..addRRect(borderRadius.resolve(textDirection).toRRect(guestRect!).inflate(side.width));
+  //   }
+  //   // print('paint, hostPath = ${hostPath.toString()}');
+  //   // print('paint, guestPath = ${guestPath.toString()}');
+  //   return Path.combine(PathOperation.difference, hostPath, guestPath);
+  //   // return Path()
+  //   //   ..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
+  // }
+
+
+  // @override
+  // Path getOuterPath(Rect rect, { TextDirection? textDirection }) {
+  //   Path hostPath = Path()
+  //     ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
+  //   Path guestPath = Path();
+  //   // print('getOuterPath, borderRadius = $borderRadius');
+  //   // print('getOuterPath, rect = $rect');
+  //   // print('getOuterPath, guestRect = $guestRect');
+  //   if (guestRect != null) {
+  //     guestPath..addRRect(borderRadius.resolve(textDirection).toRRect(guestRect!));
+  //   }
+  //   // print('paint, hostPath = ${hostPath.toString()}');
+  //   // print('paint, guestPath = ${guestPath.toString()}');
+  //   return Path.combine(PathOperation.difference, hostPath, guestPath);
+  //   // return Path()
+  //   //   ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
+  // }
 
   @override
   void paint(Canvas canvas, Rect rect, { TextDirection? textDirection }) {
+    print('paint, rect = $rect');
     if (rect.isEmpty)
       return;
+    print('paint, 1');
     switch (side.style) {
       case BorderStyle.none:
+        print('paint, 2');
         break;
       case BorderStyle.solid:
-        final Path path = getOuterPath(rect, textDirection: textDirection)
-          ..addPath(getInnerPath(rect, textDirection: textDirection), Offset.zero);
-        print('paint, path = $path');
-        canvas.drawPath(path, side.toPaint());
+        print('paint, 3');
+        final Path path = getOuterPath(rect, textDirection: textDirection);
+        final Paint paint = side.toPaint();
+
+        print('path.toString()');
+        print(path.toString());
+        print('path.toString()');
+
+        canvas.drawPath(path, paint);
         break;
     }
   }
@@ -168,22 +236,23 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
   //   }
   // }
 
-  // @override
-  // bool operator ==(Object other) {
-  //   if (other.runtimeType != runtimeType)
-  //     return false;
-  //   return other is ClippedRoundedRectangleBorder
-  //       && other.side == side
-  //       && other.borderRadius == borderRadius;
-  // }
+  @override
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType)
+      return false;
+    return other is ClippedRoundedRectangleBorder
+        && other.side == side
+        && other.borderRadius == borderRadius
+        && other.guestRect == guestRect;
+  }
 
-  // @override
-  // int get hashCode => hashValues(side, borderRadius);
+  @override
+  int get hashCode => hashValues(side, borderRadius, guestRect);
 
-  // @override
-  // String toString() {
-  //   return '${objectRuntimeType(this, 'ClippedRoundedRectangleBorder')}($side, $borderRadius)';
-  // }
+  @override
+  String toString() {
+    return '${objectRuntimeType(this, 'ClippedRoundedRectangleBorder')}($side, $borderRadius, $guestRect)';
+  }
 }
 
 // class _RoundedRectangleToCircleBorder extends OutlinedBorder {

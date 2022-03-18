@@ -7,6 +7,8 @@ import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/global_key_extension.dart';
 import 'package:kar_kam/notification_notifier.dart';
 
+import 'development/rounded_rectangle_border.dart';
+
 class SettingsPageListTile extends StatefulWidget {
   SettingsPageListTile({
     Key? key,
@@ -38,15 +40,16 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
 
   @override
   Widget build(BuildContext context) {
+    // print('build, size = ${MediaQuery.of(context).size}');
     return ValueListenableBuilder(
       valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
       builder: (BuildContext context, double value, __,){
         // print(value/10 % 50 + 10);
         // print('globalKey $globalKey');
-        print('guestRect = ${NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value}');
+        // print('guestRect = ${NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value}');
         return Card(
           shape: ClippedRoundedRectangleBorder(
-          // shape: RoundedRectangleBorder(
+          // shape: RRoundedRectangleBorder(
             borderRadius: BorderRadius.circular(value/10 % 50 + 10),
             guestRect: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value,
           ),
