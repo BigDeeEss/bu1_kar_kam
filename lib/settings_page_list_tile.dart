@@ -33,7 +33,6 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       rect = globalKey.globalPaintBounds;
-      print('initState, rect = $rect');
     });
   }
 
@@ -42,8 +41,9 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
     return ValueListenableBuilder(
       valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
       builder: (BuildContext context, double value, __,){
-        print(value/10 % 50 + 10);
-        print('globalKey $globalKey');
+        // print(value/10 % 50 + 10);
+        // print('globalKey $globalKey');
+        print('guestRect = ${NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value}');
         return Card(
           shape: ClippedRoundedRectangleBorder(
           // shape: RoundedRectangleBorder(

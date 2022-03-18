@@ -58,7 +58,6 @@ class BasePage extends StatelessWidget {
         onNotification: (notification) {
           if (notification is DataNotification) {
             buttonArrayRectData.value = notification.data;
-            print('BasePage, notification.data = ${notification.data}');
           }
           return true;
         },
@@ -67,8 +66,8 @@ class BasePage extends StatelessWidget {
         //  it last in a Stack list of children.
         child: Stack(
           children: <Widget>[
-            pageSpec.contents,
             ButtonArray(),
+            pageSpec.contents,
           ],
         ),
       ),

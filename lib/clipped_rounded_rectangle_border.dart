@@ -104,12 +104,12 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     Path hostPath = Path()
       ..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
     Path guestPath = Path();
-    print('guestRect = $guestRect');
+    // print('guestRect = $guestRect');
     if (guestRect != null) {
       guestPath..addRRect(borderRadius.resolve(textDirection).toRRect(guestRect!).inflate(side.width));
     }
-    print('paint, hostPath = ${hostPath.toString()}');
-    print('paint, guestPath = ${guestPath.toString()}');
+    // print('paint, hostPath = ${hostPath.toString()}');
+    // print('paint, guestPath = ${guestPath.toString()}');
     return Path.combine(PathOperation.difference, hostPath, guestPath);
     // return Path()
     //   ..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
@@ -117,16 +117,16 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
 
   @override
   Path getOuterPath(Rect rect, { TextDirection? textDirection }) {
-    print('getOuterPath, borderRadius = $borderRadius');
+    // print('getOuterPath, borderRadius = $borderRadius');
     Path hostPath = Path()
       ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
     Path guestPath = Path();
-    print('guestRect = $guestRect');
+    // print('guestRect = $guestRect');
     if (guestRect != null) {
       guestPath..addRRect(borderRadius.resolve(textDirection).toRRect(guestRect!));
     }
-    print('paint, hostPath = ${hostPath.toString()}');
-    print('paint, guestPath = ${guestPath.toString()}');
+    // print('paint, hostPath = ${hostPath.toString()}');
+    // print('paint, guestPath = ${guestPath.toString()}');
     return Path.combine(PathOperation.difference, hostPath, guestPath);
     // return Path()
     //   ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
