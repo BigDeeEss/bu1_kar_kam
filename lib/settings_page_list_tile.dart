@@ -35,12 +35,15 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       rect = globalKey.globalPaintBounds;
+      print('SettingsPageListTile, initState, rect = $rect');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // print('build, size = ${MediaQuery.of(context).size}');
+    print('SettingsPageListTile, build, size = ${MediaQuery.of(context).size}');
+    Rect? rect = globalKey.globalPaintBounds;
+    print('SettingsPageListTile, initState, rect = $rect');
     return ValueListenableBuilder(
       valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
       builder: (BuildContext context, double value, __,){
@@ -50,7 +53,8 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
         return Card(
           shape: ClippedRoundedRectangleBorder(
           // shape: RRoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(value/10 % 50 + 10),
+            side: BorderSide(width: 5.0, color: Colors.black, style: BorderStyle.solid),
+            borderRadius: BorderRadius.circular(value % 50 + 10),
             guestRect: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value,
           ),
           elevation: value,

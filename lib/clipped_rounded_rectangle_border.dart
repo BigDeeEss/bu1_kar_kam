@@ -127,10 +127,17 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     final double brRadiusY =
     math.max(0.0, _clampToShortest(rrect, rrect.brRadiusY));
 
+    print('ClippedRoundedRectangle, _getPath, rrect = $rrect');
+    print('ClippedRoundedRectangle, _getPath, guestRect = $guestRect');
     Path hostPath = Path();
-    hostPath
-      ..addRRect(rrect.deflate(20));
-    return hostPath;
+    Path guestPath = Path();
+    hostPath..addRRect(rrect);
+    if (guestRect == null) print(' guestRect is null!');
+    guestPath..addRRect(RRect.fromRectAndRadius(guestRect!, Radius.circular(5)));
+
+    Path combinedPath = Path.combine(PathOperation.union, hostPath, guestPath);
+    return guestPath;
+    return combinedPath;
 
     return Path()
       ..moveTo(left, top + tlRadiusX)
@@ -194,22 +201,22 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
 
   @override
   void paint(Canvas canvas, Rect rect, { TextDirection? textDirection }) {
-    print('paint, rect = $rect');
+    // print('paint, rect = $rect');
     if (rect.isEmpty)
       return;
-    print('paint, 1');
+    // print('paint, 1');
     switch (side.style) {
       case BorderStyle.none:
-        print('paint, 2');
+        // print('paint, 2');
         break;
       case BorderStyle.solid:
-        print('paint, 3');
+        // print('paint, 3');
         final Path path = getOuterPath(rect, textDirection: textDirection);
         final Paint paint = side.toPaint();
 
-        print('path.toString()');
-        print(path.toString());
-        print('path.toString()');
+        // print('path.toString()');
+        // print(path.toString());
+        // print('path.toString()');
 
         canvas.drawPath(path, paint);
         break;
