@@ -13,4 +13,15 @@ extension GlobalKeyExtension on GlobalKey {
       return null;
     }
   }
+
+  // Rect? get localPaintBounds {
+  //   final renderObject = currentContext?.findRenderObject();
+  //   final translation = renderObject?.getTransformTo(null).getTranslation();
+  //   if (translation != null && renderObject?.paintBounds != null) {
+  //     final offset = Offset(translation.x, translation.y);
+  //     return offset.globalToLocal(offset);
+  //   } else {
+  //     return null;
+  //   }
+  // }
 }

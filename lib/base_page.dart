@@ -94,10 +94,14 @@ class _BasePageState extends State<BasePage> {
         child: Stack(
           children: <Widget>[
             pageContents ?? Container(),
-            ButtonArray(),
+            ButtonArray(key: buttonArrayGlobalKey),
           ],
         ),
       ),
     );
   }
 }
+
+
+
+final buttonArrayGlobalKey = GlobalKey();

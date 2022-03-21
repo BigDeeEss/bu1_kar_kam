@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui show lerpDouble;
 import 'dart:math' as math;
 
+import 'package:kar_kam/base_page.dart' show buttonArrayGlobalKey;
+
 /// A rectangular border with rounded corners.
 ///
 /// Typically used with [ShapeDecoration] to draw a box with a rounded
@@ -27,6 +29,7 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     BorderSide side = BorderSide.none,
     this.borderRadius = BorderRadius.zero,
     this.guestRect,
+    this.context,
   }) : assert(side != null),
         assert(borderRadius != null),
         super(side: side);
@@ -35,6 +38,7 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
   final BorderRadiusGeometry borderRadius;
 
   final Rect? guestRect;
+  final BuildContext? context;
 
   @override
   EdgeInsetsGeometry get dimensions {
@@ -127,16 +131,31 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     final double brRadiusY =
     math.max(0.0, _clampToShortest(rrect, rrect.brRadiusY));
 
-    print('ClippedRoundedRectangle, _getPath, rrect = $rrect');
-    print('ClippedRoundedRectangle, _getPath, guestRect = $guestRect');
+    // print('ClippedRoundedRectangle, _getPath, rrect = $rrect...\n  ...prints Card Rect relative to itself...?');
+    // print('ClippedRoundedRectangle, _getPath, guestRect = $guestRect...\n  ...prints ButtonAray Rect relative to screen...?');
+    // print(guestRect!.top);
+    // print(guestRect!.left);
+    Offset test = Offset(guestRect!.left, guestRect!.top);
+    RenderBox renderBox = context!.findRenderObject() as RenderBox;
+    // Offset offset = renderBox.globalToLocal(Offset(-guestRect!.left,
+    //     -guestRect!.top));
+    Offset offset = renderBox.globalToLocal(Offset(0.0,0.0));
+    Rect localGuestRect = guestRect!.shift(offset);
+    print('global coords of card top left, offset = $offset');
+    // print('test = $test');
+    print('global coords of ButtonArray, guestRect = $guestRect');
+    print('localGuestRect = $localGuestRect');
+    print('rrect = $rrect');
+    // testLocal = globalToLocal(test);
     Path hostPath = Path();
     Path guestPath = Path();
     hostPath..addRRect(rrect);
     if (guestRect == null) print(' guestRect is null!');
-    guestPath..addRRect(RRect.fromRectAndRadius(guestRect!, Radius.circular(5)));
+    guestPath..addRRect(RRect.fromRectAndRadius(localGuestRect, Radius.circular(5)));
 
-    Path combinedPath = Path.combine(PathOperation.union, hostPath, guestPath);
-    return guestPath;
+    Path combinedPath = Path.combine(PathOperation.difference, hostPath, guestPath);
+    // return guestPath;
+    // return hostPath;
     return combinedPath;
 
     return Path()
@@ -201,7 +220,7 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
 
   @override
   void paint(Canvas canvas, Rect rect, { TextDirection? textDirection }) {
-    // print('paint, rect = $rect');
+    // print('paint, rect = $rect')
     if (rect.isEmpty)
       return;
     // print('paint, 1');

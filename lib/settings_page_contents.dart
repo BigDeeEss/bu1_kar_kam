@@ -52,11 +52,390 @@ class _SettingsPageContentsList extends StatelessWidget {
     // print(buttonGlobalKey.globalPaintBounds);
     return ListView(
       children: [
-        Container(
-          height: 50,
-          width: 50,
-          alignment: Alignment.center,
-          color: colors[1],
+        // Card(
+        //   child: Opacity(
+        //     opacity: 0.5,
+        //     child: ListTile(
+        //       title: Text('Test.'),
+        //     ),
+        //   ),
+        // ),
+        // Card(
+        //   child: Opacity(
+        //     opacity: 0.5,
+        //     child: ListTile(
+        //       title: Text('Test.'),
+        //     ),
+        //   ),
+        // ),
+        // Card(
+        //   child: Opacity(
+        //     opacity: 0.5,
+        //     child: ListTile(
+        //       title: Text('Test.'),
+        //     ),
+        //   ),
+        // ),
+        // Card(
+        //   child: Opacity(
+        //     opacity: 0.5,
+        //     child: ListTile(
+        //       title: Text('Test.'),
+        //     ),
+        //   ),
+        // ),
+        // Card(
+        //   child: Opacity(
+        //     opacity: 0.5,
+        //     child: ListTile(
+        //       title: Text('Test.'),
+        //     ),
+        //   ),
+        // ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        SettingsPageListTile(color: Colors.yellow),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Card(
+          child: Opacity(
+            opacity: 0.5,
+            child: ListTile(
+              title: Text('Test.'),
+            ),
+          ),
+        ),
+        Opacity(
+          opacity: 0.5,
+          child: Container(
+            height: 50,
+            width: 50,
+            alignment: Alignment.center,
+            color: colors[1],
+          ),
         ),
         Container(
           height: 50,
@@ -71,19 +450,19 @@ class _SettingsPageContentsList extends StatelessWidget {
           color: colors[0],
         ),
         // SettingsPageListTile(),
-        ValueListenableBuilder<Rect?>(
-          valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
-          builder: (BuildContext context, Rect? value, __,){
-            return Container(
-              height: value?.height ?? 30,
-              width: 50,
-              alignment: Alignment.center,
-              color: colors[4],
-              // child: Text('${value?.height ?? 30}'),
-              child: Text('${value}, ${value?.height ?? 30}'),
-            );
-          },
-        ),
+        // ValueListenableBuilder<Rect?>(
+        //   valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
+        //   builder: (BuildContext context, Rect? value, __,){
+        //     return Container(
+        //       height: value?.height ?? 30,
+        //       width: 50,
+        //       alignment: Alignment.center,
+        //       color: colors[4],
+        //       // child: Text('${value?.height ?? 30}'),
+        //       child: Text('${value}, ${value?.height ?? 30}'),
+        //     );
+        //   },
+        // ),
         ValueListenableBuilder<double>(
           valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
           builder: (BuildContext context, double value, __,){
@@ -102,7 +481,7 @@ class _SettingsPageContentsList extends StatelessWidget {
           alignment: Alignment.center,
           color: colors[0],
         ),
-        SettingsPageListTile(color: Colors.yellow),
+        // SettingsPageListTile(color: Colors.yellow),
         Card(
           child: ListTile(
             title: Text("Codesinsider.com"),

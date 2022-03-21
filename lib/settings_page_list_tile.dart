@@ -35,15 +35,18 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       rect = globalKey.globalPaintBounds;
-      print('SettingsPageListTile, initState, rect = $rect');
+      // print('SettingsPageListTile, initState, rect = $rect...\n  ...prints listTile Rect relative to screen...?');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('SettingsPageListTile, build, size = ${MediaQuery.of(context).size}');
+    print('SettingsPageListTile, build, size = ${MediaQuery.of(context).size}...\n  ...prints screen size...?');
     Rect? rect = globalKey.globalPaintBounds;
-    print('SettingsPageListTile, initState, rect = $rect');
+    // RenderBox renderBox = context.findRenderObject() as RenderBox;
+    // RenderBox renderBox = context.findRenderObject() as RenderBox;
+    // var local = renderBox.globalToLocal()
+
     return ValueListenableBuilder(
       valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
       builder: (BuildContext context, double value, __,){
@@ -52,6 +55,7 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
         // print('guestRect = ${NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value}');
         return Card(
           shape: ClippedRoundedRectangleBorder(
+            context: context,
           // shape: RRoundedRectangleBorder(
             side: BorderSide(width: 5.0, color: Colors.black, style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(value % 50 + 10),
