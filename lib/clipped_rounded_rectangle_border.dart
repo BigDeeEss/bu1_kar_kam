@@ -141,11 +141,11 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     //     -guestRect!.top));
     Offset offset = renderBox.globalToLocal(Offset(0.0,0.0));
     Rect localGuestRect = guestRect!.shift(offset);
-    print('global coords of card top left, offset = $offset');
+    // print('global coords of card top left, offset = $offset');
     // print('test = $test');
-    print('global coords of ButtonArray, guestRect = $guestRect');
-    print('localGuestRect = $localGuestRect');
-    print('rrect = $rrect');
+    // print('global coords of ButtonArray, guestRect = $guestRect');
+    // print('localGuestRect = $localGuestRect');
+    // print('rrect = $rrect');
     // testLocal = globalToLocal(test);
     Path hostPath = Path();
     Path guestPath = Path();

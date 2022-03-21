@@ -41,7 +41,7 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
 
   @override
   Widget build(BuildContext context) {
-    print('SettingsPageListTile, build, size = ${MediaQuery.of(context).size}...\n  ...prints screen size...?');
+    // print('SettingsPageListTile, build, size = ${MediaQuery.of(context).size}...\n  ...prints screen size...?');
     Rect? rect = globalKey.globalPaintBounds;
     // RenderBox renderBox = context.findRenderObject() as RenderBox;
     // RenderBox renderBox = context.findRenderObject() as RenderBox;
@@ -50,6 +50,7 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
     return ValueListenableBuilder(
       valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
       builder: (BuildContext context, double value, __,){
+        print(value);
         // print(value/10 % 50 + 10);
         // print('globalKey $globalKey');
         // print('guestRect = ${NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value}');
@@ -61,9 +62,9 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
             borderRadius: BorderRadius.circular(value % 50 + 10),
             guestRect: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value,
           ),
-          elevation: value,
+          // elevation: value,
           key: globalKey,
-          color: widget.color,
+          // color: widget.color,
           child: ListTile(
             leading: FlutterLogo(size: 72.0),
             title: Text('SettingsPageListTile'),

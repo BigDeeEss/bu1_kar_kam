@@ -21,7 +21,10 @@ class SettingsPageContents extends StatelessWidget {
       child: _SettingsPageContentsList(),
       notificationData: notificationData,
       onNotification: (notification) {
+        print(notification);
         if (notification is ScrollUpdateNotification) {
+          print('notification.metrics.pixels = ${notification.metrics.pixels}');
+          print('notification.scrollDelta = ${notification.scrollDelta}');
           notificationData.value = notification.metrics.pixels;
         }
         //  Return true to stop notifications of this type
