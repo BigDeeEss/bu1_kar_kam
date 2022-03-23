@@ -8,33 +8,6 @@ typedef NotificationNotifierCallback<T extends Notification>
     = bool Function(T notification);
 
 
-/// [_NotificationNotifierService] notifies listenable objects below
-/// it in the widget tree of changes to [notificationData].
-class _NotificationNotifierService<T, U> extends InheritedWidget {
-  _NotificationNotifierService({
-    Key? key,
-    required this.child,
-    required this.notificationData,
-  }) : super(key: key, child: child);
-
-  /// [child] is the immediate descendant of [_NotificationNotifierService].
-  final Widget child;
-
-  /// [notificationData] stores data that listenable objects below
-  /// [_NotificationNotifierService] in the widget tree can access.
-  ///
-  /// The value stored in [notificationData] is defined by the callback
-  /// functon defined by the user.
-  final ValueNotifier<U> notificationData;
-
-  /// Allow [_NotificationNotifierService] to notify listenable objects
-  /// of updates to [notificationData].
-  @override
-  bool updateShouldNotify(_NotificationNotifierService<T, U> old) =>
-      notificationData != old.notificationData;
-}
-
-
 /// [NotificationNotifier] combines instances of NotificationListener
 /// and [_NotificationNotifierService].
 ///
@@ -110,6 +83,33 @@ class NotificationNotifier<T extends Notification, U> extends StatelessWidget {
     );
     return notificationNotifier;
   }
+}
+
+
+/// [_NotificationNotifierService] notifies listenable objects below
+/// it in the widget tree of changes to [notificationData].
+class _NotificationNotifierService<T, U> extends InheritedWidget {
+  _NotificationNotifierService({
+    Key? key,
+    required this.child,
+    required this.notificationData,
+  }) : super(key: key, child: child);
+
+  /// [child] is the immediate descendant of [_NotificationNotifierService].
+  final Widget child;
+
+  /// [notificationData] stores data that listenable objects below
+  /// [_NotificationNotifierService] in the widget tree can access.
+  ///
+  /// The value stored in [notificationData] is defined by the callback
+  /// functon defined by the user.
+  final ValueNotifier<U> notificationData;
+
+  /// Allow [_NotificationNotifierService] to notify listenable objects
+  /// of updates to [notificationData].
+  @override
+  bool updateShouldNotify(_NotificationNotifierService<T, U> old) =>
+      notificationData != old.notificationData;
 }
 
 
