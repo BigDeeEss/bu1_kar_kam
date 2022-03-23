@@ -20,14 +20,15 @@ class BasePage extends StatelessWidget {
   /// [pageSpec] defines the page content.
   final PageSpec pageSpec;
 
+  /// [buttonArrayGlobalKey] is made available to widgets below BasePage
+  /// in the widget tree via [buttonArrayGlobalKeyNotifier] and an instance of
+  /// DataNotifier.
   final GlobalKey buttonArrayGlobalKey = GlobalKey();
 
+  /// [buttonArrayGlobalKeyNotifier], an instance of ValueNotifier<T>
+  /// can be used to trigger rebuilds of widgets below BasePage in
+  /// the widget tree
   late ValueNotifier<GlobalKey> buttonArrayGlobalKeyNotifier;
-
-  // /// [buttonArrayRectData] stores Rect information that is dispatched as
-  // /// notifications by ButtonArray.
-  // final ValueNotifier<Rect?> buttonArrayRectData
-  //     = ValueNotifier(Offset(0.0, 0.0) & Size(0.0, 0.0));
 
   @override
   Widget build(BuildContext context) {
@@ -72,27 +73,6 @@ class BasePage extends StatelessWidget {
           ],
         ),
       ),
-      // body: NotificationNotifier<DataNotification, Rect?>(
-      //   notificationData: buttonArrayRectData,
-      //   onNotification: (notification) {
-      //     if (notification is DataNotification) {
-      //       buttonArrayRectData.value = notification.data;
-      //       // print('BasePage, notification.data = ${notification.data}');
-      //     }
-      //     return true;
-      //   },
-      //   //  Place page contents and ButtonArray on screen using Stack.
-      //   //  Ensure that ButtonArray sits above the page content by placing
-      //   //  it last in a Stack list of children.
-      //   child: Stack(
-      //     children: <Widget>[
-      //       pageSpec.contents,
-      //       ButtonArray(
-      //         key: buttonArrayGlobalKey,
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }
