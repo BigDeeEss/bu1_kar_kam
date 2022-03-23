@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
-import 'package:kar_kam/data_notification.dart';
-import 'package:kar_kam/notification_notifier.dart';
+// import 'package:kar_kam/data_notification.dart';
+import 'package:kar_kam/data_notifier.dart';
+// import 'package:kar_kam/notification_notifier.dart';
 import 'package:kar_kam/page_specs.dart';
 
 /// [BasePage] implements a generic page layout design so that a
@@ -21,13 +22,17 @@ class BasePage extends StatelessWidget {
 
   final GlobalKey buttonArrayGlobalKey = GlobalKey();
 
-  /// [buttonArrayRectData] stores Rect information that is dispatched as
-  /// notifications by ButtonArray.
-  final ValueNotifier<Rect?> buttonArrayRectData
-      = ValueNotifier(Offset(0.0, 0.0) & Size(0.0, 0.0));
+  late ValueNotifier<GlobalKey> buttonArrayGlobalKeyNotifier;
+
+  // /// [buttonArrayRectData] stores Rect information that is dispatched as
+  // /// notifications by ButtonArray.
+  // final ValueNotifier<Rect?> buttonArrayRectData
+  //     = ValueNotifier(Offset(0.0, 0.0) & Size(0.0, 0.0));
 
   @override
   Widget build(BuildContext context) {
+    // Assign buttonArrayGlobalKey to buttonArrayGlobalKeyNotifier.
+    buttonArrayGlobalKeyNotifier = ValueNotifier(buttonArrayGlobalKey);
     return Scaffold(
       appBar: AppBar(
         title: Text(pageSpec.title),
@@ -55,25 +60,39 @@ class BasePage extends StatelessWidget {
       //  The Scaffold body contents are placed within an instance of
       //  NotificationNotifier inorder to transfer [buttonArrayRectData]
       //  down to SettingsPageContents.
-      body: NotificationNotifier<DataNotification, Rect?>(
-        notificationData: buttonArrayRectData,
-        onNotification: (notification) {
-          if (notification is DataNotification) {
-            buttonArrayRectData.value = notification.data;
-            // print('BasePage, notification.data = ${notification.data}');
-          }
-          return true;
-        },
-        //  Place page contents and ButtonArray on screen using Stack.
-        //  Ensure that ButtonArray sits above the page content by placing
-        //  it last in a Stack list of children.
+      body: DataNotifier(
+        key: ValueKey('buttonArrayGlobalKey'),
+        data: buttonArrayGlobalKeyNotifier,
         child: Stack(
           children: <Widget>[
             pageSpec.contents,
-            ButtonArray(),
+            ButtonArray(
+              key: buttonArrayGlobalKey,
+            ),
           ],
         ),
       ),
+      // body: NotificationNotifier<DataNotification, Rect?>(
+      //   notificationData: buttonArrayRectData,
+      //   onNotification: (notification) {
+      //     if (notification is DataNotification) {
+      //       buttonArrayRectData.value = notification.data;
+      //       // print('BasePage, notification.data = ${notification.data}');
+      //     }
+      //     return true;
+      //   },
+      //   //  Place page contents and ButtonArray on screen using Stack.
+      //   //  Ensure that ButtonArray sits above the page content by placing
+      //   //  it last in a Stack list of children.
+      //   child: Stack(
+      //     children: <Widget>[
+      //       pageSpec.contents,
+      //       ButtonArray(
+      //         key: buttonArrayGlobalKey,
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

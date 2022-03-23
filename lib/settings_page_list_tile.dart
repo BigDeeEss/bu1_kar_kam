@@ -73,10 +73,10 @@ class _SettingsPageListTileWithGlobalKey extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    clipPath = PathFromRect(
-        NotificationNotifier.of<DataNotification, Rect?>(context)
-            .notificationData
-            .value);
+    // clipPath = PathFromRect(
+    //     NotificationNotifier.of<DataNotification, Rect?>(context)
+    //         .notificationData
+    //         .value);
 
     return ValueListenableBuilder<double>(
       valueListenable:

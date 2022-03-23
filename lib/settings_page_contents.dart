@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/data_notification.dart';
+import 'package:kar_kam/data_notifier.dart';
 import 'package:kar_kam/notification_notifier.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
@@ -19,7 +20,7 @@ class SettingsPageContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData;
+    // buttonArrayRect = NotificationNotifier.of <DataNotification, Rect?> (context).notificationData;
 
     // WidgetsBinding.instance!.addPostFrameCallback((_) {
     //   print('SettingsPageContents, in addPostFrameCallback, buttonArrayRect = ${buttonArrayRect}');
@@ -54,6 +55,7 @@ class _SettingsPageContentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('_SettingsPageContentsList, buttonArrayGlobalKey = ${DataNotifier.of(context, ValueKey('buttonArrayGlobalKey')).data.value}');
     // print(NotificationNotifier.of <DataNotification, Rect?> (context).notificationData);
     // print(buttonGlobalKey);
     // print(buttonGlobalKey.globalPaintBounds);
@@ -78,19 +80,19 @@ class _SettingsPageContentsList extends StatelessWidget {
           color: colors[0],
         ),
         SettingsPageListTile(),
-        ValueListenableBuilder<Rect?>(
-          valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
-          builder: (BuildContext context, Rect? value, __,){
-            return Container(
-              height: value?.height ?? 30,
-              width: 50,
-              alignment: Alignment.center,
-              color: colors[4],
-              // child: Text('${value?.height ?? 30}'),
-              child: Text('${value}, ${value?.height ?? 30}'),
-            );
-          },
-        ),
+        // ValueListenableBuilder<Rect?>(
+        //   valueListenable: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData,
+        //   builder: (BuildContext context, Rect? value, __,){
+        //     return Container(
+        //       height: value?.height ?? 30,
+        //       width: 50,
+        //       alignment: Alignment.center,
+        //       color: colors[4],
+        //       // child: Text('${value?.height ?? 30}'),
+        //       child: Text('${value}, ${value?.height ?? 30}'),
+        //     );
+        //   },
+        // ),
         ValueListenableBuilder<double>(
           valueListenable: NotificationNotifier.of <ScrollNotification, double> (context).notificationData,
           builder: (BuildContext context, double value, __,){
