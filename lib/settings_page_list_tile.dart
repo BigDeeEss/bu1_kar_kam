@@ -92,7 +92,7 @@ class _SettingsPageListTileWithGlobalKey extends StatelessWidget {
         GlobalKey settingsPageListTileGlobalKey =
             SettingsPageListTileGlobalKeyNotifier.of(context)
                 .settingsPageListTileGlobalKey;
-        print(settingsPageListTileGlobalKey.globalPaintBounds);
+        // print(settingsPageListTileGlobalKey.globalPaintBounds);
         return Card(
           child: Container(
             height: 20.0 + 80 * math.pow(math.cos(value / 50), 2),

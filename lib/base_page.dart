@@ -19,6 +19,8 @@ class BasePage extends StatelessWidget {
   /// [pageSpec] defines the page content.
   final PageSpec pageSpec;
 
+  final GlobalKey buttonArrayGlobalKey = GlobalKey();
+
   /// [buttonArrayRectData] stores Rect information that is dispatched as
   /// notifications by ButtonArray.
   final ValueNotifier<Rect?> buttonArrayRectData
@@ -30,6 +32,7 @@ class BasePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(pageSpec.title),
       ),
+      //  Insert an instance of BottomAppBar.
       //  Use Builder widget because it is not possible to get the appBar
       //  height from the current BuildContext when it doesn't yet include
       //  information associated by the Scaffold class being built.
@@ -41,7 +44,7 @@ class BasePage extends StatelessWidget {
           return BottomAppBar(
             color: Colors.blue,
             child: SizedBox(
-              //  Set height of BottomAppBar using izedBox. Get height from
+              //  Set height of BottomAppBar using sizedBox. Get height from
               //  context by extracting the Scaffold that immediately wraps
               //  this widget, and then getting the value for appBarMaxHeight.
               height: appBarHeight * AppSettings.appBarHeightScaleFactor,
