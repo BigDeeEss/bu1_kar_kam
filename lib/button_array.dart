@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
-import 'package:kar_kam/data_notification.dart';
-import 'package:kar_kam/global_key_extension.dart';
+import 'package:kar_kam/lib/data_notification.dart';
+import 'package:kar_kam/lib/global_key_extension.dart';
 
 /// [ButtonArray] implements a linear horizontal or vertical button array
 /// in any of the four screen corners.
@@ -97,7 +97,7 @@ class ButtonArray extends StatelessWidget {
 
   Rect? getRectAbsolute() {
     // Instantiate rect as null.
-    Rect? rect = null;
+    Rect? rect;
     //  Loop over buttonListGlobalKey. buttonListGlobalKey has the same
     //  length as buttonSpecList.
     for (int i = 0; i < buttonListGlobalKey.length; i++) {

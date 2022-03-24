@@ -3,9 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/data_notification.dart';
-import 'package:kar_kam/global_key_extension.dart';
-import 'package:kar_kam/notification_notifier.dart';
+import 'package:kar_kam/lib/notification_notifier.dart';
 
 /// [SettingsPageListTileGlobalKeyNotifier] implements a method for
 /// [_SettingsPageListTileWithGlobalKey] to be able to access
