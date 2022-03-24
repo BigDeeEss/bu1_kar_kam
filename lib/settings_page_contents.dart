@@ -9,347 +9,47 @@ class SettingsPageContents extends StatefulWidget {
 }
 
 class _SettingsPageContentsState extends State<SettingsPageContents> {
+  final List<Color> colors = const [
+    Colors.blueGrey,
+    Colors.green,
+    Colors.deepOrange,
+    Colors.purple,
+    Colors.pink,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
-        Card(
-          child: Opacity(
+      // children: List<Widget>.generate(5, (int index) => Container()),
+      children: <Widget>[
+        ...List<Widget>.generate(5, (int index) {
+          return Opacity(
             opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
+            child: Card(
+              child: ListTile(
+                title: Text('Test $index'),
+                tileColor: colors[index % colors.length],
+              ),
             ),
-          ),
-        ),
-        Card(
-          child: Opacity(
+          );
+        }),
+        ...List<Widget>.generate(30, (int index) {
+          return Container(
+            child: Text('$index')
+          );
+        }),
+        ...List<Widget>.generate(5, (int index) {
+          return Opacity(
             opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
+            child: Card(
+              child: ListTile(
+                title: Text('Test $index'),
+                tileColor: colors[index % colors.length],
+              ),
             ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        // SettingsPageListTile(color: Colors.yellow),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: 0.5,
-            child: ListTile(
-              title: Text('Test.'),
-            ),
-          ),
-        ),
-      ],
+          );
+        }),
+      ]
     );
   }
 }
