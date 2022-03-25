@@ -21,9 +21,27 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
     Colors.pink,
   ];
 
+  final ScrollController scrollController = ScrollController();
+
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(() {
+      print(scrollController.offset); // <-- This is it.
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
+      controller: scrollController,
       // children: List<Widget>.generate(5, (int index) => Container()),
       children: <Widget>[
         ...List<Widget>.generate(5, (int index) {
