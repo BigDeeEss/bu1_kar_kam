@@ -1,6 +1,10 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 
+//  Import project-specific files.
+import 'package:kar_kam/settings_page_list_tile.dart';
+
+
 class SettingsPageContents extends StatefulWidget {
   const SettingsPageContents({Key? key}) : super(key: key);
 
@@ -34,9 +38,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           );
         }),
         ...List<Widget>.generate(30, (int index) {
-          return Container(
-            child: Text('$index')
-          );
+          return SettingsPageListTile();
+          // return Container(
+          //   child: Text('$index')
+          // );
         }),
         ...List<Widget>.generate(5, (int index) {
           return Opacity(
