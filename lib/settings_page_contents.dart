@@ -1,5 +1,6 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:kar_kam/lib/data_notifier.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/settings_page_list_tile.dart';
@@ -23,6 +24,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
   final ScrollController scrollController = ScrollController();
 
+  final ValueNotifier<double> scrollPositionNotifier = ValueNotifier(0.0);
 
   @override
   void dispose() {
@@ -34,45 +36,79 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
   void initState() {
     super.initState();
     scrollController.addListener(() {
-      print(scrollController.offset); // <-- This is it.
+      scrollPositionNotifier.value = scrollController.offset;
+      print(scrollPositionNotifier.value);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      controller: scrollController,
-      // children: List<Widget>.generate(5, (int index) => Container()),
-      children: <Widget>[
-        ...List<Widget>.generate(5, (int index) {
-          return Opacity(
-            opacity: 0.5,
-            child: Card(
-              child: ListTile(
-                title: Text('Test $index'),
-                tileColor: colors[index % colors.length],
+    return DataNotifier(
+      key: ValueKey('scrollController'),
+      data: scrollPositionNotifier,
+      child: ListView(
+        controller: scrollController,
+        children: <Widget>[
+          ...List<Widget>.generate(5, (int index) {
+            return Opacity(
+              opacity: 0.5,
+              child: Card(
+                child: ListTile(
+                  title: Text('Test $index'),
+                  tileColor: colors[index % colors.length],
+                ),
               ),
-            ),
-          );
-        }),
-        ...List<Widget>.generate(30, (int index) {
-          return SettingsPageListTile();
-          // return Container(
-          //   child: Text('$index')
-          // );
-        }),
-        ...List<Widget>.generate(5, (int index) {
-          return Opacity(
-            opacity: 0.5,
-            child: Card(
-              child: ListTile(
-                title: Text('Test $index'),
-                tileColor: colors[index % colors.length],
+            );
+          }),
+          ...List<Widget>.generate(30, (int index) {
+            return SettingsPageListTile();
+          }),
+          ...List<Widget>.generate(5, (int index) {
+            return Opacity(
+              opacity: 0.5,
+              child: Card(
+                child: ListTile(
+                  title: Text('Test $index'),
+                  tileColor: colors[index % colors.length],
+                ),
               ),
-            ),
-          );
-        }),
-      ]
+            );
+          }),
+        ]
+      ),
     );
+    // return ListView(
+    //   controller: scrollController,
+    //   children: <Widget>[
+    //     ...List<Widget>.generate(5, (int index) {
+    //       return Opacity(
+    //         opacity: 0.5,
+    //         child: Card(
+    //           child: ListTile(
+    //             title: Text('Test $index'),
+    //             tileColor: colors[index % colors.length],
+    //           ),
+    //         ),
+    //       );
+    //     }),
+    //     ...List<Widget>.generate(30, (int index) {
+    //       return SettingsPageListTile();
+    //       // return Container(
+    //       //   child: Text('$index')
+    //       // );
+    //     }),
+    //     ...List<Widget>.generate(5, (int index) {
+    //       return Opacity(
+    //         opacity: 0.5,
+    //         child: Card(
+    //           child: ListTile(
+    //             title: Text('Test $index'),
+    //             tileColor: colors[index % colors.length],
+    //           ),
+    //         ),
+    //       );
+    //     }),
+    //   ]
+    // );
   }
 }

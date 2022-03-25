@@ -12,7 +12,8 @@ class SettingsPageListTile extends StatefulWidget {
 class _SettingsPageListTileState extends State<SettingsPageListTile> {
   @override
   Widget build(BuildContext context) {
-    print(DataNotifier.of(context, ValueKey('buttonArrayGlobalKey')).data);
+    print(DataNotifier.of(context, ValueKey('buttonArrayGlobalKey')).data.value);
+    print(DataNotifier.of(context, ValueKey('scrollController')).data.value);
     return Container(child: Text('Test'),);
   }
 }
