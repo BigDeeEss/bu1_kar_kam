@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
-// import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
-// import 'package:kar_kam/notification_notifier.dart';
 import 'package:kar_kam/page_specs.dart';
 
 /// [BasePage] implements a generic page layout design so that a

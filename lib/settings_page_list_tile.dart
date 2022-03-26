@@ -1,5 +1,8 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+
+// Import project-specific files.
+import 'package:kar_kam/clipped_rounded_rectangle_border.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 
@@ -23,6 +26,7 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
       GlobalKey buttonArrayGlobalKey = DataNotifier
           .of(context, ValueKey('buttonArrayGlobalKey')).data.value;
       setState(() {
+        // print('_SettingsPageListTileState: initState: setting state...');
         buttonArrayRect = buttonArrayGlobalKey.globalPaintBounds;
       });
     });
@@ -37,13 +41,30 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
             .of(context, ValueKey('scrollController'))
             .data,
         builder: (BuildContext context, double value, __) {
+          // print('_SettingsPageListTileState: build: buttonArrayRect = $buttonArrayRect');
+          // print('_SettingsPageListTileState: build: value = $value');
           return Card(
+            shape: ClippedRoundedRectangleBorder(
+              context: context,
+              side: BorderSide(width: 5.0, color: Colors.black, style: BorderStyle.solid),
+              borderRadius: BorderRadius.circular(value % 50 + 10),
+              guestRect: buttonArrayRect,
+            ),
             child: ListTile(
               leading: FlutterLogo(size: 72.0),
               title: Text('SettingsPageListTile'),
               trailing: Icon(Icons.more_vert),
-            ),);
-          });
+            ),
+          );
+          // return Card(
+          //   child: ListTile(
+          //     leading: FlutterLogo(size: 72.0),
+          //     title: Text('SettingsPageListTile'),
+          //     trailing: Icon(Icons.more_vert),
+          //   ),
+          // );
+          //
+      });
     } else {
       return Container();
     }
