@@ -1,5 +1,6 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
 //  Import project-specific files.
@@ -42,6 +43,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
   @override
   Widget build(BuildContext context) {
+    print('_SettingsPageContentsState, build: buttonArray Rect = ${ButtonArray.getRect(context)}');
     return DataNotifier(
       key: ValueKey('scrollController'),
       data: scrollPositionNotifier,
