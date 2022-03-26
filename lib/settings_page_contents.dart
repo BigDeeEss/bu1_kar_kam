@@ -37,7 +37,6 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
     super.initState();
     scrollController.addListener(() {
       scrollPositionNotifier.value = scrollController.offset;
-      print(scrollPositionNotifier.value);
     });
   }
 
@@ -60,7 +59,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
               ),
             );
           }),
-          ...List<Widget>.generate(30, (int index) {
+          ...List<Widget>.generate(20, (int index) {
             return SettingsPageListTile();
           }),
           ...List<Widget>.generate(5, (int index) {
