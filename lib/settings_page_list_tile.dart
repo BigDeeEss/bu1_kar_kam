@@ -7,7 +7,7 @@ import 'package:kar_kam/data_notification.dart';
 import 'package:kar_kam/global_key_extension.dart';
 import 'package:kar_kam/notification_notifier.dart';
 
-import 'development/rounded_rectangle_border.dart';
+// import 'development/rounded_rectangle_border.dart';
 
 class SettingsPageListTile extends StatefulWidget {
   SettingsPageListTile({
