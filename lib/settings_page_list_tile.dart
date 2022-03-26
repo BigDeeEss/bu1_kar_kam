@@ -63,8 +63,8 @@ class SettingsPageListTileState extends State<SettingsPageListTile> {
             guestRect: NotificationNotifier.of <DataNotification, Rect?> (context).notificationData.value,
           ),
           // elevation: value,
-          key: globalKey,
-          // color: widget.color,
+          // key: globalKey,
+          color: widget.color,
           child: ListTile(
             leading: FlutterLogo(size: 72.0),
             title: Text('SettingsPageListTile'),
