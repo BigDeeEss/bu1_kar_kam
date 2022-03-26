@@ -48,7 +48,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
       child: ListView(
         controller: scrollController,
         children: <Widget>[
-          ...List<Widget>.generate(5, (int index) {
+          ...List<Widget>.generate(15, (int index) {
             return Opacity(
               opacity: 0.5,
               child: Card(
@@ -62,7 +62,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           ...List<Widget>.generate(1, (int index) {
             return SettingsPageListTile();
           }),
-          ...List<Widget>.generate(5, (int index) {
+          ...List<Widget>.generate(15, (int index) {
             return Opacity(
               opacity: 0.5,
               child: Card(

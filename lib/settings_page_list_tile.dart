@@ -43,13 +43,19 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
         builder: (BuildContext context, double value, __) {
           // print('_SettingsPageListTileState: build: buttonArrayRect = $buttonArrayRect');
           // print('_SettingsPageListTileState: build: value = $value');
+          // print(value % 5 + 10);
           return Card(
+            // shape: RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.circular(value % 50 + 10),
+            // ),
             shape: ClippedRoundedRectangleBorder(
               context: context,
               side: BorderSide(width: 5.0, color: Colors.black, style: BorderStyle.solid),
-              borderRadius: BorderRadius.circular(value % 50 + 10),
+              borderRadius: BorderRadius.circular(10),
               guestRect: buttonArrayRect,
             ),
+            elevation: 20,
+            color: Colors.amber,
             child: ListTile(
               leading: FlutterLogo(size: 72.0),
               title: Text('SettingsPageListTile'),
