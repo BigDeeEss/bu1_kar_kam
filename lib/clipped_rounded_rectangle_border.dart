@@ -132,15 +132,21 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     math.max(0.0, _clampToShortest(rrect, rrect.brRadiusY));
 
     // print('ClippedRoundedRectangle, _getPath, rrect = $rrect...\n  ...prints Card Rect relative to itself...?');
-    // print('ClippedRoundedRectangle, _getPath, guestRect = $guestRect...\n  ...prints ButtonAray Rect relative to screen...?');
-    print(guestRect!.top);
-    print(guestRect!.left);
-    print(guestRect!);
+    print('ClippedRoundedRectangle, _getPath, guestRect = $guestRect...\n  '
+        '  ...prints ButtonAray Rect relative to screen...?');
+    // print(guestRect!);
     Offset test = Offset(guestRect!.left, guestRect!.top);
+
+    //  Get [renderBox] associated with ClippedRoundedRectangle.
     RenderBox renderBox = context!.findRenderObject() as RenderBox;
     // Offset offset = renderBox.globalToLocal(Offset(-guestRect!.left,
     //     -guestRect!.top));
+
+    //  Get global offset of top left corner of ClippedRoundedRectangle.
     Offset offset = renderBox.globalToLocal(Offset(0.0,0.0));
+    print('ClippedRoundedRectangle, _getPath, offset = $offset...\n'
+        '  ...?');
+
     Rect localGuestRect = guestRect!.shift(offset);
     // print('global coords of card top left, offset = $offset');
     // print('test = $test');
@@ -157,7 +163,7 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     Path combinedPath = Path.combine(PathOperation.difference, hostPath, guestPath);
     // return guestPath;
     return hostPath;
-    // return combinedPath;
+    return combinedPath;
 
     return Path()
       ..moveTo(left, top + tlRadiusX)

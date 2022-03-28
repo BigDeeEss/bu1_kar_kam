@@ -15,13 +15,14 @@ class SettingsPageListTile extends StatelessWidget {
     Rect buttonArrayRect = DataNotifier
         .of(context, ValueKey('buttonArrayRect')).data.value;
     // return Container(child: Text('Test'),);
+
     return ValueListenableBuilder<double>(
       valueListenable: DataNotifier
           .of(context, ValueKey('scrollController'))
           .data,
       builder: (BuildContext context, double value, __) {
         // print('_SettingsPageListTileState: build: buttonArrayRect = $buttonArrayRect');
-        // print('_SettingsPageListTileState: build: value = $value');
+        print('_SettingsPageListTile: build: value = $value');
         // print(value % 5 + 10);
         return Card(
           // shape: RoundedRectangleBorder(
