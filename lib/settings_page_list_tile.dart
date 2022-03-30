@@ -5,32 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/clipped_rounded_rectangle_border.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
-class SettingsPageListTile extends StatefulWidget {
-  const SettingsPageListTile({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  final ScrollController controller;
-
-  @override
-  State<SettingsPageListTile> createState() => _SettingsPageListTileState();
-}
-
-class _SettingsPageListTileState extends State<SettingsPageListTile> {
-  double scrollPosition = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.controller.addListener(() {
-      if (widget.controller.offset != scrollPosition) {
-        setState(() {
-          scrollPosition = widget.controller.offset;
-        });
-      }
-    });
-  }
+class SettingsPageListTile extends StatelessWidget {
+  const SettingsPageListTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,27 +14,60 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     //  further up the widget tree.
     Rect buttonArrayRect = DataNotifier
         .of(context, ValueKey('buttonArrayRect')).data.value;
-    // print('_SettingsPageListTileState, scrollPosition = $scrollPosition');
-    //  Contents of SettingsListTile.
-    return Card(
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(value % 50 + 10),
-      // ),
-      shape: ClippedRoundedRectangleBorder(
-        pos: scrollPosition,
-        context: context,
-        side: BorderSide(width: 2.0, color: Colors.black, style: BorderStyle.solid),
-        borderRadius: BorderRadius.circular(scrollPosition),
-        // borderRadius: BorderRadius.circular(10),
-        guestRect: buttonArrayRect,
-      ),
-      elevation: 20,
-      color: Colors.amber,
-      child: const ListTile(
-        leading: FlutterLogo(size: 72.0),
-        title: Text('SettingsPageListTile'),
-        trailing: Icon(Icons.more_vert),
-      ),
+    
+    return ValueListenableBuilder<double>(
+      valueListenable: DataNotifier
+          .of(context, ValueKey('scrollController')).data,
+      builder: (BuildContext context, double value, __) {
+        print(value);
+        return Card(
+          shape: ClippedRoundedRectangleBorder(
+            pos: value,
+            context: context,
+            side: BorderSide(width: 2.0, color: Colors.black, style: BorderStyle.solid),
+            borderRadius: BorderRadius.circular(10+ value),
+            // borderRadius: BorderRadius.circular(10),
+            guestRect: buttonArrayRect,
+          ),
+          elevation: 20,
+          color: Colors.amber,
+          child: const ListTile(
+            leading: FlutterLogo(size: 72.0),
+            title: Text('SettingsPageListTile'),
+            trailing: Icon(Icons.more_vert),
+          ),
+        );
+      },
     );
   }
 }
+
+// return ValueListenableBuilder<double>(
+//   valueListenable: DataNotifier
+//       .of(context, ValueKey('scrollController'))
+//       .data,
+//   builder: (BuildContext context, double value, __) {
+//     // print('_SettingsPageListTileState: build: buttonArrayRect = $buttonArrayRect');
+//     // print('_SettingsPageListTile: build: value = $value');
+//     return Card(
+//       // shape: RoundedRectangleBorder(
+//       //   borderRadius: BorderRadius.circular(value % 50 + 10),
+//       // ),
+//       shape: ClippedRoundedRectangleBorder(
+//         pos: value,
+//         context: context,
+//         side: BorderSide(width: 2.0, color: Colors.black, style: BorderStyle.solid),
+//         borderRadius: BorderRadius.circular(value % 10 + 10),
+//         // borderRadius: BorderRadius.circular(10),
+//         guestRect: buttonArrayRect,
+//       ),
+//       elevation: 20,
+//       color: Colors.amber,
+//       child: const ListTile(
+//         leading: FlutterLogo(size: 72.0),
+//         title: Text('SettingsPageListTile'),
+//         trailing: Icon(Icons.more_vert),
+//       ),
+//     );
+//   },
+// );
