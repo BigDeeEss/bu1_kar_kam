@@ -25,7 +25,6 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     super.initState();
     widget.controller.addListener(() {
       if (widget.controller.offset != scrollPosition) {
-        print('_SettingsPageListTileState, scroll position = ${widget.controller.offset}');
         setState(() {
           scrollPosition = widget.controller.offset;
         });
@@ -39,7 +38,7 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     //  further up the widget tree.
     Rect buttonArrayRect = DataNotifier
         .of(context, ValueKey('buttonArrayRect')).data.value;
-
+    // print('_SettingsPageListTileState, scrollPosition = $scrollPosition');
     //  Contents of SettingsListTile.
     return Card(
       // shape: RoundedRectangleBorder(
@@ -49,7 +48,7 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
         pos: scrollPosition,
         context: context,
         side: BorderSide(width: 2.0, color: Colors.black, style: BorderStyle.solid),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(scrollPosition),
         // borderRadius: BorderRadius.circular(10),
         guestRect: buttonArrayRect,
       ),

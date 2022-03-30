@@ -171,7 +171,7 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
 
     Path combinedPath = Path.combine(PathOperation.difference, hostPath, guestPath);
     // return guestPath;
-    return hostPath;
+    // return hostPath;
     return combinedPath;
 
     return Path()

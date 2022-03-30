@@ -44,7 +44,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
             ),
           );
         }),
-        ...List<Widget>.generate(1, (int index) {
+        ...List<Widget>.generate(100, (int index) {
           return SettingsPageListTile(
             controller: scrollController,
           );
