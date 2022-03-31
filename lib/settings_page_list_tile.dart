@@ -19,7 +19,7 @@ class SettingsPageListTile extends StatelessWidget {
       valueListenable: DataNotifier
           .of(context, ValueKey('scrollController')).data,
       builder: (BuildContext context, double value, __) {
-        print(value);
+        // print('SettingsPageListTile, value = $value');
         return Card(
           shape: ClippedRoundedRectangleBorder(
             pos: value,

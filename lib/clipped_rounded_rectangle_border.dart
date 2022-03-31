@@ -144,7 +144,7 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     Offset offset = renderBox.globalToLocal(Offset(0.0, 0.0));
 
     // if (pos != null) {
-    print('ClippedRoundedRectangle, _getPath, pos = $pos...');
+    // print('ClippedRoundedRectangle, _getPath, pos = $pos...');
     // }
     // print('ClippedRoundedRectangle, _getPath, rrect = $rrect...\n'
     //     '  ...prints Card Rect relative to itself...?');
