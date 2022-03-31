@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/settings_page_list_tile_clipper.dart';
 
 class SettingsPageListTileTwo extends StatefulWidget {
   const SettingsPageListTileTwo({Key? key}) : super(key: key);
@@ -24,6 +25,10 @@ class _SettingsPageListTileTwoState extends State<SettingsPageListTileTwo> {
           .of(context, ValueKey('scrollController')).data,
       builder: (BuildContext context, double value, __) {
         return ClipPath(
+          clipper: SettingsPageListTileClipper(
+            context: context,
+            guestRect: buttonArrayRect,
+          ),
           child: Card(
             elevation: 20,
             color: Colors.amber,
@@ -32,9 +37,8 @@ class _SettingsPageListTileTwoState extends State<SettingsPageListTileTwo> {
               title: Text('SettingsPageListTile'),
               trailing: Icon(Icons.more_vert),
             ),
-          );
-        };
-        return Container();
+          ),
+        );
       },
     );
   }

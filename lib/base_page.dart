@@ -26,7 +26,7 @@ class _BasePageState extends State<BasePage> {
   /// [buttonArrayRectNotifier] stores Rect information that is/may be
   /// required by widgets below this in the widget tree.
   final ValueNotifier<Rect> buttonArrayRectNotifier
-      = ValueNotifier(Offset(1.0, 2.0) & const Size(3.0, 4.0));
+      = ValueNotifier(Offset(1.0, 2.0) & Size(3.0, 4.0));
 
   /// [buttonArray] is the instance of ButtonArray that is built by
   /// [BasePage].
