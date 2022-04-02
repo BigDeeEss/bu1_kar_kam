@@ -23,13 +23,12 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> {
-  /// [buttonArrayRectNotifier] stores Rect information that is/may be
+  /// [buttonArrayRectNotifier] stores Rect information that may be
   /// required by widgets below this in the widget tree.
-  final ValueNotifier<Rect> buttonArrayRectNotifier
-      = ValueNotifier(Offset(1.0, 2.0) & Size(3.0, 4.0));
+  final ValueNotifier<Rect> buttonArrayRectNotifier =
+      ValueNotifier(Offset(1.0, 2.0) & Size(3.0, 4.0));
 
-  /// [buttonArray] is the instance of ButtonArray that is built by
-  /// [BasePage].
+  /// [buttonArray] builds a linear horizontal or vertical array of buttons.
   ///
   /// [buttonArray] is referenced in the build and initState methods and
   /// so must be instantiated at the point of [BasePage] creation.
@@ -37,13 +36,22 @@ class _BasePageState extends State<BasePage> {
 
   /// [pageContents] (initially null) is updated by setState in a
   /// postFrameCallback.
+  ///
+  /// For all pages [buttonArray] is built first in order to get its Rect
+  /// information before building [pageContents]. This build order is required
+  /// by ListView in settings_page_contents.dart.
   Widget? pageContents;
 
   @override
   void initState() {
     super.initState();
+
+    //  [BasePage] is built in two parts: (i) [buttonArray], so that its
+    //  Rect data can then be calculated, and then (ii) [uttonArray] +
+    //  [pageContents]. The latter step occurs because of this post-frame
+    //  callback.
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      // Get buttonArray Rect data and update buttonArrayRectNotifier.
+      //  Get buttonArray Rect data and update buttonArrayRectNotifier.
       Rect buttonArrayRect = buttonArray.getRect();
       buttonArrayRectNotifier.value = buttonArrayRect;
 
@@ -63,11 +71,13 @@ class _BasePageState extends State<BasePage> {
         title: Text(widget.pageSpec.title),
       ),
       //  Use Builder widget because it is not possible to get the appBar
-      //  height from the current BuildContext when it doesn't yet include
-      //  information associated by the Scaffold class being built.
+      //  height from the current BuildContext since this instance of Scaffold
+      //  hasn't been built yet.
+      //
+      //  This instance of Builder returns BottomAppBar.
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
-          // Get appBar height from context.
+          //  Get appBar height from context.
           double appBarHeight =
               MediaQuery.of(context).padding.top + kToolbarHeight;
 
@@ -75,7 +85,7 @@ class _BasePageState extends State<BasePage> {
           return BottomAppBar(
             color: Colors.blue,
             child: SizedBox(
-              //  Set height of BottomAppBar using izedBox. Get height from
+              //  Set height of BottomAppBar using SizedBox. Get height from
               //  context by extracting the Scaffold that immediately wraps
               //  this widget, and then getting the value for appBarMaxHeight.
               height: appBarHeight * AppSettings.appBarHeightScaleFactor,
@@ -84,17 +94,18 @@ class _BasePageState extends State<BasePage> {
         },
       ),
       //  The Scaffold body contents are placed within an instance of
-      //  NotificationNotifier inorder to transfer [buttonArrayRectData]
+      //  DataNotifier inorder to transfer [buttonArrayRect]
       //  down to SettingsPageContents.
       body: DataNotifier(
         key: ValueKey('buttonArrayRect'),
         data: buttonArrayRectNotifier,
         //  Place page contents and ButtonArray on screen using Stack.
+        //
         //  Ensure that ButtonArray sits above the page content by placing
         //  it last in a Stack list of children.
         //
         //  If [pageContents] is null then post an empty container into Stack,
-        //  otherwise use its value.
+        //  otherwise use its value (see ?? operator below).
         //
         //  Note: [pageContents] equates to widget.pageSpec.contents
         //  after setState.

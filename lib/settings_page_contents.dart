@@ -6,6 +6,7 @@ import 'package:kar_kam/settings_page_list_tile.dart';
 import 'package:kar_kam/settings_page_list_tile_two.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
+//  [SettingsPageContents] creates app settings in the form of a ListView.
 class SettingsPageContents extends StatefulWidget {
   const SettingsPageContents({Key? key}) : super(key: key);
 
@@ -22,8 +23,12 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
     Colors.pink,
   ];
 
+  /// [scrollController] is added to the ListView instance below in order
+  /// to get the scroll position offset value.
   final ScrollController scrollController = ScrollController();
 
+  /// [scrollPositionNotifier] is passed to an instance of DataNotifier in
+  /// order to pass the scroll position down to SettingsPageListTile.
   final ValueNotifier<double> scrollPositionNotifier = ValueNotifier(0.0);
 
   @override
@@ -35,6 +40,9 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
   @override
   void initState() {
     super.initState();
+
+    //  Update [scrollPositionNotifier] with new scroll position whenever
+    //  [scrollController] registers a change.
     scrollController.addListener(() {
       scrollPositionNotifier.value = scrollController.offset;
     });
@@ -79,35 +87,5 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ]
       ),
     );
-    // return ListView(
-    //   controller: scrollController,
-    //   children: <Widget>[
-    //     ...List<Widget>.generate(5, (int index) {
-    //       return Opacity(
-    //         opacity: 0.5,
-    //         child: Card(
-    //           child: ListTile(
-    //             title: Text('Test $index'),
-    //             tileColor: colors[index % colors.length],
-    //           ),
-    //         ),
-    //       );
-    //     }),
-    //     ...List<Widget>.generate(100, (int index) {
-    //       return SettingsPageListTile();
-    //     }),
-    //     ...List<Widget>.generate(15, (int index) {
-    //       return Opacity(
-    //         opacity: 0.5,
-    //         child: Card(
-    //           child: ListTile(
-    //             title: Text('Test $index'),
-    //             tileColor: colors[index % colors.length],
-    //           ),
-    //         ),
-    //       );
-    //     }),
-    //   ]
-    // );
   }
 }

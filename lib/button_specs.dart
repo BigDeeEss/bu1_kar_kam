@@ -17,7 +17,7 @@ class ButtonSpec {
   /// [drawLayoutBounds] toggles whether layout bounds are drawn or not.
   final bool drawLayoutBounds = AppSettings.drawLayoutBounds;
 
-  /// [icon] indicating the the destination page or action.
+  /// [icon] indicating the destination page or action.
   final Icon icon;
 
   /// [onPressed] defines the action to be taken when the button is activated.

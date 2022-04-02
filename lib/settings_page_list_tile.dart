@@ -25,8 +25,8 @@ class SettingsPageListTile extends StatelessWidget {
             pos: value,
             context: context,
             side: BorderSide(width: 2.0, color: Colors.black, style: BorderStyle.solid),
-            borderRadius: BorderRadius.circular(10+ value),
-            // borderRadius: BorderRadius.circular(10),
+            // borderRadius: BorderRadius.circular(10+ value),
+            borderRadius: BorderRadius.circular(10),
             guestRect: buttonArrayRect,
           ),
           elevation: 20,
@@ -41,33 +41,3 @@ class SettingsPageListTile extends StatelessWidget {
     );
   }
 }
-
-// return ValueListenableBuilder<double>(
-//   valueListenable: DataNotifier
-//       .of(context, ValueKey('scrollController'))
-//       .data,
-//   builder: (BuildContext context, double value, __) {
-//     // print('_SettingsPageListTileState: build: buttonArrayRect = $buttonArrayRect');
-//     // print('_SettingsPageListTile: build: value = $value');
-//     return Card(
-//       // shape: RoundedRectangleBorder(
-//       //   borderRadius: BorderRadius.circular(value % 50 + 10),
-//       // ),
-//       shape: ClippedRoundedRectangleBorder(
-//         pos: value,
-//         context: context,
-//         side: BorderSide(width: 2.0, color: Colors.black, style: BorderStyle.solid),
-//         borderRadius: BorderRadius.circular(value % 10 + 10),
-//         // borderRadius: BorderRadius.circular(10),
-//         guestRect: buttonArrayRect,
-//       ),
-//       elevation: 20,
-//       color: Colors.amber,
-//       child: const ListTile(
-//         leading: FlutterLogo(size: 72.0),
-//         title: Text('SettingsPageListTile'),
-//         trailing: Icon(Icons.more_vert),
-//       ),
-//     );
-//   },
-// );
