@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_specs.dart';
 
-/// [Button] implements a copy of FloatingActionButton, including the
-/// geometrical and functional aspects of buttonSpecs.
+/// [Button] implements a copy of FloatingActionButton.
 class Button extends StatelessWidget {
   Button({
     Key? key,

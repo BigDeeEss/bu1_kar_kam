@@ -14,19 +14,26 @@ class SettingsPageListTile extends StatelessWidget {
     //  further up the widget tree.
     Rect buttonArrayRect = DataNotifier
         .of(context, ValueKey('buttonArrayRect')).data.value;
-    
+    // return Container(child: Text('Test'),);
+
     return ValueListenableBuilder<double>(
       valueListenable: DataNotifier
-          .of(context, ValueKey('scrollController')).data,
+          .of(context, ValueKey('scrollController'))
+          .data,
       builder: (BuildContext context, double value, __) {
-        // print('SettingsPageListTile, value = $value');
+        // print('_SettingsPageListTileState: build: buttonArrayRect = $buttonArrayRect');
+        // print('_SettingsPageListTile: build: value = $value');
+        // print(value % 5 + 10);
         return Card(
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(value % 50 + 10),
+          // ),
           shape: ClippedRoundedRectangleBorder(
             pos: value,
             context: context,
             side: BorderSide(width: 2.0, color: Colors.black, style: BorderStyle.solid),
-            // borderRadius: BorderRadius.circular(10+ value),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(value % 10 + 10),
+            // borderRadius: BorderRadius.circular(10),
             guestRect: buttonArrayRect,
           ),
           elevation: 20,
@@ -37,7 +44,6 @@ class SettingsPageListTile extends StatelessWidget {
             trailing: Icon(Icons.more_vert),
           ),
         );
-      },
-    );
+    });
   }
 }
