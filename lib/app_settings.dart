@@ -41,4 +41,8 @@ class AppSettings {
   /// [pageTransitionTime] defines the time in milliseconds allowed
   /// for the transitioning the page.
   static int pageTransitionTime = 750;
+
+  /// [settingsPageListTileRadius] defines the radius used in construction
+  /// of SettingsPageListTileClipper.
+  static int settingsPageListTileRadius = 25;
 }
