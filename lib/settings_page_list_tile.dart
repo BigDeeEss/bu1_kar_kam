@@ -28,7 +28,7 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
     //  Construct a morphable ListTile instance using ClipPath.
     //
     //  ValueListenableBuilder rebuilds whenever the scroll position changes,
-    //  but the build doesn't depend on it.
+    //  but the build itself doesn't depend on it.
     return ValueListenableBuilder<double>(
       valueListenable: DataNotifier
           .of(context, ValueKey('scrollController')).data,
@@ -38,10 +38,10 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
             context: context,
             guestRect: buttonArrayRect,
           ),
-          child: Card(
+          child: const Card(
             elevation: 20,
             color: Colors.amber,
-            child: const ListTile(
+            child: ListTile(
               leading: FlutterLogo(size: 72.0),
               title: Text('SettingsPageListTile'),
               trailing: Icon(Icons.more_vert),
