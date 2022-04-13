@@ -77,7 +77,7 @@ class ButtonArray extends StatelessWidget {
         widgetList.add(Positioned(
           top: (AppSettings.buttonAlignment.y < 0)
               ? (AppSettings.buttonRadiusInner +
-              AppSettings.buttonPaddingMainAxisExtra) * 2 * i
+                  AppSettings.buttonPaddingMainAxisExtra) * 2 * i
               : null,
           bottom: (AppSettings.buttonAlignment.y > 0)
               ? (AppSettings.buttonRadiusInner +
