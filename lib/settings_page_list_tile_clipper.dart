@@ -1,5 +1,9 @@
 //  Import flutter packages.
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
+
+// Import project-specific files.
+import 'package:kar_kam/lib/rect_extension.dart';
 
 /// [SettingsPageListTileClipper] calculates the path to clip against when
 /// constructing [SettinsgPageListTile].
@@ -26,55 +30,75 @@ class SettingsPageListTileClipper extends CustomClipper<Path> {
     //  Construct [hostRect] (in this instance the Rect associated with
     //  [SettingsPageListTile] in a coordinate system local to itself).
     Rect hostRect = getHostRect(size);
-    //
-    //  Convert guestRect from global coordinates to a coordinate system
-    //  local to current instance of [SettingsPageListTile].
-    Rect localGuestrect = getLocalGuestRect(size);
 
-    double? deltax;
-    print('hostRect.center.dy = ${hostRect.center.dy}');
-    print('localGuestrect.center.dy = ${localGuestrect.center.dy}');
-    if (hostRect.center.dy - localGuestrect.center.dy <= 0) {
-      Rect upperConstructionRect = getUpperConstructionRect(localGuestrect);
-      // deltax = getDeltax(hostRect.bottom, upperConstructionRect);
-      print('upperConstructionRect = $upperConstructionRect');
-    } else {
-      Rect lowerConstructionRect = getLowerConstructionRect(localGuestrect);
-      // deltax = getDeltax(hostRect.top, lowerConstructionRect);
-      print('lowerConstructionRect = $lowerConstructionRect');
-    }
+    //  Only needed for old code below to work. Delete when completed.
+    Rect localGuestRect = getLocalGuestRect();
 
-    //  Get [renderBox] associated with SettingsPageListTileClipper.
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
+    //  Calculate [deltaX], the amount by which SettingsPageListTile is
+    //  clipped by.
+    double deltaX = getDeltaX(hostRect);
+    print(deltaX);
 
-    //  Get global offset associated with the top left corner of
-    //  [SettingsPageListTileClipper] relative to top left corner of screen.
-    Offset offset = renderBox.globalToLocal(Offset(0.0, 0.0));
-
-    //  Convert guestRect from global coordinate system to a system local to
-    //  [renderBox], which represents the current local instance of ListTile,
-    //  by using a simple translation.
-    Rect localGuestRect = guestRect!.shift(offset);
+    // Calculate [relativeOffset] to determine whether to clip left ot right.
+    Offset relativeOffset = localGuestRect.center - hostRect.center;
 
     //  Generate a Path variable representing the boundary of hostRect.
     Path hostPath = Path();
-    hostPath..addRRect(
-        RRect.fromRectAndRadius(Offset(0.0, 0.0) & size, Radius.circular(25)));
+    if (relativeOffset.dx >= 0) {
+      //  localGuestRect is to the right of hostRect.
+      hostPath
+        ..addRRect(RRect.fromRectAndRadius(
+            Rect.fromLTRB(hostRect.left, hostRect.top, hostRect.right - deltaX,
+                hostRect.bottom),
+            Radius.circular(25)));
+    } else if (relativeOffset.dx < 0) {
+      //  localGuestRect is to the left of hostRect.
+      hostPath
+        ..addRRect(RRect.fromRectAndRadius(
+            Rect.fromLTRB(hostRect.left - deltaX, hostRect.top, hostRect.right,
+                hostRect.bottom),
+            Radius.circular(25)));
+    }
+    return hostPath;
 
     //  Generate a Path variable representing the boundary of guestRect.
     Path guestPath = Path();
-    guestPath..addRRect(
-        RRect.fromRectAndRadius(localGuestRect, Radius.circular(15)));
+    guestPath
+      ..addRRect(RRect.fromRectAndRadius(localGuestRect, Radius.circular(15)));
 
     //  Create the clipPath by subtracting guestPath from hostPath.
     return Path.combine(PathOperation.difference, hostPath, guestPath);
   }
 
+  double getDeltaX(Rect hostRect) {
+    //  Convert guestRect, provided as input to [SettingsPageListTileClipper],
+    //  from global coordinates to a coordinate system local to current
+    //  instance of [SettingsPageListTile].
+    Rect localGuestRect = getLocalGuestRect();
+
+    //  [getUpperLocalConstructionRect], [getLowerLocalConstructionRect]
+    //  and [centralLocalConstructionRect] provide construction rectangles
+    //  used for calculating deltaX.
+    Rect upperLocalConstructionRect = getUpperLocalConstructionRect();
+    Rect lowerLocalConstructionRect = getLowerLocalConstructionRect();
+    Rect centralLocalConstructionRect = getCentralLocalConstructionRect();
+
+    if (hostRect.overlaps(upperLocalConstructionRect)) {
+      return 20.0;
+    } else if (hostRect.overlaps(lowerLocalConstructionRect)) {
+      return 40.0;
+    } else if (hostRect.overlaps(centralLocalConstructionRect)) {
+      return localGuestRect.width;
+    } else {
+      return 0.0;
+    }
+  }
+
   /// [getHostRect] converts size associated with the current instance
   /// od [SettingsPageListTile] to Rect.
-  Rect getHostRect(Size size) => Offset(0.0, 0.0) & size;
+  Rect getHostRect(Size hostSize) => Offset(0.0, 0.0) & hostSize;
 
-  Rect getLocalGuestRect(Size size) {
+  Rect getLocalGuestRect() {
     //  Get [renderBox] associated with [SettingsPageListTileClipper].
     //  (Used to generate guestRect and localGuestRect.)
     RenderBox renderBox = context.findRenderObject() as RenderBox;
@@ -89,26 +113,38 @@ class SettingsPageListTileClipper extends CustomClipper<Path> {
     return guestRect!.shift(offset);
   }
 
-  /// [getUpperConstructionRect] calculates the Rect required for determining
-  /// the [deltax] by which the current instance of [SettingsPageListTile]
-  /// is clipped in the horizontal direction when [SettingsPageListTile]
-  /// interacts with the top of [localGuestrect].
-  Rect getUpperConstructionRect(Rect localGuestRect) {
-    //  Construct upperConstructionRect from localGuestRect.
-    return Offset(localGuestRect.left,
-            localGuestRect.top - localGuestRect.shortestSide) &
-        Size(localGuestRect.width, 1.5 * localGuestRect.shortestSide);
+  /// [getCentralLocalConstructionRect] calculates the central Rect used
+  /// for determining the [deltax] by which the current instance of
+  /// [SettingsPageListTile] is clipped in the horizontal direction
+  /// when interacting with the central part of [ButtonArray].
+  ///
+  /// Note the output Rect could have zero height.
+  Rect getCentralLocalConstructionRect() {
+    Rect localGuestRect = getLocalGuestRect();
+    return localGuestRect.inflateToHeight(
+        math.max(0.0, localGuestRect.height - localGuestRect.shortestSide));
   }
 
-  /// [getLowerConstructionRect] calculates the Rect required for determining
-  /// the [deltax] by which the current instance of [SettingsPageListTile]
-  /// is clipped in the horizontal direction when [SettingsPageListTile]
-  /// interacts with the bottom of [localGuestrect].
-  Rect getLowerConstructionRect(Rect localGuestRect) {
-    //  Construct upperConstructionRect from localGuestRect.
-    return Offset(localGuestRect.left,
-            localGuestRect.bottom + localGuestRect.shortestSide) &
-        Size(localGuestRect.width, - 1.5 * localGuestRect.shortestSide);
+  /// [getLowerLocalConstructionRect] calculates the lower Rect used
+  /// for determining the [deltax] by which the current instance of
+  /// [SettingsPageListTile] is clipped in the horizontal direction
+  /// when interacting with the curved path BELOW [ButtonArray].
+  Rect getLowerLocalConstructionRect() {
+    Rect localGuestRect = getLocalGuestRect();
+    double height = localGuestRect.shortestSide * 1.5;
+    double dy = (localGuestRect.height - localGuestRect.shortestSide) / 2.0;
+    return localGuestRect.inflateToHeight(height).translate(0.0, dy);
+  }
+
+  /// [getUpperLocalConstructionRect] calculates the upper Rect used
+  /// for determining the [deltax] by which the current instance of
+  /// [SettingsPageListTile] is clipped in the horizontal direction
+  /// when interacting with the curved path ABOVE [ButtonArray].
+  Rect getUpperLocalConstructionRect() {
+    Rect localGuestRect = getLocalGuestRect();
+    double height = localGuestRect.shortestSide * 1.5;
+    double dy = (localGuestRect.height - localGuestRect.shortestSide) / 2.0;
+    return localGuestRect.inflateToHeight(height).translate(0.0, -dy);
   }
 
   @override
