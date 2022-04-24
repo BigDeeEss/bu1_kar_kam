@@ -75,6 +75,9 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
               opacity: 0.5,
               child: Card(
                 child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
                   title: Text('Test $index'),
                   tileColor: colors[index % colors.length],
                 ),
