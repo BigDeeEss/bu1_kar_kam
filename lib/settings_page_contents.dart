@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/development/bu10-settings_page_list_tile.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
+import 'package:kar_kam/settings_page_list_tile_two.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
 //  [SettingsPageContents] creates app settings in the form of a ListView.
@@ -69,6 +69,9 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           }),
           ...List<Widget>.generate(1, (int index) {
             return SettingsPageListTile();
+          }),
+          ...List<Widget>.generate(1, (int index) {
+            return SettingsPageListTileTwo();
           }),
           ...List<Widget>.generate(20, (int index) {
             return Opacity(
