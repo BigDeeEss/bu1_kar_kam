@@ -223,13 +223,13 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     // print('paint, rect = $rect')
     if (rect.isEmpty)
       return;
-    print('paint, 1');
+    // print('paint, 1');
     switch (side.style) {
       case BorderStyle.none:
-        print('paint, 2');
+        // print('paint, 2');
         break;
       case BorderStyle.solid:
-        print('paint, 3');
+        // print('paint, 3');
         final Path path = getOuterPath(rect, textDirection: textDirection);
         final Paint paint = side.toPaint();
 
