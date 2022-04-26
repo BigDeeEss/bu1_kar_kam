@@ -6,22 +6,22 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/settings_page_list_tile_clipper.dart';
 
-/// [SettingsPageListTile] implements a draft listTile effect that is
+/// [SettingsPageListTileOne] implements a draft listTile effect that is
 /// able to morph itself and pass around ButtonArray.
-class SettingsPageListTile extends StatefulWidget {
-  const SettingsPageListTile({Key? key}) : super(key: key);
+class SettingsPageListTileOne extends StatefulWidget {
+  const SettingsPageListTileOne({Key? key}) : super(key: key);
 
   @override
-  State<SettingsPageListTile> createState() => _SettingsPageListTileState();
+  State<SettingsPageListTileOne> createState() => _SettingsPageListTileOneState();
 }
 
-class _SettingsPageListTileState extends State<SettingsPageListTile> {
+class _SettingsPageListTileOneState extends State<SettingsPageListTileOne> {
   @override
   Widget build(BuildContext context) {
     //  Retrieve [buttonArrayRect] from instance of DataNotifier
     //  further up the widget tree.
     //
-    //  [buttonArrayRect] is passed to [SettingsPageListTileClipper] which
+    //  [buttonArrayRect] is passed to [SettingsPageListTileOneClipper] which
     //  calculates the path for ClipPath to use.
     Rect buttonArrayRect = DataNotifier
         .of(context, ValueKey('buttonArrayRect')).data.value;
@@ -50,14 +50,15 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
               color: Colors.amber,
               child: ListTile(
                 leading: FlutterLogo(size: 72.0),
-                title: Text('SettingsPageListTile'),
+                title: Text('SettingsPageListTileOne'),
                 trailing: Icon(Icons.more_vert),
+                subtitle: Text('One'),
               ),
             ),
           ),
         );
         // return ClipPath(
-        //   clipper: SettingsPageListTileClipper(
+        //   clipper: SettingsPageListTileOneClipper(
         //     context: context,
         //     guestRect: buttonArrayRect,
         //   ),
@@ -66,7 +67,7 @@ class _SettingsPageListTileState extends State<SettingsPageListTile> {
         //     color: Colors.amber,
         //     child: ListTile(
         //       leading: FlutterLogo(size: 72.0),
-        //       title: Text('SettingsPageListTile'),
+        //       title: Text('SettingsPageListTileOne'),
         //       trailing: Icon(Icons.more_vert),
         //     ),
         //   ),

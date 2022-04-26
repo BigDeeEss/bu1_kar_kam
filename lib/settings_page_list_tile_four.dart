@@ -5,25 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/clipped_rounded_rectangle_border.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/settings_page_list_tile_border.dart';
 
-class SettingsPageListTileThree extends StatelessWidget {
-  const SettingsPageListTileThree({Key? key}) : super(key: key);
+class SettingsPageListTileFour extends StatelessWidget {
+  const SettingsPageListTileFour({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Rect buttonArrayRect = DataNotifier
         .of(context, ValueKey('buttonArrayRect')).data.value;
+
+    SettingsPageListTileBorder shape = SettingsPageListTileBorder(
+      borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner),
+      context: context,
+      guestRect: buttonArrayRect,
+      side: BorderSide(width: 0.5, color: Colors.black, style: BorderStyle.solid),
+    );
+
+
     return ValueListenableBuilder<double>(
       valueListenable: DataNotifier
           .of(context, ValueKey('scrollController')).data,
       builder: (BuildContext context, double value, __) {
-        ClippedRoundedRectangleBorder test = ClippedRoundedRectangleBorder(
-              context: context,
-              // side: BorderSide(width: 5.0, color: Colors.black, style: BorderStyle.solid),
-              borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner),
-              guestRect: buttonArrayRect,
-            );
-
         return Container(
           decoration: BoxDecoration(
             border: AppSettings.drawLayoutBounds
@@ -32,7 +35,7 @@ class SettingsPageListTileThree extends StatelessWidget {
           ),
           child: Card(
             key: UniqueKey(),
-            shape: test,
+            shape: shape,
             // elevation: value,
             // key: globalKey,
             color: Colors.amber[700],
@@ -40,7 +43,7 @@ class SettingsPageListTileThree extends StatelessWidget {
               leading: FlutterLogo(size: 72.0),
               title: Text('SettingsPageListTile'),
               trailing: Icon(Icons.more_vert),
-              subtitle: Text('Three'),
+              subtitle: Text('Four'),
             ),
           ),
         );
