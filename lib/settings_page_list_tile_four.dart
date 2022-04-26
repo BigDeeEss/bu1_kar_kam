@@ -40,7 +40,7 @@ class SettingsPageListTileFour extends StatelessWidget {
             // key: globalKey,
             color: Colors.amber[700],
             child: ListTile(
-              leading: FlutterLogo(size: 72.0),
+              leading: FlutterLogo(),
               title: Text('SettingsPageListTile'),
               trailing: Icon(Icons.more_vert),
               subtitle: Text('Four'),

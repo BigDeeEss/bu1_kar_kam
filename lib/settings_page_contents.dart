@@ -1,5 +1,6 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:kar_kam/settings_page_list_tile_five.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/settings_page_list_tile_one.dart';
@@ -78,8 +79,13 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           ...List<Widget>.generate(1, (int index) {
             return SettingsPageListTileThree();
           }),
-          ...List<Widget>.generate(1, (int index) {
-            return SettingsPageListTileFour();
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileFour();
+          // }),
+          ...List<Widget>.generate(5, (int index) {
+            return SettingsPageListTileFive(
+              title: ' #$index ',
+            );
           }),
           ...List<Widget>.generate(20, (int index) {
             return Opacity(

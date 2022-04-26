@@ -49,7 +49,7 @@ class _SettingsPageListTileOneState extends State<SettingsPageListTileOne> {
               elevation: 20,
               color: Colors.amber,
               child: ListTile(
-                leading: FlutterLogo(size: 72.0),
+                leading: FlutterLogo(),
                 title: Text('SettingsPageListTileOne'),
                 trailing: Icon(Icons.more_vert),
                 subtitle: Text('One'),
