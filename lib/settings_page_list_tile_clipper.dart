@@ -32,6 +32,9 @@ class SettingsPageListTileClipper extends CustomClipper<Path> {
 
     Rect centralLocalConstructionRect = localGuestRect.inflateToHeight(
         math.max(0.0, localGuestRect.height - localGuestRect.shortestSide));
+    // print(localGuestRect);
+    // print(localGuestRect.height - localGuestRect.shortestSide);
+    // print(centralLocalConstructionRect);
     return centralLocalConstructionRect;
   }
 
@@ -57,7 +60,7 @@ class SettingsPageListTileClipper extends CustomClipper<Path> {
     double width = localGuestRect.width;
     double height = 1.5 * localGuestRect.shortestSide;
 
-    double dy = localGuestRect.height / 2.0 + localGuestRect.shortestSide / 4.0;
+    double dy = localGuestRect.height / 2.0 + localGuestRect.shortestSide / 6.0;
     Rect rect = Rect.fromCenter(
       center: localGuestRect.center,
       width: width,
@@ -72,7 +75,7 @@ class SettingsPageListTileClipper extends CustomClipper<Path> {
     double width = localGuestRect.width;
     double height = 1.5 * localGuestRect.shortestSide;
 
-    double dy = localGuestRect.height / 2.0 + localGuestRect.shortestSide / 4.0;
+    double dy = localGuestRect.height / 2.0 + localGuestRect.shortestSide / 6.0;
     Rect rect = Rect.fromCenter(
       center: localGuestRect.center,
       width: width,
@@ -86,6 +89,8 @@ class SettingsPageListTileClipper extends CustomClipper<Path> {
     //  Construct [hostRect] (in this instance the Rect associated with
     //  [SettingsPageListTile] in a coordinate system local to itself).
     Rect hostRect = getHostRect(size);
+    // print('getClip, hostRect = $hostRect');
+    // print('getClip, localGuestRect = $localGuestRect');
 
     //  Set initial value of deltaX to width of localGuestRect. Use getDeltaX
     //  immediately below to modify this value if the conditions are correct.
@@ -95,17 +100,21 @@ class SettingsPageListTileClipper extends CustomClipper<Path> {
     if (upperLocalConstructionRect.boundsContain(hostRect.bottomLeft) ||
         upperLocalConstructionRect.boundsContain(hostRect.bottomRight)) {
       //  Bottom of hostRect lies within upperLocalConstructionRect.
-      deltaX =  getDeltaX(hostRect.bottom);
+      // deltaX =  getDeltaX(hostRect.bottom);
     } else if (lowerLocalConstructionRect.boundsContain(hostRect.topLeft) ||
         lowerLocalConstructionRect.boundsContain(hostRect.topRight)) {
       //  Top of hostRect lies within lowerLocalConstructionRect
-      deltaX =  getDeltaX(hostRect.top);
+      // deltaX =  getDeltaX(hostRect.top);
     } else if (centralLocalConstructionRect.boundsContain(hostRect.bottomLeft) ||
         centralLocalConstructionRect.boundsContain(hostRect.bottomRight) ||
         centralLocalConstructionRect.boundsContain(hostRect.topLeft) ||
         centralLocalConstructionRect.boundsContain(hostRect.topRight)) {
       //  Bottom OR top of hostRect lies within upperLocalConstructionRect
       deltaX = localGuestRect.width;
+      // print('getClip, hostRect = $hostRect');
+      // print('getClip, guestRect = $guestRect');
+      // print('getClip, localGuestRect = $localGuestRect');
+      // print('getClip, centralLocalConstructionRect = $centralLocalConstructionRect');
     }
     // Calculate [relativeOffset] to determine whether to clip left ot right.
     Offset relativeOffset = localGuestRect.center - hostRect.center;

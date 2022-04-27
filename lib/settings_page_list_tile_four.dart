@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
-import 'package:kar_kam/clipped_rounded_rectangle_border.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/settings_page_list_tile_border.dart';
 
@@ -14,14 +13,6 @@ class SettingsPageListTileFour extends StatelessWidget {
   Widget build(BuildContext context) {
     Rect buttonArrayRect = DataNotifier
         .of(context, ValueKey('buttonArrayRect')).data.value;
-
-    SettingsPageListTileBorder shape = SettingsPageListTileBorder(
-      borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner),
-      context: context,
-      guestRect: buttonArrayRect,
-      side: BorderSide(width: 0.5, color: Colors.black, style: BorderStyle.solid),
-    );
-
 
     return ValueListenableBuilder<double>(
       valueListenable: DataNotifier
@@ -35,8 +26,13 @@ class SettingsPageListTileFour extends StatelessWidget {
           ),
           child: Card(
             key: UniqueKey(),
-            shape: shape,
-            // elevation: value,
+            shape: SettingsPageListTileFourBorder(
+              borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner),
+              context: context,
+              guestRect: buttonArrayRect,
+              // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
+            ),
+            // elevation: 10.0,
             // key: globalKey,
             color: Colors.amber[700],
             child: ListTile(

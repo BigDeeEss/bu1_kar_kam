@@ -79,14 +79,14 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           ...List<Widget>.generate(1, (int index) {
             return SettingsPageListTileThree();
           }),
-          // ...List<Widget>.generate(1, (int index) {
-          //   return SettingsPageListTileFour();
-          // }),
-          ...List<Widget>.generate(5, (int index) {
-            return SettingsPageListTileFive(
-              title: ' #$index ',
-            );
+          ...List<Widget>.generate(1, (int index) {
+            return SettingsPageListTileFour();
           }),
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileFive(
+          //     title: ' #$index ',
+          //   );
+          // }),
           ...List<Widget>.generate(20, (int index) {
             return Opacity(
               opacity: 0.5,
