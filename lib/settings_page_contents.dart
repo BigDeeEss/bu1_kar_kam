@@ -70,16 +70,16 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
               ),
             );
           }),
-          ...List<Widget>.generate(1, (int index) {
-            return SettingsPageListTileOne();
-          }),
-          ...List<Widget>.generate(1, (int index) {
-            return SettingsPageListTileTwo();
-          }),
-          ...List<Widget>.generate(1, (int index) {
-            return SettingsPageListTileThree();
-          }),
-          ...List<Widget>.generate(1, (int index) {
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileOne();
+          // }),
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileTwo();
+          // }),
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileThree();
+          // }),
+          ...List<Widget>.generate(30, (int index) {
             return SettingsPageListTileFour();
           }),
           // ...List<Widget>.generate(1, (int index) {

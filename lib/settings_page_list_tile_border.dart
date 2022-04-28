@@ -25,7 +25,7 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     if (rect != null) {
       //  Inflate [localGuestRect] to a new height centered on original Rect.
       return rect
-          .inflateToHeight(math.max(0.0, rect.height - rect.shortestSide));
+          .inflateToHeight(math.max(0.0, rect.height - rect.shortestSide + 10));
     }
   }
 
@@ -91,11 +91,44 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
   }
 
   double getDeltaXFromUpperLocalConstructionRect(double y) {
-    Rect rect = upperLocalConstructionRect!;
+    //  Screen coordinate system has positive y pointing downwards.
+    //  Change y coordinate so that it points upwards with y = 0
+    //  corresponding to the bottom of [upperLocalConstructionRect].
+    y = upperLocalConstructionRect!.bottom - y;
 
-    // Offset p0 = rect.center;
-    // Offset p3 = rect.
-    return 50;
+    //  Define some construction variables.
+    double b = upperLocalConstructionRect!.height / 2.0;
+    double r = upperLocalConstructionRect!.width / 2.0;
+    double xCrit = r * math.sqrt(b * b - r * r) / b;
+    double yCrit = math.sqrt(r * r - xCrit * xCrit);
+    double xMax = upperLocalConstructionRect!.width;
+
+    double deltaX = 250;
+    if (y < yCrit) {
+      print('T1');
+      // return 0.0;
+      deltaX = xMax / 2 + math.sqrt(r * r - y * y);
+    } else if (y < b) {
+      print('T2');
+      deltaX = xMax / 2 + xCrit + (y - yCrit) * (0.0 - xCrit) / (b - yCrit);
+      // return 0.0;
+      // return xCrit - (y - yCrit) * (xCrit) / (b - yCrit);
+    } else if (y < 2 * b - yCrit) {
+      print('T3');
+      deltaX = xMax / 2 - (y - b) * (xCrit - 0) / (b - yCrit);
+      // return 0.0;
+      // return xMax / 2 - (y - b) * (xCrit) / (b - yCrit);
+    } else if (y < 2 * b) {
+      print('T4');
+      deltaX = xMax / 2 - math.sqrt(r * r - (2 * b - y) * (2 * b - y));
+      // return 0.0;
+      // return math.sqrt(r * r - (2 * b - y) * (2 * b - y));
+    } else {
+      print('Error');
+      // return 0.0;
+    }
+    print('y= $y,  yCrit = $yCrit,   deltaX = $deltaX');
+    return deltaX;
   }
 
   double getDeltaXFromLowerLocalConstructionRect(double y) {
@@ -128,18 +161,18 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     //  to modify this value if the conditions are correct.
     double deltaX = 0.0;
     Rect hostRect = rrect.outerRect;
-    if (upperLocalConstructionRect!.contains(hostRect.bottomLeft) ||
-        upperLocalConstructionRect!.contains(hostRect.bottomRight)) {
+    if (upperLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
+        upperLocalConstructionRect!.boundsContain(hostRect.bottomRight)) {
       //  Bottom of hostRect lies within upperLocalConstructionRect.
       deltaX = getDeltaXFromUpperLocalConstructionRect(hostRect.bottom);
-    } else if (lowerLocalConstructionRect!.contains(hostRect.topLeft) ||
-        lowerLocalConstructionRect!.contains(hostRect.topRight)) {
+    } else if (lowerLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
+        lowerLocalConstructionRect!.boundsContain(hostRect.topRight)) {
       //  Top of hostRect lies within lowerLocalConstructionRect
-      deltaX = getDeltaXFromLowerLocalConstructionRect(hostRect.top);
-    } else if (centralLocalConstructionRect!.contains(hostRect.bottomLeft) ||
-        centralLocalConstructionRect!.contains(hostRect.bottomRight) ||
-        centralLocalConstructionRect!.contains(hostRect.topLeft) ||
-        centralLocalConstructionRect!.contains(hostRect.topRight)) {
+      // deltaX = getDeltaXFromLowerLocalConstructionRect(hostRect.top);
+    } else if (centralLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
+        centralLocalConstructionRect!.boundsContain(hostRect.bottomRight) ||
+        centralLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
+        centralLocalConstructionRect!.boundsContain(hostRect.topRight)) {
       //  Bottom OR top of hostRect lies within upperLocalConstructionRect
       deltaX = localGuestRect!.width;
     }
