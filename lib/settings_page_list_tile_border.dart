@@ -90,8 +90,16 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     );
   }
 
-  double getDeltaX(double y) {
+  double getDeltaXFromUpperLocalConstructionRect(double y) {
+    Rect rect = upperLocalConstructionRect!;
+
+    // Offset p0 = rect.center;
+    // Offset p3 = rect.
     return 50;
+  }
+
+  double getDeltaXFromLowerLocalConstructionRect(double y) {
+    return 150;
   }
 
   /// [getHostRect] converts RRect associated with the current instance
@@ -123,11 +131,11 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     if (upperLocalConstructionRect!.contains(hostRect.bottomLeft) ||
         upperLocalConstructionRect!.contains(hostRect.bottomRight)) {
       //  Bottom of hostRect lies within upperLocalConstructionRect.
-      deltaX = getDeltaX(hostRect.bottom);
+      deltaX = getDeltaXFromUpperLocalConstructionRect(hostRect.bottom);
     } else if (lowerLocalConstructionRect!.contains(hostRect.topLeft) ||
         lowerLocalConstructionRect!.contains(hostRect.topRight)) {
       //  Top of hostRect lies within lowerLocalConstructionRect
-      deltaX = getDeltaX(hostRect.top);
+      deltaX = getDeltaXFromLowerLocalConstructionRect(hostRect.top);
     } else if (centralLocalConstructionRect!.contains(hostRect.bottomLeft) ||
         centralLocalConstructionRect!.contains(hostRect.bottomRight) ||
         centralLocalConstructionRect!.contains(hostRect.topLeft) ||
