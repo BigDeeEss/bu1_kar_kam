@@ -66,13 +66,14 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
 
   /// Getter for [upperLocalConstructionRect]
   Rect? get upperLocalConstructionRect {
-    Rect? rect = localGuestRect;
-    if (rect != null) {
-      //  Inflate [localGuestRect] to a new height centered on original Rect.
-      rect = rect.inflateToHeight(1.5 * rect.shortestSide);
+    Rect? lgr = localGuestRect;
+    if (lgr != null) {
+      //  Inflate [lgr] to a new height centered on original Rect.
+      Rect rect = lgr.inflateToHeight(1.0 * lgr.shortestSide);
 
       //  Calculate shift factor and apply to rect.
-      double dy = rect.height + rect.shortestSide / 4.0;
+      // double dy = rect.height + rect.shortestSide / 4.0;
+      double dy = rect.height / 2.0 + lgr.height / 2.0 - lgr.shortestSide / 2.0;
       return rect.shift(Offset(0.0, -dy));
     }
   }

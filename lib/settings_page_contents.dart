@@ -7,6 +7,7 @@ import 'package:kar_kam/settings_page_list_tile_one.dart';
 import 'package:kar_kam/settings_page_list_tile_two.dart';
 import 'package:kar_kam/settings_page_list_tile_three.dart';
 import 'package:kar_kam/settings_page_list_tile_four.dart';
+import 'package:kar_kam/settings_page_list_tile_six.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
 //  [SettingsPageContents] creates app settings in the form of a ListView.
@@ -79,8 +80,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           // ...List<Widget>.generate(1, (int index) {
           //   return SettingsPageListTileThree();
           // }),
-          ...List<Widget>.generate(30, (int index) {
+          ...List<Widget>.generate(1, (int index) {
             return SettingsPageListTileFour();
+          }),
+          ...List<Widget>.generate(1, (int index) {
+            return SettingsPageListTileSix();
           }),
           // ...List<Widget>.generate(1, (int index) {
           //   return SettingsPageListTileFive(
