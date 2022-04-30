@@ -48,6 +48,7 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     //  Transform [guestRect] from the global coordinate system relative to the
     //  top left screen corner to a system local to [renderBox], which
     //  represents the current local instance of ListTile.
+    // print('offset, 4 = $offset');
     return guestRect?.shift(offset);
   }
 
@@ -181,6 +182,8 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     // Calculate [relativeOffset] to determine whether to clip
     // SettingsPageListTileFour on the left or right.
     Offset relativeOffset = localGuestRect!.center - hostRect.center;
+
+    print('localGuestRect, 4 = $localGuestRect');
 
     //  Generate a Path variable representing the boundary of hostRect.
     hostPath = Path();

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
-import 'package:kar_kam/settings_page_list_tile_border.dart';
+import 'package:kar_kam/settings_page_list_tile_border_four.dart';
 
 class SettingsPageListTileFour extends StatelessWidget {
   const SettingsPageListTileFour({Key? key}) : super(key: key);
