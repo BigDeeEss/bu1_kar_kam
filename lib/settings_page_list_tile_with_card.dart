@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
-import 'package:kar_kam/settings_page_list_tile_border_four.dart';
+import 'package:kar_kam/settings_page_list_tile_border.dart';
 
-class SettingsPageListTileFour extends StatelessWidget {
-  const SettingsPageListTileFour({Key? key}) : super(key: key);
+class SettingsPageListTileWithCard extends StatelessWidget {
+  const SettingsPageListTileWithCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class SettingsPageListTileFour extends StatelessWidget {
           ),
           child: Card(
             key: UniqueKey(),
-            shape: SettingsPageListTileFourBorder(
+            shape: SettingsPageListTileBorder(
               borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner),
               context: context,
               guestRect: buttonArrayRect,

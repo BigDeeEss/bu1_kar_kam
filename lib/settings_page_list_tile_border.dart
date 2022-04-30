@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/lib/rect_extension.dart';
 
-class SettingsPageListTileFourBorder extends OutlinedBorder {
-  const SettingsPageListTileFourBorder({
+class SettingsPageListTileBorder extends OutlinedBorder {
+  const SettingsPageListTileBorder({
     BorderSide side = BorderSide.none,
     this.borderRadius = BorderRadius.zero,
     required this.context,
@@ -48,7 +48,7 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     //  Transform [guestRect] from the global coordinate system relative to the
     //  top left screen corner to a system local to [renderBox], which
     //  represents the current local instance of ListTile.
-    // print('offset, 4 = $offset');
+    print('offset, 6 = $offset');
     return guestRect?.shift(offset);
   }
 
@@ -82,9 +82,9 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
   /// Returns a copy of this ClippedRoundedRectangleBorder with the given
   /// fields replaced with the new values.
   @override
-  SettingsPageListTileFourBorder copyWith(
+  SettingsPageListTileBorder copyWith(
       {BorderSide? side, BorderRadiusGeometry? borderRadius, Rect? guestRect}) {
-    return SettingsPageListTileFourBorder(
+    return SettingsPageListTileBorder(
       side: side ?? this.side,
       borderRadius: borderRadius ?? this.borderRadius,
       context: context,
@@ -183,7 +183,7 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     // SettingsPageListTileFour on the left or right.
     Offset relativeOffset = localGuestRect!.center - hostRect.center;
 
-    print('localGuestRect, 4 = $localGuestRect');
+    print('localGuestRect, 6 = $localGuestRect');
 
     //  Generate a Path variable representing the boundary of hostRect.
     hostPath = Path();
@@ -211,10 +211,10 @@ class SettingsPageListTileFourBorder extends OutlinedBorder {
     }
   }
 
-  /// [scale] returns a new version of SettingsPageListTileFourBorder scaled by t.
+  /// [scale] returns a new version of SettingsPageListTileSixBorder scaled by t.
   @override
   ShapeBorder scale(double t) {
-    return SettingsPageListTileFourBorder(
+    return SettingsPageListTileBorder(
       side: side.scale(t),
       borderRadius: borderRadius * t,
       context: context,

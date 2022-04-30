@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_specs.dart';
 
 /// [Button] implements a copy of FloatingActionButton.
