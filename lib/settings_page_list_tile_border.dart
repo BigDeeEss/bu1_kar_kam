@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 class SettingsPageListTileBorder extends OutlinedBorder {
@@ -15,8 +16,15 @@ class SettingsPageListTileBorder extends OutlinedBorder {
         assert(borderRadius != null),
         super(side: side);
 
+  /// [borderRadius] defines the corner radius for
+  /// [SettingsPageListTileWithCard] or [SettingsPageListTileWithMaterial].
   final BorderRadiusGeometry borderRadius;
+
+  /// [context] is required for obtaining [localGuestRect] from RenderBox.
   final BuildContext? context;
+
+  /// [guestRect] is the Rect arund which [SettingsPageListTileBorder]
+  /// guides ListTile on scroll.
   final Rect? guestRect;
 
   /// Getter for [centralLocalConstructionRect].
@@ -48,7 +56,6 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     //  Transform [guestRect] from the global coordinate system relative to the
     //  top left screen corner to a system local to [renderBox], which
     //  represents the current local instance of ListTile.
-    print('offset, 6 = $offset');
     return guestRect?.shift(offset);
   }
 
@@ -73,7 +80,6 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       Rect rect = lgr.inflateToHeight(1.0 * lgr.shortestSide);
 
       //  Calculate shift factor and apply to rect.
-      // double dy = rect.height + rect.shortestSide / 4.0;
       double dy = rect.height / 2.0 + lgr.height / 2.0 - lgr.shortestSide / 2.0;
       return rect.shift(Offset(0.0, -dy));
     }
@@ -166,7 +172,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     if (upperLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
         upperLocalConstructionRect!.boundsContain(hostRect.bottomRight)) {
       //  Bottom of hostRect lies within upperLocalConstructionRect.
-      deltaX = getDeltaXFromUpperLocalConstructionRect(hostRect.bottom);
+      deltaX = getDeltaXFromUpperLocalConstructionRect(hostRect.bottom + AppSettings.buttonRadiusInner / 2.0);
     } else if (lowerLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
         lowerLocalConstructionRect!.boundsContain(hostRect.topRight)) {
       //  Top of hostRect lies within lowerLocalConstructionRect
@@ -182,8 +188,6 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     // Calculate [relativeOffset] to determine whether to clip
     // SettingsPageListTileFour on the left or right.
     Offset relativeOffset = localGuestRect!.center - hostRect.center;
-
-    print('localGuestRect, 6 = $localGuestRect');
 
     //  Generate a Path variable representing the boundary of hostRect.
     hostPath = Path();

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
-import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/settings_page_list_tile_border.dart';
+import 'package:kar_kam/lib/data_notifier.dart';
 
+/// [SettingsPageListTileWithMaterial] implements a simple Card-based
+/// list tile that is able to move around ButtonArray on scroll.
 class SettingsPageListTileWithMaterial extends StatelessWidget {
   const SettingsPageListTileWithMaterial({Key? key}) : super(key: key);
 
@@ -14,18 +16,29 @@ class SettingsPageListTileWithMaterial extends StatelessWidget {
     Rect buttonArrayRect = DataNotifier
         .of(context, ValueKey('buttonArrayRect')).data.value;
 
+    //  Use ValueListenableBuilder, triggering on ScrollController
+    //  (settings_page_contents.dart), to rebuild [SettingsPageListTileBorder].
+    //  [SettingsPageListTileBorder] is the engine behind a sliding list tile.
     return ValueListenableBuilder<double>(
       valueListenable: DataNotifier
           .of(context, ValueKey('scrollController')).data,
       builder: (BuildContext context, double value, __) {
         return Container(
-          key: UniqueKey(),
+          //  Draw boundng box.
           decoration: BoxDecoration(
             border: AppSettings.drawLayoutBounds
                 ? Border.all(width: 0.0, color: Colors.redAccent)
                 : null,
           ),
           child: Material(
+            //  Material requires a unique key so that ValueListenableBuilder
+            //  is able to consistently and without error rebuild listTile.
+            //  Without a unique key the movement can be juddery.
+            //
+            //  [SettingsPageListTileWithMaterial] requires the Material widget
+            //  in order to correctly convert RenderBox data to an offset
+            //  when calculating [localGuestRect]
+            //  (settings_page_list_tile_border.dart).
             key: UniqueKey(),
             child: ListTile(
               shape: SettingsPageListTileBorder(
