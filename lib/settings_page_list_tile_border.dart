@@ -77,7 +77,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     Rect? lgr = localGuestRect;
     if (lgr != null) {
       //  Inflate [lgr] to a new height centered on original Rect.
-      Rect rect = lgr.inflateToHeight(1.0 * lgr.shortestSide);
+      Rect rect = lgr.inflateToHeight(1.5 * lgr.shortestSide);
 
       //  Calculate shift factor and apply to rect.
       double dy = rect.height / 2.0 + lgr.height / 2.0 - lgr.shortestSide / 2.0;
@@ -105,37 +105,56 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     y = upperLocalConstructionRect!.bottom - y;
 
     //  Define some construction variables.
+    double deltaXMax = upperLocalConstructionRect!.width;
     double b = upperLocalConstructionRect!.height / 2.0;
     double r = upperLocalConstructionRect!.width / 2.0;
     double xCrit = r * math.sqrt(b * b - r * r) / b;
-    double yCrit = math.sqrt(r * r - xCrit * xCrit);
-    double xMax = upperLocalConstructionRect!.width;
+    double yCrit = r * r / b;
 
-    double deltaX = 250;
-    if (y < yCrit) {
+    double deltaX = 0.0;
+    if (y < 0) {
+      deltaX = 2 * r;
+      print('T0');
+    } else if (y < yCrit) {
+      //  The bottom left corner of upperLocalConstructionRect is the origin.
+      //  (r + xCrit, yCrit) is the point where the curve joins to the line
+      //  segment passing through (r, b), the centre of
+      //  upperLocalConstructionRect.
+      //  (r, 0) is the centre of the circle. To get equation for deltaX invert
+      //      (x - r)^2 + (y - 0)^2 = r^2
+      //  taking the positive root
+      deltaX = r + math.sqrt(r * r - y * y);
       print('T1');
-      // return 0.0;
-      deltaX = xMax / 2 + math.sqrt(r * r - y * y);
-    } else if (y < b) {
-      print('T2');
-      deltaX = xMax / 2 + xCrit + (y - yCrit) * (0.0 - xCrit) / (b - yCrit);
-      // return 0.0;
-      // return xCrit - (y - yCrit) * (xCrit) / (b - yCrit);
     } else if (y < 2 * b - yCrit) {
+      //  The bottom left corner of upperLocalConstructionRect is the origin.
+      //  The line segment joins (r + xCrit, yCrit) and (r - xCrit, 2b - yCrit).
+      //  To get the equation for deltaX invert
+      //  (x - (r + xCrit)) / (y - yCrit) = ((r + xCrit) - (r - xCrit))
+      //      / (yCrit - (2b - yCrit))
+      deltaX = r + xCrit + (y - yCrit) * (2 * xCrit) / (yCrit - b) / 2.0;
       print('T3');
-      deltaX = xMax / 2 - (y - b) * (xCrit - 0) / (b - yCrit);
+      // deltaX = deltaXMax / 2 - (y - (2 * b - yCrit)) * (xCrit - 0) / (b - yCrit);
       // return 0.0;
-      // return xMax / 2 - (y - b) * (xCrit) / (b - yCrit);
+      // deltaX = r + (y - b) * (xCrit - 0.0) / (yCrit - b);
     } else if (y < 2 * b) {
-      print('T4');
-      deltaX = xMax / 2 - math.sqrt(r * r - (2 * b - y) * (2 * b - y));
+      //  The bottom left corner of upperLocalConstructionRect is the origin.
+      //  (r - xCrit, 2b - yCrit) is the point where the curve joins to the line
+      //  segment passing through (r, b), the centre of
+      //  upperLocalConstructionRect.
+      //  (r, 2b) is the centre of the circle. To get equation for deltaX invert
+      //      (x - r)^2 + (y - 2b)^2 = r^2
+      //  taking the negative root.
+      print('T4 $r,  ${(2 * b - yCrit - y)},  ${(2 * b - r - y)}');
+      // deltaX = deltaXMax / 2 - math.sqrt(r * r - (2 * b - y) * (2 * b - y));
+      deltaX = r - math.sqrt(r * r - (y - 2 * b) * (y - 2 * b));
       // return 0.0;
       // return math.sqrt(r * r - (2 * b - y) * (2 * b - y));
     } else {
       print('Error');
       // return 0.0;
     }
-    print('y= $y,  yCrit = $yCrit,   deltaX = $deltaX');
+    print(
+        'y = $y, r = $r, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX');
     return deltaX;
   }
 
@@ -172,12 +191,14 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     if (upperLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
         upperLocalConstructionRect!.boundsContain(hostRect.bottomRight)) {
       //  Bottom of hostRect lies within upperLocalConstructionRect.
-      deltaX = getDeltaXFromUpperLocalConstructionRect(hostRect.bottom + AppSettings.buttonRadiusInner / 2.0);
+      deltaX = getDeltaXFromUpperLocalConstructionRect(
+          hostRect.bottom + AppSettings.buttonRadiusInner / 2.0);
     } else if (lowerLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
         lowerLocalConstructionRect!.boundsContain(hostRect.topRight)) {
       //  Top of hostRect lies within lowerLocalConstructionRect
       // deltaX = getDeltaXFromLowerLocalConstructionRect(hostRect.top);
-    } else if (centralLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
+    } else if (centralLocalConstructionRect!
+            .boundsContain(hostRect.bottomLeft) ||
         centralLocalConstructionRect!.boundsContain(hostRect.bottomRight) ||
         centralLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
         centralLocalConstructionRect!.boundsContain(hostRect.topRight)) {
