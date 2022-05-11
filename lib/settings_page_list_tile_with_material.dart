@@ -42,7 +42,7 @@ class SettingsPageListTileWithMaterial extends StatelessWidget {
             key: UniqueKey(),
             child: ListTile(
               shape: SettingsPageListTileBorder(
-                radius: Radius.circular(AppSettings.buttonRadiusInner/5),
+                radius: Radius.circular(AppSettings.buttonRadiusInner/15),
                 // borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner/5),
                 context: context,
                 guestRect: buttonArrayRect,

@@ -61,13 +61,13 @@ class SettingsPageListTileBorder extends OutlinedBorder {
 
   /// Getter for [lowerLocalConstructionRect].
   Rect? get lowerLocalConstructionRect {
-    Rect? rect = localGuestRect;
-    if (rect != null) {
+    Rect? lgr = localGuestRect;
+    if (lgr != null) {
       //  Inflate [localGuestRect] to a new height centered on original Rect.
-      rect = rect.inflateToHeight(1.0 * rect.shortestSide);
+      Rect rect = lgr.inflateToHeight(1.0 * lgr.shortestSide);
 
       //  Calculate shift factor and apply to rect.
-      double dy = rect.height + rect.shortestSide / 4.0;
+      double dy = lgr.height / 2.0 + rect.height / 2.0 - rect.shortestSide / 2.0;
       return rect.shift(Offset(0.0, dy));
     }
   }
@@ -76,11 +76,12 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   Rect? get upperLocalConstructionRect {
     Rect? lgr = localGuestRect;
     if (lgr != null) {
-      //  Inflate [lgr] to a new height centered on original Rect.
-      Rect rect = lgr.inflateToHeight(1.5 * lgr.shortestSide);
+      //  Inflate [rect] to a new height centered on original Rect.
+      Rect rect = lgr.inflateToHeight(1.0 * lgr.shortestSide);
 
       //  Calculate shift factor and apply to rect.
-      double dy = rect.height / 2.0 + lgr.height / 2.0 - lgr.shortestSide / 2.0;
+      double dy = lgr.height / 2.0 + rect.height / 2.0 - rect.shortestSide / 2.0;
+      // double dy = rect.height / 2.0 + rect.height / 2.0 - rect.shortestSide / 2.0;
       return rect.shift(Offset(0.0, -dy));
     }
   }
@@ -157,7 +158,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //  and [upperLocalConstructionRect]. If this isn't deployed then
       //  [SettingsPageListTile] shows jerky motion.
       deltaX = 0.0;
-      print('T0');
+      // print('T0');
     } else if (y < yCrit) {
       //  The bottom left corner of [upperLocalConstructionRect] is the origin
       //  of the bounding box.
@@ -166,7 +167,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //      (x - r)^2 + (y - 0)^2 = r^2,
       //  taking the negative root.
       deltaX = r - math.sqrt(r * r - y * y);
-      print('T1');
+      // print('T1');
     } else if (y < 2 * b - yCrit) {
       //  The bottom left corner of upperLocalConstructionRect is the origin
       //  of the bounding box.
@@ -177,7 +178,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //          = (2a - xCrit - xCrit) / (2b - yCrit - yCrit),
       //  which just equates gradients.
       deltaX = xCrit + (y - yCrit) * (a - xCrit) / (b - yCrit);
-      print('T2');
+      // print('T2');
     } else if (y < 2 * b) {
       //  The bottom left corner of upperLocalConstructionRect is the origin.
       //  (2a - xCrit,2b - yCrit is the point where the curve joins to the
@@ -186,12 +187,12 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //      (x - (2a - r))^2 + (y - 2b)^2 = r^2
       //  taking the positive root.
       deltaX = (2 * a - r) + math.sqrt(r * r - (y - 2 * b) * (y - 2 * b));
-      print('T3');
+      print('$deltaX, $y');
     } else {
       print('Error');
     }
-    print(
-        'y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
+    // print(
+    //     'y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
     return 2 * a - deltaX;
   }
 
@@ -290,6 +291,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //  taking the positive root.
       deltaX = (2 * a - r) + math.sqrt(r * r - (y - 2 * b) * (y - 2 * b));
       print('U3');
+      print('y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
     } else {
       print('Error');
     }
@@ -325,8 +327,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     if (upperLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
         upperLocalConstructionRect!.boundsContain(hostRect.bottomRight)) {
       //  Bottom of hostRect lies within upperLocalConstructionRect.
-      deltaX = getDeltaXFromUpperLocalConstructionRect(
-          hostRect.bottom + AppSettings.buttonRadiusInner / 2.0);
+      deltaX = getDeltaXFromUpperLocalConstructionRect(hostRect.bottom);
     } else if (lowerLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
         lowerLocalConstructionRect!.boundsContain(hostRect.topRight)) {
       //  Top of hostRect lies within lowerLocalConstructionRect
@@ -347,7 +348,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     hostPath = Path();
     if (relativeOffset.dx >= 0) {
       hostPath.addRRect(RRect.fromLTRBR(hostRect.left, hostRect.top,
-          hostRect.right - deltaX, hostRect.bottom, Radius.circular(25.0)));
+          hostRect.right - deltaX, hostRect.bottom, radius));
     } else if (relativeOffset.dx < 0) {
       hostPath.addRRect(RRect.fromLTRBR(hostRect.left + deltaX, hostRect.top,
           hostRect.right, hostRect.bottom, radius));
