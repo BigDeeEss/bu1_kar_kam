@@ -36,7 +36,8 @@ class SettingsPageListTileWithCard extends StatelessWidget {
             //  Without a unique key the movement can be juddery.
             key: UniqueKey(),
             shape: SettingsPageListTileBorder(
-              borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner),
+              radius: Radius.circular(AppSettings.buttonRadiusInner),
+              // borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner),
               context: context,
               guestRect: buttonArrayRect,
               // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),

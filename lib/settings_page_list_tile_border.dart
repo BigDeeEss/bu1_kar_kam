@@ -7,24 +7,24 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 class SettingsPageListTileBorder extends OutlinedBorder {
-  const SettingsPageListTileBorder({
+  SettingsPageListTileBorder({
     BorderSide side = BorderSide.none,
-    this.borderRadius = BorderRadius.zero,
+    this.radius = Radius.zero,
     required this.context,
     this.guestRect,
   })  : assert(side != null),
-        assert(borderRadius != null),
+        assert(radius != null),
         super(side: side);
 
-  /// [borderRadius] defines the corner radius for
-  /// [SettingsPageListTileWithCard] or [SettingsPageListTileWithMaterial].
-  final BorderRadiusGeometry borderRadius;
+  /// [radius] defines the corner radius for [SettingsPageListTileWithCard] or
+  /// [SettingsPageListTileWithMaterial].
+  final Radius radius;
 
   /// [context] is required for obtaining [localGuestRect] from RenderBox.
   final BuildContext? context;
 
-  /// [guestRect] is the Rect arund which [SettingsPageListTileBorder]
-  /// guides ListTile on scroll.
+  /// [guestRect] is the Rect around which [SettingsPageListTileBorder]
+  /// guides [SettingsPageListTile] on scroll.
   final Rect? guestRect;
 
   /// Getter for [centralLocalConstructionRect].
@@ -85,14 +85,14 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     }
   }
 
-  /// Returns a copy of this ClippedRoundedRectangleBorder with the given
+  /// Returns a copy of this [SettingsPageListTileBorder] with the given
   /// fields replaced with the new values.
   @override
   SettingsPageListTileBorder copyWith(
-      {BorderSide? side, BorderRadiusGeometry? borderRadius, Rect? guestRect}) {
+      {BorderSide? side, Radius? radius, Rect? guestRect}) {
     return SettingsPageListTileBorder(
       side: side ?? this.side,
-      borderRadius: borderRadius ?? this.borderRadius,
+      radius: radius ?? this.radius,
       context: context,
       guestRect: guestRect ?? this.guestRect,
     );
@@ -303,13 +303,12 @@ class SettingsPageListTileBorder extends OutlinedBorder {
 
   @override
   Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
-    return _getPath(
-        borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
+    return _getPath(BorderRadius.all(radius).resolve(textDirection).toRRect(rect).deflate(side.width));
   }
 
   @override
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-    return _getPath(borderRadius.resolve(textDirection).toRRect(rect));
+    return _getPath(BorderRadius.all(radius).resolve(textDirection).toRRect(rect));
   }
 
   Path _getPath(RRect rrect) {
@@ -351,7 +350,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
           hostRect.right - deltaX, hostRect.bottom, Radius.circular(25.0)));
     } else if (relativeOffset.dx < 0) {
       hostPath.addRRect(RRect.fromLTRBR(hostRect.left + deltaX, hostRect.top,
-          hostRect.right, hostRect.bottom, Radius.circular(25.0)));
+          hostRect.right, hostRect.bottom, radius));
     }
     return hostPath;
   }
@@ -375,7 +374,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   ShapeBorder scale(double t) {
     return SettingsPageListTileBorder(
       side: side.scale(t),
-      borderRadius: borderRadius * t,
+      radius: radius * t,
       context: context,
       guestRect: guestRect,
     );
