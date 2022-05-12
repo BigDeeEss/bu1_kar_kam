@@ -120,7 +120,10 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     //  Screen coordinate system has positive y pointing downwards.
     //  Change y coordinate so that it points upwards with y = 0
     //  corresponding to the bottom of [upperLocalConstructionRect].
-    y = upperLocalConstructionRect!.bottom - y;
+//     y = - upperLocalConstructionRect!.bottom+lowerLocalConstructionRect!.bottom + y;
+    // print('y = $y');
+    // print('getDeltaXFromLowerLocalConstructionRect(y) = ${getDeltaXFromLowerLocalConstructionRect(y)}');
+
 
     //  [r] is the radius of the bottom curved path section. The centre of
     //  the corresponding circle is (r,0).
@@ -130,6 +133,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     //  be the centre of [upperLocalConstructionRect].
     double a = upperLocalConstructionRect!.width / 2.0;
     double b = upperLocalConstructionRect!.height / 2.0;
+    return 2 * a - getDeltaXFromLowerLocalConstructionRect(y);
 
     //  In order to avoid generating complex numbers aa + bb - 2ra must be
     //  greater than zero.
@@ -217,7 +221,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     //  Screen coordinate system has positive y pointing downwards.
     //  Change y coordinate so that it points upwards with y = 0
     //  corresponding to the top of [lowerLocalConstructionRect].
-    y = lowerLocalConstructionRect!.bottom - y;
+//     y = lowerLocalConstructionRect!.bottom - y;
 
     //  [r] is the radius of the curved path section.
     double r = lowerLocalConstructionRect!.shortestSide / 2.0;
@@ -294,6 +298,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       print('y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
     } else {
       print('Error');
+      print('y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
     }
     //
     return deltaX;
@@ -327,11 +332,11 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     if (upperLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
         upperLocalConstructionRect!.boundsContain(hostRect.bottomRight)) {
       //  Bottom of hostRect lies within upperLocalConstructionRect.
-      deltaX = getDeltaXFromUpperLocalConstructionRect(hostRect.bottom);
+      deltaX = getDeltaXFromUpperLocalConstructionRect(upperLocalConstructionRect!.bottom - hostRect.bottom);
     } else if (lowerLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
         lowerLocalConstructionRect!.boundsContain(hostRect.topRight)) {
       //  Top of hostRect lies within lowerLocalConstructionRect
-      deltaX = getDeltaXFromLowerLocalConstructionRect(hostRect.top);
+      deltaX = getDeltaXFromLowerLocalConstructionRect(lowerLocalConstructionRect!.bottom - hostRect.top);
     } else if (centralLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
         centralLocalConstructionRect!.boundsContain(hostRect.bottomRight) ||
         centralLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
