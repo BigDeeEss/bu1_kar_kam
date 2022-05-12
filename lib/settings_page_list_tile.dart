@@ -6,10 +6,10 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/settings_page_list_tile_border.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
-/// [SettingsPageListTileWithMaterial] implements a simple Card-based
+/// [SettingsPageListTile] implements a simple Card-based
 /// list tile that is able to move around ButtonArray on scroll.
-class SettingsPageListTileWithMaterial extends StatelessWidget {
-  const SettingsPageListTileWithMaterial({Key? key}) : super(key: key);
+class SettingsPageListTile extends StatelessWidget {
+  const SettingsPageListTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
