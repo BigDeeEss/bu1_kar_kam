@@ -82,9 +82,9 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           ...List<Widget>.generate(1, (int index) {
             return SettingsPageListTile();
           }),
-          ...List<Widget>.generate(1, (int index) {
-            return SettingsPageListTileWithCard();
-          }),
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileWithCard();
+          // }),
           // ...List<Widget>.generate(1, (int index) {
           //   return SettingsPageListTileFive(
           //     title: ' #$index ',

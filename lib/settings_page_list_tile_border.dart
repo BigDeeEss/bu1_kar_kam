@@ -238,30 +238,24 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     //  Return [hostPath] and exit if [localGuestRect] is null.
     if (localGuestRect == null) return hostPath;
 
-    //  Set initial value of deltaX to zero. Use getDeltaX immediately below
-    //  to modify this value if the conditions are correct.
     double deltaX = 0.0;
     Rect hostRect = rrect.outerRect;
     if (upperLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
         upperLocalConstructionRect!.boundsContain(hostRect.bottomRight)) {
-      //  Bottom of hostRect lies within upperLocalConstructionRect.
+      //  Bottom of [hostRect] lies within [upperLocalConstructionRect].
       //  Transform hostRect.bottom so that it represents a displacement in the
       //  upwards direction relative to upperLocalConstructionRect!.bottom.
       deltaX = getDeltaXFromUpperLocalConstructionRect(
           upperLocalConstructionRect!.bottom - hostRect.bottom);
     } else if (lowerLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
         lowerLocalConstructionRect!.boundsContain(hostRect.topRight)) {
-      //  Top of hostRect lies within lowerLocalConstructionRect
+      //  Top of [hostRect] lies within [lowerLocalConstructionRect]
       //  Transform hostRect.top so that it represents a displacement in the
       //  upwards direction relative to lowerLocalConstructionRect!.bottom.
       deltaX = getDeltaXFromLowerLocalConstructionRect(
           lowerLocalConstructionRect!.bottom - hostRect.top);
-    } else if (centralLocalConstructionRect!
-            .boundsContain(hostRect.bottomLeft) ||
-        centralLocalConstructionRect!.boundsContain(hostRect.bottomRight) ||
-        centralLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
-        centralLocalConstructionRect!.boundsContain(hostRect.topRight)) {
-      //  Bottom OR top of hostRect lies within upperLocalConstructionRect
+    } else if (centralLocalConstructionRect!.overlaps(hostRect)) {
+      //  [hostRect] overlaps with [upperLocalConstructionRect].
       deltaX = localGuestRect!.width;
     }
 
