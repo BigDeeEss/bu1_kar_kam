@@ -38,6 +38,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       return rect
           .inflateToHeight(math.max(0.0, rect.height - rect.shortestSide));
     }
+    return null;
   }
 
   @override
@@ -70,6 +71,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
           lgr.height / 2.0 + rect.height / 2.0 - rect.shortestSide / 2.0;
       return rect.shift(Offset(0.0, dy));
     }
+    return null;
   }
 
   /// Getter for [upperLocalConstructionRect]
@@ -84,6 +86,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
           lgr.height / 2.0 + rect.height / 2.0 - rect.shortestSide / 2.0;
       return rect.shift(Offset(0.0, -dy));
     }
+    return null;
   }
 
   /// Returns a copy of this [SettingsPageListTileBorder] with the given
