@@ -3,11 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
-/// [SettingsPageListTileBorder] generates a version of RoundedRectangleBorder
-/// that can dynamically adjust its width in order to pass around [guestRect]
-/// in a ListView.
 class SettingsPageListTileBorder extends OutlinedBorder {
   const SettingsPageListTileBorder({
     BorderSide side = BorderSide.none,
@@ -16,7 +14,6 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     this.guestRect,
   })  : assert(side != null),
         assert(radius != null),
-        assert(context != null),
         super(side: side);
 
   /// [radius] defines the corner radius for [SettingsPageListTileWithCard] or
@@ -24,7 +21,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   final Radius radius;
 
   /// [context] is required for obtaining [localGuestRect] from RenderBox.
-  final BuildContext context;
+  final BuildContext? context;
 
   /// [guestRect] is the Rect around which [SettingsPageListTileBorder]
   /// guides [SettingsPageListTile] on scroll.
@@ -36,7 +33,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     if (rect != null) {
       //  Inflate [rect] to a new height centered on the original [rect].
       return rect
-          .inflateToHeight(math.max(0.0, rect.height - rect.shortestSide));
+          .inflateToHeight(math.max(0.0, rect.height - rect.shortestSide + 10));
     }
   }
 
@@ -45,16 +42,20 @@ class SettingsPageListTileBorder extends OutlinedBorder {
 
   /// Getter for [localGuestRect].
   Rect? get localGuestRect {
-    //  Get [renderBox] associated with [SettingsPageListTile].
+    //  Get [renderBox] associated with [SettingsPageListTileFour].
     //  ([renderBox] is used to generate [localGuestRect] from [guestRect].)
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
+    //
+    //  Either use ! to ensure context is not null, or ?. to ensure that
+    //  findRenderObject() is only called if context is not null.
+    RenderBox renderBox = context!.findRenderObject() as RenderBox;
 
     //  Get the global offset associated with the top left corner of
-    //  [SettingsPageListTile] relative to the top left screen corner.
+    //  [SettingsPageListTileFour] relative to the top left screen corner.
     Offset offset = renderBox.globalToLocal(Offset.zero);
 
-    //  Transform [guestRect] from the global coordinate system to one that is
-    //  local to [renderBox] or the current local instance of ListTile.
+    //  Transform [guestRect] from the global coordinate system relative to the
+    //  top left screen corner to a system local to [renderBox], which
+    //  represents the current local instance of ListTile.
     return guestRect?.shift(offset);
   }
 
@@ -82,6 +83,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //  Calculate shift factor and apply to rect.
       double dy =
           lgr.height / 2.0 + rect.height / 2.0 - rect.shortestSide / 2.0;
+      // double dy = rect.height / 2.0 + rect.height / 2.0 - rect.shortestSide / 2.0;
       return rect.shift(Offset(0.0, -dy));
     }
   }
@@ -117,13 +119,86 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   /// segment. The line passes through (a,b) and is tangent to the curve
   /// at (xCrit, yCrit).
   double getDeltaXFromUpperLocalConstructionRect(double y) {
-    //  The method for determining [deltaX] is follows the method for
-    //  obtaining [getDeltaXFromLowerLocalConstructionRect].
-    //  [a] is the x-coordinate of the point of symmetry, taken to
-    //  be the centre of [upperLocalConstructionRect], relative to
-    //  upperLocalConstructionRect!.bottom.
+    //  Screen coordinate system has positive y pointing downwards.
+    //  Change y coordinate so that it points upwards with y = 0
+    //  corresponding to the bottom of [upperLocalConstructionRect].
+//     y = - upperLocalConstructionRect!.bottom+lowerLocalConstructionRect!.bottom + y;
+    // print('y = $y');
+    // print('getDeltaXFromLowerLocalConstructionRect(y) = ${getDeltaXFromLowerLocalConstructionRect(y)}');
+
+    //  [r] is the radius of the bottom curved path section. The centre of
+    //  the corresponding circle is (r,0).
+    double r = upperLocalConstructionRect!.shortestSide / 2.0;
+
+    //  [a] and [b] are the coordinates of the point of symmetry, taken to
+    //  be the centre of [upperLocalConstructionRect].
     double a = upperLocalConstructionRect!.width / 2.0;
+    double b = upperLocalConstructionRect!.height / 2.0;
     return 2 * a - getDeltaXFromLowerLocalConstructionRect(y);
+
+    //  In order to avoid generating complex numbers aa + bb - 2ra must be
+    //  greater than zero.
+    assert(
+        a * a + b * b - 2 * r * a >= 0,
+        'SettingsPageListTileBorder, getDeltaXFromUpperLocalConstructionRect: '
+        'error, complex number generated by square root.');
+
+    //  The negative square root is taken as otherwise, with (a,b) = (2r,r),
+    //  the positive root implies a vertical line segment with yCrit < 0.
+    double xCrit =
+        (a * a + b * b - r * a - b * math.sqrt(a * a + b * b - 2 * r * a)) *
+            r /
+            (b * b + (a - r) * (a - r));
+
+    //  To get yCrit invert the equation of a circle,
+    //      (x - r)^2 + (y - 0)^2 = r^2.
+    double yCrit = math.sqrt(r * r - (xCrit - r) * (xCrit - r));
+
+    //  Technically, in what follows deltaX is calculated so that deltaX = 0
+    //  corresponds to the maximum
+    double deltaX = 0.0;
+    if (y < 0) {
+      //  The default value corresponding to the maximum deltaX.
+      //  This catches any gap between [centralLocalConstructionRect]
+      //  and [upperLocalConstructionRect]. If this isn't deployed then
+      //  [SettingsPageListTile] shows jerky motion.
+      deltaX = 0.0;
+      // print('T0');
+    } else if (y < yCrit) {
+      //  The bottom left corner of [upperLocalConstructionRect] is the origin
+      //  of the bounding box.
+      //  (xCrit,yCrit) is the point where the curve joins to the line segment.
+      //  (r,0) is the centre of the circle. To get deltaX invert
+      //      (x - r)^2 + (y - 0)^2 = r^2,
+      //  taking the negative root.
+      deltaX = r - math.sqrt(r * r - y * y);
+      // print('T1');
+    } else if (y < 2 * b - yCrit) {
+      //  The bottom left corner of upperLocalConstructionRect is the origin
+      //  of the bounding box.
+      //  By symmetry, the line segment joins (xCrit,yCrit) to
+      //  (2a - xCrit,2b - yCrit).
+      //  To get the equation for deltaX invert
+      //      (x - xCrit) / (y - yCrit)
+      //          = (2a - xCrit - xCrit) / (2b - yCrit - yCrit),
+      //  which just equates gradients.
+      deltaX = xCrit + (y - yCrit) * (a - xCrit) / (b - yCrit);
+      // print('T2');
+    } else if (y < 2 * b) {
+      //  The bottom left corner of upperLocalConstructionRect is the origin.
+      //  (2a - xCrit,2b - yCrit is the point where the curve joins to the
+      //  line segment.
+      //  (2a - r,2b) is the centre of the circle. To get deltaX invert
+      //      (x - (2a - r))^2 + (y - 2b)^2 = r^2
+      //  taking the positive root.
+      deltaX = (2 * a - r) + math.sqrt(r * r - (y - 2 * b) * (y - 2 * b));
+      print('$deltaX, $y');
+    } else {
+      print('Error');
+    }
+    // print(
+    //     'y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
+    return 2 * a - deltaX;
   }
 
   /// [getDeltaXFromLowerLocalConstructionRect] calculates the amount,
@@ -131,7 +206,8 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   /// maximum value in order to accommodate [ButtonArray].
   ///
   /// The maximum value of [deltaX] corresponds to when [SettingsPageListTile]
-  /// is alongside [ButtonArray] when it has the minimum value, [deltaX] = 0.
+  /// is alongside [ButtonArray]. The minimum value, [deltaX] = 0, corresponds
+  /// to the when [SettingsPageListTile] is alongside or passing [ButtonArray].
   ///
   /// [deltaX] is a smooth function of [y], the vertical displacement between
   /// the bottom edge of [lowerLocalConstructionRect] and the top edge of
@@ -143,6 +219,11 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   /// of the centre point of [lowerLocalConstructionRect], and is tangent to
   /// the curve at (xCrit, yCrit).
   double getDeltaXFromLowerLocalConstructionRect(double y) {
+    //  Screen coordinate system has positive y pointing downwards.
+    //  Change y coordinate so that it points upwards with y = 0
+    //  corresponding to the top of [lowerLocalConstructionRect].
+//     y = lowerLocalConstructionRect!.bottom - y;
+
     //  [r] is the radius of the curved path section.
     double r = lowerLocalConstructionRect!.shortestSide / 2.0;
 
@@ -155,7 +236,8 @@ class SettingsPageListTileBorder extends OutlinedBorder {
 
     //  In order to avoid generating complex numbers aa + bb - 2ra must be
     //  greater than zero.
-    assert(a * a + b * b - 2 * r * a >= 0,
+    assert(
+        a * a + b * b - 2 * r * a >= 0,
         'SettingsPageListTileBorder, getDeltaXFromLowerLocalConstructionRect: '
         'error, complex number generated by square root.');
 
@@ -163,16 +245,25 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     //  the positive root implies a vertical line segment with yCrit < 0.
     double xCrit =
         (a * a + b * b - r * a - b * math.sqrt(a * a + b * b - 2 * r * a)) *
-            r / (b * b + (a - r) * (a - r));
+            r /
+            (b * b + (a - r) * (a - r));
 
     //  To get yCrit invert the equation of a circle,
     //      (x - r)^2 + (y - 0)^2 = r^2.
     double yCrit = math.sqrt(r * r - (xCrit - r) * (xCrit - r));
 
-    //  Calculate deltaX. A zero [deltaX] corresponds to the default value
-    //  representing when [SettingsPageListTile] takes its maximum width.
+    //  Calculate deltaX.
     double deltaX = 0.0;
-    if (y < yCrit) {
+    if (y < 0) {
+      //  The default value corresponding to the maximum deltaX.
+      //  This catches any gap between [centralLocalConstructionRect]
+      //  and [lowerLocalConstructionRect]. If this isn't deployed then
+      //  [SettingsPageListTile] shows jerky motion.
+      deltaX = 0.0;
+      print('U0');
+      print(
+          'y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
+    } else if (y < yCrit) {
       //  The bottom left corner of [lowerLocalConstructionRect] is the origin
       //  of the bounding box.
       //
@@ -181,6 +272,9 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //      (x - r)^2 + (y - 0)^2 = r^2,
       //  taking the negative root.
       deltaX = r - math.sqrt(r * r - y * y);
+      print('U1');
+      print(
+          'y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
     } else if (y < 2 * b - yCrit) {
       //  The bottom left corner of [lowerLocalConstructionRect] is the origin
       //  of the bounding box.
@@ -191,6 +285,9 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //          = (2a - xCrit - xCrit) / (2b - yCrit - yCrit),
       //  which just equates gradients.
       deltaX = xCrit + (y - yCrit) * (a - xCrit) / (b - yCrit);
+      print('U2');
+      print(
+          'y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
     } else if (y < 2 * b) {
       //  The bottom left corner of [lowerLocalConstructionRect] is the origin
       //  of the bounding box.
@@ -201,17 +298,20 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       //      (x - (2a - r))^2 + (y - 2b)^2 = r^2
       //  taking the positive root.
       deltaX = (2 * a - r) + math.sqrt(r * r - (y - 2 * b) * (y - 2 * b));
+      print('U3');
+      print(
+          'y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
     } else {
-      assert(false,
-        'SettingsPageListTileBorder, getDeltaXFromLowerLocalConstructionRect: '
-        'error, invalid y-value.');
+      print('Error');
+      print(
+          'y = $y, r = $r, a = $a, b = $b, xCrit = $xCrit, yCrit = $yCrit, deltaX = $deltaX, (2 * b - yCrit) = ${2 * b - yCrit}');
     }
     //
     return deltaX;
   }
 
   /// [getHostRect] converts RRect associated with the current instance
-  /// of [SettingsPageListTile] to Rect.
+  /// of [SettingsPageListTileFour] to Rect.
   Rect getHostRect(RRect rrect) => rrect.outerRect;
 
   @override
@@ -242,15 +342,11 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     if (upperLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
         upperLocalConstructionRect!.boundsContain(hostRect.bottomRight)) {
       //  Bottom of hostRect lies within upperLocalConstructionRect.
-      //  Transform hostRect.bottom so that it represents a displacement in the
-      //  upwards direction relative to upperLocalConstructionRect!.bottom.
       deltaX = getDeltaXFromUpperLocalConstructionRect(
           upperLocalConstructionRect!.bottom - hostRect.bottom);
     } else if (lowerLocalConstructionRect!.boundsContain(hostRect.topLeft) ||
         lowerLocalConstructionRect!.boundsContain(hostRect.topRight)) {
       //  Top of hostRect lies within lowerLocalConstructionRect
-      //  Transform hostRect.top so that it represents a displacement in the
-      //  upwards direction relative to lowerLocalConstructionRect!.bottom.
       deltaX = getDeltaXFromLowerLocalConstructionRect(
           lowerLocalConstructionRect!.bottom - hostRect.top);
     } else if (centralLocalConstructionRect!
@@ -263,7 +359,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     }
 
     // Calculate [relativeOffset] to determine whether to clip
-    // SettingsPageListTile on the left or right.
+    // SettingsPageListTileFour on the left or right.
     Offset relativeOffset = localGuestRect!.center - hostRect.center;
 
     //  Generate a Path variable representing the boundary of hostRect.
