@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
-import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 
 /// [ButtonArray] implements a linear horizontal or vertical button array
@@ -77,7 +76,7 @@ class ButtonArray extends StatelessWidget {
         widgetList.add(Positioned(
           top: (AppSettings.buttonAlignment.y < 0)
               ? (AppSettings.buttonRadiusInner +
-              AppSettings.buttonPaddingMainAxisExtra) * 2 * i
+                  AppSettings.buttonPaddingMainAxisExtra) * 2 * i
               : null,
           bottom: (AppSettings.buttonAlignment.y > 0)
               ? (AppSettings.buttonRadiusInner +

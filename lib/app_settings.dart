@@ -10,8 +10,8 @@ class AppSettings {
   /// [buttonAlignment] defines the anchor point for button placement
   /// in ButtonArray class.
   // static Alignment buttonAlignment = Alignment.bottomLeft;
-  static Alignment buttonAlignment = Alignment.bottomRight;
-  // static Alignment buttonAlignment = Alignment.topLeft;
+  // static Alignment buttonAlignment = Alignment.bottomRight;
+  static Alignment buttonAlignment = Alignment.topLeft;
   // static Alignment buttonAlignment = Alignment.topRight;
 
   /// [buttonAxis] sets the button axis in ButtonArray.
@@ -41,4 +41,8 @@ class AppSettings {
   /// [pageTransitionTime] defines the time in milliseconds allowed
   /// for the transitioning the page.
   static int pageTransitionTime = 750;
+
+  /// [settingsPageListTileRadius] defines the radius used in construction
+  /// of SettingsPageListTileClipper.
+  static int settingsPageListTileRadius = 25;
 }

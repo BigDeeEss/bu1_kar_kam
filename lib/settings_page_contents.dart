@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/settings_page_list_tile_with_card.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
-import 'package:kar_kam/settings_page_list_tile_two.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
 //  [SettingsPageContents] creates app settings in the form of a ListView.
@@ -56,7 +56,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
       child: ListView(
         controller: scrollController,
         children: <Widget>[
-          ...List<Widget>.generate(6, (int index) {
+          ...List<Widget>.generate(20, (int index) {
             return Opacity(
               opacity: 0.5,
               child: Card(
@@ -67,17 +67,37 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
               ),
             );
           }),
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileOne();
+          // }),
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileTwo();
+          // }),
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileThree();
+          // }),
+          // ...List<Widget>.generate(5, (int index) {
+          //   return SettingsPageListTileWithCard();
+          // }),
           ...List<Widget>.generate(1, (int index) {
             return SettingsPageListTile();
           }),
-          ...List<Widget>.generate(100, (int index) {
-            return SettingsPageListTileTwo();
+          ...List<Widget>.generate(1, (int index) {
+            return SettingsPageListTileWithCard();
           }),
-          ...List<Widget>.generate(15, (int index) {
+          // ...List<Widget>.generate(1, (int index) {
+          //   return SettingsPageListTileFive(
+          //     title: ' #$index ',
+          //   );
+          // }),
+          ...List<Widget>.generate(20, (int index) {
             return Opacity(
               opacity: 0.5,
               child: Card(
                 child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
                   title: Text('Test $index'),
                   tileColor: colors[index % colors.length],
                 ),

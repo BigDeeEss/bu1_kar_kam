@@ -132,8 +132,6 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
     math.max(0.0, _clampToShortest(rrect, rrect.brRadiusX));
     final double brRadiusY =
     math.max(0.0, _clampToShortest(rrect, rrect.brRadiusY));
-    // print(guestRect!);
-    Offset test = Offset(guestRect!.left, guestRect!.top);
 
     //  Get [renderBox] associated with ClippedRoundedRectangle.
     RenderBox renderBox = context!.findRenderObject() as RenderBox;
@@ -142,20 +140,6 @@ class ClippedRoundedRectangleBorder extends OutlinedBorder {
 
     //  Get global offset of top left corner of ClippedRoundedRectangle.
     Offset offset = renderBox.globalToLocal(Offset(0.0, 0.0));
-
-    // if (pos != null) {
-    // print('ClippedRoundedRectangle, _getPath, pos = $pos...');
-    // }
-    // print('ClippedRoundedRectangle, _getPath, rrect = $rrect...\n'
-    //     '  ...prints Card Rect relative to itself...?');
-    // print('ClippedRoundedRectangle, _getPath, guestRect = $guestRect...\n'
-    //     '  ...prints ButtonAray Rect relative to screen...?');
-    // print('ClippedRoundedRectangle, _getPath, offset = $offset...');
-    // if (context != null) {
-    //   print('ClippedRoundedRectangle, _getPath, screen size = ${MediaQuery
-    //       .of(context!)
-    //       .size}');
-    // }
     Rect localGuestRect = guestRect!.shift(offset);
     // print('global coords of card top left, offset = $offset');
     // print('test = $test');
