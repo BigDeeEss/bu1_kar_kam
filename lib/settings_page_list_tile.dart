@@ -23,6 +23,13 @@ class SettingsPageListTile extends StatelessWidget {
       valueListenable: DataNotifier
           .of(context, ValueKey('scrollController')).data,
       builder: (BuildContext context, double value, __) {
+        SettingsPageListTileBorder settingsPageListTileBorder = SettingsPageListTileBorder(
+          radius: Radius.circular(AppSettings.buttonRadiusInner/15),
+          context: context,
+          guestRect: buttonArrayRect,
+          // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
+        );
+
         return Container(
           //  Draw boundng box.
           decoration: BoxDecoration(
@@ -41,13 +48,13 @@ class SettingsPageListTile extends StatelessWidget {
             //  (settings_page_list_tile_border.dart).
             key: UniqueKey(),
             child: ListTile(
-              shape: SettingsPageListTileBorder(
-                radius: Radius.circular(AppSettings.buttonRadiusInner/15),
-                // borderRadius: BorderRadius.circular(AppSettings.buttonRadiusInner/5),
-                context: context,
-                guestRect: buttonArrayRect,
-                // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
-              ),
+              shape: settingsPageListTileBorder,
+              // shape: SettingsPageListTileBorder(
+              //   radius: Radius.circular(AppSettings.buttonRadiusInner/15),
+              //   context: context,
+              //   guestRect: buttonArrayRect,
+              //   // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
+              // ),
               tileColor: Colors.amber[700],
               leading: FlutterLogo(),
               title: Text('SettingsPageListTile'),
