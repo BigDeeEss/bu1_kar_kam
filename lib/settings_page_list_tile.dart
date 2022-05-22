@@ -9,27 +9,26 @@ import 'package:kar_kam/lib/data_notifier.dart';
 /// [SettingsPageListTile] implements a simple Card-based
 /// list tile that is able to move around ButtonArray on scroll.
 class SettingsPageListTile extends StatelessWidget {
-  const SettingsPageListTile({Key? key}) : super(key: key);
+  SettingsPageListTile({Key? key}) : super(key: key);
+
+  final ValueNotifier<Path> settingsPageListTileBorderPath = ValueNotifier(
+      Path());
 
   @override
   Widget build(BuildContext context) {
     Rect buttonArrayRect = DataNotifier
-        .of(context, ValueKey('buttonArrayRect')).data.value;
+        .of(context, ValueKey('buttonArrayRect'))
+        .data
+        .value;
 
     //  Use ValueListenableBuilder, triggering on ScrollController
     //  (settings_page_contents.dart), to rebuild [SettingsPageListTileBorder].
     //  [SettingsPageListTileBorder] is the engine behind a sliding list tile.
     return ValueListenableBuilder<double>(
       valueListenable: DataNotifier
-          .of(context, ValueKey('scrollController')).data,
+          .of(context, ValueKey('scrollController'))
+          .data,
       builder: (BuildContext context, double value, __) {
-        SettingsPageListTileBorder settingsPageListTileBorder = SettingsPageListTileBorder(
-          radius: Radius.circular(AppSettings.buttonRadiusInner/15),
-          context: context,
-          guestRect: buttonArrayRect,
-          // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
-        );
-
         return Container(
           //  Draw boundng box.
           decoration: BoxDecoration(
@@ -48,15 +47,16 @@ class SettingsPageListTile extends StatelessWidget {
             //  (settings_page_list_tile_border.dart).
             key: UniqueKey(),
             child: Card(
-              shape: settingsPageListTileBorder,
-              // shape: SettingsPageListTileBorder(
-              //   radius: Radius.circular(AppSettings.buttonRadiusInner/15),
-              //   context: context,
-              //   guestRect: buttonArrayRect,
-              //   // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
-              // ),
-              color: Colors.amber[700],
-              child: Row(
+                shape: SettingsPageListTileBorder(
+                  radius: Radius.circular(AppSettings.buttonRadiusInner / 15),
+                  context: context,
+                  guestRect: buttonArrayRect,
+                  pathNotifier: settingsPageListTileBorderPath,
+                  // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
+                ),
+                color: Colors.amber[700],
+                // child: Container(),
+                child: Row(
                 children: [
                   FlutterLogo(),
                   Text('SettingsPageListTile'),

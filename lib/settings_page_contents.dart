@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/settings_page_list_tile_with_card.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 

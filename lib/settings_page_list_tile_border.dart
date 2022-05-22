@@ -14,14 +14,11 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     this.radius = Radius.zero,
     required this.context,
     this.guestRect,
+    required this.pathNotifier,
   })  : assert(side != null),
         assert(radius != null),
         assert(context != null),
         super(side: side);
-
-  /// [radius] defines the corner radius for [SettingsPageListTileWithCard] or
-  /// [SettingsPageListTileWithMaterial].
-  final Radius radius;
 
   /// [context] is required for obtaining [localGuestRect] from RenderBox.
   final BuildContext context;
@@ -29,6 +26,15 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   /// [guestRect] is the Rect around which [SettingsPageListTileBorder]
   /// guides [SettingsPageListTile] on scroll.
   final Rect? guestRect;
+
+  /// [pathNotifier] is required for feeding back the inner path calculated
+  /// during the shape transformation as [SettingsPageListTileBorder]
+  /// passes by [guestRect].
+  final ValueNotifier<Path> pathNotifier;
+
+  /// [radius] defines the corner radius for [SettingsPageListTileWithCard] or
+  /// [SettingsPageListTileWithMaterial].
+  final Radius radius;
 
   /// Getter for [centralLocalConstructionRect].
   Rect? get centralLocalConstructionRect {
