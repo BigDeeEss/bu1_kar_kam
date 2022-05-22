@@ -47,7 +47,7 @@ class SettingsPageListTile extends StatelessWidget {
             //  when calculating [localGuestRect]
             //  (settings_page_list_tile_border.dart).
             key: UniqueKey(),
-            child: ListTile(
+            child: Card(
               shape: settingsPageListTileBorder,
               // shape: SettingsPageListTileBorder(
               //   radius: Radius.circular(AppSettings.buttonRadiusInner/15),
@@ -55,11 +55,14 @@ class SettingsPageListTile extends StatelessWidget {
               //   guestRect: buttonArrayRect,
               //   // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
               // ),
-              tileColor: Colors.amber[700],
-              leading: FlutterLogo(),
-              title: Text('SettingsPageListTile'),
-              trailing: Icon(Icons.more_vert),
-              subtitle: Text('Six'),
+              color: Colors.amber[700],
+              child: Row(
+                children: [
+                  FlutterLogo(),
+                  Text('SettingsPageListTile'),
+                  Icon(Icons.more_vert),
+                ],
+              ),
             ),
           ),
         );
