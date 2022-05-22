@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
-import 'package:kar_kam/settings_page_list_tile_border.dart';
+import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/settings_page_list_tile_border.dart';
 
 /// [SettingsPageListTile] implements a simple Card-based
 /// list tile that is able to move around ButtonArray on scroll.
@@ -29,6 +30,7 @@ class SettingsPageListTile extends StatelessWidget {
           .of(context, ValueKey('scrollController'))
           .data,
       builder: (BuildContext context, double value, __) {
+        print('settingsPageListTileBorderPath = ${settingsPageListTileBorderPath.value.getBounds()}');
         return Container(
           //  Draw boundng box.
           decoration: BoxDecoration(
@@ -47,22 +49,53 @@ class SettingsPageListTile extends StatelessWidget {
             //  (settings_page_list_tile_border.dart).
             key: UniqueKey(),
             child: Card(
-                shape: SettingsPageListTileBorder(
-                  radius: Radius.circular(AppSettings.buttonRadiusInner / 15),
-                  context: context,
-                  guestRect: buttonArrayRect,
-                  pathNotifier: settingsPageListTileBorderPath,
-                  // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
-                ),
-                color: Colors.amber[700],
-                // child: Container(),
-                child: Row(
-                children: [
-                  FlutterLogo(),
-                  Text('SettingsPageListTile'),
-                  Icon(Icons.more_vert),
-                ],
+              margin: EdgeInsets.all(0.0),
+              shape: SettingsPageListTileBorder(
+                radius: Radius.circular(AppSettings.buttonRadiusInner / 15),
+                context: context,
+                guestRect: buttonArrayRect,
+                pathNotifier: settingsPageListTileBorderPath,
+                // side: BorderSide(width: 0.0, color: Colors.black, style: BorderStyle.solid),
               ),
+              color: Colors.amber[700],
+              child: Align(
+                alignment: AppSettings.buttonAlignment.isLeft ? Alignment.centerLeft : Alignment.centerRight,
+                child: Container(
+                  width: settingsPageListTileBorderPath.value.getBounds().width,
+                  child: Row(
+                    children: [
+                      FlutterLogo(),
+                      Text('SettingsPageListTile'),
+                      Icon(Icons.more_vert),
+                    ],
+                  ),
+                ),
+              ),
+              // child: ValueListenableBuilder<Path>(
+              //   valueListenable: settingsPageListTileBorderPath,
+              //   builder: (BuildContext context, Path value, __) {
+              //     Rect rect = value.getBounds();
+              //     print('rect = $rect');
+              //     return Row(
+              //       children: [
+              //         FlutterLogo(),
+              //         Text('SettingsPageListTile'),
+              //         Icon(Icons.more_vert),
+              //       ],
+              //     );
+              //   }
+              // ),
+              // child: Row(
+              //
+              //   children: [
+              //     SizedBox(
+              //       width: settingsPageListTileBorderPath.value.getBounds().width,
+              //     )
+              //     FlutterLogo(),
+              //     Text('SettingsPageListTile'),
+              //     Icon(Icons.more_vert),
+              //   ],
+              // ),
             ),
           ),
         );

@@ -279,6 +279,9 @@ class SettingsPageListTileBorder extends OutlinedBorder {
       hostPath.addRRect(RRect.fromLTRBR(hostRect.left + deltaX, hostRect.top,
           hostRect.right, hostRect.bottom, radius));
     }
+    //  Upload hostPath to pathNotifier and return.
+    pathNotifier.value = hostPath;
+    print('pathNotifier = ${pathNotifier.value.getBounds()}');
     return hostPath;
   }
 
