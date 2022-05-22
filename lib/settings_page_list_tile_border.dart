@@ -10,11 +10,11 @@ import 'package:kar_kam/lib/rect_extension.dart';
 /// in a ListView.
 class SettingsPageListTileBorder extends OutlinedBorder {
   const SettingsPageListTileBorder({
-    BorderSide side = BorderSide.none,
-    this.radius = Radius.zero,
     required this.context,
     this.guestRect,
     required this.pathNotifier,
+    this.radius = Radius.zero,
+    BorderSide side = BorderSide.none,
   })  : assert(side != null),
         assert(radius != null),
         assert(context != null),
@@ -101,10 +101,11 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   SettingsPageListTileBorder copyWith(
       {BorderSide? side, Radius? radius, Rect? guestRect}) {
     return SettingsPageListTileBorder(
-      side: side ?? this.side,
-      radius: radius ?? this.radius,
       context: context,
       guestRect: guestRect ?? this.guestRect,
+      pathNotifier: pathNotifier,
+      radius: radius ?? this.radius,
+      side: side ?? this.side,
     );
   }
 
@@ -299,10 +300,11 @@ class SettingsPageListTileBorder extends OutlinedBorder {
   @override
   ShapeBorder scale(double t) {
     return SettingsPageListTileBorder(
-      side: side.scale(t),
-      radius: radius * t,
       context: context,
       guestRect: guestRect,
+      radius: radius * t,
+      pathNotifier: pathNotifier,
+      side: side.scale(t),
     );
   }
 }
