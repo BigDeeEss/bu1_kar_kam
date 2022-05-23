@@ -67,7 +67,7 @@ class SettingsPageListTile extends StatelessWidget {
                   child: Row(
                     children: [
                       FlutterLogo(),
-                      Text('SettingsPageListTile'),
+                      Text('SettingsPageListTile - success!'),
                       Icon(Icons.more_vert),
                     ],
                   ),
