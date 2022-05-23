@@ -22,6 +22,8 @@ class SettingsPageListTile extends StatelessWidget {
         .data
         .value;
 
+    print(AppSettings.buttonAlignment.isLeft);
+
     //  Use ValueListenableBuilder, triggering on ScrollController
     //  (settings_page_contents.dart), to rebuild [SettingsPageListTileBorder].
     //  [SettingsPageListTileBorder] is the engine behind a sliding list tile.
@@ -59,7 +61,7 @@ class SettingsPageListTile extends StatelessWidget {
               ),
               color: Colors.amber[700],
               child: Align(
-                alignment: AppSettings.buttonAlignment.isLeft ? Alignment.centerLeft : Alignment.centerRight,
+                alignment: AppSettings.buttonAlignment.isLeft ? Alignment.centerRight : Alignment.centerLeft,
                 child: Container(
                   width: settingsPageListTileBorderPath.value.getBounds().width,
                   child: Row(
