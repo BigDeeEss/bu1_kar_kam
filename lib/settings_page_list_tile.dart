@@ -32,7 +32,7 @@ class SettingsPageListTile extends StatelessWidget {
           .of(context, ValueKey('scrollController'))
           .data,
       builder: (BuildContext context, double value, __) {
-        print('settingsPageListTileBorderPath = ${settingsPageListTileBorderPath.value.getBounds()}');
+        // print('settingsPageListTileBorderPath = ${settingsPageListTileBorderPath.value.getBounds()}');
         return Container(
           //  Draw boundng box.
           decoration: BoxDecoration(

@@ -281,7 +281,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
     }
     //  Upload hostPath to pathNotifier and return.
     pathNotifier.value = hostPath;
-    print('pathNotifier = ${pathNotifier.value.getBounds()}');
+    // print('pathNotifier = ${pathNotifier.value.getBounds()}');
     return hostPath;
   }
 
