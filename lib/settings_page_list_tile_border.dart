@@ -247,6 +247,7 @@ class SettingsPageListTileBorder extends OutlinedBorder {
 
     double deltaX = 0.0;
     Rect hostRect = rrect.outerRect;
+    print('_getPath, hostRect = $hostRect');
     if (upperLocalConstructionRect!.boundsContain(hostRect.bottomLeft) ||
         upperLocalConstructionRect!.boundsContain(hostRect.bottomRight)) {
       //  Bottom of [hostRect] lies within [upperLocalConstructionRect].

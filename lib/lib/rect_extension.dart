@@ -1,6 +1,7 @@
 //  Import dart packages.
 import 'dart:ui';
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
 
 extension RectExtension on Rect {
   /// Return a bool depending on whether [offset] lies within rect.

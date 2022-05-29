@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/settings_page_list_tile.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/settings_page_list_tile.dart';
+import 'package:kar_kam/settings_page_list_tile_from_container.dart';
 
 //  [SettingsPageContents] creates app settings in the form of a ListView.
 class SettingsPageContents extends StatefulWidget {
@@ -78,8 +79,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           // ...List<Widget>.generate(5, (int index) {
           //   return SettingsPageListTileWithCard();
           // }),
-          ...List<Widget>.generate(100, (int index) {
+          ...List<Widget>.generate(1, (int index) {
             return SettingsPageListTile();
+          }),
+          ...List<Widget>.generate(1, (int index) {
+            return SettingsPageListTileFromContainer();
           }),
           // ...List<Widget>.generate(1, (int index) {
           //   return SettingsPageListTileWithCard();
