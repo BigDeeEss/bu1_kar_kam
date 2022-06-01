@@ -29,7 +29,8 @@ class ButtonArray extends StatelessWidget {
 
     //  Define a length value: button width plus padding.
     double dim = (AppSettings.buttonRadiusInner +
-        AppSettings.buttonPaddingMainAxisExtra) * 2;
+            AppSettings.buttonPaddingMainAxisExtra) *
+        2;
 
     //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding position.
@@ -119,8 +120,7 @@ class ButtonArray extends StatelessWidget {
       }
     }
     assert(rect != null,
-    'button_array.dart, getRect: error rect is null when it shouldn\'t be.'
-    );
+        'button_array.dart, getRect: error rect is null when it shouldn\'t be.');
     return rect!;
   }
 

@@ -22,7 +22,7 @@ class SettingsPageListTile extends StatelessWidget {
         .data
         .value;
 
-    print(AppSettings.buttonAlignment.isLeft);
+    // print(AppSettings.buttonAlignment.isLeft);
 
     //  Use ValueListenableBuilder, triggering on ScrollController
     //  (settings_page_contents.dart), to rebuild [SettingsPageListTileBorder].
