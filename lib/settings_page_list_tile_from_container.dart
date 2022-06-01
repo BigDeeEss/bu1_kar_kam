@@ -259,52 +259,7 @@ class SettingsPageListTileFromContainer extends StatelessWidget {
               child: Text('test..')
             ),
           ),
-          // child: Material(
-          //   key: UniqueKey(),
-          //   child: SizedBox(
-          //     key: UniqueKey(),
-          //     // width: width - deltaX,
-          //     // height: height,
-          //     child: Container(
-          //       // key: UniqueKey(),
-          //       decoration: BoxDecoration(
-          //         color: Colors.purple,
-          //         borderRadius: BorderRadius.all(
-          //           Radius.circular(12.0),
-          //         ),
-          //       ),
-          //       // width: width - deltaX,
-          //       width: 100000,
-          //       height: height,
-          //       child: Center(
-          //           child: Text('test..')
-          //       ),
-          //     ),
-          //   ),
-          // ),
         );
-        // return Material(
-        //   key: UniqueKey(),
-        //   child: SizedBox(
-        //     // key: UniqueKey(),
-        //     width: width - deltaX,
-        //     height: width - deltaX,
-        //     child: Container(
-        //       // key: UniqueKey(),
-        //       decoration: BoxDecoration(
-        //         color: Colors.purple,
-        //         borderRadius: BorderRadius.all(
-        //           Radius.circular(12.0),
-        //         ),
-        //       ),
-        //       width: width - deltaX,
-        //       height: height,
-        //       child: Center(
-        //           child: Text('test..')
-        //       ),
-        //     ),
-        //   ),
-        // );
       },
     );
   }
