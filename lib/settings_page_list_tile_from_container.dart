@@ -244,17 +244,19 @@ class SettingsPageListTileFromContainer extends StatelessWidget {
                 : null,
           ),
           margin: EdgeInsets.only(left: deltaX),
+          height: height,
           child: Container(
             // key: UniqueKey(),
             decoration: BoxDecoration(
-              color: Colors.purple,
+              color: Colors.blue.withOpacity(0.5),
               borderRadius: BorderRadius.all(
                 Radius.circular(12.0),
               ),
             ),
             // width: width - deltaX,
-            child: Center(
-                child: Text('test..')
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('test..')
             ),
           ),
           // child: Material(
