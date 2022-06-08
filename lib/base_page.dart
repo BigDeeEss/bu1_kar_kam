@@ -50,7 +50,7 @@ class _BasePageState extends State<BasePage> {
     //  Rect data can then be calculated, and then (ii) [uttonArray] +
     //  [pageContents]. The latter step occurs because of this post-frame
     //  callback.
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       //  Get buttonArray Rect data and update buttonArrayRectNotifier.
       Rect buttonArrayRect = buttonArray.getRect();
       buttonArrayRectNotifier.value = buttonArrayRect;
