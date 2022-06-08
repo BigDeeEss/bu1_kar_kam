@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/lib/data_notifier.dart';
-// import 'package:kar_kam/settings_page_list_tile.dart';
-import 'package:kar_kam/settings_page_list_tile_from_container.dart';
+import 'package:kar_kam/settings_page_list_tile.dart';
 
 //  [SettingsPageContents] creates app settings in the form of a ListView.
 class SettingsPageContents extends StatefulWidget {
@@ -55,6 +54,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
       data: scrollPositionNotifier,
       child: ListView(
         controller: scrollController,
+        // physics: CustomScrollPhysics(),
         children: <Widget>[
           ...List<Widget>.generate(20, (int index) {
             return Opacity(
@@ -82,8 +82,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           // ...List<Widget>.generate(100, (int index) {
           //   return SettingsPageListTile();
           // }),
-          ...List<Widget>.generate(50, (int index) {
-            return SettingsPageListTileFromContainer();
+          ...List<Widget>.generate(100, (int index) {
+            return SettingsPageListTile();
           }),
           // ...List<Widget>.generate(1, (int index) {
           //   return SettingsPageListTileWithCard();
@@ -110,5 +110,20 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ]
       ),
     );
+  }
+}
+
+class CustomScrollPhysics extends ClampingScrollPhysics {
+  const CustomScrollPhysics({ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+
+  @override
+  double get maxFlingVelocity => 1000;
+
+  @override
+  CustomScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomScrollPhysics(parent: buildParent(ancestor));
   }
 }
