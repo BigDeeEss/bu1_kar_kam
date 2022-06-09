@@ -7,14 +7,14 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
-class SettingsPageListTile extends StatelessWidget {
-  SettingsPageListTile({Key? key}) : super(key: key);
+class ListViewSettingsPageListTile extends StatelessWidget {
+  ListViewSettingsPageListTile({Key? key}) : super(key: key);
 
   late Rect buttonArrayRect;
 
   /// [getButtonArrayRect] converts [buttonArrayRect] from
   /// global (screen) coordinates to a coordinate system that is local
-  /// to [SettingsPageListTile].
+  /// to [ListViewSettingsPageListTile].
   Rect? getButtonArrayRect(Rect buttonArrayRect, BuildContext context) {
     //  Get [renderBox] associated with [SettingsPageListTile].
     //
@@ -43,7 +43,7 @@ class SettingsPageListTile extends StatelessWidget {
   }
 
   /// [getDeltaX] calculates the displacement to apply to
-  /// [SettingsPageListTile] as it passes [buttonArrayRect].
+  /// [ListViewSettingsPageListTile] as it passes [buttonArrayRect].
   double getDeltaX(Rect? guestRect, Rect hostRect) {
     //  Default value is no displacement.
     double deltaX = 0.0;
@@ -79,15 +79,15 @@ class SettingsPageListTile extends StatelessWidget {
   }
 
   /// [getDeltaXFromLowerConstructionRect] calculates the amount,
-  /// [deltaX], to decrease the width of [SettingsPageListTile] from its
+  /// [deltaX], to decrease the width of [ListViewSettingsPageListTile] from its
   /// maximum value in order to accommodate [ButtonArray].
   ///
-  /// The maximum value of [deltaX] corresponds to when [SettingsPageListTile]
+  /// The maximum value of [deltaX] corresponds to when [ListViewSettingsPageListTile]
   /// is alongside [ButtonArray].
   ///
   /// [deltaX] is a smooth function of [y], the vertical displacement between
   /// the bottom edge of [lowerConstructionRect] and the top edge of
-  /// [SettingsPageListTile]. For the purpose of calculating deltaX, the origin
+  /// [ListViewSettingsPageListTile]. For the purpose of calculating deltaX, the origin
   /// is taken to be the bottom left corner of [lowerConstructionRect].
   ///
   /// The bottom corner follows a path that is made up of a curved, circular
@@ -165,12 +165,12 @@ class SettingsPageListTile extends StatelessWidget {
   //   /// [deltaX], to decrease the width of [SettingsPageListTile] from its
   //   /// maximum value in order to accommodate [ButtonArray].
   ///
-  /// The maximum value of [deltaX] corresponds to when [SettingsPageListTile]
+  /// The maximum value of [deltaX] corresponds to when [ListViewSettingsPageListTile]
   /// is alongside [ButtonArray].
   ///
   /// [deltaX] is a smooth function of [y], the vertical displacement between
   /// the top edge of [upperConstructionRect] and the bottom edge of
-  /// [SettingsPageListTile]. For the purpose of calculating deltaX, the origin
+  /// [ListViewSettingsPageListTile]. For the purpose of calculating deltaX, the origin
   /// is taken to be the top left corner of [upperConstructionRect].
   ///
   /// The bottom corner follows a path that is made up of a curved, circular
@@ -193,7 +193,7 @@ class SettingsPageListTile extends StatelessWidget {
   Rect getLowerConstructionRect(Rect ButtonArrayRect) {
     //  Inflate [rect] to a new height centered on the original Rect.
     Rect rect = ButtonArrayRect
-        .inflateToHeight(1.25 * ButtonArrayRect.shortestSide);
+        .inflateToHeight(1.0 * ButtonArrayRect.shortestSide);
 
     //  Calculate shift factor and apply to rect.
     double dy = ButtonArrayRect.height / 2.0 +
@@ -207,7 +207,7 @@ class SettingsPageListTile extends StatelessWidget {
   Rect getUpperConstructionRect(Rect ButtonArrayRect) {
     //  Inflate [rect] to a new height centered on original Rect.
     Rect rect = ButtonArrayRect
-        .inflateToHeight(1.25 * ButtonArrayRect.shortestSide);
+        .inflateToHeight(1.0 * ButtonArrayRect.shortestSide);
 
     //  Calculate shift factor and apply to rect.
     double dy = ButtonArrayRect.height / 2.0 +
@@ -240,10 +240,10 @@ class SettingsPageListTile extends StatelessWidget {
           DataNotifier.of(context, ValueKey('scrollController')).data,
       builder: (BuildContext context, double value, __) {
         //  Convert [buttonArrayRect] from global to local coordinates.
-        Rect? ButtonArrayRect =
+        Rect? localButtonArrayRect =
             getButtonArrayRect(buttonArrayRect, context);
 
-        double deltaX = getDeltaX(ButtonArrayRect, hostRect);
+        double deltaX = getDeltaX(localButtonArrayRect, hostRect);
 
         return Container(
           key: UniqueKey(),

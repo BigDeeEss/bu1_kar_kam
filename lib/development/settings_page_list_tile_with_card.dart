@@ -17,7 +17,7 @@ class SettingsPageListTileWithCard extends StatelessWidget {
         .of(context, ValueKey('buttonArrayRect')).data.value;
 
     //  Use ValueListenableBuilder, triggering on ScrollController
-    //  (settings_page_contents.dart), to rebuild [SettingsPageListTileBorder].
+    //  (list_view_settings_page_contents.dart), to rebuild [SettingsPageListTileBorder].
     //  [SettingsPageListTileBorder] is the engine behind a sliding list tile.
     return ValueListenableBuilder<double>(
       valueListenable: DataNotifier

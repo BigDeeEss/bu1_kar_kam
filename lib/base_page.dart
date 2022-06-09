@@ -39,7 +39,7 @@ class _BasePageState extends State<BasePage> {
   ///
   /// For all pages [buttonArray] is built first in order to get its Rect
   /// information before building [pageContents]. This build order is required
-  /// by ListView in settings_page_contents.dart.
+  /// by ListView in list_view_settings_page_contents.dart.
   Widget? pageContents;
 
   @override
