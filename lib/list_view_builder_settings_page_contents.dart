@@ -9,10 +9,12 @@ class ListViewBuilderSettingsPageContents extends StatefulWidget {
   const ListViewBuilderSettingsPageContents({Key? key}) : super(key: key);
 
   @override
-  State<ListViewBuilderSettingsPageContents> createState() => _ListViewBuilderSettingsPageContentsState();
+  State<ListViewBuilderSettingsPageContents> createState() =>
+      _ListViewBuilderSettingsPageContentsState();
 }
 
-class _ListViewBuilderSettingsPageContentsState extends State<ListViewBuilderSettingsPageContents> {
+class _ListViewBuilderSettingsPageContentsState
+    extends State<ListViewBuilderSettingsPageContents> {
   /// [scrollController] is added to the ListView instance below in order
   /// to get the scroll position offset value.
   final ScrollController scrollController = ScrollController();
@@ -40,6 +42,21 @@ class _ListViewBuilderSettingsPageContentsState extends State<ListViewBuilderSet
 
   @override
   Widget build(BuildContext context) {
+    Rect buttonArrayRect = DataNotifier
+        .of(context, ValueKey('buttonArrayRect'))
+        .data
+        .value;
+
+    double width = MediaQuery.of(context).size.width;
+
+    List<Widget> tileList = [...List<Widget>.generate(100, (int index) {
+      return ListViewBuilderSettingsPageListTile(
+        buttonArrayRect: buttonArrayRect,
+        index: index,
+        width: width,
+      );
+    })];
+
     return DataNotifier(
       key: ValueKey('scrollController'),
       data: scrollPositionNotifier,
@@ -53,7 +70,3 @@ class _ListViewBuilderSettingsPageContentsState extends State<ListViewBuilderSet
     );
   }
 }
-
-List<Widget> tileList = [...List<Widget>.generate(100, (int index) {
-  return ListViewBuilderSettingsPageListTile(index: index);
-})];

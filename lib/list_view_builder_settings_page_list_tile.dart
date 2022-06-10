@@ -8,15 +8,24 @@ import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 class ListViewBuilderSettingsPageListTile extends StatelessWidget {
-  ListViewBuilderSettingsPageListTile({Key? key, required int index}) {
+  ListViewBuilderSettingsPageListTile({
+    Key? key,
+    required int index,
+    required Rect buttonArrayRect,
+    required double width,
+  }) : super(key: key) {
+    this.buttonArrayRect = buttonArrayRect;
     this.index = index;
-    this.position = this.height * index;
+    this.width = width;
+    this.position = height * index;
   }
 
   int index = 0;
   int position = 0;
   int height = 100;
-  late Rect buttonArrayRect;
+  double width = 0;
+  Rect? buttonArrayRect;
+  // late Rect buttonArrayRect;
 
   // static int set position (int index) {
   //   return this.height * index;
@@ -24,10 +33,6 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(position);
-    //  Retrieve buttonArrayRect from DataNotifier further up the widget tree.
-    buttonArrayRect =
-        DataNotifier.of(context, ValueKey('buttonArrayRect')).data.value;
     return Container(
       //  Draw bounding box around [SettingsPageListTile].
       decoration: BoxDecoration(
@@ -46,14 +51,6 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
           ),
         ),
         child: Text('Test...$index'),
-      ),
-    );
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.5),
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
-        ),
       ),
     );
   }
