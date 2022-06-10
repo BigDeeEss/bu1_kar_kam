@@ -40,17 +40,20 @@ class _ListViewBuilderSettingsPageContentsState extends State<ListViewBuilderSet
 
   @override
   Widget build(BuildContext context) {
-    print('ListViewBuilderSettingsPageContents');
     return DataNotifier(
       key: ValueKey('scrollController'),
       data: scrollPositionNotifier,
       child: ListView.builder(
         controller: scrollController,
-        itemCount: 100,
+        itemCount: tileList.length,
         itemBuilder: (context, index) {
-          return ListViewBuilderSettingsPageListTile(index: index);
+          return tileList[index];
         },
       ),
     );
   }
 }
+
+List<Widget> tileList = [...List<Widget>.generate(100, (int index) {
+  return ListViewBuilderSettingsPageListTile(index: index);
+})];

@@ -22,7 +22,6 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
     //  Retrieve buttonArrayRect from DataNotifier further up the widget tree.
     buttonArrayRect =
         DataNotifier.of(context, ValueKey('buttonArrayRect')).data.value;
-    print(index);
     return Container(
       //  Draw bounding box around [SettingsPageListTile].
       decoration: BoxDecoration(
@@ -31,7 +30,7 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
             : null,
       ),
       margin: EdgeInsets.only(left: 0),
-      height: 50,
+      height: 75,
       child: Container(
         key: UniqueKey(),
         decoration: BoxDecoration(
