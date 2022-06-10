@@ -8,17 +8,23 @@ import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 class ListViewBuilderSettingsPageListTile extends StatelessWidget {
-  ListViewBuilderSettingsPageListTile({
-    Key? key,
-    required this.index,
-  }) : super(key: key);
+  ListViewBuilderSettingsPageListTile({Key? key, required int index}) {
+    this.index = index;
+    this.position = this.height * index;
+  }
 
-  final int index;
-
+  int index = 0;
+  int position = 0;
+  int height = 100;
   late Rect buttonArrayRect;
+
+  // static int set position (int index) {
+  //   return this.height * index;
+  // }
 
   @override
   Widget build(BuildContext context) {
+    print(position);
     //  Retrieve buttonArrayRect from DataNotifier further up the widget tree.
     buttonArrayRect =
         DataNotifier.of(context, ValueKey('buttonArrayRect')).data.value;
