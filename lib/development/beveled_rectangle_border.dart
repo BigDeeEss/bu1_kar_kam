@@ -44,7 +44,7 @@ class BeveledRectangleBorder extends OutlinedBorder {
 
   @override
   EdgeInsetsGeometry get dimensions {
-    return EdgeInsets.all(side.width);
+    return EdgeInsets.all(side.maxWidth);
   }
 
   @override
@@ -120,7 +120,7 @@ class BeveledRectangleBorder extends OutlinedBorder {
 
   @override
   Path getInnerPath(Rect rect, { TextDirection? textDirection }) {
-    return _getPath(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
+    return _getPath(borderRadius.resolve(textDirection).toRRect(rect).deflate(side.maxWidth));
   }
 
   @override

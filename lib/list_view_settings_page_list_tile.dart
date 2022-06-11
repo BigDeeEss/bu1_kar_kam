@@ -246,7 +246,6 @@ class ListViewSettingsPageListTile extends StatelessWidget {
         double deltaX = getDeltaX(localButtonArrayRect, hostRect);
 
         return Container(
-          key: UniqueKey(),
           //  Draw bounding box around [SettingsPageListTile].
           decoration: BoxDecoration(
             border: AppSettings.drawLayoutBounds
@@ -256,7 +255,6 @@ class ListViewSettingsPageListTile extends StatelessWidget {
           margin: EdgeInsets.only(left: deltaX),
           height: height,
           child: Container(
-            key: UniqueKey(),
             decoration: BoxDecoration(
               color: Colors.blue.withOpacity(0.5),
               borderRadius: BorderRadius.all(

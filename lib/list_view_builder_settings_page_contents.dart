@@ -48,12 +48,17 @@ class _ListViewBuilderSettingsPageContentsState
         .value;
 
     double width = MediaQuery.of(context).size.width;
+    double appBarHeight =
+        MediaQuery.of(context).padding.top + kToolbarHeight;
+    print('appBarHeight = $appBarHeight');
+    // Offset offset = Offset(0.0, -appBarHeight);
 
     List<Widget> tileList = [...List<Widget>.generate(100, (int index) {
       return ListViewBuilderSettingsPageListTile(
-        buttonArrayRect: buttonArrayRect,
+        guestRect: buttonArrayRect,
         index: index,
-        width: width,
+        maxWidth: width,
+        // offset: offset,
       );
     })];
 
