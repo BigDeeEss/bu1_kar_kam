@@ -146,7 +146,7 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
     //  Calculate deltaX. A zero [deltaX] corresponds to the default value
     //  representing when [SettingsPageListTile] takes its maximum width.
     double deltaX = 0.0;
-    if (y < yCrit) {
+    if (y <= yCrit) {
       //  The bottom left corner of [lowerConstructionRect] is the origin
       //  of the bounding box.
       //
@@ -155,7 +155,7 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
       //      (x - r)^2 + (y - 0)^2 = r^2,
       //  taking the negative root.
       deltaX = r - math.sqrt(r * r - y * y);
-    } else if (y < 2 * b - yCrit) {
+    } else if (y <= 2 * b - yCrit) {
       //  The bottom left corner of [lowerConstructionRect] is the origin
       //  of the bounding box.
       //
@@ -165,7 +165,7 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
       //          = (2a - xCrit - xCrit) / (2b - yCrit - yCrit),
       //  which just equates gradients.
       deltaX = xCrit + (y - yCrit) * (a - xCrit) / (b - yCrit);
-    } else if (y < 2 * b) {
+    } else if (y <= 2 * b) {
       //  The bottom left corner of [lowerConstructionRect] is the origin
       //  of the bounding box.
       //
