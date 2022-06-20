@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
+import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
@@ -26,6 +27,10 @@ class _BasePageState extends State<BasePage> {
   /// [buttonArrayRectNotifier] stores Rect information that may be
   /// required by widgets below this in the widget tree.
   final ValueNotifier<Rect> buttonArrayRectNotifier =
+      ValueNotifier(Offset(1.0, 2.0) & Size(3.0, 4.0));
+
+  GlobalKey basePageViewKey = GlobalKey();
+  final ValueNotifier<Rect?> basePageViewRectNotifier =
       ValueNotifier(Offset(1.0, 2.0) & Size(3.0, 4.0));
 
   /// [buttonArray] builds a linear horizontal or vertical array of buttons.
@@ -54,6 +59,8 @@ class _BasePageState extends State<BasePage> {
       //  Get buttonArray Rect data and update buttonArrayRectNotifier.
       Rect buttonArrayRect = buttonArray.getRect();
       buttonArrayRectNotifier.value = buttonArrayRect;
+
+      basePageViewRectNotifier.value = basePageViewKey.globalPaintBounds;
 
       //  Rebuild widget with pageSpec.contents instead of Container().
       if (pageContents == null) {
@@ -109,11 +116,16 @@ class _BasePageState extends State<BasePage> {
         //
         //  Note: [pageContents] equates to widget.pageSpec.contents
         //  after setState.
-        child: Stack(
-          children: <Widget>[
-            pageContents ?? Container(),
-            buttonArray,
-          ],
+        child: DataNotifier(
+          key: ValueKey('basePageViewRect'),
+          data: basePageViewRectNotifier,
+          child: Stack(
+            key: basePageViewKey,
+            children: <Widget>[
+              pageContents ?? Container(),
+              buttonArray,
+            ],
+          ),
         ),
       ),
     );

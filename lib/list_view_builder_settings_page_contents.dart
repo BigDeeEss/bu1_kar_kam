@@ -47,20 +47,33 @@ class _ListViewBuilderSettingsPageContentsState
         .data
         .value;
 
-    double width = MediaQuery.of(context).size.width;
+    Rect basePageViewRect = DataNotifier
+        .of(context, ValueKey('basePageViewRect'))
+        .data
+        .value;
+
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
     double appBarHeight =
-        MediaQuery.of(context).padding.top + kToolbarHeight;
+        MediaQuery
+            .of(context)
+            .padding
+            .top + kToolbarHeight;
     print('appBarHeight = $appBarHeight');
     // Offset offset = Offset(0.0, -appBarHeight);
 
     List<Widget> tileList = [...List<Widget>.generate(100, (int index) {
       return ListViewBuilderSettingsPageListTile(
+        basePageViewRect: basePageViewRect,
         guestRect: buttonArrayRect,
         index: index,
         maxWidth: width,
         // offset: offset,
       );
-    })];
+    })
+    ];
 
     return DataNotifier(
       key: ValueKey('scrollController'),

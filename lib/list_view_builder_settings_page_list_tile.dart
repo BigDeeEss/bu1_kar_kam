@@ -10,26 +10,33 @@ import 'package:kar_kam/lib/rect_extension.dart';
 class ListViewBuilderSettingsPageListTile extends StatelessWidget {
   ListViewBuilderSettingsPageListTile({
     Key? key,
-    required this.index,
+    required this.basePageViewRect,
     required this.guestRect,
+    required this.index,
     required this.maxWidth,
     this.offset,
   }) : super(key: key) {
     rect = Offset(0, height * index) & Size(maxWidth, height);
+    if (basePageViewRect != null) {
+      rect = rect.shift(Offset(0.0, basePageViewRect!.top));
+    }
     centralConstructionRect = centralConstructionRectFromGuestRect;
     lowerConstructionRect = lowerConstructionRectFromGuestRect;
     upperConstructionRect = upperConstructionRectFromGuestRect;
-    if (index == 6) {
+    if (index == 0) {
       print('index = $index');
+      print('basePageViewRect = $basePageViewRect');
       print('guestRect = $guestRect');
       print('lowerConstructionRect = $lowerConstructionRect');
+      print('upperConstructionRect = $upperConstructionRect');
       print('$index, rect = $rect');
     }
   }
 
+  final Rect? basePageViewRect;
+  final Rect guestRect;
   final int index;
   final double maxWidth;
-  final Rect guestRect;
   final Offset? offset;
 
   double height = 75.0;
@@ -85,13 +92,23 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
           upperConstructionRect.boundsContain(tmpRect.bottomRight)) {
         y = upperConstructionRect.bottom - tmpRect.bottom;
         deltaX = guestRect.width - getDeltaXFromPosition(upperConstructionRect, y);
+        print('y1 = $y');
+        print('upperConstructionRect.top = ${upperConstructionRect.top}');
+        print('upperConstructionRect.bottom = ${upperConstructionRect.bottom}');
+        print('tmpRect.top = ${tmpRect.top}');
+        print('tmpRect.bottom = ${tmpRect.bottom}');
       } else if (lowerConstructionRect.boundsContain(tmpRect.topLeft) ||
           lowerConstructionRect.boundsContain(tmpRect.topRight)) {
         y = lowerConstructionRect.bottom - tmpRect.top;
-        print('y = $y');
-        print('scrollPosition = $scrollPosition');
-        print('rect = $rect');
+        // print('y = $y');
+        // print('scrollPosition = $scrollPosition');
+        // print('rect = $rect');
         deltaX = getDeltaXFromPosition(lowerConstructionRect, y);
+        print('y2 = $y');
+        print('lowerConstructionRect.top = ${lowerConstructionRect.top}');
+        print('lowerConstructionRect.bottom = ${lowerConstructionRect.bottom}');
+        print('tmpRect.top = ${tmpRect.top}');
+        print('tmpRect.bottom = ${tmpRect.bottom}');
       } else if (centralConstructionRect.overlaps(tmpRect)) {
         //  [guestRect] overlaps with [upperConstructionRect].
         deltaX = guestRect.width;
@@ -198,6 +215,7 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
                 ? Border.all(width: 0.0, color: Colors.redAccent)
                 : null,
           ),
+          // margin: EdgeInsets.only(left: (index == 0 ? getDeltaX(value) : 0.0)),
           margin: EdgeInsets.only(left: getDeltaX(value)),
           height: height,
           child: Container(
@@ -212,26 +230,6 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
           ),
         );
       },
-    );
-    return Container(
-      //  Draw bounding box around [SettingsPageListTile].
-      decoration: BoxDecoration(
-        border: AppSettings.drawLayoutBounds
-            ? Border.all(width: 0.0, color: Colors.redAccent)
-            : null,
-      ),
-      margin: EdgeInsets.only(left: 0),
-      height: 75,
-      child: Container(
-        key: UniqueKey(),
-        decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.5),
-          borderRadius: BorderRadius.all(
-            Radius.circular(12.0),
-          ),
-        ),
-        child: Text('Test...$index'),
-      ),
     );
   }
 }
