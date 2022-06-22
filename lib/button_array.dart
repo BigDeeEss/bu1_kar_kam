@@ -7,8 +7,7 @@ import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 
-/// [ButtonArray] implements a linear horizontal or vertical button array
-/// in any of the four screen corners.
+/// [ButtonArray] implements a linear horizontal or vertical button array.
 class ButtonArray extends StatelessWidget {
   ButtonArray({Key? key}) : super(key: key);
 
@@ -23,14 +22,14 @@ class ButtonArray extends StatelessWidget {
   /// for each button to be obtained using globalPaintBounds (see [getRect]).
   final buttonArrayGlobalKeys = <GlobalKey>[];
 
+  /// [buttonCoords] gets coordinates relative to any corner.
   List<double> get buttonCoords {
     //  Initialise [coordsList] so that it is ready for population.
     List<double> coordsList = [];
 
     //  Define a length value: button width plus padding.
-    double dim = (AppSettings.buttonRadiusInner +
-            AppSettings.buttonPaddingMainAxisExtra) *
-        2;
+    double dim = 2 * (AppSettings.buttonRadiusInner +
+            AppSettings.buttonPaddingMainAxisExtra);
 
     //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding position.
@@ -54,7 +53,7 @@ class ButtonArray extends StatelessWidget {
     for (int i = 0; i < buttonSpecList.length; i++) {
       buttonArrayGlobalKeys.add(GlobalKey());
 
-      //  Define the buttonto be added to [buttonList] in this iteration.
+      //  Define the button to be added to [buttonList] in this iteration.
       button = Button(
         buttonSpec: buttonSpecList[i],
         key: buttonArrayGlobalKeys[i],
@@ -63,10 +62,10 @@ class ButtonArray extends StatelessWidget {
       //  Treat horizontal and vertical axes differently.
       if (AppSettings.buttonAxis == Axis.horizontal) {
         //  The top and bottom inputs to Positioned must be 0.0 or null,
-        //  depending on whether selected alignment is top or bottom
+        //  depending on whether the selected alignment is top or bottom.
         //
         //  The left and right inputs to Positioned must be non-zero
-        //  coordinates or null, depending on whether selected alignment is
+        //  coordinates or null, depending on whether the selected alignment is
         //  left or right.
         buttonList.add(Positioned(
           top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
@@ -80,10 +79,10 @@ class ButtonArray extends StatelessWidget {
       //  Treat horizontal and vertical axes differently.
       if (AppSettings.buttonAxis == Axis.vertical) {
         //  The left and right inputs to Positioned must be 0.0 or null,
-        //  depending on whether selected alignment is left or right.
+        //  depending on whether the selected alignment is left or right.
         //
         //  The top and bottom inputs to Positioned must be non-zero
-        //  coordinates or null, depending on whether selected alignment is
+        //  coordinates or null, depending on whether the selected alignment is
         //  top or bottom.
         buttonList.add(Positioned(
           top: (AppSettings.buttonAlignment.y < 0) ? coords[i] : null,
@@ -97,7 +96,8 @@ class ButtonArray extends StatelessWidget {
     return buttonList;
   }
 
-  Rect getRect() {
+  /// [getRect] calculates the Rect data associated with [buttonArray].
+  Rect? getRect() {
     // Instantiate output variable as null initially.
     Rect? rect;
 
@@ -119,8 +119,6 @@ class ButtonArray extends StatelessWidget {
         }
       }
     }
-    assert(rect != null,
-        'button_array.dart, getRect: error rect is null when it shouldn\'t be.');
     return rect!;
   }
 

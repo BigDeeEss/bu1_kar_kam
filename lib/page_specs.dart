@@ -31,7 +31,7 @@ PageSpec filesPage = PageSpec(
   contents: ListViewBuilderSettingsPageContents(),
 );
 
-//  Home page specs.
+//  Settings Home page specs.
 PageSpec settingsPage = PageSpec(
   title: 'Settings',
   contents: ListViewSettingsPageContents(),

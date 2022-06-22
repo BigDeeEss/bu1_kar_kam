@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/list_view_builder_settings_page_list_tile.dart';
 
+/// [ListViewBuilderSettingsPageContents] implements a settinsg page with
+/// tiles that are able scroll around (not behind) [buttonArray].
 class ListViewBuilderSettingsPageContents extends StatefulWidget {
   const ListViewBuilderSettingsPageContents({Key? key}) : super(key: key);
 
@@ -42,37 +44,26 @@ class _ListViewBuilderSettingsPageContentsState
 
   @override
   Widget build(BuildContext context) {
-    Rect buttonArrayRect = DataNotifier
-        .of(context, ValueKey('buttonArrayRect'))
-        .data
-        .value;
+    //  Get [buttonArrayRect] from NataNotifier in [BasePage].
+    Rect? buttonArrayRect =
+        DataNotifier.of(context, ValueKey('buttonArrayRect')).data.value;
 
-    Rect basePageViewRect = DataNotifier
-        .of(context, ValueKey('basePageViewRect'))
-        .data
-        .value;
+    //  Get [basePageViewRect] from NataNotifier in [BasePage].
+    Rect? basePageViewRect =
+        DataNotifier.of(context, ValueKey('basePageViewRect')).data.value;
 
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double appBarHeight =
-        MediaQuery
-            .of(context)
-            .padding
-            .top + kToolbarHeight;
-    print('appBarHeight = $appBarHeight');
-    // Offset offset = Offset(0.0, -appBarHeight);
-
-    List<Widget> tileList = [...List<Widget>.generate(100, (int index) {
-      return ListViewBuilderSettingsPageListTile(
-        basePageViewRect: basePageViewRect,
-        guestRect: buttonArrayRect,
-        index: index,
-        maxWidth: width,
-        // offset: offset,
-      );
-    })
+    //  Generate a temporary list of tiles to build.
+    List<Widget> tileList = [
+      ...List<Widget>.generate(100, (int index) {
+        return ListViewBuilderSettingsPageListTile(
+          basePageViewRect: basePageViewRect,
+          guestRect: buttonArrayRect,
+          index: index,
+          maxWidth: basePageViewRect != null
+              ? basePageViewRect.width
+              : MediaQuery.of(context).size.width,
+        );
+      })
     ];
 
     return DataNotifier(

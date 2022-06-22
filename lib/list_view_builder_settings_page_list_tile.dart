@@ -23,59 +23,59 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
     centralConstructionRect = centralConstructionRectFromGuestRect;
     lowerConstructionRect = lowerConstructionRectFromGuestRect;
     upperConstructionRect = upperConstructionRectFromGuestRect;
-    if (index == 0) {
-      print('index = $index');
-      print('basePageViewRect = $basePageViewRect');
-      print('guestRect = $guestRect');
-      print('lowerConstructionRect = $lowerConstructionRect');
-      print('upperConstructionRect = $upperConstructionRect');
-      print('$index, rect = $rect');
-    }
   }
 
   final Rect? basePageViewRect;
-  final Rect guestRect;
+  final Rect? guestRect;
   final int index;
   final double maxWidth;
   final Offset? offset;
 
   double height = 75.0;
-  Rect centralConstructionRect = Rect.zero;
-  Rect lowerConstructionRect = Rect.zero;
+  Rect? centralConstructionRect;
+  Rect? lowerConstructionRect;
   Rect rect = Rect.zero;
-  Rect upperConstructionRect = Rect.zero;
+  Rect? upperConstructionRect;
 
   /// [getCentralConstructionRect] inflates [localButtonArrayRect] to a
   /// new height centered on the original.
-  Rect get centralConstructionRectFromGuestRect {
-    Rect rect = guestRect;
+  Rect? get centralConstructionRectFromGuestRect {
+    Rect? rect = guestRect;
     return rect
-        .inflateToHeight(math.max(0.0, rect.height - rect.shortestSide))
+        ?.inflateToHeight(math.max(0.0, rect.height - rect.shortestSide))
         .shift(offset ?? Offset.zero);
   }
 
   /// [getLowerConstructionRect] generates a construction rect below the
   /// centre of [ButtonArrayRect] to be used for calculating [deltaX].
-  Rect get lowerConstructionRectFromGuestRect {
-    //  Inflate [rect] to a new height centered on the original Rect.
-    Rect rect = guestRect.inflateToHeight(1.0 * guestRect.shortestSide);
+  Rect? get lowerConstructionRectFromGuestRect {
+    Rect? rect = guestRect;
 
-    //  Calculate shift factor and apply to rect.
-    double dy = (guestRect.height + rect.height - rect.shortestSide) / 2.0;
-    // print('${guestRect.height/2}, ${rect.height}, ${rect.shortestSide}');
-    // print(rect.shift(Offset(0.0, dy)));
-    return rect.shift(Offset(0.0, dy)).shift(offset ?? Offset.zero);
+    if (rect != null) {
+      //  Inflate [rect] to a new height centered on the original Rect.
+      Rect rect = guestRect!.inflateToHeight(1.0 * guestRect!.shortestSide);
+
+      //  Calculate shift factor and apply to rect.
+      double dy = (guestRect!.height + rect.height - rect.shortestSide) / 2.0;
+      // print('${guestRect.height/2}, ${rect.height}, ${rect.shortestSide}');
+      // print(rect.shift(Offset(0.0, dy)));
+      return rect.shift(Offset(0.0, dy)).shift(offset ?? Offset.zero);
+    } else return null;
   }
 
   /// [getUpperConstructionRect] generates a construction rect above the
   /// centre of [ButtonArrayRect] to be used for calculating [deltaX].
-  Rect get upperConstructionRectFromGuestRect {
-    //  Inflate [rect] to a new height centered on original Rect.
-    Rect rect = guestRect.inflateToHeight(1.0 * guestRect.shortestSide);
+  Rect? get upperConstructionRectFromGuestRect {
+    Rect? rect = guestRect;
 
-    //  Calculate shift factor and apply to rect.
-    double dy = (guestRect.height + rect.height - rect.shortestSide) / 2.0;
-    return rect.shift(Offset(0.0, -dy)).shift(offset ?? Offset.zero);
+    if (rect != null) {
+      //  Inflate [rect] to a new height centered on original Rect.
+      Rect rect = guestRect!.inflateToHeight(1.0 * guestRect!.shortestSide);
+
+      //  Calculate shift factor and apply to rect.
+      double dy = (guestRect!.height + rect.height - rect.shortestSide) / 2.0;
+      return rect.shift(Offset(0.0, -dy)).shift(offset ?? Offset.zero);
+    } else return null;
   }
 
   /// [getDeltaX] calculates the displacement to apply to
@@ -88,30 +88,17 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
     if (guestRect != null) {
       late double y;
       //  Determine which method to use for calculating [deltaX].
-      if (upperConstructionRect.boundsContain(tmpRect.bottomLeft) ||
-          upperConstructionRect.boundsContain(tmpRect.bottomRight)) {
-        y = upperConstructionRect.bottom - tmpRect.bottom;
-        deltaX = guestRect.width - getDeltaXFromPosition(upperConstructionRect, y);
-        print('y1 = $y');
-        print('upperConstructionRect.top = ${upperConstructionRect.top}');
-        print('upperConstructionRect.bottom = ${upperConstructionRect.bottom}');
-        print('tmpRect.top = ${tmpRect.top}');
-        print('tmpRect.bottom = ${tmpRect.bottom}');
-      } else if (lowerConstructionRect.boundsContain(tmpRect.topLeft) ||
-          lowerConstructionRect.boundsContain(tmpRect.topRight)) {
-        y = lowerConstructionRect.bottom - tmpRect.top;
-        // print('y = $y');
-        // print('scrollPosition = $scrollPosition');
-        // print('rect = $rect');
-        deltaX = getDeltaXFromPosition(lowerConstructionRect, y);
-        print('y2 = $y');
-        print('lowerConstructionRect.top = ${lowerConstructionRect.top}');
-        print('lowerConstructionRect.bottom = ${lowerConstructionRect.bottom}');
-        print('tmpRect.top = ${tmpRect.top}');
-        print('tmpRect.bottom = ${tmpRect.bottom}');
-      } else if (centralConstructionRect.overlaps(tmpRect)) {
+      if (upperConstructionRect!.boundsContain(tmpRect.bottomLeft) ||
+          upperConstructionRect!.boundsContain(tmpRect.bottomRight)) {
+        y = upperConstructionRect!.bottom - tmpRect.bottom;
+        deltaX = guestRect!.width - getDeltaXFromPosition(upperConstructionRect!, y);
+      } else if (lowerConstructionRect!.boundsContain(tmpRect.topLeft) ||
+          lowerConstructionRect!.boundsContain(tmpRect.topRight)) {
+        y = lowerConstructionRect!.bottom - tmpRect.top;
+        deltaX = getDeltaXFromPosition(lowerConstructionRect!, y);
+      } else if (centralConstructionRect!.overlaps(tmpRect)) {
         //  [guestRect] overlaps with [upperConstructionRect].
-        deltaX = guestRect.width;
+        deltaX = guestRect!.width;
       }
     }
     return deltaX;
