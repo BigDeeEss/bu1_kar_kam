@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/lib/data_notifier.dart';
-import 'package:kar_kam/list_view_builder_settings_page_list_tile.dart';
+import 'package:kar_kam/settings_page_list_tile.dart';
 
-/// [ListViewBuilderSettingsPageContents] implements a settings page with
+/// [SettingsPageContents] implements a settings page with
 /// tiles that are able scroll around (not behind) [buttonArray].
-class ListViewBuilderSettingsPageContents extends StatefulWidget {
-  const ListViewBuilderSettingsPageContents({Key? key}) : super(key: key);
+class SettingsPageContents extends StatefulWidget {
+  const SettingsPageContents({Key? key}) : super(key: key);
 
   @override
-  State<ListViewBuilderSettingsPageContents> createState() =>
-      _ListViewBuilderSettingsPageContentsState();
+  State<SettingsPageContents> createState() => _SettingsPageContentsState();
 }
 
-class _ListViewBuilderSettingsPageContentsState
-    extends State<ListViewBuilderSettingsPageContents> {
+class _SettingsPageContentsState extends State<SettingsPageContents> {
   /// [scrollController] is added to the ListView instance below in order
   /// to get the scroll position offset value.
   final ScrollController scrollController = ScrollController();
@@ -55,7 +53,7 @@ class _ListViewBuilderSettingsPageContentsState
     //  Generate a temporary list of tiles to build.
     List<Widget> tileList = [
       ...List<Widget>.generate(100, (int index) {
-        return ListViewBuilderSettingsPageListTile(
+        return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
