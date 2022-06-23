@@ -39,8 +39,7 @@ class _BasePageState extends State<BasePage> {
 
   //  [basePageViewRectNotifier] transmits the available screen dimensions
   //  down the widget tree as Rect data.
-  final ValueNotifier<Rect?> basePageViewRectNotifier =
-      ValueNotifier(Rect.zero);
+  final ValueNotifier<Rect?> basePageViewRectNotifier = ValueNotifier(Rect.zero);
 
   //  [buttonArray] builds a linear horizontal or vertical array of buttons.
   //

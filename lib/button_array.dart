@@ -42,7 +42,6 @@ class ButtonArray extends StatelessWidget {
   /// [buttonArrayGenerator] generates a list of buttons from buttonSpecList.
   List<Widget> buttonArrayGenerator(BuildContext context) {
     //  Initialise [button] and [buttonList] ready for population.
-    Button? button;
     List<Widget> buttonList = [];
 
     //  Take local copy of [buttonCoords] for speed.
@@ -54,7 +53,7 @@ class ButtonArray extends StatelessWidget {
       buttonArrayGlobalKeys.add(GlobalKey());
 
       //  Define the button to be added to [buttonList] in this iteration.
-      button = Button(
+      Button button = Button(
         buttonSpec: buttonSpecList[i],
         key: buttonArrayGlobalKeys[i],
       );
@@ -119,7 +118,7 @@ class ButtonArray extends StatelessWidget {
         }
       }
     }
-    return rect!;
+    return rect;
   }
 
   @override

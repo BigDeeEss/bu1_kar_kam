@@ -1,6 +1,6 @@
 //  Import dart packages.
 import 'dart:ui';
-import 'dart:math' as math;
+// import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 extension RectExtension on Rect {
@@ -24,6 +24,12 @@ extension RectExtension on Rect {
   /// symmetrically so that the new height equates to [newHeight].
   Rect inflateToHeight(double newHeight) {
     return Rect.fromCenter(center: center, width: width, height: newHeight);
+  }
+
+  /// Return a new instance of Rect with the top left moved to newOrigin.
+  Rect moveTo(Offset newOrigin) {
+    Offset origin = Offset(left, top);
+    return Rect.fromLTRB(left, top, right, bottom).shift(newOrigin - origin);
   }
 
 // /// Return a new instance of Rect with top and bottom edges moved outward
@@ -56,11 +62,11 @@ extension RectExtension on Rect {
 //   return Rect.fromLTRB(left, top - delta, right, bottom);
 // }
 //
-// /// Return a new instance of Rect with bottom edge moved outward
-// /// by the given delta.
-// Rect inflateDownwards(double delta) {
-//   return Rect.fromLTRB(left, top, right, bottom + delta);
-// }
+/// Return a new instance of Rect with bottom edge moved outward
+/// by the given delta.
+Rect inflateDownwards(double delta) {
+  return Rect.fromLTRB(left, top, right, bottom + delta);
+}
 //
 // /// Return a new instance of Rect that shrinks to the left so that it
 // /// excludes [other] if it overlaps.

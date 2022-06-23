@@ -13,128 +13,137 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
     required this.basePageViewRect,
     required this.guestRect,
     required this.index,
-    required this.maxWidth,
-    this.offset,
   }) : super(key: key) {
-    rect = Offset(0, height * index) & Size(maxWidth, height);
-    if (basePageViewRect != null) {
-      rect = rect.shift(Offset(0.0, basePageViewRect!.top));
-    }
-    centralConstructionRect = centralConstructionRectFromGuestRect;
-    lowerConstructionRect = lowerConstructionRectFromGuestRect;
-    upperConstructionRect = upperConstructionRectFromGuestRect;
+    //  Create [hostRect], the basis of [ListViewBuilderSettingsPageListTile] from [basePageViewRect].
+    hostRect = basePageViewRect
+        .inflateToHeight(height)
+        .moveTo(basePageViewRect.topLeft)
+        .translate(0, height * index);
+
+    //  Generate construction Rects.
+    centralConstrRect = centralConstructionRect;
+    lowerConstrRect = lowerConstructionRect;
+    upperConstrRect = upperConstructionRect;
   }
 
-  final Rect? basePageViewRect;
+  /// The visible area on screen that contains [ListViewBuilderSettingsPageContents].
+  final Rect basePageViewRect;
+
+  /// The Rect on screen which [ListViewBuilderSettingsPageListTile] will avoid when scrolling.
   final Rect? guestRect;
+
+  /// Unique identifier for [ListViewBuilderSettingsPageListTile].
   final int index;
-  final double maxWidth;
-  final Offset? offset;
 
   double height = 75.0;
-  Rect? centralConstructionRect;
-  Rect? lowerConstructionRect;
-  Rect rect = Rect.zero;
-  Rect? upperConstructionRect;
 
-  /// [getCentralConstructionRect] inflates [localButtonArrayRect] to a
-  /// new height centered on the original.
-  Rect? get centralConstructionRectFromGuestRect {
-    Rect? rect = guestRect;
-    return rect
-        ?.inflateToHeight(math.max(0.0, rect.height - rect.shortestSide))
-        .shift(offset ?? Offset.zero);
+  /// A Rect variable representing [ListViewBuilderSettingsPageListTile] on screen.
+  late Rect hostRect;
+
+  /// A construction Rect centred on [guestRect].
+  Rect? centralConstrRect;
+
+  /// A construction Rect that is the same width as [guestRect] and which
+  /// overlaps with [guestRect.bottomLeft] and [guestRect.bottomRight].
+  Rect? lowerConstrRect;
+
+  /// A construction Rect that is the same width as [guestRect] and which
+  /// overlaps with [guestRect.topLeft] and [guestRect.topRight].
+  Rect? upperConstrRect;
+
+  /// Getter for [centralConstrRect].
+  Rect? get centralConstructionRect {
+  //  Inflates [guestRect] to a new height centered on the original.
+    return guestRect?.inflateToHeight(math.max(0.0,
+        guestRect != null ? guestRect!.height - guestRect!.shortestSide : 0.0));
   }
 
-  /// [getLowerConstructionRect] generates a construction rect below the
-  /// centre of [ButtonArrayRect] to be used for calculating [deltaX].
-  Rect? get lowerConstructionRectFromGuestRect {
-    Rect? rect = guestRect;
-
-    if (rect != null) {
-      //  Inflate [rect] to a new height centered on the original Rect.
-      Rect rect = guestRect!.inflateToHeight(1.0 * guestRect!.shortestSide);
-
-      //  Calculate shift factor and apply to rect.
-      double dy = (guestRect!.height + rect.height - rect.shortestSide) / 2.0;
-      // print('${guestRect.height/2}, ${rect.height}, ${rect.shortestSide}');
-      // print(rect.shift(Offset(0.0, dy)));
-      return rect.shift(Offset(0.0, dy)).shift(offset ?? Offset.zero);
-    } else return null;
-  }
-
-  /// [getUpperConstructionRect] generates a construction rect above the
-  /// centre of [ButtonArrayRect] to be used for calculating [deltaX].
-  Rect? get upperConstructionRectFromGuestRect {
-    Rect? rect = guestRect;
-
-    if (rect != null) {
-      //  Inflate [rect] to a new height centered on original Rect.
-      Rect rect = guestRect!.inflateToHeight(1.0 * guestRect!.shortestSide);
-
-      //  Calculate shift factor and apply to rect.
-      double dy = (guestRect!.height + rect.height - rect.shortestSide) / 2.0;
-      return rect.shift(Offset(0.0, -dy)).shift(offset ?? Offset.zero);
-    } else return null;
-  }
-
-  /// [getDeltaX] calculates the displacement to apply to
-  /// [ListViewSettingsPageListTile] as it passes [buttonArrayRect].
-  double getDeltaX(double scrollPosition) {
-    Rect tmpRect= rect.shift(Offset(0.0,-scrollPosition));
-
-    //  Default value is no displacement.
-    double deltaX = 0.0;
+  /// Getter for [lowerConstrRect].
+  Rect? get lowerConstructionRect {
     if (guestRect != null) {
-      late double y;
-      //  Determine which method to use for calculating [deltaX].
-      if (upperConstructionRect!.boundsContain(tmpRect.bottomLeft) ||
-          upperConstructionRect!.boundsContain(tmpRect.bottomRight)) {
-        y = upperConstructionRect!.bottom - tmpRect.bottom;
-        deltaX = guestRect!.width - getDeltaXFromPosition(upperConstructionRect!, y);
-      } else if (lowerConstructionRect!.boundsContain(tmpRect.topLeft) ||
-          lowerConstructionRect!.boundsContain(tmpRect.topRight)) {
-        y = lowerConstructionRect!.bottom - tmpRect.top;
-        deltaX = getDeltaXFromPosition(lowerConstructionRect!, y);
-      } else if (centralConstructionRect!.overlaps(tmpRect)) {
-        //  [guestRect] overlaps with [upperConstructionRect].
+      //  Inflate [guestRect] to a new height centered on the original.
+      Rect rect = guestRect!.inflateToHeight(1.0 * guestRect!.shortestSide);
+
+      //  Calculate shift factor and apply to rect.
+      double dy = (guestRect!.height + rect.height - rect.shortestSide) / 2.0;
+      return rect.shift(Offset(0.0, dy));
+    } else
+      return null;
+  }
+
+  /// Getter for [upperConstrRect].
+  Rect? get upperConstructionRect {
+    if (guestRect != null) {
+      //  Inflate [guestRect] to a new height centered on the original.
+      Rect rect = guestRect!.inflateToHeight(1.0 * guestRect!.shortestSide);
+
+      //  Calculate shift factor and apply to rect.
+      double dy = (guestRect!.height + rect.height - rect.shortestSide) / 2.0;
+      return rect.shift(Offset(0.0, -dy));
+    } else
+      return null;
+  }
+
+  /// [getDeltaX] calculates the horizontal displacement to apply to
+  /// [ListViewSettingsPageListTile] as it passes [guestRect].
+  double getDeltaX(double scrollPosition) {
+    double? deltaX;
+    Rect rect = hostRect.shift(Offset(0.0, -scrollPosition));
+
+    //  Determine which method to use for calculating [deltaX].
+    if (guestRect != null) {
+      if (upperConstrRect!.boundsContain(rect.bottomLeft) ||
+          upperConstrRect!.boundsContain(rect.bottomRight)) {
+        //  Bottom of [rect] is overlapped by [upperConstrRect].
+        double y = upperConstrRect!.bottom - rect.bottom;
+        deltaX = guestRect!.width - getDeltaXFromPosition(upperConstrRect!, y);
+      } else if (lowerConstrRect!.boundsContain(rect.topLeft) ||
+          lowerConstrRect!.boundsContain(rect.topRight)) {
+        //  Top of [rect] is overlapped by [lowerConstrRect].
+        double y = lowerConstrRect!.bottom - rect.top;
+        deltaX = getDeltaXFromPosition(lowerConstrRect!, y);
+      } else if (centralConstrRect!.overlaps(rect)) {
+        //  [centralConstrRect] overlaps with [rect].
         deltaX = guestRect!.width;
       }
     }
-    return deltaX;
+
+    //  Return [deltaX] or zero, but not null.
+    return deltaX ?? 0.0;
   }
 
-  /// [getDeltaXFromLowerConstructionRect] calculates the amount,
-  /// [deltaX], to decrease the width of [ListViewSettingsPageListTile] from its
-  /// maximum value in order to accommodate [ButtonArray].
+  /// [getDeltaXFromLowerConstructionRect] calculates the value to subtract
+  /// from the width of [ListViewSettingsPageListTile] in order to accommodate [ButtonArray].
   ///
   /// The maximum value of [deltaX] corresponds to when [ListViewSettingsPageListTile]
   /// is alongside [ButtonArray].
   ///
   /// [deltaX] is a smooth function of [y], the vertical displacement between
-  /// the bottom edge of [lowerConstructionRect] and the top edge of
+  /// the bottom edge of [lowerConstrRect] and the top edge of
   /// [ListViewSettingsPageListTile]. For the purpose of calculating deltaX, the origin
-  /// is taken to be the bottom left corner of [lowerConstructionRect].
+  /// is taken to be the bottom left corner of [lowerConstrRect].
   ///
   /// The bottom corner follows a path that is made up of a curved, circular
   /// section, a line segment and a curved section. The line passes through
-  /// (a,b), the coordinates of the centre point of [lowerConstructionRect],
+  /// (a,b), the coordinates of the centre point of [lowerConstrRect],
   /// and is tangent to the curve at (xCrit, yCrit).
   double getDeltaXFromPosition(Rect rect, double y) {
     //  [r] is the radius of the curved path section.
     double r = rect.shortestSide / 2.0;
 
     //  ([a], [b]) are the coordinates of the point of symmetry, taken to
-    //  be the centre of [lowerConstructionRect]. Relative to the
-    //  bottom left corner of [lowerConstructionRect], [a] and [b] have
+    //  be the centre of [lowerConstrRect].
+    //
+    //  Relative to the
+    //  bottom left corner of [lowerConstrRect], [a] and [b] have
     //  the values as follows.
     double a = rect.width / 2.0;
     double b = rect.height / 2.0;
 
-    //  In order to avoid generating complex numbers aa + bb - 2ra must be
-    //  greater than zero.
-    assert(a * a + b * b - 2 * r * a >= 0,
-    'SettingsPageListTileBorder, getDeltaXFromLowerConstructionRect: '
+    //  In order to avoid generating complex numbers aa + bb - 2ra > 0.
+    assert(
+        a * a + b * b - 2 * r * a >= 0,
+        'ListViewBuilderSettingsPageListTile, getDeltaXFromPosition: '
         'error, complex number generated by square root.');
 
     //  The negative square root is taken as otherwise, with (a,b) = (2r,r),
@@ -147,11 +156,10 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
     //      (x - r)^2 + (y - 0)^2 = r^2.
     double yCrit = math.sqrt(r * r - (xCrit - r) * (xCrit - r));
 
-    //  Calculate deltaX. A zero [deltaX] corresponds to the default value
-    //  representing when [SettingsPageListTile] takes its maximum width.
-    double deltaX = 0.0;
+    //  Calculate deltaX.
+    double? deltaX;
     if (y <= yCrit) {
-      //  The bottom left corner of [lowerConstructionRect] is the origin
+      //  The bottom left corner of [lowerConstrRect] is the origin
       //  of the bounding box.
       //
       //  (xCrit,yCrit) is the point where the curve joins to the line segment.
@@ -160,7 +168,7 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
       //  taking the negative root.
       deltaX = r - math.sqrt(r * r - y * y);
     } else if (y <= 2 * b - yCrit) {
-      //  The bottom left corner of [lowerConstructionRect] is the origin
+      //  The bottom left corner of [lowerConstrRect] is the origin
       //  of the bounding box.
       //
       //  By symmetry, the line segment joins (xCrit,yCrit) to
@@ -170,7 +178,7 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
       //  which just equates gradients.
       deltaX = xCrit + (y - yCrit) * (a - xCrit) / (b - yCrit);
     } else if (y <= 2 * b) {
-      //  The bottom left corner of [lowerConstructionRect] is the origin
+      //  The bottom left corner of [lowerConstrRect] is the origin
       //  of the bounding box.
       //
       //  (2a - xCrit,2b - yCrit is the point where the curve joins to the
@@ -180,29 +188,29 @@ class ListViewBuilderSettingsPageListTile extends StatelessWidget {
       //  taking the positive root.
       deltaX = (2 * a - r) + math.sqrt(r * r - (y - 2 * b) * (y - 2 * b));
     } else {
-      assert(false,
-      'SettingsPageListTileBorder, getDeltaXFromLowerConstructionRect: '
+      assert(
+          false,
+          'ListViewBuilderSettingsPageListTile, getDeltaXFromPosition: '
           'error, invalid y-value.');
     }
-    return deltaX;
+    return deltaX ?? 0.0;
   }
 
   @override
   Widget build(BuildContext context) {
-    //  Build [SettingsPageListTileFromContainer] each time
-    //  [SettingsPageContents] is scrolled.
+    //  Build [ListViewBuilderSettingsPageListTile] each time
+    //  [ListViewBuilderSettingsPageContents] is scrolled.
     return ValueListenableBuilder<double>(
       valueListenable:
           DataNotifier.of(context, ValueKey('scrollController')).data,
       builder: (BuildContext context, double value, __) {
         return Container(
-          //  Draw bounding box around [SettingsPageListTile].
+          //  Draw bounding box around [ListViewBuilderSettingsPageListTile].
           decoration: BoxDecoration(
             border: AppSettings.drawLayoutBounds
                 ? Border.all(width: 0.0, color: Colors.redAccent)
                 : null,
           ),
-          // margin: EdgeInsets.only(left: (index == 0 ? getDeltaX(value) : 0.0)),
           margin: EdgeInsets.only(left: getDeltaX(value)),
           height: height,
           child: Container(

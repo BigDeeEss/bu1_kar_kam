@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/list_view_builder_settings_page_list_tile.dart';
 
-/// [ListViewBuilderSettingsPageContents] implements a settinsg page with
+/// [ListViewBuilderSettingsPageContents] implements a settings page with
 /// tiles that are able scroll around (not behind) [buttonArray].
 class ListViewBuilderSettingsPageContents extends StatefulWidget {
   const ListViewBuilderSettingsPageContents({Key? key}) : super(key: key);
@@ -56,12 +56,10 @@ class _ListViewBuilderSettingsPageContentsState
     List<Widget> tileList = [
       ...List<Widget>.generate(100, (int index) {
         return ListViewBuilderSettingsPageListTile(
-          basePageViewRect: basePageViewRect,
+          basePageViewRect:
+              basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
           index: index,
-          maxWidth: basePageViewRect != null
-              ? basePageViewRect.width
-              : MediaQuery.of(context).size.width,
         );
       })
     ];
