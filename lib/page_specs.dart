@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/list_view_settings_page_contents.dart';
 import 'package:kar_kam/list_view_builder_settings_page_contents.dart';
 
 /// [PageSpec] allows for ease of reference to specific page settings.
@@ -28,11 +27,11 @@ PageSpec homePage = PageSpec(
 //  Home page specs.
 PageSpec filesPage = PageSpec(
   title: 'Files',
-  contents: ListViewBuilderSettingsPageContents(),
+  contents: Container(),
 );
 
 //  Settings Home page specs.
 PageSpec settingsPage = PageSpec(
   title: 'Settings',
-  contents: ListViewSettingsPageContents(),
+  contents: ListViewBuilderSettingsPageContents(),
 );
