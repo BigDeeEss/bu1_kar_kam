@@ -63,7 +63,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
     ];
 
     return DataNotifier(
-      key: ValueKey('scrollController'),
+      key: ValueKey('scrollPosition'),
       data: scrollPositionNotifier,
       child: ListView.builder(
         controller: scrollController,
