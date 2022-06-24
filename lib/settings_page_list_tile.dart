@@ -15,11 +15,11 @@ class SettingsPageListTile extends StatelessWidget {
     required this.guestRect,
     required this.index,
   }) : super(key: key) {
-    //  Create [hostRect], the basis of [SettingsPageListTile],
+    //  Create [hostRect], a representation of [SettingsPageListTile],
     //  from [basePageViewRect].
     hostRect = basePageViewRect
         .inflateToHeight(height)
-        .moveTo(basePageViewRect.topLeft)
+        .moveTopLeftTo(basePageViewRect.topLeft)
         .translate(0, height * index);
 
     //  Generate construction Rects.
@@ -63,12 +63,16 @@ class SettingsPageListTile extends StatelessWidget {
   /// Getter for [lowerConstrRect].
   Rect? get lowerConstructionRect {
     if (guestRect != null) {
-      //  Inflate [guestRect] to a new height centered on the original.
-      Rect rect = guestRect!.inflateToHeight(1.0 * guestRect!.shortestSide);
+      double rectHeight = 1.125 * guestRect!.shortestSide;
 
-      //  Calculate shift factor and apply to rect.
-      double dy = (guestRect!.height + rect.height - rect.shortestSide) / 2.0;
-      return rect.shift(Offset(0.0, dy));
+      //  Inflate [guestRect] to a new height centered on the original, then
+      //  move it so that its top left corner is coincident with
+      //  [guestRect.bottomLeft], finally translate it upwards by
+      //  [guestRect!.shortestSide].
+      return guestRect!
+          .inflateToHeight(rectHeight)
+          .moveTopLeftTo(guestRect!.bottomLeft)
+          .translate(0.0, -guestRect!.shortestSide / 2);
     } else
       return null;
   }
@@ -76,12 +80,16 @@ class SettingsPageListTile extends StatelessWidget {
   /// Getter for [upperConstrRect].
   Rect? get upperConstructionRect {
     if (guestRect != null) {
-      //  Inflate [guestRect] to a new height centered on the original.
-      Rect rect = guestRect!.inflateToHeight(1.0 * guestRect!.shortestSide);
+      double rectHeight = 1.125 * guestRect!.shortestSide;
 
-      //  Calculate shift factor and apply to rect.
-      double dy = (guestRect!.height + rect.height - rect.shortestSide) / 2.0;
-      return rect.shift(Offset(0.0, -dy));
+      //  Inflate [guestRect] to a new height centered on the original, then
+      //  move it so that its bottom left corner is coincident with
+      //  [guestRect.topLeft], finally translate it downwards by
+      //  [guestRect!.shortestSide].
+      return guestRect!
+          .inflateToHeight(rectHeight)
+          .moveBottomLeftTo(guestRect!.topLeft)
+          .translate(0.0, guestRect!.shortestSide / 2);
     } else
       return null;
   }
@@ -91,19 +99,30 @@ class SettingsPageListTile extends StatelessWidget {
   double getDeltaX(double scrollPosition) {
     double? deltaX;
     Rect rect = hostRect.shift(Offset(0.0, -scrollPosition));
+    double radius = guestRect!.shortestSide / 2;
 
     //  Determine which method to use for calculating [deltaX].
     if (guestRect != null) {
-      if (upperConstrRect!.boundsContain(rect.bottomLeft) ||
-          upperConstrRect!.boundsContain(rect.bottomRight)) {
-        //  Bottom of [rect] is overlapped by [upperConstrRect].
-        double y = upperConstrRect!.bottom - rect.bottom;
-        deltaX = guestRect!.width - getDeltaXFromPosition(upperConstrRect!, y);
-      } else if (lowerConstrRect!.boundsContain(rect.topLeft) ||
+      if (lowerConstrRect!.boundsContain(rect.topLeft) ||
           lowerConstrRect!.boundsContain(rect.topRight)) {
         //  Top of [rect] is overlapped by [lowerConstrRect].
+        //  Calculate y relative to [lowerConstrRect!.bottom]; the positive
+        //  y-axis points vertically upwards in this function.
         double y = lowerConstrRect!.bottom - rect.top;
-        deltaX = getDeltaXFromPosition(lowerConstrRect!, y);
+
+        //  Calculate deltaX.
+        deltaX = getDeltaXFromY(lowerConstrRect!, radius, y);
+      } else if (upperConstrRect!.boundsContain(rect.bottomLeft) ||
+          upperConstrRect!.boundsContain(rect.bottomRight)) {
+        //  Bottom of [rect] is overlapped by [upperConstrRect].
+        //  Calculate y relative to [upperConstrRect!.bottom]; the positive
+        //  y-axis points vertically upwards in this function.
+        double y = upperConstrRect!.bottom - rect.bottom;
+
+        //  Calculate deltaX and subtract it from guestRect!.width because
+        //  it is the opposite to the above procedure.
+        deltaX = getDeltaXFromY(upperConstrRect!, radius, y);
+        deltaX = guestRect!.width - deltaX;
       } else if (centralConstrRect!.overlaps(rect)) {
         //  [centralConstrRect] overlaps with [rect].
         deltaX = guestRect!.width;
@@ -114,7 +133,7 @@ class SettingsPageListTile extends StatelessWidget {
     return deltaX ?? 0.0;
   }
 
-  /// [getDeltaXFromPosition] calculates the value to subtract from the width
+  /// [getDeltaXFromY] calculates the value to subtract from the width
   /// of [SettingsPageListTile] in order to accommodate [ButtonArray].
   ///
   /// The maximum value of [deltaX] corresponds to when [SettingsPageListTile]
@@ -129,15 +148,11 @@ class SettingsPageListTile extends StatelessWidget {
   /// section, a line segment and a curved section. The line passes through
   /// (a,b), the coordinates of the centre point of [lowerConstrRect],
   /// and is tangent to the curve at (xCrit, yCrit).
-  double getDeltaXFromPosition(Rect rect, double y) {
-    //  [r] is the radius of the curved path section.
-    double r = rect.shortestSide / 2.0;
-
+  double getDeltaXFromY(Rect rect, double r, double y) {
     //  ([a], [b]) are the coordinates of the point of symmetry, taken to
-    //  be the centre of [lowerConstrRect].
+    //  be the centre of [rect].
     //
-    //  Relative to the
-    //  bottom left corner of [lowerConstrRect], [a] and [b] have
+    //  Relative to the bottom left corner of [rect], [a] and [b] have
     //  the values as follows.
     double a = rect.width / 2.0;
     double b = rect.height / 2.0;
@@ -145,7 +160,7 @@ class SettingsPageListTile extends StatelessWidget {
     //  In order to avoid generating complex numbers aa + bb - 2ra > 0.
     assert(
         a * a + b * b - 2 * r * a >= 0,
-        'SettingsPageListTile, getDeltaXFromPosition: '
+        'SettingsPageListTile, getDeltaXFromY: '
         'error, complex number generated by square root.');
 
     //  The negative square root is taken as otherwise, with (a,b) = (2r,r),
@@ -193,7 +208,7 @@ class SettingsPageListTile extends StatelessWidget {
     } else {
       assert(
           false,
-          'SettingsPageListTile, getDeltaXFromPosition: '
+          'SettingsPageListTile, getDeltaXFromY: '
           'error, invalid y-value.');
     }
     return deltaX ?? 0.0;

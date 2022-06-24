@@ -26,8 +26,16 @@ extension RectExtension on Rect {
     return Rect.fromCenter(center: center, width: width, height: newHeight);
   }
 
-  /// Return a new instance of Rect with the top left moved to newOrigin.
-  Rect moveTo(Offset newOrigin) {
+  /// Return a new instance of Rect with the bottom left corner
+  /// located at newOrigin.
+  Rect moveBottomLeftTo(Offset newOrigin) {
+    Offset origin = Offset(left, bottom);
+    return Rect.fromLTRB(left, top, right, bottom).shift(newOrigin - origin);
+  }
+
+  /// Return a new instance of Rect with the top left corner
+  /// located at newOrigin.
+  Rect moveTopLeftTo(Offset newOrigin) {
     Offset origin = Offset(left, top);
     return Rect.fromLTRB(left, top, right, bottom).shift(newOrigin - origin);
   }
