@@ -26,6 +26,9 @@ class SettingsPageListTile extends StatelessWidget {
     centralConstrRect = centralConstructionRect;
     lowerConstrRect = lowerConstructionRect;
     upperConstrRect = upperConstructionRect;
+
+    //  Upload the radius of curvature.
+    if (guestRect != null) r = guestRect!.shortestSide / 2;
   }
 
   /// The visible area on screen that contains [SettingsPageContents].
@@ -37,13 +40,16 @@ class SettingsPageListTile extends StatelessWidget {
   /// Unique identifier for [SettingsPageListTile].
   final int index;
 
-  double height = 75.0;
+  final double height = 75.0;
 
-  /// A Rect variable representing [SettingsPageListTile] on screen.
-  late Rect hostRect;
+  /// The radius associated with the sliding motion of [SettingsPageListTile].
+  double r = 0.0;
 
   /// A construction Rect centred on [guestRect].
   Rect? centralConstrRect;
+
+  /// A Rect variable representing [SettingsPageListTile] on screen.
+  late Rect hostRect;
 
   /// A construction Rect that is the same width as [guestRect] and which
   /// overlaps with [guestRect.bottomLeft] and [guestRect.bottomRight].
@@ -99,7 +105,6 @@ class SettingsPageListTile extends StatelessWidget {
   double getDeltaX(double scrollPosition) {
     double? deltaX;
     Rect rect = hostRect.shift(Offset(0.0, -scrollPosition));
-    double radius = guestRect!.shortestSide / 2;
 
     //  Determine which method to use for calculating [deltaX].
     if (guestRect != null) {
@@ -111,7 +116,7 @@ class SettingsPageListTile extends StatelessWidget {
         double y = lowerConstrRect!.bottom - rect.top;
 
         //  Calculate deltaX.
-        deltaX = getDeltaXFromY(lowerConstrRect!, radius, y);
+        deltaX = getDeltaXFromY(lowerConstrRect!, y);
       } else if (upperConstrRect!.boundsContain(rect.bottomLeft) ||
           upperConstrRect!.boundsContain(rect.bottomRight)) {
         //  Bottom of [rect] is overlapped by [upperConstrRect].
@@ -121,7 +126,7 @@ class SettingsPageListTile extends StatelessWidget {
 
         //  Calculate deltaX and subtract it from guestRect!.width because
         //  it is the opposite to the above procedure.
-        deltaX = getDeltaXFromY(upperConstrRect!, radius, y);
+        deltaX = getDeltaXFromY(upperConstrRect!, y);
         deltaX = guestRect!.width - deltaX;
       } else if (centralConstrRect!.overlaps(rect)) {
         //  [centralConstrRect] overlaps with [rect].
@@ -148,7 +153,7 @@ class SettingsPageListTile extends StatelessWidget {
   /// section, a line segment and a curved section. The line passes through
   /// (a,b), the coordinates of the centre point of [lowerConstrRect],
   /// and is tangent to the curve at (xCrit, yCrit).
-  double getDeltaXFromY(Rect rect, double r, double y) {
+  double getDeltaXFromY(Rect rect, double y) {
     //  ([a], [b]) are the coordinates of the point of symmetry, taken to
     //  be the centre of [rect].
     //
