@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
-//  [SettingsPageContents] creates app settings in the form of a ListView.
+/// [SettingsPageContents] implements a settings page with
+/// tiles that are able scroll around (not behind) [buttonArray].
 class SettingsPageContents extends StatefulWidget {
   const SettingsPageContents({Key? key}) : super(key: key);
 
@@ -14,14 +15,6 @@ class SettingsPageContents extends StatefulWidget {
 }
 
 class _SettingsPageContentsState extends State<SettingsPageContents> {
-  final List<Color> colors = const [
-    Colors.blueGrey,
-    Colors.green,
-    Colors.deepOrange,
-    Colors.purple,
-    Colors.pink,
-  ];
-
   /// [scrollController] is added to the ListView instance below in order
   /// to get the scroll position offset value.
   final ScrollController scrollController = ScrollController();
@@ -49,81 +42,36 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
   @override
   Widget build(BuildContext context) {
+    //  Get [buttonArrayRect] from NataNotifier in [BasePage].
+    Rect? buttonArrayRect =
+        DataNotifier.of(context, ValueKey('buttonArrayRect')).data.value;
+
+    //  Get [basePageViewRect] from NataNotifier in [BasePage].
+    Rect? basePageViewRect =
+        DataNotifier.of(context, ValueKey('basePageViewRect')).data.value;
+
+    //  Generate a temporary list of tiles to build.
+    List<Widget> tileList = [
+      ...List<Widget>.generate(100, (int index) {
+        return SettingsPageListTile(
+          basePageViewRect:
+              basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
+          guestRect: buttonArrayRect,
+          index: index,
+        );
+      })
+    ];
+
     return DataNotifier(
-      key: ValueKey('scrollController'),
+      key: ValueKey('scrollPosition'),
       data: scrollPositionNotifier,
-      child: ListView(
+      child: ListView.builder(
         controller: scrollController,
-        // physics: CustomScrollPhysics(),
-        children: <Widget>[
-          ...List<Widget>.generate(20, (int index) {
-            return Opacity(
-              opacity: 0.5,
-              child: Card(
-                child: ListTile(
-                  title: Text('Test $index'),
-                  tileColor: colors[index % colors.length],
-                ),
-              ),
-            );
-          }),
-          // ...List<Widget>.generate(1, (int index) {
-          //   return SettingsPageListTileOne();
-          // }),
-          // ...List<Widget>.generate(1, (int index) {
-          //   return SettingsPageListTileTwo();
-          // }),
-          // ...List<Widget>.generate(1, (int index) {
-          //   return SettingsPageListTileThree();
-          // }),
-          // ...List<Widget>.generate(5, (int index) {
-          //   return SettingsPageListTileWithCard();
-          // }),
-          // ...List<Widget>.generate(100, (int index) {
-          //   return SettingsPageListTile();
-          // }),
-          ...List<Widget>.generate(100, (int index) {
-            return SettingsPageListTile();
-          }),
-          // ...List<Widget>.generate(1, (int index) {
-          //   return SettingsPageListTileWithCard();
-          // }),
-          // ...List<Widget>.generate(1, (int index) {
-          //   return SettingsPageListTileFive(
-          //     title: ' #$index ',
-          //   );
-          // }),
-          ...List<Widget>.generate(20, (int index) {
-            return Opacity(
-              opacity: 0.5,
-              child: Card(
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  title: Text('Test $index'),
-                  tileColor: colors[index % colors.length],
-                ),
-              ),
-            );
-          }),
-        ]
+        itemCount: tileList.length,
+        itemBuilder: (context, index) {
+          return tileList[index];
+        },
       ),
     );
-  }
-}
-
-class CustomScrollPhysics extends ClampingScrollPhysics {
-  const CustomScrollPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
-
-  @override
-
-  @override
-  double get maxFlingVelocity => 1000;
-
-  @override
-  CustomScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return CustomScrollPhysics(parent: buildParent(ancestor));
   }
 }

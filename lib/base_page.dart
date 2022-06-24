@@ -4,18 +4,23 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
+import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 
-/// [BasePage] implements a generic page layout design so that a
-/// similar UI is presented for each page/route.
+/// [BasePage] implements a generic page layout design.
+///
+/// [BasePage] presents similar UI for each page/route with:
+///     1. an AppBar at the top with a title,
+///     2. specific screen contents including buttons for navigation
+///        and functionality, and
+///     3. a bottom navigation bar.
 class BasePage extends StatefulWidget {
   BasePage({
     Key? key,
     required this.pageSpec,
   }) : super(key: key);
 
-  /// [pageSpec] defines the page content.
   final PageSpec pageSpec;
 
   @override
@@ -23,37 +28,45 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> {
-  /// [buttonArrayRectNotifier] stores Rect information that may be
-  /// required by widgets below this in the widget tree.
-  final ValueNotifier<Rect> buttonArrayRectNotifier =
-      ValueNotifier(Offset(1.0, 2.0) & Size(3.0, 4.0));
+  /// [buttonArrayRectNotifier] stores Rect information associated with
+  /// [buttonArray] for use by widgets below this in the widget tree.
+  final ValueNotifier<Rect?> buttonArrayRectNotifier = ValueNotifier(Rect.zero);
 
-  /// [buttonArray] builds a linear horizontal or vertical array of buttons.
-  ///
-  /// [buttonArray] is referenced in the build and initState methods and
-  /// so must be instantiated at the point of [BasePage] creation.
+  //  [basePageViewKey] stores the key that is passed to Stack so that
+  //  widgets below this -- e.g. [ListViewBuilderSettingsPageContents] -- are
+  //  able to get the available screen dimensions.
+  GlobalKey basePageViewKey = GlobalKey();
+
+  //  [basePageViewRectNotifier] transmits the available screen dimensions
+  //  down the widget tree as Rect data.
+  final ValueNotifier<Rect?> basePageViewRectNotifier = ValueNotifier(Rect.zero);
+
+  //  [buttonArray] builds a linear horizontal or vertical array of buttons.
+  //
+  //  [buttonArray] is referenced in the build and initState methods and
+  //  so must be instantiated at the point of [BasePage] creation.
   final ButtonArray buttonArray = ButtonArray();
 
-  /// [pageContents] (initially null) is updated by setState in a
-  /// postFrameCallback.
-  ///
-  /// For all pages [buttonArray] is built first in order to get its Rect
-  /// information before building [pageContents]. This build order is required
-  /// by ListView in settings_page_contents.dart.
+  //  [pageContents] (initially null) is updated by setState in a
+  //  postFrameCallback.
+  //
+  //  [pageContents] may depend on knowledge of the existence of [buttonArray].
+  //  and so must be built after [buttonArray] in a post-frame callback.
   Widget? pageContents;
 
   @override
   void initState() {
     super.initState();
 
-    //  [BasePage] is built in two parts: (i) [buttonArray], so that its
-    //  Rect data can then be calculated, and then (ii) [uttonArray] +
-    //  [pageContents]. The latter step occurs because of this post-frame
-    //  callback.
+    //  [BasePage] is built in two parts: (i) [buttonArray], by the build
+    //  function; and then (ii) [buttonArray] + [pageContents], initiated by
+    //  this post-frame callback.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //  Get buttonArray Rect data and update buttonArrayRectNotifier.
-      Rect buttonArrayRect = buttonArray.getRect();
-      buttonArrayRectNotifier.value = buttonArrayRect;
+      //  Get [buttonArray] Rect data and update [buttonArrayRectNotifier].
+      buttonArrayRectNotifier.value = buttonArray.getRect();
+
+      //  Get [basePageView] Rect data and update [basePageViewRectNotifier].
+      basePageViewRectNotifier.value = basePageViewKey.globalPaintBounds;
 
       //  Rebuild widget with pageSpec.contents instead of Container().
       if (pageContents == null) {
@@ -70,11 +83,9 @@ class _BasePageState extends State<BasePage> {
       appBar: AppBar(
         title: Text(widget.pageSpec.title),
       ),
-      //  Use Builder widget because it is not possible to get the appBar
-      //  height from the current BuildContext since this instance of Scaffold
-      //  hasn't been built yet.
-      //
-      //  This instance of Builder returns BottomAppBar.
+      //  Use Builder widget to generate a BottomAppBar because it is not
+      //  possible to get the appBar height from the current BuildContext since
+      //  this instance of Scaffold hasn't been built yet.
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           //  Get appBar height from context.
@@ -93,9 +104,9 @@ class _BasePageState extends State<BasePage> {
           );
         },
       ),
-      //  The Scaffold body contents are placed within an instance of
-      //  DataNotifier inorder to transfer [buttonArrayRect]
-      //  down to SettingsPageContents.
+      //  The Scaffold body contents are placed within two instances of
+      //  DataNotifier in order to transfer [buttonArray] and available screen
+      //  dimensions down the widget tree.
       body: DataNotifier(
         key: ValueKey('buttonArrayRect'),
         data: buttonArrayRectNotifier,
@@ -104,16 +115,21 @@ class _BasePageState extends State<BasePage> {
         //  Ensure that ButtonArray sits above the page content by placing
         //  it last in a Stack list of children.
         //
-        //  If [pageContents] is null then post an empty container into Stack,
+        //  If [pageContents] is null then put an empty container into Stack,
         //  otherwise use its value (see ?? operator below).
         //
         //  Note: [pageContents] equates to widget.pageSpec.contents
         //  after setState.
-        child: Stack(
-          children: <Widget>[
-            pageContents ?? Container(),
-            buttonArray,
-          ],
+        child: DataNotifier(
+          key: ValueKey('basePageViewRect'),
+          data: basePageViewRectNotifier,
+          child: Stack(
+            key: basePageViewKey,
+            children: <Widget>[
+              pageContents ?? Container(),
+              buttonArray,
+            ],
+          ),
         ),
       ),
     );
