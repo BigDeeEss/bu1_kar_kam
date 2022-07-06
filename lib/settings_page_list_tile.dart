@@ -8,6 +8,9 @@ import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
+
+/// [SettingsPageListTile] implements a ListTile effect that is able to
+/// slide around objects on the screen bounded by [guestRect].
 class SettingsPageListTile extends StatelessWidget {
   SettingsPageListTile({
     Key? key,
