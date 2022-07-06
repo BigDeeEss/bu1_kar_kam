@@ -15,8 +15,8 @@ class AppSettings {
   // static Alignment buttonAlignment = Alignment.topRight;
 
   /// [buttonAxis] sets the button axis in ButtonArray.
-  // static Axis buttonAxis = Axis.horizontal;
-  static Axis buttonAxis = Axis.vertical;
+  static Axis buttonAxis = Axis.horizontal;
+  // static Axis buttonAxis = Axis.vertical;
 
   /// [buttonPadding] defines the padding surrounding each button.
   static EdgeInsetsDirectional buttonPadding =

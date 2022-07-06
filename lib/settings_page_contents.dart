@@ -58,6 +58,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
           index: index,
+          leading: FlutterLogo(),
         );
       })
     ];

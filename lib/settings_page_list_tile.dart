@@ -8,7 +8,6 @@ import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
-
 /// [SettingsPageListTile] implements a ListTile effect that is able to
 /// slide around objects on the screen bounded by [guestRect].
 class SettingsPageListTile extends StatelessWidget {
@@ -17,6 +16,7 @@ class SettingsPageListTile extends StatelessWidget {
     required this.basePageViewRect,
     required this.guestRect,
     required this.index,
+    this.leading,
   }) : super(key: key) {
     //  Create [hostRect], a representation of [SettingsPageListTile],
     //  from [basePageViewRect].
@@ -42,6 +42,9 @@ class SettingsPageListTile extends StatelessWidget {
 
   /// Unique identifier for [SettingsPageListTile].
   final int index;
+
+  /// A widget to display before the title.
+  final Widget? leading;
 
   final double height = 75.0;
 
@@ -248,7 +251,47 @@ class SettingsPageListTile extends StatelessWidget {
                 Radius.circular(12.0),
               ),
             ),
-            child: Text('Test...$index'),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: OverflowBox(
+                alignment: Alignment.centerLeft,
+                maxWidth: hostRect.width,
+                child: Row(
+                  children: <Widget>[
+                    leading ?? Container(),
+                    Text(
+                      'Some very, very, very,very long text!',
+                      maxLines: 1,
+                      // overflow: TextOverflow.fade,
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Container(),
+                    ),
+                    leading ?? Container(),
+                  ],
+                ),
+              ),
+              // child: ListTile(
+              //   leading: leading,
+              //   subtitle:Text(
+              //     'Some very, very, very,very long text!',
+              //     maxLines: 1,
+              //     // overflow: TextOverflow.fade,
+              //   ),
+              //   title: Text(
+              //     'Test...$index',
+              //     maxLines: 1,
+              //     // overflow: TextOverflow.fade,
+              //   ),
+              //   // trailing: leading,
+              // ),
+            ),
+            // child: Row(
+            //   children: <Widget>[
+            //     Text('Test...$index'),
+            //   ],
+            // )
           ),
         );
       },
