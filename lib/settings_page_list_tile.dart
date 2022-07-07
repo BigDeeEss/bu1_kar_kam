@@ -232,66 +232,42 @@ class SettingsPageListTile extends StatelessWidget {
       valueListenable:
           DataNotifier.of(context, ValueKey('scrollPosition')).data,
       builder: (BuildContext context, double value, __) {
+        //  Calculate the degree of indentation/horizontal shrinkage to
+        //  be applied to this instance of [SettingsPageListTile].
+        double deltaX = getDeltaX(value);
+        double width = hostRect.width - deltaX;
+        ;
+        if (index == 10) {
+          print('basePageViewRect.width = ${basePageViewRect.width}');
+          print('deltaX = ${deltaX}');
+          print('width = ${width}');
+        }
         return Container(
           //  Draw bounding box around [SettingsPageListTile].
           decoration: BoxDecoration(
             border: AppSettings.drawLayoutBounds
                 ? Border.all(width: 0.0, color: Colors.redAccent)
                 : null,
+            color: Colors.blue.withOpacity(0.5),
+            borderRadius: BorderRadius.all(
+              Radius.circular(12.0),
+            ),
           ),
           margin: AppSettings.buttonAlignment.isLeft
-              ? EdgeInsets.only(left: getDeltaX(value))
-              : EdgeInsets.only(right: getDeltaX(value)),
+              ? EdgeInsets.only(left: deltaX)
+              : EdgeInsets.only(right: deltaX),
           height: height,
-          child: Container(
-            key: UniqueKey(),
-            decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.5),
-              borderRadius: BorderRadius.all(
-                Radius.circular(12.0),
-              ),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: <Widget>[
+                leading ?? Container(),
+                index == 10 ? Text(
+                  'Some very, very, very, very, very, very, very, very, very long text!',
+                  maxLines: 1,
+                ) : Container(),
+              ],
             ),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: OverflowBox(
-                alignment: Alignment.centerLeft,
-                maxWidth: hostRect.width,
-                child: Row(
-                  children: <Widget>[
-                    leading ?? Container(),
-                    Text(
-                      'Some very, very, very,very long text!',
-                      maxLines: 1,
-                      // overflow: TextOverflow.fade,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Container(),
-                    ),
-                    leading ?? Container(),
-                  ],
-                ),
-              ),
-              // child: ListTile(
-              //   leading: leading,
-              //   subtitle:Text(
-              //     'Some very, very, very,very long text!',
-              //     maxLines: 1,
-              //     // overflow: TextOverflow.fade,
-              //   ),
-              //   title: Text(
-              //     'Test...$index',
-              //     maxLines: 1,
-              //     // overflow: TextOverflow.fade,
-              //   ),
-              //   // trailing: leading,
-              // ),
-            ),
-            // child: Row(
-            //   children: <Widget>[
-            //     Text('Test...$index'),
-            //   ],
-            // )
           ),
         );
       },
