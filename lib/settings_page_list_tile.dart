@@ -289,7 +289,7 @@ class _SettingsPageListTileClipper extends CustomClipper<Path> {
     required this.index,
   }) : super(reclip: reclip);
 
-  final double hello;
+  final double width;
   final int index;
 
   @override
