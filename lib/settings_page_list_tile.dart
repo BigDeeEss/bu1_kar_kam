@@ -241,6 +241,7 @@ class SettingsPageListTile extends StatelessWidget {
           print('basePageViewRect.width = ${basePageViewRect.width}');
           print('deltaX = ${deltaX}');
           print('width = ${width}');
+          print('guestRect!.width = ${guestRect!.width}');
         }
         return Container(
           //  Draw bounding box around [SettingsPageListTile].
@@ -259,18 +260,50 @@ class SettingsPageListTile extends StatelessWidget {
           height: height,
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Row(
-              children: <Widget>[
-                leading ?? Container(),
-                index == 10 ? Text(
-                  'Some very, very, very, very, very, very, very, very, very long text!',
-                  maxLines: 1,
-                ) : Container(),
-              ],
-            ),
+            child: index == 10 ? ClipPath(
+              clipper: _SettingsPageListTileClipper(
+                width: width - 1,
+                index: index,
+              ),
+              child: Row(
+                children: <Widget>[
+                  leading ?? Container(),
+                  Text(
+                    'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+            ) : Container(),
           ),
         );
       },
     );
   }
+}
+
+class _SettingsPageListTileClipper extends CustomClipper<Path> {
+  _SettingsPageListTileClipper({
+    Listenable? reclip,
+    required this.width,
+    required this.index,
+  }) : super(reclip: reclip);
+
+  final double width;
+  final int index;
+
+  @override
+  Path getClip(Size size) {
+    print('index = $index');
+    if (index == 10) {
+      print('_SettingsPageListTileClipper width = $width');
+    }
+    Rect rect = Offset.zero & Size(width, size.height);
+
+    Path path = Path();
+    return path..addRect(rect);
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
