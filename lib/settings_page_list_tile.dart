@@ -247,7 +247,7 @@ class SettingsPageListTile extends StatelessWidget {
           //  Draw bounding box around [SettingsPageListTile].
           decoration: BoxDecoration(
             border: AppSettings.drawLayoutBounds
-                ? Border.all(width: 0.0, color: Colors.redAccent)
+                ? Border.all(width: 0.0, color: Colors.green)
                 : null,
             color: Colors.blue.withOpacity(0.5),
             borderRadius: BorderRadius.all(
@@ -258,23 +258,64 @@ class SettingsPageListTile extends StatelessWidget {
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: index == 10 ? ClipPath(
-              clipper: _SettingsPageListTileClipper(
-                width: width - 1,
-                index: index,
+          child: Container(
+            //  Draw bounding box around [SettingsPageListTile].
+            decoration: BoxDecoration(
+              border: AppSettings.drawLayoutBounds
+                  ? Border.all(width: 0.0, color: Colors.redAccent)
+                  : null,
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
               ),
-              child: Row(
-                children: <Widget>[
-                  leading ?? Container(),
-                  Text(
-                    'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
-                    maxLines: 1,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  //  Draw bounding box around [SettingsPageListTile].
+                  decoration: BoxDecoration(
+                    border: AppSettings.drawLayoutBounds
+                        ? Border.all(width: 0.0, color: Colors.purple)
+                        : null,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
+                    ),
                   ),
-                ],
+                  child: index == 10
+                      ? ClipPath(
+                          clipper: _SettingsPageListTileClipper(
+                            width: width/2,
+                            index: index,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Container(
+                              //  Draw bounding box around [SettingsPageListTile].
+                              decoration: BoxDecoration(
+                                border: AppSettings.drawLayoutBounds
+                                    ? Border.all(width: 0.0, color: Colors.pink)
+                                    : null,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12.0),
+                                ),
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  leading ?? Container(),
+                                  Text(
+                                    'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                ),
               ),
-            ) : Container(),
+            ),
           ),
         );
       },
