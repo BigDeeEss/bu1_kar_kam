@@ -269,7 +269,7 @@ class SettingsPageListTile extends StatelessWidget {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.all(4.0),
+              padding: EdgeInsets.all(0.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -285,11 +285,11 @@ class SettingsPageListTile extends StatelessWidget {
                   child: index == 10
                       ? ClipPath(
                           clipper: _SettingsPageListTileClipper(
-                            width: 0.75 * width,
+                            width: 1.0 * width - 0,
                             index: index,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(4),
+                            padding: EdgeInsets.all(0),
                             child: Container(
                               //  Draw bounding box around [SettingsPageListTile].
                               decoration: BoxDecoration(
@@ -303,6 +303,10 @@ class SettingsPageListTile extends StatelessWidget {
                               child: Row(
                                 children: <Widget>[
                                   leading ?? Container(),
+                                  SizedBox(
+                                    height: 60,
+                                    width: 0,
+                                  ),
                                   Text(
                                     'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
                                     maxLines: 1,
