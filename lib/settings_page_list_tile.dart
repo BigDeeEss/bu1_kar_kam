@@ -285,7 +285,7 @@ class SettingsPageListTile extends StatelessWidget {
                   child: index == 10
                       ? ClipPath(
                           clipper: _SettingsPageListTileClipper(
-                            width: width/2,
+                            width: 0.75 * width,
                             index: index,
                           ),
                           child: Padding(
