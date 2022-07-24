@@ -52,15 +52,15 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
     //  Generate a temporary list of tiles to build.
     List<Widget> tileList = [
-      ...List<Widget>.generate(110, (int index) {
+      ...List<Widget>.generate(150, (int index) {
         return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
           index: index,
-          leading: FlutterLogo(),
+          leading: Icon(Icons.favorite, size: 30),
         );
-      })
+      }),
     ];
 
     return DataNotifier(

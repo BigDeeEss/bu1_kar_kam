@@ -237,7 +237,8 @@ class SettingsPageListTile extends StatelessWidget {
         //  be applied to this instance of [SettingsPageListTile].
         double deltaX = getDeltaX(value);
         double width = hostRect.width - deltaX;
-        ;
+
+        // Diagnostics...delete.
         if (index == 10) {
           print('basePageViewRect.width = ${basePageViewRect.width}');
           print('deltaX = ${deltaX}');
@@ -253,58 +254,43 @@ class SettingsPageListTile extends StatelessWidget {
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
+          //  ToDo: implement an improved padding value assignment.
+          //  ToDo: implement a borderRadius.
           child: Padding(
-            padding: EdgeInsets.all(0.0),
-            child: Row(
-              children: <Widget>[
-                leading ?? Container(),
-                Expanded(
-                  child: Text(
-                    'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
-                    maxLines: 1,
+            padding: EdgeInsets.all(5.0),
+            //  ToDo: delete the following instance of BoxedContainer.
+            child: BoxedContainer(
+              borderRadius: 10,
+              child: Row(
+                children: <Widget>[
+                  //  ToDo: delete the following instance of BoxedContainer.
+                  BoxedContainer(
+                    child: leading,
                   ),
-                ),
-              ],
-            ),
-          ),
-        );
-        return BoxedContainer(
-          color: Colors.blue.withOpacity(0.5),
-          margin: AppSettings.buttonAlignment.isLeft
-              ? EdgeInsets.only(left: deltaX)
-              : EdgeInsets.only(right: deltaX),
-          height: height,
-          child: Container(
-            child: Padding(
-              padding: EdgeInsets.all(0.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  child: index == 10 ? ClipPath(
-                    clipper: _SettingsPageListTileClipper(
-                      width: 1.0 * width - 0,
-                      index: index,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(0.0),
-                      child: Container(
-                        child: Row(
-                          children: <Widget>[
-                            leading ?? Container(),
-                            SizedBox(
-                              height: 60,
-                              width: 0,
-                            ),
-                            Text(
-                              'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
-                              maxLines: 1,
-                            ),
-                          ],
+                  //  ToDo: delete the dependence on index.
+                  index == 10 ? Expanded(
+                    child: ClipPath(
+                      clipper: _SettingsPageListTileClipper(
+                        //  ToDo: implement a width that depends on leading.
+                        width: 1.0 * width - 45,
+                        index: index,
+                      ),
+                      child: BoxedContainer(
+                        borderWidth: 1,
+                        borderColor: Colors.red,
+                        child: Text(
+                          '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                          maxLines: 1,
                         ),
                       ),
                     ),
-                  ) : Container(),
-                ),
+                  ) : Expanded(
+                    child:Text(
+                      '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
