@@ -28,16 +28,16 @@ class BoxedContainer extends Container {
           alignment: alignment,
           child: child,
           clipBehavior: clipBehavior,
-          color: color,
           constraints: constraints,
           decoration: decoration ?? BoxDecoration(
-            border: Border.all(
+            border: AppSettings.drawLayoutBounds ? Border.all(
               width: borderWidth ?? 0.1,
               color: borderColor ?? Colors.black,
-            ),
+            ) : null,
             borderRadius: BorderRadius.all(
               Radius.circular(borderRadius ?? 0.0),
             ),
+            color: color,
           ),
           foregroundDecoration: foregroundDecoration,
           height: height,

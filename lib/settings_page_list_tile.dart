@@ -248,16 +248,38 @@ class SettingsPageListTile extends StatelessWidget {
         //  The topmost instance of Container, with the use of deltaX to
         //  define margin, implements the variable width settings panel.
         return BoxedContainer(
+          color: Colors.pink[50],
           margin: AppSettings.buttonAlignment.isLeft
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
-          child: BoxedContainer(
+          child: Padding(
+            padding: EdgeInsets.all(0.0),
+            child: Row(
+              children: <Widget>[
+                leading ?? Container(),
+                Expanded(
+                  child: Text(
+                    'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                    maxLines: 1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        return BoxedContainer(
+          color: Colors.blue.withOpacity(0.5),
+          margin: AppSettings.buttonAlignment.isLeft
+              ? EdgeInsets.only(left: deltaX)
+              : EdgeInsets.only(right: deltaX),
+          height: height,
+          child: Container(
             child: Padding(
               padding: EdgeInsets.all(0.0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: BoxedContainer(
+                child: Container(
                   child: index == 10 ? ClipPath(
                     clipper: _SettingsPageListTileClipper(
                       width: 1.0 * width - 0,
@@ -265,7 +287,7 @@ class SettingsPageListTile extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(0.0),
-                      child: BoxedContainer(
+                      child: Container(
                         child: Row(
                           children: <Widget>[
                             leading ?? Container(),
