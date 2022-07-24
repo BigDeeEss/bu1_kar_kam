@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
-import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
@@ -244,44 +243,80 @@ class SettingsPageListTile extends StatelessWidget {
           print('width = ${width}');
           print('guestRect!.width = ${guestRect!.width}');
         }
-
-        //  The topmost instance of Container, with the use of deltaX to
-        //  define margin, implements the variable width settings panel.
-        return BoxedContainer(
+        return Container(
+          //  Draw bounding box around [SettingsPageListTile].
+          decoration: BoxDecoration(
+            border: AppSettings.drawLayoutBounds
+                ? Border.all(width: 0.0, color: Colors.green)
+                : null,
+            color: Colors.blue.withOpacity(0.5),
+            borderRadius: BorderRadius.all(
+              Radius.circular(12.0),
+            ),
+          ),
           margin: AppSettings.buttonAlignment.isLeft
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
-          child: BoxedContainer(
+          child: Container(
+            //  Draw bounding box around [SettingsPageListTile].
+            decoration: BoxDecoration(
+              border: AppSettings.drawLayoutBounds
+                  ? Border.all(width: 0.0, color: Colors.redAccent)
+                  : null,
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
+              ),
+            ),
             child: Padding(
               padding: EdgeInsets.all(0.0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: BoxedContainer(
-                  child: index == 10 ? ClipPath(
-                    clipper: _SettingsPageListTileClipper(
-                      width: 1.0 * width - 0,
-                      index: index,
+                child: Container(
+                  //  Draw bounding box around [SettingsPageListTile].
+                  decoration: BoxDecoration(
+                    border: AppSettings.drawLayoutBounds
+                        ? Border.all(width: 0.0, color: Colors.purple)
+                        : null,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.all(0.0),
-                      child: BoxedContainer(
-                        child: Row(
-                          children: <Widget>[
-                            leading ?? Container(),
-                            SizedBox(
-                              height: 60,
-                              width: 0,
+                  ),
+                  child: index == 10
+                      ? ClipPath(
+                          clipper: _SettingsPageListTileClipper(
+                            width: 1.0 * width - 0,
+                            index: index,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Container(
+                              //  Draw bounding box around [SettingsPageListTile].
+                              decoration: BoxDecoration(
+                                border: AppSettings.drawLayoutBounds
+                                    ? Border.all(width: 0.0, color: Colors.pink)
+                                    : null,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12.0),
+                                ),
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  leading ?? Container(),
+                                  SizedBox(
+                                    height: 60,
+                                    width: 0,
+                                  ),
+                                  Text(
+                                    'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
                             ),
-                            Text(
-                              'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ) : Container(),
+                          ),
+                        )
+                      : Container(),
                 ),
               ),
             ),
