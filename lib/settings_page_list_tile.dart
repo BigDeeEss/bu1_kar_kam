@@ -267,6 +267,13 @@ class SettingsPageListTile extends StatelessWidget {
                   BoxedContainer(
                     child: leading,
                   ),
+                  BoxedContainer(
+                    width: 25,
+                    child: SizedBox(width: 10, height: 40),
+                  ),
+                  BoxedContainer(
+                    child: SizedBox(width: 10, height: 40),
+                  ),
                   //  ToDo: delete the dependence on index.
                   index == 10 ? Expanded(
                     child: ClipPath(
