@@ -281,14 +281,23 @@ class SettingsPageListTile extends StatelessWidget {
                         child: Text(
                           '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
                           maxLines: 1,
+                          // overflow: TextOverflow.fade,
                         ),
                       ),
                     ),
                   ) : Expanded(
-                    child:Text(
-                      '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                    child: RichText(
                       maxLines: 1,
+                      text: TextSpan(
+                        text: '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
+                    // child: Text(
+                    //   '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                    //   maxLines: 1,
+                    //   // overflow: TextOverflow.visible,
+                    // ),
                   ),
                 ],
               ),
