@@ -43,6 +43,10 @@ class AppSettings {
   static int pageTransitionTime = 750;
 
   /// [settingsPageListTileRadius] defines the radius used in construction
-  /// of SettingsPageListTileClipper.
-  static int settingsPageListTileRadius = 25;
+  /// of SettingsPageListTile.
+  static double settingsPageListTileRadius = 15;
+
+  /// [settingsPageListTilePadding] defines the padding used in construction
+  /// of settingsPageListTile.
+  static EdgeInsets settingsPageListTilePadding = EdgeInsets.all(5.0);
 }

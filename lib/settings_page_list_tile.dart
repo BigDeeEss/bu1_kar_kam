@@ -249,18 +249,16 @@ class SettingsPageListTile extends StatelessWidget {
         //  The topmost instance of Container, with the use of deltaX to
         //  define margin, implements the variable width settings panel.
         return BoxedContainer(
-          color: Colors.pink[50],
           margin: AppSettings.buttonAlignment.isLeft
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
-          //  ToDo: implement an improved padding value assignment.
-          //  ToDo: implement a borderRadius.
           child: Padding(
-            padding: EdgeInsets.all(5.0),
-            //  ToDo: delete the following instance of BoxedContainer.
+            padding: AppSettings.settingsPageListTilePadding,
+            //  ToDo: Add a radius-dependent variable offset to deltaX.
             child: BoxedContainer(
-              borderRadius: 10,
+              borderRadius: AppSettings.settingsPageListTileRadius,
+              color: Colors.pink[50],
               child: Row(
                 children: <Widget>[
                   //  ToDo: delete the following instance of BoxedContainer.
@@ -300,11 +298,6 @@ class SettingsPageListTile extends StatelessWidget {
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
-                    // child: Text(
-                    //   '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
-                    //   maxLines: 1,
-                    //   // overflow: TextOverflow.visible,
-                    // ),
                   ),
                 ],
               ),
@@ -340,4 +333,27 @@ class _SettingsPageListTileClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+}
+
+
+
+
+class FadingEffect extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Rect rect = Rect.fromPoints(Offset(0, 0), Offset(size.width, size.height));
+    LinearGradient lg = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          //create 2 white colors, one transparent
+          Color.fromARGB(0, 255, 255, 255),
+          Color.fromARGB(255, 255, 255, 255)
+        ]);
+    Paint paint = Paint()..shader = lg.createShader(rect);
+    canvas.drawRect(rect, paint);
+  }
+
+  @override
+  bool shouldRepaint(FadingEffect linePainter) => false;
 }
