@@ -253,55 +253,46 @@ class SettingsPageListTile extends StatelessWidget {
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
-          child: Padding(
-            padding: AppSettings.settingsPageListTilePadding,
-            //  ToDo: Add a radius-dependent variable offset to deltaX.
-            child: BoxedContainer(
-              borderRadius: AppSettings.settingsPageListTileRadius,
+          padding: AppSettings.settingsPageListTilePadding,
+          child: BoxedContainer(
+            borderRadius: 10,
               color: Colors.pink[50],
-              child: Row(
-                children: <Widget>[
-                  //  ToDo: delete the following instance of BoxedContainer.
-                  BoxedContainer(
-                    child: leading,
-                  ),
-                  BoxedContainer(
-                    width: 25,
-                    child: SizedBox(width: 10, height: 40),
-                  ),
-                  BoxedContainer(
-                    child: SizedBox(width: 10, height: 40),
-                  ),
-                  //  ToDo: delete the dependence on index.
-                  index == 10 ? Expanded(
-                    child: ClipPath(
-                      clipper: _SettingsPageListTileClipper(
-                        //  ToDo: implement a width that depends on leading.
-                        width: 1.0 * width - 45,
-                        index: index,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: <Widget>[
+                      BoxedContainer(
+                        child: leading,
                       ),
-                      child: BoxedContainer(
-                        borderWidth: 1,
-                        borderColor: Colors.red,
-                        child: Text(
-                          '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
-                          maxLines: 1,
-                          // overflow: TextOverflow.fade,
+                      Expanded(
+                        child: BoxedContainer(
+                          child: Text(
+                            '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                            maxLines: 1,
+                          ),
                         ),
                       ),
-                    ),
-                  ) : Expanded(
-                    child: RichText(
-                      maxLines: 1,
-                      text: TextSpan(
-                        text: '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
-                        style: TextStyle(color: Colors.black),
-                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CustomPaint(
+                    foregroundPainter: FadingEffect(),
+                    child: BoxedContainer(
+                      width: 100,
+                      height: 30,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+            // child: CustomPaint(
+            //   foregroundPainter: FadingEffect(),
+            //   child:
+            // ),
           ),
         );
       },
@@ -337,18 +328,24 @@ class _SettingsPageListTileClipper extends CustomClipper<Path> {
 
 
 
-
+//  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
 class FadingEffect extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Rect rect = Rect.fromPoints(Offset(0, 0), Offset(size.width, size.height));
     LinearGradient lg = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        stops: [
+          0.0,
+          0.5,
+          1.0,
+        ],
         colors: [
           //create 2 white colors, one transparent
-          Color.fromARGB(0, 255, 255, 255),
-          Color.fromARGB(255, 255, 255, 255)
+          Colors.pink[50]!.withOpacity(0.0),
+          Colors.pink[50]!.withOpacity(1.0),
+          Colors.pink[50]!.withOpacity(1.0),
         ]);
     Paint paint = Paint()..shader = lg.createShader(rect);
     canvas.drawRect(rect, paint);
