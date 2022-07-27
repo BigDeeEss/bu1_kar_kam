@@ -296,9 +296,9 @@ class SettingsPageListTile extends StatelessWidget {
                         ],
                         colors: [
                           //create 2 white colors, one transparent
-                          Colors.green[50]!.withOpacity(0.0),
-                          Colors.green[50]!.withOpacity(1.0),
-                          Colors.green[50]!.withOpacity(1.0),
+                          Colors.pink[50]!.withOpacity(0.0),
+                          Colors.pink[50]!.withOpacity(1.0),
+                          Colors.pink[50]!.withOpacity(1.0),
                         ]
                       ),
                     ),
