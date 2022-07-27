@@ -291,14 +291,14 @@ class SettingsPageListTile extends StatelessWidget {
                         end: Alignment.centerRight,
                         stops: [
                           0.0,
-                          0.8,
+                          0.5,
                           1.0,
                         ],
                         colors: [
                           //create 2 white colors, one transparent
-                          Colors.green[500]!.withOpacity(0.0),
-                          Colors.green[500]!.withOpacity(1.0),
-                          Colors.green[500]!.withOpacity(1.0),
+                          Colors.green[50]!.withOpacity(0.0),
+                          Colors.green[50]!.withOpacity(1.0),
+                          Colors.green[50]!.withOpacity(1.0),
                         ]
                       ),
                     ),
