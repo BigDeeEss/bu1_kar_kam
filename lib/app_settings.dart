@@ -1,5 +1,5 @@
 //  Import flutter packages.
-import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
 
 /// Class for ease of import of app settings.
 class AppSettings {
@@ -41,6 +41,10 @@ class AppSettings {
   /// [pageTransitionTime] defines the time in milliseconds allowed
   /// for the transitioning the page.
   static int pageTransitionTime = 750;
+
+  /// [settingsPageListTileIconSize] defines the radius used in construction
+  /// of SettingsPageListTile.
+  static double settingsPageListTileIconSize = 25;
 
   /// [settingsPageListTileRadius] defines the radius used in construction
   /// of SettingsPageListTile.

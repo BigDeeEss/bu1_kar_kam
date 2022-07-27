@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
@@ -58,7 +59,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
           index: index,
-          leading: Icon(Icons.favorite, size: 30),
+          leading: Icon(
+            Icons.favorite,
+            size: AppSettings.settingsPageListTileIconSize,
+          ),
         );
       }),
     ];

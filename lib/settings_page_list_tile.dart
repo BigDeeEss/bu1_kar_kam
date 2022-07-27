@@ -255,8 +255,8 @@ class SettingsPageListTile extends StatelessWidget {
           height: height,
           padding: AppSettings.settingsPageListTilePadding,
           child: BoxedContainer(
-            borderRadius: 10,
-              color: Colors.pink[50],
+            borderRadius: AppSettings.settingsPageListTileRadius,
+            color: Colors.pink[50],
             child: Stack(
               children: [
                 Align(
@@ -269,8 +269,10 @@ class SettingsPageListTile extends StatelessWidget {
                       Expanded(
                         child: BoxedContainer(
                           child: Text(
-                            '$index. Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                            '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
                             maxLines: 1,
+                            softWrap: false,
+                            // overflow: TextOverflow.visible,
                           ),
                         ),
                       ),
@@ -279,20 +281,39 @@ class SettingsPageListTile extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: CustomPaint(
-                    foregroundPainter: FadingEffect(),
-                    child: BoxedContainer(
-                      width: 100,
-                      height: 30,
+                  child: BoxedContainer(
+                    width: 2 * AppSettings.settingsPageListTileIconSize,
+                    height: height,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSettings.settingsPageListTileRadius),
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        stops: [
+                          0.0,
+                          0.8,
+                          1.0,
+                        ],
+                        colors: [
+                          //create 2 white colors, one transparent
+                          Colors.green[500]!.withOpacity(0.0),
+                          Colors.green[500]!.withOpacity(1.0),
+                          Colors.green[500]!.withOpacity(1.0),
+                        ]
+                      ),
                     ),
                   ),
+                  // child: CustomPaint(
+                  //   foregroundPainter: FadingEffect(),
+                    // child: BoxedContainer(
+                    //   borderRadius: AppSettings.settingsPageListTileRadius,
+                    //   width: 2 * AppSettings.settingsPageListTileIconSize,
+                    //   height: height/2 +20,
+                    // ),
+                  // ),
                 ),
               ],
             ),
-            // child: CustomPaint(
-            //   foregroundPainter: FadingEffect(),
-            //   child:
-            // ),
           ),
         );
       },
@@ -300,31 +321,31 @@ class SettingsPageListTile extends StatelessWidget {
   }
 }
 
-class _SettingsPageListTileClipper extends CustomClipper<Path> {
-  _SettingsPageListTileClipper({
-    Listenable? reclip,
-    required this.width,
-    required this.index,
-  }) : super(reclip: reclip);
-
-  final double width;
-  final int index;
-
-  @override
-  Path getClip(Size size) {
-    print('index = $index');
-    if (index == 10) {
-      print('_SettingsPageListTileClipper width = $width');
-    }
-    Rect rect = Offset.zero & Size(width, size.height);
-
-    Path path = Path();
-    return path..addRect(rect);
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
-}
+// class _SettingsPageListTileClipper extends CustomClipper<Path> {
+//   _SettingsPageListTileClipper({
+//     Listenable? reclip,
+//     required this.width,
+//     required this.index,
+//   }) : super(reclip: reclip);
+//
+//   final double width;
+//   final int index;
+//
+//   @override
+//   Path getClip(Size size) {
+//     print('index = $index');
+//     if (index == 10) {
+//       print('_SettingsPageListTileClipper width = $width');
+//     }
+//     Rect rect = Offset.zero & Size(width, size.height);
+//
+//     Path path = Path();
+//     return path..addRect(rect);
+//   }
+//
+//   @override
+//   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+// }
 
 
 
@@ -338,14 +359,14 @@ class FadingEffect extends CustomPainter {
         end: Alignment.centerRight,
         stops: [
           0.0,
-          0.5,
+          0.8,
           1.0,
         ],
         colors: [
           //create 2 white colors, one transparent
-          Colors.pink[50]!.withOpacity(0.0),
-          Colors.pink[50]!.withOpacity(1.0),
-          Colors.pink[50]!.withOpacity(1.0),
+          Colors.green[500]!.withOpacity(0.0),
+          Colors.green[500]!.withOpacity(1.0),
+          Colors.green[500]!.withOpacity(1.0),
         ]);
     Paint paint = Paint()..shader = lg.createShader(rect);
     canvas.drawRect(rect, paint);
