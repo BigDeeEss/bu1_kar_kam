@@ -238,14 +238,6 @@ class SettingsPageListTile extends StatelessWidget {
         double deltaX = getDeltaX(value);
         double width = hostRect.width - deltaX;
 
-        // Diagnostics...delete.
-        if (index == 10) {
-          print('basePageViewRect.width = ${basePageViewRect.width}');
-          print('deltaX = ${deltaX}');
-          print('width = ${width}');
-          print('guestRect!.width = ${guestRect!.width}');
-        }
-
         //  The topmost instance of Container, with the use of deltaX to
         //  define margin, implements the variable width settings panel.
         return BoxedContainer(
@@ -286,6 +278,7 @@ class SettingsPageListTile extends StatelessWidget {
                     height: height,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSettings.settingsPageListTileRadius),
+                      //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
                       gradient: LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
@@ -303,14 +296,6 @@ class SettingsPageListTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // child: CustomPaint(
-                  //   foregroundPainter: FadingEffect(),
-                    // child: BoxedContainer(
-                    //   borderRadius: AppSettings.settingsPageListTileRadius,
-                    //   width: 2 * AppSettings.settingsPageListTileIconSize,
-                    //   height: height/2 +20,
-                    // ),
-                  // ),
                 ),
               ],
             ),
@@ -319,59 +304,4 @@ class SettingsPageListTile extends StatelessWidget {
       },
     );
   }
-}
-
-// class _SettingsPageListTileClipper extends CustomClipper<Path> {
-//   _SettingsPageListTileClipper({
-//     Listenable? reclip,
-//     required this.width,
-//     required this.index,
-//   }) : super(reclip: reclip);
-//
-//   final double width;
-//   final int index;
-//
-//   @override
-//   Path getClip(Size size) {
-//     print('index = $index');
-//     if (index == 10) {
-//       print('_SettingsPageListTileClipper width = $width');
-//     }
-//     Rect rect = Offset.zero & Size(width, size.height);
-//
-//     Path path = Path();
-//     return path..addRect(rect);
-//   }
-//
-//   @override
-//   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
-// }
-
-
-
-//  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-class FadingEffect extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Rect rect = Rect.fromPoints(Offset(0, 0), Offset(size.width, size.height));
-    LinearGradient lg = LinearGradient(
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-        stops: [
-          0.0,
-          0.8,
-          1.0,
-        ],
-        colors: [
-          //create 2 white colors, one transparent
-          Colors.green[500]!.withOpacity(0.0),
-          Colors.green[500]!.withOpacity(1.0),
-          Colors.green[500]!.withOpacity(1.0),
-        ]);
-    Paint paint = Paint()..shader = lg.createShader(rect);
-    canvas.drawRect(rect, paint);
-  }
-
-  @override
-  bool shouldRepaint(FadingEffect linePainter) => false;
 }
