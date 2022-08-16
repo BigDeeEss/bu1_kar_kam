@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/page_specs.dart';
-import 'package:kar_kam/zoom_page_transition.dart';
+import 'package:kar_kam/lib/zoom_page_transition.dart';
 
 /// [ButtonSpec] is a simple class containing the specs for on-screen buttons.
 class ButtonSpec {
