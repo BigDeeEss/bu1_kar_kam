@@ -1,5 +1,5 @@
 //  Import flutter packages.
-import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
 
 /// Class for ease of import of app settings.
 class AppSettings {
@@ -15,8 +15,8 @@ class AppSettings {
   // static Alignment buttonAlignment = Alignment.topRight;
 
   /// [buttonAxis] sets the button axis in ButtonArray.
-  // static Axis buttonAxis = Axis.horizontal;
-  static Axis buttonAxis = Axis.vertical;
+  static Axis buttonAxis = Axis.horizontal;
+  // static Axis buttonAxis = Axis.vertical;
 
   /// [buttonPadding] defines the padding surrounding each button.
   static EdgeInsetsDirectional buttonPadding =
@@ -42,7 +42,15 @@ class AppSettings {
   /// for the transitioning the page.
   static int pageTransitionTime = 750;
 
+  /// [settingsPageListTileIconSize] defines the radius used in construction
+  /// of SettingsPageListTile.
+  static double settingsPageListTileIconSize = 25;
+
   /// [settingsPageListTileRadius] defines the radius used in construction
-  /// of SettingsPageListTileClipper.
-  static int settingsPageListTileRadius = 25;
+  /// of SettingsPageListTile.
+  static double settingsPageListTileRadius = 15;
+
+  /// [settingsPageListTilePadding] defines the padding used in construction
+  /// of settingsPageListTile.
+  static EdgeInsets settingsPageListTilePadding = EdgeInsets.all(5.0);
 }

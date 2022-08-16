@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
@@ -52,14 +53,18 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
     //  Generate a temporary list of tiles to build.
     List<Widget> tileList = [
-      ...List<Widget>.generate(100, (int index) {
+      ...List<Widget>.generate(150, (int index) {
         return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
           index: index,
+          leading: Icon(
+            Icons.favorite,
+            size: AppSettings.settingsPageListTileIconSize,
+          ),
         );
-      })
+      }),
     ];
 
     return DataNotifier(

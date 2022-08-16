@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
-import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
@@ -237,82 +236,89 @@ class SettingsPageListTile extends StatelessWidget {
         //  be applied to this instance of [SettingsPageListTile].
         double deltaX = getDeltaX(value);
         double width = hostRect.width - deltaX;
-
-        // Diagnostics...delete.
+        ;
         if (index == 10) {
           print('basePageViewRect.width = ${basePageViewRect.width}');
           print('deltaX = ${deltaX}');
           print('width = ${width}');
           print('guestRect!.width = ${guestRect!.width}');
         }
-
-        //  The topmost instance of Container, with the use of deltaX to
-        //  define margin, implements the variable width settings panel.
-        return BoxedContainer(
+        return Container(
+          //  Draw bounding box around [SettingsPageListTile].
+          decoration: BoxDecoration(
+            border: AppSettings.drawLayoutBounds
+                ? Border.all(width: 0.0, color: Colors.green)
+                : null,
+            color: Colors.blue.withOpacity(0.5),
+            borderRadius: BorderRadius.all(
+              Radius.circular(12.0),
+            ),
+          ),
           margin: AppSettings.buttonAlignment.isLeft
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
-          padding: AppSettings.settingsPageListTilePadding,
-          child: BoxedContainer(
-            borderRadius: AppSettings.settingsPageListTileRadius,
-            color: Colors.pink[50],
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: <Widget>[
-                      BoxedContainer(
-                        child: leading,
-                      ),
-                      Expanded(
-                        child: BoxedContainer(
-                          child: Text(
-                            '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                            maxLines: 1,
-                            softWrap: false,
-                            // overflow: TextOverflow.visible,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: BoxedContainer(
-                    width: 2 * AppSettings.settingsPageListTileIconSize,
-                    height: height,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSettings.settingsPageListTileRadius),
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        stops: [
-                          0.0,
-                          0.5,
-                          1.0,
-                        ],
-                        colors: [
-                          //create 2 white colors, one transparent
-                          Colors.pink[50]!.withOpacity(0.0),
-                          Colors.pink[50]!.withOpacity(1.0),
-                          Colors.pink[50]!.withOpacity(1.0),
-                        ]
-                      ),
+          child: Container(
+            //  Draw bounding box around [SettingsPageListTile].
+            decoration: BoxDecoration(
+              border: AppSettings.drawLayoutBounds
+                  ? Border.all(width: 0.0, color: Colors.redAccent)
+                  : null,
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(0.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  //  Draw bounding box around [SettingsPageListTile].
+                  decoration: BoxDecoration(
+                    border: AppSettings.drawLayoutBounds
+                        ? Border.all(width: 0.0, color: Colors.purple)
+                        : null,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
                     ),
                   ),
-                  // child: CustomPaint(
-                  //   foregroundPainter: FadingEffect(),
-                    // child: BoxedContainer(
-                    //   borderRadius: AppSettings.settingsPageListTileRadius,
-                    //   width: 2 * AppSettings.settingsPageListTileIconSize,
-                    //   height: height/2 +20,
-                    // ),
-                  // ),
+                  child: index == 10
+                      ? ClipPath(
+                          clipper: _SettingsPageListTileClipper(
+                            width: 1.0 * width - 0,
+                            index: index,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Container(
+                              //  Draw bounding box around [SettingsPageListTile].
+                              decoration: BoxDecoration(
+                                border: AppSettings.drawLayoutBounds
+                                    ? Border.all(width: 0.0, color: Colors.pink)
+                                    : null,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12.0),
+                                ),
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  leading ?? Container(),
+                                  SizedBox(
+                                    height: 60,
+                                    width: 0,
+                                  ),
+                                  Text(
+                                    'Some very, very, very, very, very, very, very, very, very, very, very, very long text!',
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ),
-              ],
+              ),
             ),
           ),
         );
@@ -321,57 +327,28 @@ class SettingsPageListTile extends StatelessWidget {
   }
 }
 
-// class _SettingsPageListTileClipper extends CustomClipper<Path> {
-//   _SettingsPageListTileClipper({
-//     Listenable? reclip,
-//     required this.width,
-//     required this.index,
-//   }) : super(reclip: reclip);
-//
-//   final double width;
-//   final int index;
-//
-//   @override
-//   Path getClip(Size size) {
-//     print('index = $index');
-//     if (index == 10) {
-//       print('_SettingsPageListTileClipper width = $width');
-//     }
-//     Rect rect = Offset.zero & Size(width, size.height);
-//
-//     Path path = Path();
-//     return path..addRect(rect);
-//   }
-//
-//   @override
-//   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
-// }
+class _SettingsPageListTileClipper extends CustomClipper<Path> {
+  _SettingsPageListTileClipper({
+    Listenable? reclip,
+    required this.width,
+    required this.index,
+  }) : super(reclip: reclip);
 
+  final double width;
+  final int index;
 
-
-//  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-class FadingEffect extends CustomPainter {
   @override
-  void paint(Canvas canvas, Size size) {
-    Rect rect = Rect.fromPoints(Offset(0, 0), Offset(size.width, size.height));
-    LinearGradient lg = LinearGradient(
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-        stops: [
-          0.0,
-          0.8,
-          1.0,
-        ],
-        colors: [
-          //create 2 white colors, one transparent
-          Colors.green[500]!.withOpacity(0.0),
-          Colors.green[500]!.withOpacity(1.0),
-          Colors.green[500]!.withOpacity(1.0),
-        ]);
-    Paint paint = Paint()..shader = lg.createShader(rect);
-    canvas.drawRect(rect, paint);
+  Path getClip(Size size) {
+    print('index = $index');
+    if (index == 10) {
+      print('_SettingsPageListTileClipper width = $width');
+    }
+    Rect rect = Offset.zero & Size(width, size.height);
+
+    Path path = Path();
+    return path..addRect(rect);
   }
 
   @override
-  bool shouldRepaint(FadingEffect linePainter) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }

@@ -10,7 +10,7 @@ import 'package:kar_kam/lib/data_notifier.dart';
 
 /// [BasePage] implements a generic page layout design.
 ///
-/// [BasePage] presents similar UI for each page/route with:
+/// [BasePage] presents a similar UI for each page/route with:
 ///     1. an AppBar at the top with a title,
 ///     2. specific screen contents including buttons for navigation
 ///        and functionality, and
@@ -32,26 +32,29 @@ class _BasePageState extends State<BasePage> {
   /// [buttonArray] for use by widgets below this in the widget tree.
   final ValueNotifier<Rect?> buttonArrayRectNotifier = ValueNotifier(Rect.zero);
 
-  //  [basePageViewKey] stores the key that is passed to Stack so that
-  //  widgets below this -- e.g. [ListViewBuilderSettingsPageContents] -- are
-  //  able to get the available screen dimensions.
+  /// [basePageViewKey] stores the GlobalKey which is passed to Stack so that
+  /// widgets below this -- e.g. [SettingsPageContents] -- are able to get
+  /// the available screen dimensions.
   GlobalKey basePageViewKey = GlobalKey();
 
-  //  [basePageViewRectNotifier] transmits the available screen dimensions
-  //  down the widget tree as Rect data.
+  /// [basePageViewRectNotifier] transmits the available screen dimensions
+  /// down the widget tree as Rect data.
   final ValueNotifier<Rect?> basePageViewRectNotifier = ValueNotifier(Rect.zero);
 
-  //  [buttonArray] builds a linear horizontal or vertical array of buttons.
-  //
-  //  [buttonArray] is referenced in the build and initState methods and
-  //  so must be instantiated at the point of [BasePage] creation.
+  /// [buttonArray] builds a linear horizontal or vertical array of buttons.
+  ///
+  /// [buttonArray] is referenced in the build and initState methods and
+  /// so must be instantiated at the point of [BasePage] creation.
   final ButtonArray buttonArray = ButtonArray();
 
-  //  [pageContents] (initially null) is updated by setState in a
-  //  postFrameCallback.
-  //
-  //  [pageContents] may depend on knowledge of the existence of [buttonArray].
-  //  and so must be built after [buttonArray] in a post-frame callback.
+  /// [pageContents] (initially null) is updated by setState in a
+  /// postFrameCallback.
+  ///
+  /// [pageContents] may depend on knowledge of the existence of [buttonArray].
+  /// and so must be built after [buttonArray] in a post-frame callback.
+  ///
+  /// An example is [SettingsPageContents] which requires the Rect data
+  /// associated with [ButtonArray] to be known before it is built.
   Widget? pageContents;
 
   @override
@@ -96,17 +99,16 @@ class _BasePageState extends State<BasePage> {
           return BottomAppBar(
             color: Colors.blue,
             child: SizedBox(
-              //  Set height of BottomAppBar using SizedBox. Get height from
-              //  context by extracting the Scaffold that immediately wraps
-              //  this widget, and then getting the value for appBarMaxHeight.
+              //  Set height of BottomAppBar using SizedBox, [appBarHeight]
+              //  and [AppSettings.appBarHeightScaleFactor].
               height: appBarHeight * AppSettings.appBarHeightScaleFactor,
             ),
           );
         },
       ),
       //  The Scaffold body contents are placed within two instances of
-      //  DataNotifier in order to transfer [buttonArray] and available screen
-      //  dimensions down the widget tree.
+      //  DataNotifier in order to transfer [buttonArrayRectNotifier] and
+      //  [basePageViewRectNotifier] down the widget tree.
       body: DataNotifier(
         key: ValueKey('buttonArrayRect'),
         data: buttonArrayRectNotifier,

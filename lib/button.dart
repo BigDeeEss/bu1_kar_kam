@@ -16,7 +16,8 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  IconButton with a circular background and geometry-dependent padding.
+    //  An IconButton with a circular background.
+    //
     //  Insert an instance of Container in order to offer layout bounds.
     return Container(
       decoration: BoxDecoration(

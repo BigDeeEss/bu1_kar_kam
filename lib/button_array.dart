@@ -27,7 +27,7 @@ class ButtonArray extends StatelessWidget {
     //  Initialise [coordsList] so that it is ready for population.
     List<double> coordsList = [];
 
-    //  Define a length value: button width plus padding.
+    //  A length -- button width plus padding -- for defining [coordsList].
     double dim = 2 * (AppSettings.buttonRadiusInner +
             AppSettings.buttonPaddingMainAxisExtra);
 
@@ -44,7 +44,7 @@ class ButtonArray extends StatelessWidget {
     //  Initialise [button] and [buttonList] ready for population.
     List<Widget> buttonList = [];
 
-    //  Take local copy of [buttonCoords] for speed.
+    //  Take a local copy of [buttonCoords] for speed.
     List<double> coords = buttonCoords;
 
     //  Loop over items in [buttonSpecList] and convert each to its
