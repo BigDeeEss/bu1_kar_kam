@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/lib/zoom_page_transition.dart';
 
@@ -34,9 +35,16 @@ class ButtonSpec {
 ButtonSpec homeButton = ButtonSpec(
   icon: Icon(FontAwesomeIcons.home),
   onPressed: (context) {
-    Navigator.of(context).pushReplacement(ZoomPageTransition(
-      pageSpec: homePage,
-    ));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (BuildContext context) => BasePage(
+          pageSpec: homePage,
+        ),
+      ),
+    );
+    // Navigator.of(context).pushReplacement(ZoomPageTransition(
+    //   pageSpec: homePage,
+    // ));
   },
 );
 
