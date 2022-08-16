@@ -4,8 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/page_specs.dart';
-import 'package:kar_kam/zoom_page_transition.dart';
+// import 'package:kar_kam/lib/zoom_page_transition.dart';
 
 /// [ButtonSpec] is a simple class containing the specs for on-screen buttons.
 class ButtonSpec {
@@ -34,9 +35,16 @@ class ButtonSpec {
 ButtonSpec homeButton = ButtonSpec(
   icon: Icon(FontAwesomeIcons.home),
   onPressed: (context) {
-    Navigator.of(context).pushReplacement(ZoomPageTransition(
-      pageSpec: homePage,
-    ));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (BuildContext context) => BasePage(
+          pageSpec: homePage,
+        ),
+      ),
+    );
+    // Navigator.of(context).pushReplacement(ZoomPageTransition(
+    //   pageSpec: homePage,
+    // ));
   },
 );
 
@@ -44,9 +52,16 @@ ButtonSpec homeButton = ButtonSpec(
 ButtonSpec filesButton = ButtonSpec(
   icon: Icon(FontAwesomeIcons.fileVideo),
   onPressed: (context) {
-    Navigator.of(context).pushReplacement(ZoomPageTransition(
-      pageSpec: filesPage,
-    ));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (BuildContext context) => BasePage(
+          pageSpec: filesPage,
+        ),
+      ),
+    );
+    // Navigator.of(context).pushReplacement(ZoomPageTransition(
+    //   pageSpec: filesPage,
+    // ));
   },
 );
 
@@ -54,9 +69,16 @@ ButtonSpec filesButton = ButtonSpec(
 ButtonSpec settingsButton = ButtonSpec(
   icon: Icon(FontAwesomeIcons.cog),
   onPressed: (context) {
-    Navigator.of(context).pushReplacement(ZoomPageTransition(
-      pageSpec: settingsPage,
-    ));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (BuildContext context) => BasePage(
+          pageSpec: settingsPage,
+        ),
+      ),
+    );
+    // Navigator.of(context).pushReplacement(ZoomPageTransition(
+    //   pageSpec: settingsPage,
+    // ));
   },
 );
 
