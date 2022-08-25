@@ -58,6 +58,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
+          height: 75.0,
           index: index,
           leading: Icon(
             Icons.favorite,

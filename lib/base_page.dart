@@ -130,10 +130,51 @@ class _BasePageState extends State<BasePage> {
             children: <Widget>[
               pageContents ?? Container(),
               buttonArray,
+              Positioned(
+                right: 0.0,
+                bottom: 4 * (AppSettings.buttonRadiusInner +
+            AppSettings.buttonPaddingMainAxisExtra),
+                child: Container(
+                  // width: 100,
+                  // height: 100,
+                  child: CustomPaint(
+                    painter: OpenPainter(),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0.0,
+                bottom: 6 * (AppSettings.buttonRadiusInner +
+            AppSettings.buttonPaddingMainAxisExtra)+
+            AppSettings.buttonPaddingMainAxisExtra / 3,
+                child: Container(
+                  // width: 100,
+                  // height: 100,
+                  child: CustomPaint(
+                    painter: OpenPainter(),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+
+class OpenPainter extends CustomPainter {
+  double r = AppSettings.buttonRadiusInner + AppSettings.buttonPaddingMainAxis;
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint1 = Paint()
+      ..color = Color.fromRGBO(66, 165, 245, 0.5)
+      ..style = PaintingStyle.fill;
+    //a circle
+    canvas.drawCircle(Offset(-r, -r), r, paint1);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
