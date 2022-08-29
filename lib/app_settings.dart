@@ -48,7 +48,7 @@ class AppSettings {
 
   /// [settingsPageListTileRadius] defines the radius used in construction
   /// of SettingsPageListTile.
-  static double settingsPageListTileRadius = 0;
+  static double settingsPageListTileRadius = 15;
 
   /// [settingsPageListTilePadding] defines the padding used in construction
   /// of settingsPageListTile.
