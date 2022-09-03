@@ -246,9 +246,11 @@ class SettingsPageListTile extends StatelessWidget {
       xP = pathRadius - (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
       if (index == 10) print('test 1');
     } else if (y <= y2) {
+      //  ToDo: implement line segment.
     //   xP = xCrit + (y - yCrit) * (xS - xCrit) / (yS - yCrit);
       if (index == 10) print('test 2');
     } else if (y <= y3) {
+      //  ToDo: implement second curved path segment.
       cosTheta = getCosTheta(2 * yS - y)!;
       sinTheta = getSinTheta(2 * yS - y)!;
       xP = 2 * pathRadius - (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
