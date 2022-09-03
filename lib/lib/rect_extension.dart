@@ -14,6 +14,16 @@ extension RectExtension on Rect {
         offset.dy <= bottom;
   }
 
+  /// Return an Offset to the midpoint of the bottom edge.
+  Offset get bottomCentre {
+    return Offset((left + right) / 2.0, bottom);
+  }
+
+  /// Return an Offset to the midpoint of the top edge.
+  Offset topCentre() {
+    return Offset((left + right) / 2.0, top);
+  }
+
   /// Return a new instance of Rect with left and right edges moved
   /// symmetrically so that the new width equates to [newWidth].
   Rect inflateToWidth(double newWidth) {
