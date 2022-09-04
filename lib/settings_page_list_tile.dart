@@ -137,9 +137,19 @@ class SettingsPageListTile extends StatelessWidget {
     }
   }
 
-  ///  [getCosTheta] for points where yP lies on the curved path segment.
-  double? getCosTheta(double y) {
-    double? sinTheta = getSinTheta(y);
+  ///  [getOuterCosTheta] for points where yP lies on the curved path segment.
+  double? getOuterCosTheta(double y) {
+    double? sinTheta = getOuterSinTheta(y);
+    double? cosTheta;
+    if (sinTheta != null) {
+      cosTheta = math.sqrt(1.0 - sinTheta * sinTheta);
+    }
+    return cosTheta;
+  }
+
+  ///  [getInnerCosTheta] for points where yP lies on the curved path segment.
+  double? getInnerCosTheta(double y) {
+    double? sinTheta = getInnerSinTheta(y);
     double? cosTheta;
     if (sinTheta != null) {
       cosTheta = math.sqrt(1.0 - sinTheta * sinTheta);
@@ -193,10 +203,21 @@ class SettingsPageListTile extends StatelessWidget {
     return deltaX;
   }
 
-  ///  [getSinTheta] for points where yP lies on the curved path segment.
-  ///  [getSinTheta] returns null if [sinTheta] is not between -1 and 1.
-  double? getSinTheta(double y) {
+  ///  [getOuterSinTheta] for points where yP lies on the curved path segment.
+  ///  [getOuterSinTheta] returns null if [sinTheta] is not between -1 and 1.
+  double? getOuterSinTheta(double y) {
     double sinTheta = (y + cornerRadius) / (cornerRadius + pathRadius);
+    if (sinTheta.abs() <= 1.0) {
+      return sinTheta;
+    } else {
+      return null;
+    }
+  }
+
+  ///  [getInnerSinTheta] for points where yP lies on the curved path segment.
+  ///  [getInnerSinTheta] returns null if [sinTheta] is not between -1 and 1.
+  double? getInnerSinTheta(double y) {
+    double sinTheta = (y - cornerRadius) / (pathRadius - cornerRadius);
     if (sinTheta.abs() <= 1.0) {
       return sinTheta;
     } else {
@@ -230,8 +251,8 @@ class SettingsPageListTile extends StatelessWidget {
     double yCrit = math.sqrt(
         pathRadius * pathRadius - (xCrit - pathRadius) * (xCrit - pathRadius));
 
-    double cosThetaCrit = getCosTheta(yCrit)!;
-    double sinThetaCrit = getSinTheta(yCrit)!;
+    double cosThetaCrit = getOuterCosTheta(yCrit)!;
+    double sinThetaCrit = getOuterSinTheta(yCrit)!;
     double y1 = (cornerRadius + pathRadius) * sinThetaCrit - cornerRadius;
     double y2 = 2 * yS - yCrit - (yCrit - y1);
     double y3 = 2 * yS - cornerRadius;
@@ -241,8 +262,8 @@ class SettingsPageListTile extends StatelessWidget {
     double sinTheta = 0;
 
     if (y <= y1) {
-      cosTheta = getCosTheta(y)!;
-      sinTheta = getSinTheta(y)!;
+      cosTheta = getOuterCosTheta(y)!;
+      sinTheta = getOuterSinTheta(y)!;
       xP = pathRadius - (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
       if (index == 10) print('test 1');
     } else if (y <= y2) {
@@ -251,11 +272,12 @@ class SettingsPageListTile extends StatelessWidget {
       if (index == 10) print('test 2');
     } else if (y <= y3) {
       //  ToDo: implement second curved path segment.
-      cosTheta = getCosTheta(2 * yS - y)!;
-      sinTheta = getSinTheta(2 * yS - y)!;
-      xP = 2 * pathRadius - (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
+      cosTheta = getInnerCosTheta(2 * yS - y)!;
+      // sinTheta = getInnerSinTheta(2 * yS - y)!;
+      // xP = 2 * pathRadius - (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
+      xP = pathRadius + ((pathRadius) * cosTheta + (cornerRadius - cornerRadius * cosTheta));
     //   xP = pathRadius + pathRadius * cosTheta!;
-    //   if (index == 10) print('test 3');
+      if (index == 10) print('test 3');
     } else {
       //  ToDo: implement check.
       // assert(false,
@@ -267,10 +289,10 @@ class SettingsPageListTile extends StatelessWidget {
       print('pathRadius = $pathRadius');
       print('y = $y');
       print('2 * yS - y = ${2 * yS - y}');
-      print('sinThetaCrit = ${getSinTheta(yCrit)}');
-      print('sinTheta = ${getSinTheta(y)}');
-      print('cosTheta = ${getCosTheta(y)}');
-      // print('cosTheta = ${math.sqrt(1 - (getSinTheta(y)! * getSinTheta(y)!))}');
+      print('sinThetaCrit = ${getOuterSinTheta(yCrit)}');
+      print('sinTheta = ${getOuterSinTheta(y)}');
+      print('cosTheta = ${getOuterCosTheta(y)}');
+      // print('cosTheta = ${math.sqrt(1 - (getOuterSinTheta(y)! * getOuterSinTheta(y)!))}');
       print('cosThetaCrit = $cosThetaCrit');
       print('yS = $yS');
       print('yCrit = $yCrit');
