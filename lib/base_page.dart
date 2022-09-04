@@ -132,21 +132,24 @@ class _BasePageState extends State<BasePage> {
               buttonArray,
               Positioned(
                 right: 0.0,
-                bottom: 4 * (AppSettings.buttonRadiusInner +
-            AppSettings.buttonPaddingMainAxisExtra),
-                child: Container(
+                bottom: AppSettings.buttonAlignment.y > 0 ? 4 * (AppSettings.buttonRadiusInner +
+                    AppSettings.buttonPaddingMainAxisExtra) : null,
+                top: AppSettings.buttonAlignment.y < 0 ? 4 * (AppSettings.buttonRadiusInner +
+                    AppSettings.buttonPaddingMainAxisExtra) : null,
+                // child: Container(
                   // width: 100,
                   // height: 100,
                   child: CustomPaint(
                     painter: OpenPainter(),
                   ),
-                ),
+                // ),
               ),
               Positioned(
                 right: 0.0,
-                bottom: 6 * (AppSettings.buttonRadiusInner +
-            AppSettings.buttonPaddingMainAxisExtra)+
-            AppSettings.buttonPaddingMainAxisExtra / 3,
+                bottom: AppSettings.buttonAlignment.y > 0 ? 6 * (AppSettings.buttonRadiusInner +
+                    AppSettings.buttonPaddingMainAxisExtra) + 2 * (AppSettings.buttonPaddingMainAxis - AppSettings.buttonPaddingMainAxisExtra) : null,
+                top: AppSettings.buttonAlignment.y < 0 ? 6 * (AppSettings.buttonRadiusInner +
+                    AppSettings.buttonPaddingMainAxisExtra) + 2 * (AppSettings.buttonPaddingMainAxis - AppSettings.buttonPaddingMainAxisExtra) : null,
                 child: Container(
                   // width: 100,
                   // height: 100,
@@ -172,7 +175,12 @@ class OpenPainter extends CustomPainter {
       ..color = Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
     //a circle
-    canvas.drawCircle(Offset(-r, -r), r, paint1);
+    if (AppSettings.buttonAlignment.y > 0) {
+      canvas.drawCircle(Offset(-r, -r), r, paint1);
+    }
+    if (AppSettings.buttonAlignment.y < 0) {
+      canvas.drawCircle(Offset(-r, r), r, paint1);
+    }
   }
 
   @override
