@@ -131,7 +131,8 @@ class _BasePageState extends State<BasePage> {
               pageContents ?? Container(),
               buttonArray,
               Positioned(
-                right: 0.0,
+                left: AppSettings.buttonAlignment.x < 0 ? 0.0 : null,
+                right: AppSettings.buttonAlignment.x > 0 ? 0.0 : null,
                 bottom: AppSettings.buttonAlignment.y > 0 ? 4 * (AppSettings.buttonRadiusInner +
                     AppSettings.buttonPaddingMainAxisExtra) : null,
                 top: AppSettings.buttonAlignment.y < 0 ? 4 * (AppSettings.buttonRadiusInner +
@@ -145,7 +146,8 @@ class _BasePageState extends State<BasePage> {
                 // ),
               ),
               Positioned(
-                right: 0.0,
+                left: AppSettings.buttonAlignment.x < 0 ? 0.0 : null,
+                right: AppSettings.buttonAlignment.x > 0 ? 0.0 : null,
                 bottom: AppSettings.buttonAlignment.y > 0 ? 6 * (AppSettings.buttonRadiusInner +
                     AppSettings.buttonPaddingMainAxisExtra) + 2 * (AppSettings.buttonPaddingMainAxis - AppSettings.buttonPaddingMainAxisExtra) : null,
                 top: AppSettings.buttonAlignment.y < 0 ? 6 * (AppSettings.buttonRadiusInner +
@@ -175,11 +177,17 @@ class OpenPainter extends CustomPainter {
       ..color = Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
     //a circle
-    if (AppSettings.buttonAlignment.y > 0) {
+    if (AppSettings.buttonAlignment.y > 0 && AppSettings.buttonAlignment.x > 0) {
       canvas.drawCircle(Offset(-r, -r), r, paint1);
     }
-    if (AppSettings.buttonAlignment.y < 0) {
+    if (AppSettings.buttonAlignment.y < 0 && AppSettings.buttonAlignment.x > 0) {
       canvas.drawCircle(Offset(-r, r), r, paint1);
+    }
+    if (AppSettings.buttonAlignment.y > 0 && AppSettings.buttonAlignment.x < 0) {
+      canvas.drawCircle(Offset(r, -r), r, paint1);
+    }
+    if (AppSettings.buttonAlignment.y < 0 && AppSettings.buttonAlignment.x < 0) {
+      canvas.drawCircle(Offset(r, r), r, paint1);
     }
   }
 
