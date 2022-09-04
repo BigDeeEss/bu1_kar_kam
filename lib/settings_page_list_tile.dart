@@ -7,6 +7,7 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 /// [SettingsPageListTile] implements a ListTile effect that is able to
@@ -97,7 +98,15 @@ class SettingsPageListTile extends StatelessWidget {
           'SettingsPageListTile, centreConstructionRect getter: error, '
           'lowerConstructionRect and upperConstructionRect overlap.');
 
-      return uRect.bottomLeft & Size(lRect.right, lRect.top);
+      //  Create an Offset that represents the diagonal displacement
+      //  between lRect and uRect.
+      //  Recall that the positive y direction is vertically down the screen.
+      Offset offset = lRect.topRight - uRect.bottomLeft;
+
+      //  Convert offset to a Size and then construct output value.
+      return uRect.bottomLeft & offset.toSize;
+
+      // return uRect.bottomLeft & Size(lRect.right, lRect.top);
     } else {
       return null;
     }
@@ -176,10 +185,12 @@ class SettingsPageListTile extends StatelessWidget {
         //  Use the y-value associated with [rect.top] relative to
         //  [lowerRect!.bottom], modified to account for [cornerRadius].
         //  The positive y-axis points vertically upwards in this function.
-        double y = lowerRect!.bottom - rect.top;
+        double y = rect.top - lowerRect!.top;
 
+        print('test $index 1');
         //  Calculate deltaX.
         deltaX = getXFromY(lowerRect!, y);
+        deltaX = guestRect!.width - deltaX;
       } else if (upperRect!
               .boundsContain(rect.translate(0.0, -cornerRadius).bottomLeft) ||
           upperRect!
@@ -189,17 +200,25 @@ class SettingsPageListTile extends StatelessWidget {
         //  The positive y-axis points vertically upwards in this function.
         double y = upperRect!.bottom - rect.bottom;
 
+        print('test $index 2');
         //  Calculate deltaX.
         deltaX = getXFromY(upperRect!, y);
         deltaX = guestRect!.width - deltaX;
       } else if (centreRect!.overlaps(rect)) {
         //  [centreRect] overlaps with [rect] so set maximum deltaX value.
         deltaX = guestRect!.width;
+        // deltaX = 0.0;
+        print('test $index 3');
+        print('$index $centreRect');
+        print('$index $lowerRect');
+        print('$index $upperRect');
       }
     }
-    // if (index == 10) {
-    //   print('deltaX = $deltaX');
-    // }
+    if (index == 10) {
+      print('$index $centreRect');
+      print('$index $lowerRect');
+      print('$index $upperRect');
+    }
     return deltaX;
   }
 
@@ -279,6 +298,7 @@ class SettingsPageListTile extends StatelessWidget {
     //   xP = pathRadius + pathRadius * cosTheta!;
       if (index == 10) print('test 3');
     } else {
+      if (index == 10) print('test 4');
       //  ToDo: implement check.
       // assert(false,
       //     'SettingsPageListTile, getXFromY: error, invalid y-value.');
@@ -316,7 +336,8 @@ class SettingsPageListTile extends StatelessWidget {
       builder: (BuildContext context, double value, __) {
         //  Calculate the degree of indentation/horizontal shrinkage to
         //  be applied to this instance of [SettingsPageListTile].
-        double xP = index == 10 ? getDeltaX(value) : 0;
+        // double xP = index == 10 ? getDeltaX(value) : 0;
+        double xP = getDeltaX(value);
 
         //  The topmost instance of Container, with the use of  xP to
         //  define margin, implements the variable width settings panel.

@@ -20,7 +20,7 @@ extension RectExtension on Rect {
   }
 
   /// Return an Offset to the midpoint of the top edge.
-  Offset topCentre() {
+  Offset get topCentre {
     return Offset((left + right) / 2.0, top);
   }
 
