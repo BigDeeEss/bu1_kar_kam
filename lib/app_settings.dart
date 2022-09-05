@@ -10,9 +10,9 @@ class AppSettings {
   /// [buttonAlignment] defines the anchor point for button placement
   /// in ButtonArray class.
   // static Alignment buttonAlignment = Alignment.bottomLeft;
-  // static Alignment buttonAlignment = Alignment.bottomRight;
+  static Alignment buttonAlignment = Alignment.bottomRight;
   // static Alignment buttonAlignment = Alignment.topLeft;
-  static Alignment buttonAlignment = Alignment.topRight;
+  // static Alignment buttonAlignment = Alignment.topRight;
 
   /// [buttonAxis] sets the button axis in ButtonArray.
   // static Axis buttonAxis = Axis.horizontal;
@@ -44,11 +44,11 @@ class AppSettings {
 
   /// [settingsPageListTileIconSize] defines the radius used in construction
   /// of SettingsPageListTile.
-  static double settingsPageListTileIconSize = 25;
+  static double settingsPageListTileIconSize = 25.0;
 
   /// [settingsPageListTileRadius] defines the radius used in construction
   /// of SettingsPageListTile.
-  static double settingsPageListTileRadius = 15;
+  static double settingsPageListTileRadius = 15.0;
 
   /// [settingsPageListTilePadding] defines the padding used in construction
   /// of settingsPageListTile.

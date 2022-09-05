@@ -120,7 +120,7 @@ class SettingsPageListTile extends StatelessWidget {
       //  [guestRect.bottomLeft], finally translate it upwards by
       //  [guestRect!.shortestSide].
       return guestRect!
-          .inflateToHeight(1.0 * guestRect!.shortestSide)
+          .inflateToHeight(1.5 * guestRect!.shortestSide)
           .moveTopLeftTo(guestRect!.bottomLeft)
           .translate(0.0, -guestRect!.shortestSide / 2);
       // .translate(0.0, -cornerRadius);
@@ -137,7 +137,7 @@ class SettingsPageListTile extends StatelessWidget {
       //  [guestRect.topLeft], finally translate it downwards by
       //  [guestRect!.shortestSide].
       return guestRect!
-          .inflateToHeight(1.0 * guestRect!.shortestSide)
+          .inflateToHeight(1.5 * guestRect!.shortestSide)
           .moveBottomLeftTo(guestRect!.topLeft)
           .translate(0.0, guestRect!.shortestSide / 2);
       // .translate(0.0, cornerRadius);
@@ -287,7 +287,7 @@ class SettingsPageListTile extends StatelessWidget {
       if (index == 10) print('test 1');
     } else if (y <= y2) {
       //  ToDo: implement line segment.
-    //   xP = xCrit + (y - yCrit) * (xS - xCrit) / (yS - yCrit);
+      xP = xCrit + (y - yCrit) * (xS - xCrit) / (yS - yCrit);
       if (index == 10) print('test 2');
     } else if (y <= y3) {
       //  ToDo: implement second curved path segment.
