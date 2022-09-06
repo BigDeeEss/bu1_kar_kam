@@ -7,6 +7,7 @@ import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 
 /// [BasePage] implements a generic page layout design.
 ///
@@ -39,7 +40,8 @@ class _BasePageState extends State<BasePage> {
 
   /// [basePageViewRectNotifier] transmits the available screen dimensions
   /// down the widget tree as Rect data.
-  final ValueNotifier<Rect?> basePageViewRectNotifier = ValueNotifier(Rect.zero);
+  final ValueNotifier<Rect?> basePageViewRectNotifier =
+      ValueNotifier(Rect.zero);
 
   /// [buttonArray] builds a linear horizontal or vertical array of buttons.
   ///
@@ -133,25 +135,43 @@ class _BasePageState extends State<BasePage> {
               Positioned(
                 left: AppSettings.buttonAlignment.x < 0 ? 0.0 : null,
                 right: AppSettings.buttonAlignment.x > 0 ? 0.0 : null,
-                bottom: AppSettings.buttonAlignment.y > 0 ? 4 * (AppSettings.buttonRadiusInner +
-                    AppSettings.buttonPaddingMainAxisExtra) : null,
-                top: AppSettings.buttonAlignment.y < 0 ? 4 * (AppSettings.buttonRadiusInner +
-                    AppSettings.buttonPaddingMainAxisExtra) : null,
+                bottom: AppSettings.buttonAlignment.y > 0
+                    ? 4 *
+                        (AppSettings.buttonRadiusInner +
+                            AppSettings.buttonPaddingMainAxisExtra)
+                    : null,
+                top: AppSettings.buttonAlignment.y < 0
+                    ? 4 *
+                        (AppSettings.buttonRadiusInner +
+                            AppSettings.buttonPaddingMainAxisExtra)
+                    : null,
                 // child: Container(
-                  // width: 100,
-                  // height: 100,
-                  child: CustomPaint(
-                    painter: OpenPainter(),
-                  ),
+                // width: 100,
+                // height: 100,
+                child: CustomPaint(
+                  painter: OpenPainter(),
+                ),
                 // ),
               ),
               Positioned(
                 left: AppSettings.buttonAlignment.x < 0 ? 0.0 : null,
                 right: AppSettings.buttonAlignment.x > 0 ? 0.0 : null,
-                bottom: AppSettings.buttonAlignment.y > 0 ? 6 * (AppSettings.buttonRadiusInner +
-                    AppSettings.buttonPaddingMainAxisExtra) + 2 * (AppSettings.buttonPaddingMainAxis - AppSettings.buttonPaddingMainAxisExtra) : null,
-                top: AppSettings.buttonAlignment.y < 0 ? 6 * (AppSettings.buttonRadiusInner +
-                    AppSettings.buttonPaddingMainAxisExtra) + 2 * (AppSettings.buttonPaddingMainAxis - AppSettings.buttonPaddingMainAxisExtra) : null,
+                bottom: AppSettings.buttonAlignment.y > 0
+                    ? (6 + 2 * (sf - 1)) *
+                            (AppSettings.buttonRadiusInner +
+                                AppSettings.buttonPaddingMainAxisExtra) +
+                        (2 + 2 * (sf - 1)) *
+                            (AppSettings.buttonPaddingMainAxis -
+                                AppSettings.buttonPaddingMainAxisExtra)
+                    : null,
+                top: AppSettings.buttonAlignment.y < 0
+                    ? (6 + 2 * (sf - 1)) *
+                            (AppSettings.buttonRadiusInner +
+                                AppSettings.buttonPaddingMainAxisExtra) +
+                        (2 + 2 * (sf - 1)) *
+                            (AppSettings.buttonPaddingMainAxis -
+                                AppSettings.buttonPaddingMainAxisExtra)
+                    : null,
                 child: Container(
                   // width: 100,
                   // height: 100,
@@ -168,25 +188,29 @@ class _BasePageState extends State<BasePage> {
   }
 }
 
-
 class OpenPainter extends CustomPainter {
   double r = AppSettings.buttonRadiusInner + AppSettings.buttonPaddingMainAxis;
+
   @override
   void paint(Canvas canvas, Size size) {
     var paint1 = Paint()
       ..color = Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
     //a circle
-    if (AppSettings.buttonAlignment.y > 0 && AppSettings.buttonAlignment.x > 0) {
+    if (AppSettings.buttonAlignment.y > 0 &&
+        AppSettings.buttonAlignment.x > 0) {
       canvas.drawCircle(Offset(-r, -r), r, paint1);
     }
-    if (AppSettings.buttonAlignment.y < 0 && AppSettings.buttonAlignment.x > 0) {
+    if (AppSettings.buttonAlignment.y < 0 &&
+        AppSettings.buttonAlignment.x > 0) {
       canvas.drawCircle(Offset(-r, r), r, paint1);
     }
-    if (AppSettings.buttonAlignment.y > 0 && AppSettings.buttonAlignment.x < 0) {
+    if (AppSettings.buttonAlignment.y > 0 &&
+        AppSettings.buttonAlignment.x < 0) {
       canvas.drawCircle(Offset(r, -r), r, paint1);
     }
-    if (AppSettings.buttonAlignment.y < 0 && AppSettings.buttonAlignment.x < 0) {
+    if (AppSettings.buttonAlignment.y < 0 &&
+        AppSettings.buttonAlignment.x < 0) {
       canvas.drawCircle(Offset(r, r), r, paint1);
     }
   }
