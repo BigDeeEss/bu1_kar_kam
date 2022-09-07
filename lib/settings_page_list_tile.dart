@@ -288,7 +288,7 @@ class SettingsPageListTile extends StatelessWidget {
         (cornerRadius - cornerRadius * outerCosThetaCrit);
     double y2 = 2 * yS - (pathRadius * innerSinThetaCrit +
         (cornerRadius - cornerRadius * innerSinThetaCrit));
-    double x2 = pathRadius +
+    double x2 = 2 * xS - pathRadius +
         pathRadius * innerCosThetaCrit +
         (cornerRadius - cornerRadius * innerCosThetaCrit);
     double y3 = 2 * yS - cornerRadius;
@@ -314,7 +314,7 @@ class SettingsPageListTile extends StatelessWidget {
       cosTheta = getInnerCosTheta(2 * yS - y)!;
       // sinTheta = getInnerSinTheta(2 * yS - y)!;
       // xP = 2 * pathRadius - (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
-      xP = pathRadius +
+      xP = 2 * xS - pathRadius +
           ((pathRadius) * cosTheta + (cornerRadius - cornerRadius * cosTheta));
       //   xP = pathRadius + pathRadius * cosTheta!;
       if (index == 10) print('test 3');
