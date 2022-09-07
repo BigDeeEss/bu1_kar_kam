@@ -361,9 +361,9 @@ class SettingsPageListTile extends StatelessWidget {
       builder: (BuildContext context, double value, __) {
         //  Calculate the degree of indentation/horizontal shrinkage to
         //  be applied to this instance of [SettingsPageListTile].
-        double xP = index == 10 ? getDeltaX(value) : 0;
-        if (index == 10) print('build, xP = $xP');
-        // double xP = getDeltaX(value);
+        // double xP = index == 10 ? getDeltaX(value) : 0;
+        // if (index == 10) print('build, xP = $xP');
+        double xP = getDeltaX(value);
 
         //  The topmost instance of Container, with the use of  xP to
         //  define margin, implements the variable width settings panel.

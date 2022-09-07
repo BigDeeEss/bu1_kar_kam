@@ -28,8 +28,10 @@ class ButtonArray extends StatelessWidget {
     List<double> coordsList = [];
 
     //  A length -- button width plus padding -- for defining [coordsList].
+    // double dim = 2 * (AppSettings.buttonRadiusInner +
+    //         AppSettings.buttonPaddingMainAxisExtra);
     double dim = 2 * (AppSettings.buttonRadiusInner +
-            AppSettings.buttonPaddingMainAxisExtra);
+            AppSettings.buttonPaddingMainAxis);
 
     //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding position.
