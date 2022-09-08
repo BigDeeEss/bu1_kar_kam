@@ -10,7 +10,7 @@ import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
-double sf = 1.5;
+double sf = 1.9;
 
 /// [SettingsPageListTile] implements a ListTile effect that is able to
 /// slide around objects bounded by [guestRect].

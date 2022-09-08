@@ -41,7 +41,7 @@ class _BasePageState extends State<BasePage> {
   /// [basePageViewRectNotifier] transmits the available screen dimensions
   /// down the widget tree as Rect data.
   final ValueNotifier<Rect?> basePageViewRectNotifier =
-      ValueNotifier(Rect.zero);
+  ValueNotifier(Rect.zero);
 
   /// [buttonArray] builds a linear horizontal or vertical array of buttons.
   ///
@@ -73,7 +73,7 @@ class _BasePageState extends State<BasePage> {
     //  this post-frame callback.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //  Get [buttonArray] Rect data and update [buttonArrayRectNotifier].
-      buttonArrayRectNotifier.value = buttonArray.getRect();
+      buttonArrayRectNotifier.value = buttonArray.rect;
 
       //  Get [basePageView] Rect data and update [basePageViewRectNotifier].
       basePageViewRectNotifier.value = basePageViewKey.globalPaintBounds;
@@ -88,7 +88,6 @@ class _BasePageState extends State<BasePage> {
       print(buttonArray.buttonArrayGlobalKeys[1]?.globalPaintBounds);
       print(buttonArray.buttonArrayGlobalKeys[2]?.globalPaintBounds);
       print('End...');
-
 
       //  Rebuild widget with pageSpec.contents instead of Container().
       if (pageContents == null) {
@@ -113,7 +112,10 @@ class _BasePageState extends State<BasePage> {
         builder: (BuildContext context) {
           //  Get appBar height from context.
           double appBarHeight =
-              MediaQuery.of(context).padding.top + kToolbarHeight;
+              MediaQuery
+                  .of(context)
+                  .padding
+                  .top + kToolbarHeight;
 
           // This instance of Builder returns BottomAppBar.
           return BottomAppBar(
@@ -150,15 +152,39 @@ class _BasePageState extends State<BasePage> {
             children: <Widget>[
               pageContents ?? Container(),
               buttonArray,
-              (rectKey1 == null) ? Container() : Positioned(
-                top: 0.0,
-                left: 0.0,
-                child: CustomPaint(
-                  painter: OpenPainter(
-                    rect: rect2!.shift(-rect1!.topLeft)
-                  ),
-                ),
-              ),
+              (AppSettings.buttonAxis == Axis.horizontal)
+                  ? Positioned(
+                      top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
+                      bottom: (AppSettings.buttonAlignment.y > 0) ? 0 : null,
+                      left: (AppSettings.buttonAlignment.x < 0)
+                          ? buttonArray.buttonCoords.first
+                          : null,
+                      right: (AppSettings.buttonAlignment.x > 0)
+                          ? buttonArray.buttonCoords.first
+                          : null,
+                      child: CustomPaint(
+                        painter: OpenPainter(
+                          shiftVal: (buttonArray.rect != null) ? buttonArray.rect!
+                              .height * sf : 0.0,
+                        ),
+                      ),
+                  ) : Container(),
+              (AppSettings.buttonAxis == Axis.horizontal)
+                  ? Positioned(
+                      top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
+                      bottom: (AppSettings.buttonAlignment.y > 0) ? 0 : null,
+                      left: (AppSettings.buttonAlignment.x < 0)
+                          ? buttonArray.buttonCoords.last
+                          : null,
+                      right: (AppSettings.buttonAlignment.x > 0)
+                          ? buttonArray.buttonCoords.last
+                          : null,
+                      child: CustomPaint(
+                        painter: OpenPainter(
+                          shiftVal: 0.0,
+                        ),
+                      ),
+                  ) : Container(),
               // (rectKey1 == null) ? Container() : Positioned(
               //   top: 0.0,
               //   left: 0.0,
@@ -168,15 +194,15 @@ class _BasePageState extends State<BasePage> {
               //     ),
               //   ),
               // ),
-              (rectKey1 == null) ? Container() : Positioned(
-                top: 0.0,
-                left: 0.0,
-                child: CustomPaint(
-                  painter: OpenPainter(
-                    rect: rect1!.shift(-rect1!.topLeft).translate(0, sf * rect2!.height)
-                  ),
-                ),
-              ),
+              // (rectKey1 == null) ? Container() : Positioned(
+              //   top: 0.0,
+              //   left: 0.0,
+              //   child: CustomPaint(
+              //     painter: OpenPainter(
+              //       rect: rect1!.translate(0, -rect1!.top).translate(0, sf * rect2!.height)
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -187,10 +213,11 @@ class _BasePageState extends State<BasePage> {
 
 class OpenPainter extends CustomPainter {
   OpenPainter({
-    this.rect,
+    required this.shiftVal,
   });
 
-  final Rect? rect;
+  final double shiftVal;
+
   double r = AppSettings.buttonRadiusInner + AppSettings.buttonPaddingMainAxis;
 
   @override
@@ -198,9 +225,14 @@ class OpenPainter extends CustomPainter {
     var paint1 = Paint()
       ..color = Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
-    (rect == null) ?
-        canvas.drawCircle(Offset(0, 0), r, paint1) :
-        canvas.drawCircle(rect!.center, r, paint1);
+    if (AppSettings.buttonAlignment.y < 0 &&
+        AppSettings.buttonAlignment.x > 0) {
+      canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);
+    }
+    if (AppSettings.buttonAlignment.y < 0 &&
+        AppSettings.buttonAlignment.x < 0) {
+      canvas.drawCircle(Offset(r, r + shiftVal), r, paint1);
+    }
   }
 
   @override

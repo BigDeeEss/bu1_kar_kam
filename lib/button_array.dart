@@ -41,6 +41,32 @@ class ButtonArray extends StatelessWidget {
     return coordsList;
   }
 
+  /// [rect] calculates the Rect data associated with [buttonArray].
+  Rect? get rect {
+    // Instantiate output variable as null initially.
+    Rect? rect;
+
+    //  Loop over [buttonArrayGlobalKeys]. [buttonArrayGlobalKeys] has the
+    //  same length as [buttonSpecList].
+    for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
+      //  Get Rect data for ith button.
+      Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
+
+      //  Build [rect] by giving it buttonRect initially, and then expanding
+      //  it by sequentially adding the Rect value for each button.
+      if (buttonRect != null) {
+        //  If rect is null then overwrite with buttonRect, else expand
+        //  rect to include buttonRect.
+        if (rect == null) {
+          rect = buttonRect;
+        } else {
+          rect = rect.expandToInclude(buttonRect);
+        }
+      }
+    }
+    return rect;
+  }
+
   /// [buttonArrayGenerator] generates a list of buttons from buttonSpecList.
   List<Widget> buttonArrayGenerator(BuildContext context) {
     //  Initialise [button] and [buttonList] ready for population.
@@ -95,32 +121,6 @@ class ButtonArray extends StatelessWidget {
       }
     }
     return buttonList;
-  }
-
-  /// [getRect] calculates the Rect data associated with [buttonArray].
-  Rect? getRect() {
-    // Instantiate output variable as null initially.
-    Rect? rect;
-
-    //  Loop over [buttonArrayGlobalKeys]. [buttonArrayGlobalKeys] has the
-    //  same length as [buttonSpecList].
-    for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
-      //  Get Rect data for ith button.
-      Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
-
-      //  Build [rect] by giving it buttonRect initially, and then expanding
-      //  it by sequentially adding the Rect value for each button.
-      if (buttonRect != null) {
-        //  If rect is null then overwrite with buttonRect, else expand
-        //  rect to include buttonRect.
-        if (rect == null) {
-          rect = buttonRect;
-        } else {
-          rect = rect.expandToInclude(buttonRect);
-        }
-      }
-    }
-    return rect;
   }
 
   @override
