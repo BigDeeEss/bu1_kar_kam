@@ -248,7 +248,7 @@ class OpenPainter extends CustomPainter {
 
   final double shiftVal;
 
-  double r = AppSettings.buttonRadiusInner + AppSettings.buttonPaddingMainAxis;
+  double r = AppSettings.buttonRadius + AppSettings.buttonPaddingMainAxis;
 
   @override
   void paint(Canvas canvas, Size size) {

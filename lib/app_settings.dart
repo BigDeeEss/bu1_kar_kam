@@ -25,32 +25,26 @@ class AppSettings {
   /// [buttonPaddingMainAxis] defines the main axis padding between buttons.
   static double buttonPaddingMainAxis = 15.0;
 
-  /// [buttonPaddingMainAxisExtra] defines extra padding in main axis direction.
-  static double buttonPaddingMainAxisExtra = 12.5;
+  /// [buttonPaddingMainAxisAlt] defines an alternative main axis padding
+  /// between buttons.
+  static double buttonPaddingMainAxisAlt = 12.5;
 
-  /// [buttonSize] defines the button radius in Button class.
-  static double buttonRadiusInner = 28.0;
+  /// [buttonRadius] defines the button radius in Button class.
+  static double buttonRadius = 28.0;
 
-  /// [buttonSize] defines the button radius plus padding in Button class.
-  static double buttonRadiusOuter = buttonRadiusInner + buttonPaddingMainAxis;
-
-  /// [drawLayoutBounds] triggers whether layout bounds are draw or not.
+  /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
   /// Used for debugging widget screen location.
   static bool drawLayoutBounds = true;
 
-  /// [pageTransitionTime] defines the time in milliseconds allowed
-  /// for the transitioning the page.
+  /// [pageTransitionTime] defines the page transition time in milliseconds.
   static int pageTransitionTime = 750;
 
-  /// [settingsPageListTileIconSize] defines the radius used in construction
-  /// of SettingsPageListTile.
+  /// [settingsPageListTileIconSize] defines the icon radius.
   static double settingsPageListTileIconSize = 25.0;
 
-  /// [settingsPageListTileRadius] defines the radius used in construction
-  /// of SettingsPageListTile.
-  static double settingsPageListTileRadius = 15.0;
-
-  /// [settingsPageListTilePadding] defines the padding used in construction
-  /// of settingsPageListTile.
+  /// [settingsPageListTilePadding] defines the padding between tiles.
   static double settingsPageListTilePadding = 0.0;
+
+  /// [settingsPageListTileRadius] defines the tile corner radius.
+  static double settingsPageListTileRadius = 15.0;
 }
