@@ -188,7 +188,7 @@ class SettingsPageListTile extends StatelessWidget {
         //  The positive y-axis points vertically upwards in this function.
         double y = rect.top - lowerRect!.top;
 
-        print('test $index 1');
+        // print('test $index 1');
         //  Calculate deltaX.
         deltaX = getXFromY(lowerRect!, y);
         deltaX = guestRect!.width - deltaX;
@@ -201,7 +201,7 @@ class SettingsPageListTile extends StatelessWidget {
         //  The positive y-axis points vertically upwards in this function.
         double y = upperRect!.bottom - rect.bottom;
 
-        print('test $index 2');
+        // print('test $index 2');
         //  Calculate deltaX.
         deltaX = getXFromY(upperRect!, y);
         deltaX = guestRect!.width - deltaX;
@@ -209,16 +209,16 @@ class SettingsPageListTile extends StatelessWidget {
         //  [centreRect] overlaps with [rect] so set maximum deltaX value.
         deltaX = guestRect!.width;
         // deltaX = 0.0;
-        print('test $index 3');
-        print('$index $centreRect');
-        print('$index $lowerRect');
-        print('$index $upperRect');
+        // print('test $index 3');
+        // print('$index $centreRect');
+        // print('$index $lowerRect');
+        // print('$index $upperRect');
       }
     }
     if (index == 10) {
-      print('$index $centreRect');
-      print('$index $lowerRect');
-      print('$index $upperRect');
+      // print('$index $centreRect');
+      // print('$index $lowerRect');
+      // print('$index $upperRect');
     }
     return deltaX;
   }
@@ -302,11 +302,11 @@ class SettingsPageListTile extends StatelessWidget {
       sinTheta = getOuterSinTheta(y)!;
       xP = pathRadius -
           (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
-      if (index == 10) print('test 1');
+      // if (index == 10) print('test 1');
     } else if (y <= y2) {
       //   //  ToDo: implement line segment.
       //   xP = xCrit + (y - yCrit) * (xS - xCrit) / (yS - yCrit);
-      if (index == 10) print('test 2');
+      // if (index == 10) print('test 2');
       // xP = x1 + (y - y1) * outerSinThetaCrit / outerCosThetaCrit;
       xP = x1 + (y - y1) * (x2 - x1) / (y2 - y1);
     } else if (y <= y3) {
@@ -317,36 +317,36 @@ class SettingsPageListTile extends StatelessWidget {
       xP = 2 * xS - pathRadius +
           ((pathRadius) * cosTheta + (cornerRadius - cornerRadius * cosTheta));
       //   xP = pathRadius + pathRadius * cosTheta!;
-      if (index == 10) print('test 3');
+      // if (index == 10) print('test 3');
     } else {
-      if (index == 10) print('test 4');
+      // if (index == 10) print('test 4');
       //  ToDo: implement check.
       // assert(false,
       //     'SettingsPageListTile, getXFromY: error, invalid y-value.');
     }
 
     if (index == 10) {
-      print('cornerRadius = $cornerRadius');
-      print('pathRadius = $pathRadius');
-      print('y = $y');
-      print('2 * yS - y = ${2 * yS - y}');
-      print('outerSinThetaCrit = ${getOuterSinTheta(yCrit)}');
-      print('sinTheta = ${getOuterSinTheta(y)}');
-      print('cosTheta = ${getOuterCosTheta(y)}');
-      // print('cosTheta = ${math.sqrt(1 - (getOuterSinTheta(y)! * getOuterSinTheta(y)!))}');
-      print('outerCosThetaCrit = $outerCosThetaCrit');
-      print('a = $a');
-      print('b = $b');
-      print('xS = $xS');
-      print('yS = $yS');
-      print('xCrit = $xCrit');
-      print('yCrit = $yCrit');
-      print('y1 = $y1');
-      print('y2 = $y2');
-      print('y3 = $y3');
-      print('xP = $xP');
-      print('y = ${(cornerRadius + pathRadius) * sinTheta - cornerRadius}');
-      print('yP = ${(pathRadius) * sinTheta}');
+      // print('cornerRadius = $cornerRadius');
+      // print('pathRadius = $pathRadius');
+      // print('y = $y');
+      // print('2 * yS - y = ${2 * yS - y}');
+      // print('outerSinThetaCrit = ${getOuterSinTheta(yCrit)}');
+      // print('sinTheta = ${getOuterSinTheta(y)}');
+      // print('cosTheta = ${getOuterCosTheta(y)}');
+      // // print('cosTheta = ${math.sqrt(1 - (getOuterSinTheta(y)! * getOuterSinTheta(y)!))}');
+      // print('outerCosThetaCrit = $outerCosThetaCrit');
+      // print('a = $a');
+      // print('b = $b');
+      // print('xS = $xS');
+      // print('yS = $yS');
+      // print('xCrit = $xCrit');
+      // print('yCrit = $yCrit');
+      // print('y1 = $y1');
+      // print('y2 = $y2');
+      // print('y3 = $y3');
+      // print('xP = $xP');
+      // print('y = ${(cornerRadius + pathRadius) * sinTheta - cornerRadius}');
+      // print('yP = ${(pathRadius) * sinTheta}');
     }
 
     return xP ?? 0.0;
