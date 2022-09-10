@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 
-/// [BoxedContainer] implements a Container that automatically prints its
-/// bounding box as guideline for widget placement.
+/// BoxedContainer implements a Container and prints its bounding box.
+///
+/// BoxedContainer essentially calls an instance of Container with an
+/// updated decoration if one is not specifically given.
+///
+/// BoxedContainer defaults to Container if AppSettings.drawLayoutBounds
+/// is false.
 class BoxedContainer extends Container {
   BoxedContainer({
     Key? key,
