@@ -7,8 +7,8 @@ class AppSettings {
   /// appBar when calculating bottomNavigationBar height in BasePage class.
   static double appBarHeightScaleFactor = 1.0;
 
-  /// [buttonAlignment] defines the anchor point for button placement
-  /// in ButtonArray class.
+  /// [buttonAlignment] defines the position of the anchor for
+  /// button placement in ButtonArray class.
   static Alignment buttonAlignment = Alignment.bottomLeft;
   // static Alignment buttonAlignment = Alignment.bottomRight;
   // static Alignment buttonAlignment = Alignment.topLeft;
