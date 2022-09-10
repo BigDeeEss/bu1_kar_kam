@@ -49,11 +49,6 @@ class _BasePageState extends State<BasePage> {
   /// so must be instantiated at the point of [BasePage] creation.
   final ButtonArray buttonArray = ButtonArray();
 
-  GlobalKey? rectKey1;
-  GlobalKey? rectKey2;
-  Rect? rect1;
-  Rect? rect2;
-
   /// [pageContents] (initially null) is updated by setState in a
   /// postFrameCallback.
   ///
@@ -78,17 +73,6 @@ class _BasePageState extends State<BasePage> {
       //  Get [basePageView] Rect data and update [basePageViewRectNotifier].
       basePageViewRectNotifier.value = basePageViewKey.globalPaintBounds;
 
-      rectKey1 = buttonArray.buttonArrayGlobalKeys.first;
-      rectKey2 = buttonArray.buttonArrayGlobalKeys.last;
-      rect1 = rectKey1?.globalPaintBounds;
-      rect2 = rectKey2?.globalPaintBounds;
-      // print('rect2 = $rect2');
-      // print('Start...');
-      // print(buttonArray.buttonArrayGlobalKeys[0]?.globalPaintBounds);
-      // print(buttonArray.buttonArrayGlobalKeys[1]?.globalPaintBounds);
-      // print(buttonArray.buttonArrayGlobalKeys[2]?.globalPaintBounds);
-      // print('End...');
-
       //  Rebuild widget with pageSpec.contents instead of Container().
       if (pageContents == null) {
         setState(() {
@@ -100,7 +84,6 @@ class _BasePageState extends State<BasePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (rect1 != null) {}
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.pageSpec.title),
@@ -131,24 +114,26 @@ class _BasePageState extends State<BasePage> {
       body: DataNotifier(
         key: ValueKey('buttonArrayRect'),
         data: buttonArrayRectNotifier,
-        //  Place page contents and ButtonArray on screen using Stack.
-        //
-        //  Ensure that ButtonArray sits above the page content by placing
-        //  it last in a Stack list of children.
-        //
-        //  If [pageContents] is null then put an empty container into Stack,
-        //  otherwise use its value (see ?? operator below).
-        //
-        //  Note: [pageContents] equates to widget.pageSpec.contents
-        //  after setState.
         child: DataNotifier(
           key: ValueKey('basePageViewRect'),
           data: basePageViewRectNotifier,
+          //  Place page contents and ButtonArray on screen using Stack.
+          //
+          //  Ensure that ButtonArray sits above the page content by placing
+          //  it last in a Stack list of children.
+          //
+          //  If [pageContents] is null then put an empty container into Stack,
+          //  otherwise use its value (see ?? operator below).
+          //
+          //  Note: [pageContents] equates to widget.pageSpec.contents
+          //  after setState.
           child: Stack(
             key: basePageViewKey,
             children: <Widget>[
               pageContents ?? Container(),
               buttonArray,
+              //  Add two additional guidance circles for checking the sliding
+              //  motion of [SettingsPageListTile].
               (AppSettings.buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
@@ -215,24 +200,6 @@ class _BasePageState extends State<BasePage> {
                         ),
                       ),
                     ),
-              // (rectKey1 == null) ? Container() : Positioned(
-              //   top: 0.0,
-              //   left: 0.0,
-              //   child: CustomPaint(
-              //     painter: OpenPainter(
-              //       rect: rect2!.shift(-rect1!.topLeft).translate(0, sf * rect2!.height)
-              //     ),
-              //   ),
-              // ),
-              // (rectKey1 == null) ? Container() : Positioned(
-              //   top: 0.0,
-              //   left: 0.0,
-              //   child: CustomPaint(
-              //     painter: OpenPainter(
-              //       rect: rect1!.translate(0, -rect1!.top).translate(0, sf * rect2!.height)
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -241,6 +208,7 @@ class _BasePageState extends State<BasePage> {
   }
 }
 
+//  A custom painter for producing the guidance circles.
 class OpenPainter extends CustomPainter {
   OpenPainter({
     required this.shiftVal,

@@ -7,7 +7,7 @@ import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 
-/// [ButtonArray] implements a linear horizontal or vertical button array.
+/// [ButtonArray] implements a linear horizontal or vertical array of Buttons.
 class ButtonArray extends StatelessWidget {
   ButtonArray({Key? key}) : super(key: key);
 
@@ -28,6 +28,8 @@ class ButtonArray extends StatelessWidget {
     List<double> coordsList = [];
 
     //  A length -- button width plus padding -- for defining [coordsList].
+    //  Two different values for dim determine whether the bounding boxes
+    //  for each Button overlap.
     // double dim = 2 * (AppSettings.buttonRadiusInner +
     //         AppSettings.buttonPaddingMainAxisExtra);
     double dim = 2 * (AppSettings.buttonRadius +

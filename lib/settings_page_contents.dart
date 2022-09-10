@@ -68,6 +68,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
       }),
     ];
 
+    //  Encapsulate ListViewBuilder in an instance of DataNotifier in order
+    //  to pass [scrollPositionNotifier] notifier down to [SettingsPageListTile].
     return DataNotifier(
       key: ValueKey('scrollPosition'),
       data: scrollPositionNotifier,
