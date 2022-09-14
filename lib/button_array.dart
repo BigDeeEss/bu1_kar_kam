@@ -7,11 +7,11 @@ import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 
-/// [ButtonArray] implements a linear horizontal or vertical array of Buttons.
+/// Implements a linear horizontal or vertical array of Buttons.
 class ButtonArray extends StatelessWidget {
   ButtonArray({Key? key}) : super(key: key);
 
-  /// [buttonSpecList] defines the specs for each button on the screen.
+  /// [buttonSpecList] defines the specs for each button in ButtonArray.
   static List<ButtonSpec> buttonSpecList = [
     settingsButton,
     filesButton,

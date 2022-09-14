@@ -36,22 +36,6 @@ class Button extends StatelessWidget {
             ),
           ),
         ),
-        // child: Container(
-        //   decoration: BoxDecoration(
-        //     border: this.buttonSpec.drawLayoutBounds
-        //         ? Border.all(width: 0.0, color: Colors.redAccent)
-        //         : null,
-        //   ),
-        //   child: CircleAvatar(
-        //     radius: this.buttonSpec.size,
-        //     backgroundColor: Colors.lightBlue,
-        //     child: IconButton(
-        //       icon: this.buttonSpec.icon,
-        //       color: Colors.white,
-        //       onPressed: () => this.buttonSpec.onPressed(context),
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }

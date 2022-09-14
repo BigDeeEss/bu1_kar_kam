@@ -67,7 +67,7 @@ class _BasePageState extends State<BasePage> {
     /// this post-frame callback.
     ///
     /// BasePage is built in two parts as [pageContents] may require
-    /// the position of [buttonArray]---se for example SettingsPageContents.
+    /// the position of [buttonArray] -- see for example SettingsPageContents.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //  Get [buttonArray] Rect data and update [buttonArrayRectNotifier].
       buttonArrayRectNotifier.value = buttonArray.rect;

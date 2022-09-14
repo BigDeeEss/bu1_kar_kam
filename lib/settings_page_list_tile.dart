@@ -7,13 +7,16 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/lib/double_extension.dart';
 import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
+//  A temporary double for determining the slope of the connecting
+//  straight line segment that constitutes the path by which tiles
+//  pass around ButtonArray.
 double sf = 1.125;
 
-/// [SettingsPageListTile] implements a ListTile effect that is able to
-/// slide around objects bounded by [guestRect].
+/// Implements a ListTile that is able to slide around [guestRect].
 class SettingsPageListTile extends StatelessWidget {
   SettingsPageListTile({
     Key? key,
@@ -23,20 +26,21 @@ class SettingsPageListTile extends StatelessWidget {
     required this.index,
     this.leading,
   }) : super(key: key) {
-    //  Create [hostRect], a representation of [SettingsPageListTile]
-    //  at the correct location, from [basePageViewRect].
+    //  Create a representation of SettingsPageListTile at the correct
+    //  initial location.
     hostRect = basePageViewRect
         .inflateToHeight(height)
         .moveTopLeftTo(basePageViewRect.topLeft)
         .translate(0, height * index);
 
-    //  Generate construction Rects.
+    //  Three Rect variables that define the characteristics of the path
+    //  that determines the sliding motion of SetingsPageListTile.
     centreRect = centreConstructionRect;
     lowerRect = lowerConstructionRect;
     upperRect = upperConstructionRect;
 
     //  Upload the radius of curvature associated with the path that
-    //  defines how [SettingsPageListTile] slides around [guestRect].
+    //  defines how SettingsPageListTile slides around [guestRect].
     if (guestRect != null) pathRadius = guestRect!.shortestSide / 2;
 
     //  Upload the [AppSettings.settingsPageListTileRadius]
@@ -45,35 +49,35 @@ class SettingsPageListTile extends StatelessWidget {
         AppSettings.settingsPageListTilePadding;
   }
 
-  /// The visible area on screen that contains [SettingsPageContents].
+  /// The visible area on screen that contains SettingsPageContents.
   final Rect basePageViewRect;
 
-  /// The Rect on screen which [SettingsPageListTile] will avoid when scrolling.
+  /// The Rect on screen which SettingsPageListTile will avoid when scrolling.
   final Rect? guestRect;
 
-  /// The height of the absolute bounding box for [SettingsPageListTile].
+  /// The height of the absolute bounding box for SettingsPageListTile.
   final double height;
 
-  /// Unique identifier for [SettingsPageListTile].
+  /// Unique identifier for SettingsPageListTile. This a temporary measure
+  /// which will be replaced by a variable tile height at a later stage.
   final int index;
 
   /// A widget to display before the title.
   final Widget? leading;
 
-  /// A construction Rect situated directly between [rectU]
-  /// and [rectL] having the same width as [guestRect].
+  /// A construction Rect situated directly between [upperRect]
+  /// and [lowerRect] having the same width as [guestRect].
   Rect? centreRect;
 
-  /// A representation of [SettingsPageListTile] at its initial location.
+  /// A representation of SettingsPageListTile at its initial location.
   late Rect hostRect;
 
   /// The construction Rect that overlaps with [guestRect.bottomLeft] and
   /// [guestRect.bottomRight] and has the same width as [guestRect].
   Rect? lowerRect;
 
-  /// The combined corner radius derived from
-  /// [AppSettings.settingsPageListTileRadius] and
-  /// [AppSettings.settingsPageListTilePadding].
+  /// A combined corner radius using [AppSettings.settingsPageListTileRadius]
+  /// and [AppSettings.settingsPageListTilePadding].
   double cornerRadius = 0.0;
 
   /// The radius associated with the curved path segment that defines
@@ -88,7 +92,8 @@ class SettingsPageListTile extends StatelessWidget {
   Rect? get centreConstructionRect {
     //  Generates a Rect bounded by the bottom of [upperConstructionRect]
     //  and the top of [lowerConstructionRect].
-    //  Returns null only if if [guestRect] is null.
+    //
+    //  Returns null only if [guestRect] is null.
     if (guestRect != null) {
       Rect uRect = upperConstructionRect!;
       Rect lRect = lowerConstructionRect!;
@@ -97,8 +102,8 @@ class SettingsPageListTile extends StatelessWidget {
       //  do not overlap.
       assert(
           !uRect.overlaps(lRect),
-          'SettingsPageListTile, centreConstructionRect getter: error, '
-          'lowerConstructionRect and upperConstructionRect overlap.');
+          'SettingsPageListTile, get centreConstructionRect: error, '
+          'lRect and uRect overlap.');
 
       //  Create an Offset that represents the diagonal displacement
       //  between lRect and uRect.
@@ -107,11 +112,20 @@ class SettingsPageListTile extends StatelessWidget {
 
       //  Convert offset to a Size and then construct output value.
       return uRect.bottomLeft & offset.toSize;
-
-      // return uRect.bottomLeft & Size(lRect.right, lRect.top);
     } else {
       return null;
     }
+  }
+
+  /// A cosTheta getter that depends on whether SettingsPageListTile overlaps
+  /// (i = 1) or not (i = -1) pathRadius.
+  double? getCosTheta(double y, int i) {
+    double? sinTheta = getSinTheta(y, i);
+
+    if (sinTheta != null) {
+      return (1 - sinTheta * sinTheta).sqrt;
+    }
+    return null;
   }
 
   /// Getter for [lowerRect].
@@ -125,7 +139,6 @@ class SettingsPageListTile extends StatelessWidget {
           .inflateToHeight(sf * guestRect!.shortestSide)
           .moveTopLeftTo(guestRect!.bottomLeft)
           .translate(0.0, -guestRect!.shortestSide / 2);
-      // .translate(0.0, -cornerRadius);
     } else {
       return null;
     }
@@ -142,34 +155,13 @@ class SettingsPageListTile extends StatelessWidget {
           .inflateToHeight(sf * guestRect!.shortestSide)
           .moveBottomLeftTo(guestRect!.topLeft)
           .translate(0.0, guestRect!.shortestSide / 2);
-      // .translate(0.0, cornerRadius);
     } else {
       return null;
     }
   }
 
-  ///  [getOuterCosTheta] for points where yP lies on the curved path segment.
-  double? getOuterCosTheta(double y) {
-    double? sinTheta = getOuterSinTheta(y);
-    double? cosTheta;
-    if (sinTheta != null) {
-      cosTheta = math.sqrt(1.0 - sinTheta * sinTheta);
-    }
-    return cosTheta;
-  }
-
-  ///  [getInnerCosTheta] for points where yP lies on the curved path segment.
-  double? getInnerCosTheta(double y) {
-    double? sinTheta = getInnerSinTheta(y);
-    double? cosTheta;
-    if (sinTheta != null) {
-      cosTheta = math.sqrt(1.0 - sinTheta * sinTheta);
-    }
-    return cosTheta;
-  }
-
-  /// [getDeltaX] calculates the horizontal displacement to apply to
-  /// [SettingsPageListTile] as it passes [guestRect].
+  /// Calculates the horizontal displacement to apply to SettingsPageListTile
+  /// as it passes [guestRect].
   double getDeltaX(double scrollPosition) {
     //  The output variable.
     double deltaX = 0.0;
@@ -188,7 +180,6 @@ class SettingsPageListTile extends StatelessWidget {
         //  The positive y-axis points vertically upwards in this function.
         double y = rect.top - lowerRect!.top;
 
-        // print('test $index 1');
         //  Calculate deltaX.
         deltaX = getXFromY(lowerRect!, y);
         deltaX = guestRect!.width - deltaX;
@@ -201,43 +192,57 @@ class SettingsPageListTile extends StatelessWidget {
         //  The positive y-axis points vertically upwards in this function.
         double y = upperRect!.bottom - rect.bottom;
 
-        // print('test $index 2');
         //  Calculate deltaX.
         deltaX = getXFromY(upperRect!, y);
         deltaX = guestRect!.width - deltaX;
       } else if (centreRect!.overlaps(rect)) {
         //  [centreRect] overlaps with [rect] so set maximum deltaX value.
         deltaX = guestRect!.width;
-        // deltaX = 0.0;
-        // print('test $index 3');
-        // print('$index $centreRect');
-        // print('$index $lowerRect');
-        // print('$index $upperRect');
       }
-    }
-    if (index == 10) {
-      // print('$index $centreRect');
-      // print('$index $lowerRect');
-      // print('$index $upperRect');
     }
     return deltaX;
   }
 
-  ///  [getOuterSinTheta] for points where yP lies on the curved path segment.
-  ///  [getOuterSinTheta] returns null if [sinTheta] is not between -1 and 1.
-  double? getOuterSinTheta(double y) {
-    double sinTheta = (y + cornerRadius) / (cornerRadius + pathRadius);
-    if (sinTheta.abs() <= 1.0) {
-      return sinTheta;
-    } else {
-      return null;
-    }
-  }
+  /// [getInnerCosTheta] for points where yP lies on the curved path segment.
+  ///
+  /// [getInnerCosTheta] returns null if [getCosTheta] is not between -1 and 1.
+  ///
+  /// [getInnerCosTheta] is used when SettingsPageListTile overlaps
+  /// the radius of curvature associated with the curved path segment.
+  double? getInnerCosTheta(double y) => getCosTheta(y, -1);
 
-  ///  [getInnerSinTheta] for points where yP lies on the curved path segment.
-  ///  [getInnerSinTheta] returns null if [sinTheta] is not between -1 and 1.
-  double? getInnerSinTheta(double y) {
-    double sinTheta = (y - cornerRadius) / (pathRadius - cornerRadius);
+  /// [getInnerSinTheta] for points where yP lies on the curved path segment.
+  ///
+  /// [getInnerSinTheta] returns null if [getSinTheta] is not between -1 and 1.
+  ///
+  /// [getInnerSinTheta] is used when SettingsPageListTile overlaps
+  /// the radius of curvature associated with the curved path segment.
+  double? getInnerSinTheta(double y) => getSinTheta(y, -1);
+
+  /// [getOuterCosTheta] for points where yP lies on the curved path segment.
+  ///
+  /// [getOuterCosTheta] returns null if [getCosTheta] is not between -1 and 1.
+  ///
+  /// [getOuterCosTheta] is used when SettingsPageListTile DOES NOT overlap
+  /// the radius of curvature associated with the curved path segment.
+  double? getOuterCosTheta(double y) => getCosTheta(y, 1);
+
+  /// [getOuterSinTheta] for points where yP lies on the curved path segment.
+  ///
+  /// [getOuterSinTheta] returns null if [getSinTheta] is not between -1 and 1.
+  ///
+  /// [getOuterSinTheta] is used when SettingsPageListTile DOES NOT overlap
+  /// the radius of curvature associated with the curved path segment.
+  double? getOuterSinTheta(double y) => getSinTheta(y, 1);
+
+  /// A sinTheta getter that depends on whether SettingsPageListTile overlaps
+  /// (i = 1) or not (i = -1) pathRadius.
+  double? getSinTheta(double y, int i) {
+    //  Check value of i -- it must be +1 or -1.
+    assert(i.abs() == 1, 'SettingsPageListTile, getSinTheta: invalid i value.');
+
+    double sinTheta = (y + i * cornerRadius) / (pathRadius + i * cornerRadius);
+
     if (sinTheta.abs() <= 1.0) {
       return sinTheta;
     } else {
@@ -253,9 +258,6 @@ class SettingsPageListTile extends StatelessWidget {
     //  the values as follows.
     double xS = rect.width / 2.0;
     double yS = rect.height / 2.0;
-    double a = rect.width / 2.0;
-    double b = rect.height / 2.0;
-    double r = guestRect!.shortestSide / 2;
 
     //  In order to avoid generating complex numbers aa + bb - 2ra > 0.
     assert(
@@ -286,69 +288,31 @@ class SettingsPageListTile extends StatelessWidget {
     double x1 = pathRadius -
         pathRadius * outerCosThetaCrit +
         (cornerRadius - cornerRadius * outerCosThetaCrit);
-    double y2 = 2 * yS - (pathRadius * innerSinThetaCrit +
-        (cornerRadius - cornerRadius * innerSinThetaCrit));
-    double x2 = 2 * xS - pathRadius +
+    double y2 = 2 * yS -
+        (pathRadius * innerSinThetaCrit +
+            (cornerRadius - cornerRadius * innerSinThetaCrit));
+    double x2 = 2 * xS -
+        pathRadius +
         pathRadius * innerCosThetaCrit +
         (cornerRadius - cornerRadius * innerCosThetaCrit);
     double y3 = 2 * yS - cornerRadius;
     double? xP;
-    double yP = 0;
     double cosTheta = 0;
-    double sinTheta = 0;
 
     if (y <= y1) {
       cosTheta = getOuterCosTheta(y)!;
-      sinTheta = getOuterSinTheta(y)!;
       xP = pathRadius -
           (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
-      // if (index == 10) print('test 1');
     } else if (y <= y2) {
-      //   //  ToDo: implement line segment.
-      //   xP = xCrit + (y - yCrit) * (xS - xCrit) / (yS - yCrit);
-      // if (index == 10) print('test 2');
-      // xP = x1 + (y - y1) * outerSinThetaCrit / outerCosThetaCrit;
       xP = x1 + (y - y1) * (x2 - x1) / (y2 - y1);
     } else if (y <= y3) {
-      //  ToDo: implement second curved path segment.
       cosTheta = getInnerCosTheta(2 * yS - y)!;
-      // sinTheta = getInnerSinTheta(2 * yS - y)!;
-      // xP = 2 * pathRadius - (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
-      xP = 2 * xS - pathRadius +
+      xP = 2 * xS -
+          pathRadius +
           ((pathRadius) * cosTheta + (cornerRadius - cornerRadius * cosTheta));
-      //   xP = pathRadius + pathRadius * cosTheta!;
-      // if (index == 10) print('test 3');
     } else {
-      // if (index == 10) print('test 4');
-      //  ToDo: implement check.
-      // assert(false,
-      //     'SettingsPageListTile, getXFromY: error, invalid y-value.');
+      assert(false, 'SettingsPageListTile, getXFromY: error, invalid y-value.');
     }
-
-    if (index == 10) {
-      // print('cornerRadius = $cornerRadius');
-      // print('pathRadius = $pathRadius');
-      // print('y = $y');
-      // print('2 * yS - y = ${2 * yS - y}');
-      // print('outerSinThetaCrit = ${getOuterSinTheta(yCrit)}');
-      // print('sinTheta = ${getOuterSinTheta(y)}');
-      // print('cosTheta = ${getOuterCosTheta(y)}');
-      // // print('cosTheta = ${math.sqrt(1 - (getOuterSinTheta(y)! * getOuterSinTheta(y)!))}');
-      // print('outerCosThetaCrit = $outerCosThetaCrit');
-      // print('a = $a');
-      // print('b = $b');
-      // print('xS = $xS');
-      // print('yS = $yS');
-      // print('xCrit = $xCrit');
-      // print('yCrit = $yCrit');
-      // print('y1 = $y1');
-      // print('y2 = $y2');
-      // print('y3 = $y3');
-      // print('xP = $xP');
-      // print('y = ${(cornerRadius + pathRadius) * sinTheta - cornerRadius}');
-      // print('yP = ${(pathRadius) * sinTheta}');
-    }
-
     return xP ?? 0.0;
   }
 
@@ -361,11 +325,9 @@ class SettingsPageListTile extends StatelessWidget {
       builder: (BuildContext context, double value, __) {
         //  Calculate the degree of indentation/horizontal shrinkage to
         //  be applied to this instance of [SettingsPageListTile].
-        // double xP = index == 10 ? getDeltaX(value) : 0;
-        // if (index == 10) print('build, xP = $xP');
         double xP = getDeltaX(value);
 
-        //  The topmost instance of Container, with the use of  xP to
+        //  The topmost instance of Container, with the use of xP to
         //  define margin, implements the variable width settings panel.
         return BoxedContainer(
           margin: AppSettings.buttonAlignment.isLeft
@@ -378,6 +340,7 @@ class SettingsPageListTile extends StatelessWidget {
             color: Colors.pink[200],
             child: Stack(
               children: [
+                //  The actual list tile.
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Row(
@@ -398,6 +361,10 @@ class SettingsPageListTile extends StatelessWidget {
                     ],
                   ),
                 ),
+                //  A fade effect to manage the tile contents on the right hand
+                //  edge.
+                //
+                //  The dade effect is a simple linear gradient opacity mask.
                 Align(
                   alignment: Alignment.centerRight,
                   child: BoxedContainer(
