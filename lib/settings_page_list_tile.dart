@@ -326,12 +326,11 @@ class SettingsPageListTile extends StatelessWidget {
         //  Calculate the degree of indentation/horizontal shrinkage to
         //  be applied to this instance of [SettingsPageListTile].
         double xP = getDeltaX(value);
-        print(xP);
 
         //  The topmost instance of Container, with the use of xP to
         //  define margin, implements the variable width settings panel.
         return Opacity(
-          opacity: (xP > 0.5 * basePageViewRect.width) ? 0.0 : 1.0,
+          opacity: (xP > 0.58 * basePageViewRect.width) ? 0.0 : 1.0,
           child: BoxedContainer(
             margin: AppSettings.buttonAlignment.isLeft
                 ? EdgeInsets.only(left: xP)
