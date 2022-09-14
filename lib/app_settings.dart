@@ -10,8 +10,8 @@ class AppSettings {
   /// [buttonAlignment] defines the position of the anchor that determines
   /// button placement in ButtonArray class.
   // static Alignment buttonAlignment = Alignment.bottomLeft;
-  static Alignment buttonAlignment = Alignment.bottomRight;
-  // static Alignment buttonAlignment = Alignment.topLeft;
+  // static Alignment buttonAlignment = Alignment.bottomRight;
+  static Alignment buttonAlignment = Alignment.topLeft;
   // static Alignment buttonAlignment = Alignment.topRight;
 
   /// [buttonAxis] sets the button axis type in ButtonArray.

@@ -106,26 +106,27 @@ class SettingsPageListTile extends StatelessWidget {
           'lRect and uRect overlap.');
 
       //  Create an Offset that represents the diagonal displacement
-      //  between lRect and uRect.
+      //  between corresponding end offsets on lRect and uRect.
+      //
       //  Recall that the positive y direction is vertically down the screen.
-      Offset offset = lRect.topRight - uRect.bottomLeft;
+      //
+      //  Use this Offset to generate a Rect.
+      Offset offset = Offset.zero;
+      if (AppSettings.buttonAlignment.y > 0) {
+        offset = lRect.bottomRight - uRect.bottomLeft;
 
-      //  Convert offset to a Size and then construct output value.
-      return uRect.bottomLeft & offset.toSize;
+        //  Convert offset to a Size and then construct output value.
+        return uRect.bottomLeft & offset.toSize;
+      } else {
+        offset = lRect.topRight - uRect.topLeft;
+
+        //  Convert offset to a Size and then construct output value.
+        return uRect.topLeft & offset.toSize;
+      }
+
     } else {
       return null;
     }
-  }
-
-  /// A cosTheta getter that depends on whether SettingsPageListTile overlaps
-  /// (i = 1) or not (i = -1) pathRadius.
-  double? getCosTheta(double y, int i) {
-    double? sinTheta = getSinTheta(y, i);
-
-    if (sinTheta != null) {
-      return (1 - sinTheta * sinTheta).sqrt;
-    }
-    return null;
   }
 
   /// Getter for [lowerRect].
@@ -160,6 +161,17 @@ class SettingsPageListTile extends StatelessWidget {
     }
   }
 
+  /// A cosTheta getter that depends on whether SettingsPageListTile overlaps
+  /// (i = 1) or not (i = -1) pathRadius.
+  double? getCosTheta(double y, int i) {
+    double? sinTheta = getSinTheta(y, i);
+
+    if (sinTheta != null) {
+      return (1 - sinTheta * sinTheta).sqrt;
+    }
+    return null;
+  }
+
   /// Calculates the horizontal displacement to apply to SettingsPageListTile
   /// as it passes [guestRect].
   double getDeltaX(double scrollPosition) {
@@ -172,7 +184,10 @@ class SettingsPageListTile extends StatelessWidget {
 
     //  Determine which method to use for calculating [deltaX].
     if (guestRect != null) {
-      if (lowerRect!.boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||
+      if (centreRect!.overlaps(rect)) {
+        //  [centreRect] overlaps with [rect] so set maximum deltaX value.
+        deltaX = guestRect!.width;
+      } else if (lowerRect!.boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||
           lowerRect!
               .boundsContain(rect.translate(0.0, cornerRadius).topRight)) {
         //  Use the y-value associated with [rect.top] relative to
@@ -195,9 +210,6 @@ class SettingsPageListTile extends StatelessWidget {
         //  Calculate deltaX.
         deltaX = getXFromY(upperRect!, y);
         deltaX = guestRect!.width - deltaX;
-      } else if (centreRect!.overlaps(rect)) {
-        //  [centreRect] overlaps with [rect] so set maximum deltaX value.
-        deltaX = guestRect!.width;
       }
     }
     return deltaX;
@@ -302,7 +314,7 @@ class SettingsPageListTile extends StatelessWidget {
     if (y <= y1) {
       cosTheta = getOuterCosTheta(y)!;
       xP = pathRadius -
-          (pathRadius * cosTheta! - (cornerRadius - cornerRadius * cosTheta));
+          (pathRadius * cosTheta - (cornerRadius - cornerRadius * cosTheta));
     } else if (y <= y2) {
       xP = x1 + (y - y1) * (x2 - x1) / (y2 - y1);
     } else if (y <= y3) {
@@ -329,71 +341,75 @@ class SettingsPageListTile extends StatelessWidget {
 
         //  The topmost instance of Container, with the use of xP to
         //  define margin, implements the variable width settings panel.
-        return BoxedContainer(
-          margin: AppSettings.buttonAlignment.isLeft
-              ? EdgeInsets.only(left: xP)
-              : EdgeInsets.only(right: xP),
-          height: height,
-          padding: EdgeInsets.all(AppSettings.settingsPageListTilePadding),
+        return Opacity(
+          // opacity: (xP > 0.58 * basePageViewRect.width) ? 0.0 : 1.0,
+          opacity: (xP > 2 * basePageViewRect.width) ? 0.0 : 1.0,
           child: BoxedContainer(
-            borderRadius: AppSettings.settingsPageListTileRadius,
-            color: Colors.pink[200],
-            child: Stack(
-              children: [
-                //  The actual list tile.
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: <Widget>[
-                      BoxedContainer(
-                        child: leading,
-                      ),
-                      Expanded(
-                        child: BoxedContainer(
-                          child: Text(
-                            '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                            maxLines: 1,
-                            softWrap: false,
-                            // overflow: TextOverflow.visible,
+            margin: AppSettings.buttonAlignment.isLeft
+                ? EdgeInsets.only(left: xP)
+                : EdgeInsets.only(right: xP),
+            height: height,
+            padding: EdgeInsets.all(AppSettings.settingsPageListTilePadding),
+            child: BoxedContainer(
+              borderRadius: AppSettings.settingsPageListTileRadius,
+              color: Colors.pink[200],
+              child: Stack(
+                children: [
+                  //  The actual list tile.
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      children: <Widget>[
+                        BoxedContainer(
+                          child: leading,
+                        ),
+                        Expanded(
+                          child: BoxedContainer(
+                            child: Text(
+                              '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                              maxLines: 1,
+                              softWrap: false,
+                              // overflow: TextOverflow.visible,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                //  A fade effect to manage the tile contents on the right hand
-                //  edge.
-                //
-                //  The dade effect is a simple linear gradient opacity mask.
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: BoxedContainer(
-                    width: 2 * AppSettings.settingsPageListTileIconSize,
-                    height: height,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                          AppSettings.settingsPageListTileRadius),
-                      //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-                      gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          stops: [
-                            0.0,
-                            0.5,
-                            1.0,
-                          ],
-                          colors: [
-                            //create 2 white colors, one transparent
-                            Colors.pink[200]!.withOpacity(0.0),
-                            Colors.pink[200]!.withOpacity(1.0),
-                            Colors.pink[200]!.withOpacity(1.0),
-                          ]),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  //  A fade effect to manage the tile contents on the right hand
+                  //  edge.
+                  //
+                  //  The fade effect is a simple linear gradient opacity mask.
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: BoxedContainer(
+                      width: 2 * AppSettings.settingsPageListTileIconSize,
+                      height: height,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                            AppSettings.settingsPageListTileRadius),
+                        //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            stops: [
+                              0.0,
+                              0.5,
+                              1.0,
+                            ],
+                            colors: [
+                              //create 2 white colors, one transparent
+                              Colors.pink[200]!.withOpacity(0.0),
+                              Colors.pink[200]!.withOpacity(1.0),
+                              Colors.pink[200]!.withOpacity(1.0),
+                            ]),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+          )
         );
       },
     );
