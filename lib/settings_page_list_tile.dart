@@ -106,26 +106,27 @@ class SettingsPageListTile extends StatelessWidget {
           'lRect and uRect overlap.');
 
       //  Create an Offset that represents the diagonal displacement
-      //  between lRect and uRect.
+      //  between corresponding end offsets on lRect and uRect.
+      //
       //  Recall that the positive y direction is vertically down the screen.
-      Offset offset = lRect.topRight - uRect.bottomLeft;
+      //
+      //  Use this Offset to generate a Rect.
+      Offset offset = Offset.zero;
+      if (AppSettings.buttonAlignment.y > 0) {
+        offset = lRect.bottomRight - uRect.bottomLeft;
 
-      //  Convert offset to a Size and then construct output value.
-      return uRect.bottomLeft & offset.toSize;
+        //  Convert offset to a Size and then construct output value.
+        return uRect.bottomLeft & offset.toSize;
+      } else {
+        offset = lRect.topRight - uRect.topLeft;
+
+        //  Convert offset to a Size and then construct output value.
+        return uRect.topLeft & offset.toSize;
+      }
+
     } else {
       return null;
     }
-  }
-
-  /// A cosTheta getter that depends on whether SettingsPageListTile overlaps
-  /// (i = 1) or not (i = -1) pathRadius.
-  double? getCosTheta(double y, int i) {
-    double? sinTheta = getSinTheta(y, i);
-
-    if (sinTheta != null) {
-      return (1 - sinTheta * sinTheta).sqrt;
-    }
-    return null;
   }
 
   /// Getter for [lowerRect].
@@ -160,6 +161,17 @@ class SettingsPageListTile extends StatelessWidget {
     }
   }
 
+  /// A cosTheta getter that depends on whether SettingsPageListTile overlaps
+  /// (i = 1) or not (i = -1) pathRadius.
+  double? getCosTheta(double y, int i) {
+    double? sinTheta = getSinTheta(y, i);
+
+    if (sinTheta != null) {
+      return (1 - sinTheta * sinTheta).sqrt;
+    }
+    return null;
+  }
+
   /// Calculates the horizontal displacement to apply to SettingsPageListTile
   /// as it passes [guestRect].
   double getDeltaX(double scrollPosition) {
@@ -172,7 +184,10 @@ class SettingsPageListTile extends StatelessWidget {
 
     //  Determine which method to use for calculating [deltaX].
     if (guestRect != null) {
-      if (lowerRect!.boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||
+      if (centreRect!.overlaps(rect)) {
+        //  [centreRect] overlaps with [rect] so set maximum deltaX value.
+        deltaX = guestRect!.width;
+      } else if (lowerRect!.boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||
           lowerRect!
               .boundsContain(rect.translate(0.0, cornerRadius).topRight)) {
         //  Use the y-value associated with [rect.top] relative to
@@ -195,9 +210,6 @@ class SettingsPageListTile extends StatelessWidget {
         //  Calculate deltaX.
         deltaX = getXFromY(upperRect!, y);
         deltaX = guestRect!.width - deltaX;
-      } else if (centreRect!.overlaps(rect)) {
-        //  [centreRect] overlaps with [rect] so set maximum deltaX value.
-        deltaX = guestRect!.width;
       }
     }
     return deltaX;
@@ -330,7 +342,8 @@ class SettingsPageListTile extends StatelessWidget {
         //  The topmost instance of Container, with the use of xP to
         //  define margin, implements the variable width settings panel.
         return Opacity(
-          opacity: (xP > 0.58 * basePageViewRect.width) ? 0.0 : 1.0,
+          // opacity: (xP > 0.58 * basePageViewRect.width) ? 0.0 : 1.0,
+          opacity: (xP > 2 * basePageViewRect.width) ? 0.0 : 1.0,
           child: BoxedContainer(
             margin: AppSettings.buttonAlignment.isLeft
                 ? EdgeInsets.only(left: xP)
