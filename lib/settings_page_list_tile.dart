@@ -184,7 +184,7 @@ class SettingsPageListTile extends StatelessWidget {
 
     //  Determine which method to use for calculating [deltaX].
     if (guestRect != null) {
-      if (centreRect!.overlaps(rect)) {
+      if (centreRect!.inflateHeight(-cornerRadius).overlaps(rect)) {
         //  [centreRect] overlaps with [rect] so set maximum deltaX value.
         deltaX = guestRect!.width;
       } else if (lowerRect!.boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||

@@ -44,7 +44,7 @@ class AppSettings {
   static double settingsPageListTileIconSize = 25.0;
 
   /// [settingsPageListTilePadding] defines the padding between tiles.
-  static double settingsPageListTilePadding = 2.0;
+  static double settingsPageListTilePadding = 0.0;
 
   /// [settingsPageListTileRadius] defines the tile corner radius.
   static double settingsPageListTileRadius = 15.0;
