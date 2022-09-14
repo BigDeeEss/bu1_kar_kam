@@ -1,5 +1,6 @@
 //  Import dart packages.
 import 'dart:ui';
+
 // import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,16 @@ extension RectExtension on Rect {
         offset.dx <= right &&
         offset.dy >= top &&
         offset.dy <= bottom;
+  }
+
+  /// Return an Offset to the midpoint of the bottom edge.
+  Offset get bottomCentre {
+    return Offset((left + right) / 2.0, bottom);
+  }
+
+  /// Return an Offset to the midpoint of the top edge.
+  Offset get topCentre {
+    return Offset((left + right) / 2.0, top);
   }
 
   /// Return a new instance of Rect with left and right edges moved
@@ -40,18 +51,18 @@ extension RectExtension on Rect {
     return Rect.fromLTRB(left, top, right, bottom).shift(newOrigin - origin);
   }
 
-// /// Return a new instance of Rect with top and bottom edges moved outward
-// /// by the given delta.
-// Rect inflateHeight(double delta) {
-//   return Rect.fromLTRB(left, top - delta, right, bottom + delta);
-// }
-//
-// /// Return a new instance of Rect with left and right edges moved outward
-// /// by the given delta.
-// Rect inflateWidth(double delta) {
-//   return Rect.fromLTRB(left - delta, top, right + delta, bottom);
-// }
-//
+  /// Return a new instance of Rect with top and bottom edges moved outward
+  /// by the given delta.
+  Rect inflateHeight(double delta) {
+    return Rect.fromLTRB(left, top - delta, right, bottom + delta);
+  }
+
+  /// Return a new instance of Rect with left and right edges moved outward
+  /// by the given delta.
+  Rect inflateWidth(double delta) {
+    return Rect.fromLTRB(left - delta, top, right + delta, bottom);
+  }
+
 // /// Return a new instance of Rect with left edges moved outward
 // /// by the given delta.
 // Rect inflateLeft(double delta) {
@@ -72,9 +83,9 @@ extension RectExtension on Rect {
 //
 /// Return a new instance of Rect with bottom edge moved outward
 /// by the given delta.
-Rect inflateDownwards(double delta) {
-  return Rect.fromLTRB(left, top, right, bottom + delta);
-}
+// Rect inflateDownwards(double delta) {
+//   return Rect.fromLTRB(left, top, right, bottom + delta);
+// }
 //
 // /// Return a new instance of Rect that shrinks to the left so that it
 // /// excludes [other] if it overlaps.

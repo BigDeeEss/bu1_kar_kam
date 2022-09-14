@@ -58,6 +58,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
+          height: 75.0,
           index: index,
           leading: Icon(
             Icons.favorite,
@@ -67,6 +68,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
       }),
     ];
 
+    //  Encapsulate ListViewBuilder in an instance of DataNotifier in order
+    //  to pass [scrollPositionNotifier] notifier down to [SettingsPageListTile].
     return DataNotifier(
       key: ValueKey('scrollPosition'),
       data: scrollPositionNotifier,

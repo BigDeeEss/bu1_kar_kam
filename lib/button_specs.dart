@@ -24,11 +24,11 @@ class ButtonSpec {
   /// [onPressed] defines the action to be taken when the button is activated.
   final void Function(BuildContext context) onPressed;
 
-  /// [buttonPadding] is a radial padding beyond [buttonRadiusInner].
+  /// [buttonPadding] is a radial padding beyond [buttonRadius].
   final EdgeInsetsDirectional buttonPadding = AppSettings.buttonPadding;
 
   /// [size] is the button characteristic dimension.
-  final double size = AppSettings.buttonRadiusInner;
+  final double size = AppSettings.buttonRadius;
 }
 
 //  Home page button specs.

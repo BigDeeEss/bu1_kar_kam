@@ -11,6 +11,9 @@ void main() {
 }
 
 /// [_KarKam] is the root widget of this project.
+///
+/// [_KarKam] loads an instance of [BasePage]; content is determined
+/// by [pageSpec].
 class _KarKam extends StatelessWidget {
   const _KarKam({Key? key}) : super(key: key);
 

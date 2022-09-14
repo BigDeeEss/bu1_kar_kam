@@ -7,11 +7,11 @@ import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 
-/// [ButtonArray] implements a linear horizontal or vertical button array.
+/// Implements a linear horizontal or vertical array of Buttons.
 class ButtonArray extends StatelessWidget {
   ButtonArray({Key? key}) : super(key: key);
 
-  /// [buttonSpecList] defines the specs for each button on the screen.
+  /// [buttonSpecList] defines the specs for each button in ButtonArray.
   static List<ButtonSpec> buttonSpecList = [
     settingsButton,
     filesButton,
@@ -28,8 +28,12 @@ class ButtonArray extends StatelessWidget {
     List<double> coordsList = [];
 
     //  A length -- button width plus padding -- for defining [coordsList].
-    double dim = 2 * (AppSettings.buttonRadiusInner +
-            AppSettings.buttonPaddingMainAxisExtra);
+    //  Two different values for dim determine whether the bounding boxes
+    //  for each Button overlap.
+    // double dim = 2 * (AppSettings.buttonRadiusInner +
+    //         AppSettings.buttonPaddingMainAxisExtra);
+    double dim = 2 * (AppSettings.buttonRadius +
+            AppSettings.buttonPaddingMainAxisAlt);
 
     //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding position.
@@ -37,6 +41,32 @@ class ButtonArray extends StatelessWidget {
       coordsList.add(dim * i);
     }
     return coordsList;
+  }
+
+  /// [rect] calculates the Rect data associated with [buttonArray].
+  Rect? get rect {
+    // Instantiate output variable as null initially.
+    Rect? rect;
+
+    //  Loop over [buttonArrayGlobalKeys]. [buttonArrayGlobalKeys] has the
+    //  same length as [buttonSpecList].
+    for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
+      //  Get Rect data for ith button.
+      Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
+
+      //  Build [rect] by giving it buttonRect initially, and then expanding
+      //  it by sequentially adding the Rect value for each button.
+      if (buttonRect != null) {
+        //  If rect is null then overwrite with buttonRect, else expand
+        //  rect to include buttonRect.
+        if (rect == null) {
+          rect = buttonRect;
+        } else {
+          rect = rect.expandToInclude(buttonRect);
+        }
+      }
+    }
+    return rect;
   }
 
   /// [buttonArrayGenerator] generates a list of buttons from buttonSpecList.
@@ -93,32 +123,6 @@ class ButtonArray extends StatelessWidget {
       }
     }
     return buttonList;
-  }
-
-  /// [getRect] calculates the Rect data associated with [buttonArray].
-  Rect? getRect() {
-    // Instantiate output variable as null initially.
-    Rect? rect;
-
-    //  Loop over [buttonArrayGlobalKeys]. [buttonArrayGlobalKeys] has the
-    //  same length as [buttonSpecList].
-    for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
-      //  Get Rect data for ith button.
-      Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
-
-      //  Build [rect] by giving it buttonRect initially, and then expanding
-      //  it by sequentially adding the Rect value for each button.
-      if (buttonRect != null) {
-        //  If rect is null then overwrite with buttonRect, else expand
-        //  rect to include buttonRect.
-        if (rect == null) {
-          rect = buttonRect;
-        } else {
-          rect = rect.expandToInclude(buttonRect);
-        }
-      }
-    }
-    return rect;
   }
 
   @override
