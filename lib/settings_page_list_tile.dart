@@ -47,6 +47,9 @@ class SettingsPageListTile extends StatelessWidget {
     //  and [AppSettings.settingsPageListTilePadding] combined corer radius
     cornerRadius = AppSettings.settingsPageListTileRadius +
         AppSettings.settingsPageListTilePadding;
+
+    //  Calculate [xPMax] from [basePageViewRect].
+    xPMax = basePageViewRect.width - 3 * AppSettings.buttonRadius;
   }
 
   /// The visible area on screen that contains SettingsPageContents.
@@ -88,6 +91,9 @@ class SettingsPageListTile extends StatelessWidget {
   /// [guestRect.topRight] and has the same width as [guestRect].
   Rect? upperRect;
 
+  /// The maximum xP before theOpacity widget hides SettingsPageListTile.
+  late double xPMax;
+
   /// Getter for [centreRect].
   Rect? get centreConstructionRect {
     //  Generates a Rect bounded by the bottom of [upperConstructionRect]
@@ -123,7 +129,6 @@ class SettingsPageListTile extends StatelessWidget {
         //  Convert offset to a Size and then construct output value.
         return uRect.topLeft & offset.toSize;
       }
-
     } else {
       return null;
     }
@@ -187,7 +192,8 @@ class SettingsPageListTile extends StatelessWidget {
       if (centreRect!.inflateHeight(-cornerRadius).overlaps(rect)) {
         //  [centreRect] overlaps with [rect] so set maximum deltaX value.
         deltaX = guestRect!.width;
-      } else if (lowerRect!.boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||
+      } else if (lowerRect!
+              .boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||
           lowerRect!
               .boundsContain(rect.translate(0.0, cornerRadius).topRight)) {
         //  Use the y-value associated with [rect.top] relative to
@@ -342,75 +348,75 @@ class SettingsPageListTile extends StatelessWidget {
         //  The topmost instance of Container, with the use of xP to
         //  define margin, implements the variable width settings panel.
         return Opacity(
-          // opacity: (xP > 0.58 * basePageViewRect.width) ? 0.0 : 1.0,
-          opacity: (xP > 2 * basePageViewRect.width) ? 0.0 : 1.0,
-          child: BoxedContainer(
-            margin: AppSettings.buttonAlignment.isLeft
-                ? EdgeInsets.only(left: xP)
-                : EdgeInsets.only(right: xP),
-            height: height,
-            padding: EdgeInsets.all(AppSettings.settingsPageListTilePadding),
+            opacity:
+                (xP > xPMax) ? 0.0 : 1.0,
+            // opacity: (xP > 2 * basePageViewRect.width) ? 0.0 : 1.0,
             child: BoxedContainer(
-              borderRadius: AppSettings.settingsPageListTileRadius,
-              color: Colors.pink[200],
-              child: Stack(
-                children: [
-                  //  The actual list tile.
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: <Widget>[
-                        BoxedContainer(
-                          child: leading,
-                        ),
-                        Expanded(
-                          child: BoxedContainer(
-                            child: Text(
-                              '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                              maxLines: 1,
-                              softWrap: false,
-                              // overflow: TextOverflow.visible,
+              margin: AppSettings.buttonAlignment.isLeft
+                  ? EdgeInsets.only(left: xP)
+                  : EdgeInsets.only(right: xP),
+              height: height,
+              padding: EdgeInsets.all(AppSettings.settingsPageListTilePadding),
+              child: BoxedContainer(
+                borderRadius: AppSettings.settingsPageListTileRadius,
+                color: Colors.pink[200],
+                child: Stack(
+                  children: [
+                    //  The actual list tile.
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: <Widget>[
+                          BoxedContainer(
+                            child: leading,
+                          ),
+                          Expanded(
+                            child: BoxedContainer(
+                              child: Text(
+                                '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                                maxLines: 1,
+                                softWrap: false,
+                                // overflow: TextOverflow.visible,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  //  A fade effect to manage the tile contents on the right hand
-                  //  edge.
-                  //
-                  //  The fade effect is a simple linear gradient opacity mask.
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: BoxedContainer(
-                      width: 2 * AppSettings.settingsPageListTileIconSize,
-                      height: height,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                            AppSettings.settingsPageListTileRadius),
-                        //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            stops: [
-                              0.0,
-                              0.5,
-                              1.0,
-                            ],
-                            colors: [
-                              //create 2 white colors, one transparent
-                              Colors.pink[200]!.withOpacity(0.0),
-                              Colors.pink[200]!.withOpacity(1.0),
-                              Colors.pink[200]!.withOpacity(1.0),
-                            ]),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    //  A fade effect to manage the tile contents on the right hand
+                    //  edge.
+                    //
+                    //  The fade effect is a simple linear gradient opacity mask.
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: BoxedContainer(
+                        width: 2 * AppSettings.settingsPageListTileIconSize,
+                        height: height,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              AppSettings.settingsPageListTileRadius),
+                          //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              stops: [
+                                0.0,
+                                0.5,
+                                1.0,
+                              ],
+                              colors: [
+                                //create 2 white colors, one transparent
+                                Colors.pink[200]!.withOpacity(0.0),
+                                Colors.pink[200]!.withOpacity(1.0),
+                                Colors.pink[200]!.withOpacity(1.0),
+                              ]),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          )
-        );
+            ));
       },
     );
   }
