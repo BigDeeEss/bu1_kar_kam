@@ -1,5 +1,43 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:kar_kam/lib/data_notification.dart';
+import 'package:kar_kam/lib/notification_notifier.dart';
+
+/// [DataNotification] allows data of any sort to be bubbled up the
+/// widget tree.
+class GlobalAppSettingsNotification extends LayoutChangedNotification {
+  GlobalAppSettingsNotification({
+    required this.data,
+  });
+
+  var data;
+}
+
+/// Dynamic storage of app settings data.
+class GlobalAppSettings extends StatelessWidget {
+  const GlobalAppSettings({
+    required this.child,
+    Key? key,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    //  Set appSettings as default values or updates from storage.
+    ValueNotifier<AppSettings?> appSettings = ValueNotifier(AppSettings());
+
+    //  This instance of NotificationNotifier catches
+    return NotificationNotifier<DataNotification, AppSettings?>(
+      child: child,
+      notificationData: appSettings,
+      onNotification: (notification) {
+        return true;
+      },
+    );
+  }
+}
+
 
 /// Class container for all app settings.
 class AppSettings {
