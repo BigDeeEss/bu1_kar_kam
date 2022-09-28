@@ -4,8 +4,6 @@ import 'package:kar_kam/app_settings.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/base_page.dart';
-import 'package:kar_kam/lib/data_notification.dart';
-import 'package:kar_kam/lib/notification_notifier.dart';
 import 'package:kar_kam/page_specs.dart';
 
 //  App start point.
@@ -20,19 +18,13 @@ void main() {
 class _KarKam extends StatelessWidget {
   _KarKam({Key? key}) : super(key: key);
 
-  final ValueNotifier<AppSettings> appSettings = ValueNotifier(AppSettings());
-
   @override
   Widget build(BuildContext context) {
-    //  Set appSettings as default values or updates from storage.
-    ValueNotifier<AppSettings?> appSettings = ValueNotifier(AppSettings());
-
-    //  This instance of NotificationNotifier
-    return NotificationNotifier<DataNotification, AppSettings?>(
-      notificationData: appSettings,
-      onNotification: (notification) {
-        return true;
-      },
+    //  This instance of GlobalAppSettings stores all app settings.
+    //  GlobalAppSettings catches GlobalAppSettingsNotification being sent up
+    //  the widget tree from and notifies any relevant widgets below it
+    //  of any changes.
+    return GlobalAppSettings(
       child: MaterialApp(
         title: '_KarKam',
         //  BasePage invokes a generic page layout so that a similar UI is

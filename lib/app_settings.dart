@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_notifier.dart';
 
-/// [DataNotification] allows data of any sort to be bubbled up the
-/// widget tree.
+/// A notification that explicitly carries GlobalAppSettings data.
 class GlobalAppSettingsNotification extends LayoutChangedNotification {
   GlobalAppSettingsNotification({
     required this.data,
