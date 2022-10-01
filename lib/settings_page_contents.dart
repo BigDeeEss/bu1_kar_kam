@@ -53,13 +53,41 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
     //  Generate a temporary list of tiles to build.
     List<Widget> tileList = [
-      ...List<Widget>.generate(150, (int index) {
+      ...List<Widget>.generate(5, (int index) {
         return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
           height: 75.0,
           index: index,
+          leading: Icon(
+            Icons.favorite,
+            size: AppSettings.settingsPageListTileIconSize,
+          ),
+        );
+      }),
+      SettingsPageListTile(
+          basePageViewRect:
+              basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
+          guestRect: buttonArrayRect,
+          height: 75.0,
+          index: 5,
+          leading: Icon(
+            Icons.circle_notifications_outlined,
+            size: AppSettings.settingsPageListTileIconSize,
+          ),
+          trailing: Icon(
+            Icons.circle_notifications_outlined,
+            size: AppSettings.settingsPageListTileIconSize,
+          ),
+        ),
+      ...List<Widget>.generate(100, (int index) {
+        return SettingsPageListTile(
+          basePageViewRect:
+              basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
+          guestRect: buttonArrayRect,
+          height: 75.0,
+          index: index + 6,
           leading: Icon(
             Icons.favorite,
             size: AppSettings.settingsPageListTileIconSize,

@@ -25,6 +25,7 @@ class SettingsPageListTile extends StatelessWidget {
     required this.height,
     required this.index,
     this.leading,
+    this.trailing,
   }) : super(key: key) {
     //  Create a representation of SettingsPageListTile at the correct
     //  initial location.
@@ -65,8 +66,11 @@ class SettingsPageListTile extends StatelessWidget {
   /// which will be replaced by a variable tile height at a later stage.
   final int index;
 
-  /// A widget to display before the title.
+  /// A widget to display on the left within SettingsPageListTile..
   final Widget? leading;
+
+  /// A widget to display on the right within SettingsPageListTile..
+  final Widget? trailing;
 
   /// A construction Rect situated directly between [upperRect]
   /// and [lowerRect] having the same width as [guestRect].
@@ -370,16 +374,27 @@ class SettingsPageListTile extends StatelessWidget {
                           BoxedContainer(
                             child: leading,
                           ),
-                          Expanded(
-                            child: BoxedContainer(
-                              child: Text(
-                                '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                                maxLines: 1,
-                                softWrap: false,
-                                // overflow: TextOverflow.visible,
-                              ),
+                          BoxedContainer(
+                            child: trailing,
+                          ),
+                          BoxedContainer(
+                            child: Text(
+                              '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                              maxLines: 1,
+                              softWrap: false,
+                              // overflow: TextOverflow.visible,
                             ),
                           ),
+                          // Expanded(
+                          //   child: BoxedContainer(
+                          //     child: Text(
+                          //       '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                          //       maxLines: 1,
+                          //       softWrap: false,
+                          //       // overflow: TextOverflow.visible,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -397,19 +412,20 @@ class SettingsPageListTile extends StatelessWidget {
                               AppSettings.settingsPageListTileRadius),
                           //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
                           gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              stops: [
-                                0.0,
-                                0.5,
-                                1.0,
-                              ],
-                              colors: [
-                                //create 2 white colors, one transparent
-                                Colors.pink[200]!.withOpacity(0.0),
-                                Colors.pink[200]!.withOpacity(1.0),
-                                Colors.pink[200]!.withOpacity(1.0),
-                              ]),
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            stops: [
+                              0.0,
+                              0.5,
+                              1.0,
+                            ],
+                            colors: [
+                              //create 2 white colors, one transparent
+                              Colors.pink[200]!.withOpacity(0.0),
+                              Colors.pink[200]!.withOpacity(1.0),
+                              Colors.pink[200]!.withOpacity(1.0),
+                            ],
+                          ),
                         ),
                       ),
                     ),
