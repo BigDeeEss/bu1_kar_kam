@@ -374,27 +374,27 @@ class SettingsPageListTile extends StatelessWidget {
                           BoxedContainer(
                             child: leading,
                           ),
-                          BoxedContainer(
-                            child: trailing,
-                          ),
-                          BoxedContainer(
-                            child: Text(
-                              '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                              maxLines: 1,
-                              softWrap: false,
-                              // overflow: TextOverflow.visible,
-                            ),
-                          ),
-                          // Expanded(
-                          //   child: BoxedContainer(
-                          //     child: Text(
-                          //       '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                          //       maxLines: 1,
-                          //       softWrap: false,
-                          //       // overflow: TextOverflow.visible,
-                          //     ),
+                          // BoxedContainer(
+                          //   child: trailing,
+                          // ),
+                          // BoxedContainer(
+                          //   child: Text(
+                          //     '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                          //     maxLines: 1,
+                          //     softWrap: false,
+                          //     // overflow: TextOverflow.visible,
                           //   ),
                           // ),
+                          Expanded(
+                            child: BoxedContainer(
+                              child: Text(
+                                '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                                maxLines: 1,
+                                softWrap: false,
+                                // overflow: TextOverflow.visible,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
