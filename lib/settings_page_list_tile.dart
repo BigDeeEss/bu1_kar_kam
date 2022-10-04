@@ -369,13 +369,46 @@ class SettingsPageListTile extends StatelessWidget {
                     child: leading,
                   ),
                   Expanded(
-                    child: BoxedContainer(
-                      child: Text(
-                        '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                        maxLines: 1,
-                        softWrap: false,
-                        // overflow: TextOverflow.visible,
-                      ),
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: BoxedContainer(
+                            child: Text(
+                              '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                              maxLines: 1,
+                              softWrap: false,
+                            ),
+                          ),
+                        ),
+                        AppSettings.settingsPageListTileFadeEffect ? Align(
+                          alignment: Alignment.centerRight,
+                          child: BoxedContainer(
+                            width: AppSettings.settingsPageListTileIconSize,
+                            height: height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  AppSettings.settingsPageListTileRadius),
+                              //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                stops: [
+                                  0.0,
+                                  0.5,
+                                  1.0,
+                                ],
+                                colors: [
+                                  //create 2 white colors, one transparent
+                                  Colors.pink[200]!.withOpacity(0.0),
+                                  Colors.pink[200]!.withOpacity(1.0),
+                                  Colors.pink[200]!.withOpacity(1.0),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ) : Container(),
+                      ],
                     ),
                   ),
                   BoxedContainer(
@@ -383,73 +416,6 @@ class SettingsPageListTile extends StatelessWidget {
                   ),
                 ],
               ),
-              // child: Stack(
-              //   children: [
-              //     //  The actual list tile.
-              //     Align(
-              //       alignment: Alignment.centerLeft,
-              //       child: Row(
-              //         children: <Widget>[
-              //           BoxedContainer(
-              //             child: leading,
-              //           ),
-              //           // BoxedContainer(
-              //           //   child: Text(
-              //           //     '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-              //           //     maxLines: 1,
-              //           //     softWrap: false,
-              //           //     // overflow: TextOverflow.visible,
-              //           //   ),
-              //           // ),
-              //           Expanded(
-              //             child: BoxedContainer(
-              //               child: Text(
-              //                 '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-              //                 maxLines: 1,
-              //                 softWrap: false,
-              //                 // overflow: TextOverflow.visible,
-              //               ),
-              //             ),
-              //           ),
-              //           BoxedContainer(
-              //             child: trailing,
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     // //  A fade effect to manage the tile contents on the right hand
-              //     // //  edge.
-              //     // //
-              //     // //  The fade effect is a simple linear gradient opacity mask.
-              //     // Align(
-              //     //   alignment: Alignment.centerRight,
-              //     //   child: BoxedContainer(
-              //     //     width: 2 * AppSettings.settingsPageListTileIconSize,
-              //     //     height: height,
-              //     //     decoration: BoxDecoration(
-              //     //       borderRadius: BorderRadius.circular(
-              //     //           AppSettings.settingsPageListTileRadius),
-              //     //       //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-              //     //       gradient: LinearGradient(
-              //     //         begin: Alignment.centerLeft,
-              //     //         end: Alignment.centerRight,
-              //     //         stops: [
-              //     //           0.0,
-              //     //           0.5,
-              //     //           1.0,
-              //     //         ],
-              //     //         colors: [
-              //     //           //create 2 white colors, one transparent
-              //     //           Colors.pink[200]!.withOpacity(0.0),
-              //     //           Colors.pink[200]!.withOpacity(1.0),
-              //     //           Colors.pink[200]!.withOpacity(1.0),
-              //     //         ],
-              //     //       ),
-              //     //     ),
-              //     //   ),
-              //     // ),
-              //   ],
-              // ),
             ),
           ),
         );

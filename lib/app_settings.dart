@@ -77,6 +77,9 @@ class AppSettings {
   /// [pageTransitionTime] defines the page transition time in milliseconds.
   static int pageTransitionTime = 750;
 
+  /// [settingsPageListTileFadeEffect] switches in/out the Text fade effect.
+  static bool settingsPageListTileFadeEffect = true;
+
   /// [settingsPageListTileIconSize] defines the icon radius.
   static double settingsPageListTileIconSize = 25.0;
 
