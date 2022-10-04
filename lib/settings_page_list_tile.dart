@@ -352,87 +352,107 @@ class SettingsPageListTile extends StatelessWidget {
         //  The topmost instance of Container, with the use of xP to
         //  define margin, implements the variable width settings panel.
         return Opacity(
-            opacity:
-                (xP > xPMax) ? 0.0 : 1.0,
+          opacity: (xP > xPMax) ? 0.0 : 1.0,
             // opacity: (xP > 2 * basePageViewRect.width) ? 0.0 : 1.0,
+          child: BoxedContainer(
+            margin: AppSettings.buttonAlignment.isLeft
+                ? EdgeInsets.only(left: xP)
+                : EdgeInsets.only(right: xP),
+            height: height,
+            padding: EdgeInsets.all(AppSettings.settingsPageListTilePadding),
             child: BoxedContainer(
-              margin: AppSettings.buttonAlignment.isLeft
-                  ? EdgeInsets.only(left: xP)
-                  : EdgeInsets.only(right: xP),
-              height: height,
-              padding: EdgeInsets.all(AppSettings.settingsPageListTilePadding),
-              child: BoxedContainer(
-                borderRadius: AppSettings.settingsPageListTileRadius,
-                color: Colors.pink[200],
-                child: Stack(
-                  children: [
-                    //  The actual list tile.
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        children: <Widget>[
-                          BoxedContainer(
-                            child: leading,
-                          ),
-                          // BoxedContainer(
-                          //   child: Text(
-                          //     '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                          //     maxLines: 1,
-                          //     softWrap: false,
-                          //     // overflow: TextOverflow.visible,
-                          //   ),
-                          // ),
-                          Expanded(
-                            child: BoxedContainer(
-                              child: Text(
-                                '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                                maxLines: 1,
-                                softWrap: false,
-                                // overflow: TextOverflow.visible,
-                              ),
-                            ),
-                          ),
-                          BoxedContainer(
-                            child: trailing,
-                          ),
-                        ],
+              borderRadius: AppSettings.settingsPageListTileRadius,
+              color: Colors.pink[200],
+              child: Row(
+                children: <Widget>[
+                  BoxedContainer(
+                    child: leading,
+                  ),
+                  Expanded(
+                    child: BoxedContainer(
+                      child: Text(
+                        '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                        maxLines: 1,
+                        softWrap: false,
+                        // overflow: TextOverflow.visible,
                       ),
                     ),
-                    // //  A fade effect to manage the tile contents on the right hand
-                    // //  edge.
-                    // //
-                    // //  The fade effect is a simple linear gradient opacity mask.
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: BoxedContainer(
-                    //     width: 2 * AppSettings.settingsPageListTileIconSize,
-                    //     height: height,
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(
-                    //           AppSettings.settingsPageListTileRadius),
-                    //       //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-                    //       gradient: LinearGradient(
-                    //         begin: Alignment.centerLeft,
-                    //         end: Alignment.centerRight,
-                    //         stops: [
-                    //           0.0,
-                    //           0.5,
-                    //           1.0,
-                    //         ],
-                    //         colors: [
-                    //           //create 2 white colors, one transparent
-                    //           Colors.pink[200]!.withOpacity(0.0),
-                    //           Colors.pink[200]!.withOpacity(1.0),
-                    //           Colors.pink[200]!.withOpacity(1.0),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
+                  ),
+                  BoxedContainer(
+                    child: trailing,
+                  ),
+                ],
               ),
-            ));
+              // child: Stack(
+              //   children: [
+              //     //  The actual list tile.
+              //     Align(
+              //       alignment: Alignment.centerLeft,
+              //       child: Row(
+              //         children: <Widget>[
+              //           BoxedContainer(
+              //             child: leading,
+              //           ),
+              //           // BoxedContainer(
+              //           //   child: Text(
+              //           //     '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+              //           //     maxLines: 1,
+              //           //     softWrap: false,
+              //           //     // overflow: TextOverflow.visible,
+              //           //   ),
+              //           // ),
+              //           Expanded(
+              //             child: BoxedContainer(
+              //               child: Text(
+              //                 '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+              //                 maxLines: 1,
+              //                 softWrap: false,
+              //                 // overflow: TextOverflow.visible,
+              //               ),
+              //             ),
+              //           ),
+              //           BoxedContainer(
+              //             child: trailing,
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     // //  A fade effect to manage the tile contents on the right hand
+              //     // //  edge.
+              //     // //
+              //     // //  The fade effect is a simple linear gradient opacity mask.
+              //     // Align(
+              //     //   alignment: Alignment.centerRight,
+              //     //   child: BoxedContainer(
+              //     //     width: 2 * AppSettings.settingsPageListTileIconSize,
+              //     //     height: height,
+              //     //     decoration: BoxDecoration(
+              //     //       borderRadius: BorderRadius.circular(
+              //     //           AppSettings.settingsPageListTileRadius),
+              //     //       //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
+              //     //       gradient: LinearGradient(
+              //     //         begin: Alignment.centerLeft,
+              //     //         end: Alignment.centerRight,
+              //     //         stops: [
+              //     //           0.0,
+              //     //           0.5,
+              //     //           1.0,
+              //     //         ],
+              //     //         colors: [
+              //     //           //create 2 white colors, one transparent
+              //     //           Colors.pink[200]!.withOpacity(0.0),
+              //     //           Colors.pink[200]!.withOpacity(1.0),
+              //     //           Colors.pink[200]!.withOpacity(1.0),
+              //     //         ],
+              //     //       ),
+              //     //     ),
+              //     //   ),
+              //     // ),
+              //   ],
+              // ),
+            ),
+          ),
+        );
       },
     );
   }
