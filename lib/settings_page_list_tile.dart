@@ -349,11 +349,13 @@ class SettingsPageListTile extends StatelessWidget {
         //  be applied to this instance of [SettingsPageListTile].
         double xP = getDeltaX(value);
 
-        //  The topmost instance of Container, with the use of xP to
-        //  define margin, implements the variable width settings panel.
+        //  Use an Opacity widget to implement a vanishing SettingsPageListTile
+        //  for when the space between [guestRect] and the edge of the screen
+        //  is insufficient.
         return Opacity(
           opacity: (xP > xPMax) ? 0.0 : 1.0,
-            // opacity: (xP > 2 * basePageViewRect.width) ? 0.0 : 1.0,
+          //  The topmost instance of Container, with the use of xP to
+          //  define margin, implements the variable width settings panel.
           child: BoxedContainer(
             margin: AppSettings.buttonAlignment.isLeft
                 ? EdgeInsets.only(left: xP)
@@ -381,6 +383,9 @@ class SettingsPageListTile extends StatelessWidget {
                             ),
                           ),
                         ),
+                        //  The following widget is either an instance of Align,
+                        //  in which case it implements a fade effect for the
+                        //  Text widget, or Container().
                         AppSettings.settingsPageListTileFadeEffect ? Align(
                           alignment: Alignment.centerRight,
                           child: BoxedContainer(
