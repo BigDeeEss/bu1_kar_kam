@@ -31,6 +31,7 @@ class GlobalAppSettings extends StatelessWidget {
       child: child,
       notificationData: appSettings,
       onNotification: (notification) {
+        print('Test dispatch method...complete');
         return true;
       },
     );

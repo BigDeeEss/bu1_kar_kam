@@ -25,6 +25,7 @@ class SettingsPageListTile extends StatelessWidget {
     required this.height,
     required this.index,
     this.leading,
+    this.onTap,
     this.trailing,
   }) : super(key: key) {
     //  Create a representation of SettingsPageListTile at the correct
@@ -68,6 +69,10 @@ class SettingsPageListTile extends StatelessWidget {
 
   /// A widget to display on the left within SettingsPageListTile..
   final Widget? leading;
+
+  /// A gesture detection callback that implements the functionality
+  /// associated with SettingsPageListTile.
+  final GestureTapCallback? onTap;
 
   /// A widget to display on the right within SettingsPageListTile..
   final Widget? trailing;
@@ -363,9 +368,7 @@ class SettingsPageListTile extends StatelessWidget {
             height: height,
             padding: EdgeInsets.all(AppSettings.settingsPageListTilePadding),
             child: InkWell(
-              onTap: () {
-                print('Tapped...!');
-              },
+              onTap: onTap,
               child: BoxedContainer(
                 borderRadius: AppSettings.settingsPageListTileRadius,
                 color: Colors.pink[200],

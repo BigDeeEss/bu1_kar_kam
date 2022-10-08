@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
@@ -76,6 +77,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
             Icons.circle_notifications_outlined,
             size: AppSettings.settingsPageListTileIconSize,
           ),
+          onTap:() {
+            print('SettingsPageLstTile: tapped...!');
+            DataNotification(data: 'Test dispatch method...').dispatch(context);
+            print('SettingsPageLstTile: notification sent...!');
+          },
           trailing: Icon(
             Icons.circle_notifications_outlined,
             size: AppSettings.settingsPageListTileIconSize,
