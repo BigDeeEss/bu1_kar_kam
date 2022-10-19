@@ -20,6 +20,7 @@ class DataNotifier extends StatelessWidget {
   final Widget child;
 
   final Key? localKey;
+
   Key? get key {
     return localKey;
   }
@@ -51,6 +52,11 @@ class DataNotifier extends StatelessWidget {
         'Try wrapping the call to [of] in a builder.'
       );
       return result!;
+      return _DataNotifierService(
+        key: UniqueKey(),
+        child: Container(),
+        context: context,
+      );
     }
   }
 
