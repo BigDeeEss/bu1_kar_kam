@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
-import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 
 /// [BasePage] implements a generic page layout design.

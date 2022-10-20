@@ -1,9 +1,10 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
-import 'package:kar_kam/app_settings.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/base_page.dart';
+import 'package:kar_kam/global_app_settings_devel.dart';
 import 'package:kar_kam/page_specs.dart';
 
 //  App start point.
@@ -24,16 +25,18 @@ class _KarKam extends StatelessWidget {
     //  GlobalAppSettings catches GlobalAppSettingsNotification being sent up
     //  the widget tree from and notifies any relevant widgets below it
     //  of any changes.
-    return GlobalAppSettings(
-      child: MaterialApp(
-        title: '_KarKam',
-        //  BasePage invokes a generic page layout so that a similar UI is
-        //  presented for each page (route).
-        home: BasePage(
-          pageSpec: settingsPage,
-          // pageSpec: filesPage,
-        ),
-      )
+    return GlobalAppSettingsDevel(
+      child: GlobalAppSettings(
+        child: MaterialApp(
+          title: '_KarKam',
+          //  BasePage invokes a generic page layout so that a similar UI is
+          //  presented for each page (route).
+          home: BasePage(
+            pageSpec: settingsPage,
+            // pageSpec: filesPage,
+          ),
+        )
+      ),
     );
   }
 }

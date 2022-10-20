@@ -79,7 +79,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           ),
           onTap:() {
             print('SettingsPageLstTile: tapped...!');
-            DataNotification(data: 'Test dispatch method...').dispatch(context);
+            DataNotification(data: 'drawLayoutBounds').dispatch(context);
             print('SettingsPageLstTile: notification sent...!');
           },
           trailing: Icon(

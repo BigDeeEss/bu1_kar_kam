@@ -16,7 +16,7 @@ class ButtonSpec {
   });
 
   /// [drawLayoutBounds] toggles whether layout bounds are drawn or not.
-  final bool drawLayoutBounds = AppSettings.drawLayoutBounds;
+  // final bool drawLayoutBounds = AppSettings.drawLayoutBounds;
 
   /// [icon] indicating the destination page or action.
   final Icon icon;

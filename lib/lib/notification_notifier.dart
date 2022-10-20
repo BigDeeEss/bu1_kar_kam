@@ -1,13 +1,12 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 
-
 /// [NotificationNotifierCallback] defines the form of callback that is
 /// acceptable to [NotificationNotifier].
 typedef NotificationNotifierCallback<T extends Notification>
     = bool Function(T notification);
 
-
+//  ToDo: add unique key in a similar method to DataNotifier.
 /// [NotificationNotifier] combines instances of NotificationListener
 /// and [_NotificationNotifierService].
 ///
