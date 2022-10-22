@@ -43,7 +43,7 @@ class _GlobalAppSettingsState extends State<GlobalAppSettings> {
               !widget.appSettings.drawLayoutBounds;
         });
         print('Test dispatch method...complete');
-        return true;
+        return false;
       },
     );
   }
