@@ -9,48 +9,47 @@ class GlobalAppSettingsDevel extends StatefulWidget {
   GlobalAppSettingsDevel({
     required this.child,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    globalAppSettingsDevel = ValueNotifier(GlobalAppSettingsDevelStore());
+    notificationNotifier =
+        NotificationNotifier<DataNotification, GlobalAppSettingsDevelStore>(
+      child: child,
+      notificationData: globalAppSettingsDevel,
+      onNotification: (notification) {
+        print('Test dispatch method---GlobalAppSettingsDevelState...complete');
+        return true;
+      },
+    );
+  }
 
   final Widget child;
 
-  // NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>
-  //     notificationNotifier =
-  //     NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>(
-  //   child: widget.child,
-  //   notificationData: widget.globalAppSettingsDevel,
-  //   onNotification: (notification) {
-  //     print('Test dispatch method---_GlobalAppSettingsDevelState...complete');
-  //     return true;
-  //   },
-  // );
+  late ValueNotifier<GlobalAppSettingsDevelStore> globalAppSettingsDevel;
 
-  ValueNotifier<_GlobalAppSettingsDevel> globalAppSettingsDevel =
-      ValueNotifier(_GlobalAppSettingsDevel());
+  late NotificationNotifier<DataNotification, GlobalAppSettingsDevelStore>
+      notificationNotifier;
+
+  static NotificationNotifierService<DataNotification, GlobalAppSettingsDevelStore>
+      of<DataNotification, GlobalAppSettingsDevelStore>(BuildContext context) =>
+          NotificationNotifier.of<DataNotification, GlobalAppSettingsDevelStore>(
+              context);
 
   @override
-  State<GlobalAppSettingsDevel> createState() => _GlobalAppSettingsDevelState();
+  State<GlobalAppSettingsDevel> createState() => GlobalAppSettingsDevelState();
 }
 
-class _GlobalAppSettingsDevelState extends State<GlobalAppSettingsDevel> {
+class GlobalAppSettingsDevelState extends State<GlobalAppSettingsDevel> {
   @override
   Widget build(BuildContext context) {
-    NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>
-        notificationNotifier =
-        NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>(
-      child: widget.child,
-      notificationData: widget.globalAppSettingsDevel,
-      onNotification: (notification) {
-        print('Test dispatch method---_GlobalAppSettingsDevelState...complete');
-        return false;
-      },
-    );
-    return notificationNotifier;
+    return widget.notificationNotifier;
   }
 }
 
-class _GlobalAppSettingsDevel {
+class GlobalAppSettingsDevelStore {
   /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
   ///
   /// Used for debugging widget screen location.
-  bool drawLayoutBoundsVal = true;
+  bool drawLayoutBounds = true;
+
+  // bool get drawLayoutBounds => drawLayoutBoundsVal;
 }

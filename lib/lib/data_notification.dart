@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 /// [DataNotification] allows data of any sort to be bubbled up the
 /// widget tree.
-class DataNotification extends LayoutChangedNotification {
+class DataNotification extends Notification {
   DataNotification({
     required this.data,
   });
