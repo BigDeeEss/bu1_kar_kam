@@ -13,6 +13,17 @@ class GlobalAppSettingsDevel extends StatefulWidget {
 
   final Widget child;
 
+  // NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>
+  //     notificationNotifier =
+  //     NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>(
+  //   child: widget.child,
+  //   notificationData: widget.globalAppSettingsDevel,
+  //   onNotification: (notification) {
+  //     print('Test dispatch method---_GlobalAppSettingsDevelState...complete');
+  //     return true;
+  //   },
+  // );
+
   ValueNotifier<_GlobalAppSettingsDevel> globalAppSettingsDevel =
       ValueNotifier(_GlobalAppSettingsDevel());
 
@@ -24,15 +35,16 @@ class _GlobalAppSettingsDevelState extends State<GlobalAppSettingsDevel> {
   @override
   Widget build(BuildContext context) {
     NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>
-        notificationNotifier = NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>(
+        notificationNotifier =
+        NotificationNotifier<DataNotification, _GlobalAppSettingsDevel>(
       child: widget.child,
       notificationData: widget.globalAppSettingsDevel,
       onNotification: (notification) {
         print('Test dispatch method---_GlobalAppSettingsDevelState...complete');
-        return true;
+        return false;
       },
     );
-    return widget.child;
+    return notificationNotifier;
   }
 }
 
