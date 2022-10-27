@@ -1,11 +1,11 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 
-/// [DataNotifier] provides a StatelessWidget wrapper for
+/// [GlobalData] provides a StatelessWidget wrapper for
 /// [_DataNotifierService]. The associated build method ensures that
 /// only one instance of _DataNotifierService exists per each level of context.
-class DataNotifier extends StatelessWidget {
-  DataNotifier({
+class GlobalData extends StatelessWidget {
+  GlobalData({
     required Key? key,
     required this.child,
     this.data,
@@ -15,12 +15,13 @@ class DataNotifier extends StatelessWidget {
   /// [data] can be of any type and so var is used here.
   var data;
 
-  /// The widget immediately below this instance of [DataNotifier] in the
+  /// The widget immediately below this instance of [GlobalData] in the
   /// widget tree.
   final Widget child;
 
   final Key? localKey;
 
+  /// A local getter for key required by [of].
   Key? get key {
     return localKey;
   }
@@ -38,7 +39,7 @@ class DataNotifier extends StatelessWidget {
     if (result is _DataNotifierService) {
       if (key != result.key) {
         //  If keys do not match then continue search up the widget tree.
-        return DataNotifier.of(result.context, key);
+        return GlobalData.of(result.context, key);
       } else {
         //  If key matches the search criterion then return 'result'.
         return result;
@@ -62,7 +63,8 @@ class DataNotifier extends StatelessWidget {
 
   //  Wrapping the instance of _DataNotifierService in a build method
   //  ensures that only one instance of DataNotifier is present at each
-  //  level in the widget tree.
+  //  level in the widget tree. THIS IS THE PRIMARY REASON WHY
+  //  _DataNotifierService IS WRAPPED BY DataNotifier.
   @override
   Widget build(BuildContext context) {
     return _DataNotifierService(
@@ -76,7 +78,7 @@ class DataNotifier extends StatelessWidget {
 
 
 
-/// [_DataNotifierService] provides the mechanism by which [DataNotifier]
+/// [_DataNotifierService] provides the mechanism by which [GlobalData]
 /// is able to pass [data] down the widget tree.
 class _DataNotifierService extends InheritedWidget {
   _DataNotifierService({
