@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 /// [GlobalData] provides a StatelessWidget wrapper for
 /// [_DataNotifierService]. The associated build method ensures that
 /// only one instance of _DataNotifierService exists per each level of context.
-class GlobalData extends StatelessWidget {
-  GlobalData({
+class GlobalData<T> extends StatelessWidget {
+  const GlobalData({
     required Key? key,
     required this.child,
-    this.data,
+    required this.data,
   }) : localKey = key,
         super(key: key);
 
-  /// [data] can be of any type and so var is used here.
-  var data;
+  final T data;
 
   /// The widget immediately below this instance of [GlobalData] in the
   /// widget tree.
@@ -40,9 +39,6 @@ class GlobalData extends StatelessWidget {
       if (key != result.key) {
         //  If keys do not match then continue search up the widget tree.
         return GlobalData.of(result.context, key);
-      } else {
-        //  If key matches the search criterion then return 'result'.
-        return result;
       }
     } else {
       //  No instance of _DataNotifierService can be found in the widget tree
@@ -52,13 +48,8 @@ class GlobalData extends StatelessWidget {
         'No DataNotifier with key $key found in context: '
         'Try wrapping the call to [of] in a builder.'
       );
-      return result!;
-      return _DataNotifierService(
-        key: UniqueKey(),
-        child: Container(),
-        context: context,
-      );
     }
+    return result!;
   }
 
   //  Wrapping the instance of _DataNotifierService in a build method
@@ -67,7 +58,7 @@ class GlobalData extends StatelessWidget {
   //  _DataNotifierService IS WRAPPED BY DataNotifier.
   @override
   Widget build(BuildContext context) {
-    return _DataNotifierService(
+    return _DataNotifierService<T>(
       key: key,
       child: child,
       context: context,
@@ -80,16 +71,15 @@ class GlobalData extends StatelessWidget {
 
 /// [_DataNotifierService] provides the mechanism by which [GlobalData]
 /// is able to pass [data] down the widget tree.
-class _DataNotifierService extends InheritedWidget {
-  _DataNotifierService({
+class _DataNotifierService<T> extends InheritedWidget {
+  const _DataNotifierService({
     required Key? key,
     required Widget child,
     required this.context,
-    this.data,
+    required this.data,
   }) : super(key: key, child: child);
 
-  /// [data] can be of any type and so var is used here.
-  var data;
+  final T data;
 
   /// [context] is used when passing on the search for further instances of
   /// [_DataNotifierService] up the widget tree.
