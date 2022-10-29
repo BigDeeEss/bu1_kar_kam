@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
+import 'package:kar_kam/lib/global_data_tmp.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/lib/global_data.dart';
 import 'package:kar_kam/page_specs.dart';
@@ -29,10 +30,6 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> {
-  /// [buttonArrayRectNotifier] stores Rect information associated with
-  /// [buttonArray] for use by widgets below this in the widget tree.
-  final ValueNotifier<Rect?> buttonArrayRectNotifier = ValueNotifier(Rect.zero);
-
   /// [basePageViewKey] stores the GlobalKey which is passed to Stack so that
   /// widgets below this -- e.g. SettingsPageContents -- are able to get
   /// the available screen dimensions.
@@ -41,13 +38,17 @@ class _BasePageState extends State<BasePage> {
   /// [basePageViewRectNotifier] transmits the available screen dimensions
   /// down the widget tree as Rect data.
   final ValueNotifier<Rect?> basePageViewRectNotifier =
-      ValueNotifier(Rect.zero);
+  ValueNotifier(Rect.zero);
 
   /// [buttonArray] builds a linear horizontal or vertical array of buttons.
   ///
   /// [buttonArray] is referenced in the build and initState methods and
   /// so must be instantiated at the point of [BasePage] creation.
   final ButtonArray buttonArray = ButtonArray();
+
+  /// [buttonArrayRectNotifier] stores Rect information associated with
+  /// [buttonArray] for use by widgets below this in the widget tree.
+  final ValueNotifier<Rect?> buttonArrayRectNotifier = ValueNotifier(Rect.zero);
 
   /// [pageContents] (initially null) is updated by setState in a
   /// postFrameCallback.
@@ -69,11 +70,11 @@ class _BasePageState extends State<BasePage> {
     /// BasePage is built in two parts as [pageContents] may require
     /// the position of [buttonArray] -- see for example SettingsPageContents.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //  Get [buttonArray] Rect data and update [buttonArrayRectNotifier].
-      buttonArrayRectNotifier.value = buttonArray.rect;
-
       //  Get [basePageView] Rect data and update [basePageViewRectNotifier].
       basePageViewRectNotifier.value = basePageViewKey.globalPaintBounds;
+
+      //  Get [buttonArray] Rect data and update [buttonArrayRectNotifier].
+      buttonArrayRectNotifier.value = buttonArray.rect;
 
       //  Rebuild widget with pageSpec.contents instead of Container().
       if (pageContents == null) {
@@ -113,11 +114,11 @@ class _BasePageState extends State<BasePage> {
       //  The Scaffold body contents are placed within two instances of
       //  DataNotifier in order to transfer [buttonArrayRectNotifier] and
       //  [basePageViewRectNotifier] down the widget tree.
-      body: GlobalData(
-        key: ValueKey('buttonArrayRect'),
+      body: GlobalDataTmp<ValueNotifier<Rect?>>(
+        key: const ValueKey('buttonArrayRect'),
         data: buttonArrayRectNotifier,
         child: GlobalData(
-          key: ValueKey('basePageViewRect'),
+          key: const ValueKey('basePageViewRect'),
           data: basePageViewRectNotifier,
           //  Place page contents and [buttonArray] on screen using Stack.
           //

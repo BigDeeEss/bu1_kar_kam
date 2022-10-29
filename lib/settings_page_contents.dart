@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/global_data.dart';
+import 'package:kar_kam/lib/global_data_tmp.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
 /// [SettingsPageContents] implements a settings page with
@@ -45,12 +46,12 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
   @override
   Widget build(BuildContext context) {
     //  Get [buttonArrayRect] from NataNotifier in [BasePage].
-    Rect? buttonArrayRect =
-        GlobalData.of(context, ValueKey('buttonArrayRect')).data.value;
+    Rect? buttonArrayRect = GlobalDataTmp.of<ValueNotifier<Rect?>>(
+        context, const ValueKey('buttonArrayRect')).data.value;
 
     //  Get [basePageViewRect] from NataNotifier in [BasePage].
     Rect? basePageViewRect =
-        GlobalData.of(context, ValueKey('basePageViewRect')).data.value;
+        GlobalData.of(context, const ValueKey('basePageViewRect')).data.value;
 
     //  Generate a temporary list of tiles to build.
     List<Widget> tileList = [
@@ -68,25 +69,25 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         );
       }),
       SettingsPageListTile(
-          basePageViewRect:
-              basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
-          guestRect: buttonArrayRect,
-          height: 75.0,
-          index: 5,
-          leading: Icon(
-            Icons.circle_notifications_outlined,
-            size: AppSettings.settingsPageListTileIconSize,
-          ),
-          onTap:() {
-            print('SettingsPageLstTile: tapped...!');
-            DataNotification(data: 'drawLayoutBounds').dispatch(context);
-            print('SettingsPageLstTile: notification sent...!');
-          },
-          trailing: Icon(
-            Icons.circle_notifications_outlined,
-            size: AppSettings.settingsPageListTileIconSize,
-          ),
+        basePageViewRect:
+            basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
+        guestRect: buttonArrayRect,
+        height: 75.0,
+        index: 5,
+        leading: Icon(
+          Icons.circle_notifications_outlined,
+          size: AppSettings.settingsPageListTileIconSize,
         ),
+        onTap: () {
+          print('SettingsPageLstTile: tapped...!');
+          DataNotification(data: 'drawLayoutBounds').dispatch(context);
+          print('SettingsPageLstTile: notification sent...!');
+        },
+        trailing: Icon(
+          Icons.circle_notifications_outlined,
+          size: AppSettings.settingsPageListTileIconSize,
+        ),
+      ),
       ...List<Widget>.generate(100, (int index) {
         return SettingsPageListTile(
           basePageViewRect:
