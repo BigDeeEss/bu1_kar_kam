@@ -45,7 +45,7 @@ class GlobalData<T> extends StatelessWidget {
       //  so force the following assert to fail and provide a message to the
       //  user.
       assert(result is _DataNotifierService,
-        'No DataNotifier with key $key found in context: '
+        'No GlobalData with key $key found in context: '
         'Try wrapping the call to [of] in a builder.'
       );
     }
@@ -58,7 +58,7 @@ class GlobalData<T> extends StatelessWidget {
   //  _DataNotifierService IS WRAPPED BY DataNotifier.
   @override
   Widget build(BuildContext context) {
-    return _DataNotifierService<T>(
+    return _DataNotifierService(
       key: key,
       child: child,
       context: context,
@@ -71,15 +71,15 @@ class GlobalData<T> extends StatelessWidget {
 
 /// [_DataNotifierService] provides the mechanism by which [GlobalData]
 /// is able to pass [data] down the widget tree.
-class _DataNotifierService<T> extends InheritedWidget {
-  const _DataNotifierService({
+class _DataNotifierService extends InheritedWidget {
+  _DataNotifierService({
     required Key? key,
     required Widget child,
     required this.context,
     required this.data,
   }) : super(key: key, child: child);
 
-  final T data;
+  var data;
 
   /// [context] is used when passing on the search for further instances of
   /// [_DataNotifierService] up the widget tree.
