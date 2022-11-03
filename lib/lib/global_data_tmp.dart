@@ -27,12 +27,14 @@ class GlobalDataTmp<T> extends StatelessWidget {
 
     //  Using 'is' promotes result to type _GlobalDataService<T> in what
     //  follows so that the comparison 'key != result.key' can be made.
+    //  Without 'is' result.key has no specific meaning.
     if (result is _GlobalDataTmpService<T>) {
       if (key != result.key) {
         //  If keys do not match then continue search up the widget tree.
         result = GlobalDataTmp.of<T>(result.context, key);
       }
     } else {
+      //  Attempt to assert a contradiction so that 'of' fails.
       assert(
           result != null,
           'No _GlobalDataTmpService of the correct type found in context: '
@@ -45,6 +47,8 @@ class GlobalDataTmp<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //  Insert an instance of _GlobalDataTmpService before child so that
+    //  descendant widgets can access data via 'of'.
     return _GlobalDataTmpService(
       key: key,
       child: child,
@@ -67,7 +71,7 @@ class _GlobalDataTmpService<T> extends InheritedWidget {
   /// [_GlobalDataTmpService] up the widget tree.
   final BuildContext context;
 
-  /// [data] is made accessible to descendant widgets.
+  /// [data] is made accessible to descendant widgets via GlobalDataTmp.of.
   final T data;
 
   /// Allow [_GlobalDataTmpService] to notify listenable objects
