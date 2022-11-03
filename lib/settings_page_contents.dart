@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
-import 'package:kar_kam/lib/global_data.dart';
+// import 'package:kar_kam/lib/global_data.dart';
 import 'package:kar_kam/lib/global_data_tmp.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
@@ -46,12 +46,12 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
   @override
   Widget build(BuildContext context) {
     //  Get [buttonArrayRect] from NataNotifier in [BasePage].
-    Rect? buttonArrayRect = GlobalDataTmp.of<ValueNotifier<Rect?>>(
-        context, const ValueKey('buttonArrayRect')).data.value;
+    Rect? buttonArrayRect = GlobalDataTmp.of<Rect?>(
+        context, const ValueKey('buttonArrayRect')).data;
 
     //  Get [basePageViewRect] from NataNotifier in [BasePage].
     Rect? basePageViewRect =
-        GlobalData.of(context, const ValueKey('basePageViewRect')).data.value;
+        GlobalDataTmp.of<Rect?>(context, const ValueKey('basePageViewRect')).data;
 
     //  Generate a temporary list of tiles to build.
     List<Widget> tileList = [
@@ -105,7 +105,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
     //  Encapsulate ListViewBuilder in an instance of DataNotifier in order
     //  to pass [scrollPositionNotifier] notifier down to [SettingsPageListTile].
-    return GlobalData(
+    return GlobalDataTmp<ValueNotifier<double>>(
       key: ValueKey('scrollPosition'),
       data: scrollPositionNotifier,
       child: ListView.builder(

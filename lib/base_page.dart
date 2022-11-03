@@ -6,7 +6,6 @@ import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/global_data_tmp.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
-import 'package:kar_kam/lib/global_data.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 
@@ -35,10 +34,8 @@ class _BasePageState extends State<BasePage> {
   /// the available screen dimensions.
   GlobalKey basePageViewKey = GlobalKey();
 
-  /// [basePageViewRectNotifier] transmits the available screen dimensions
-  /// down the widget tree as Rect data.
-  final ValueNotifier<Rect?> basePageViewRectNotifier =
-  ValueNotifier(Rect.zero);
+  /// [basePageViewRect] stores the available screen dimensions as Rect data.
+  Rect? basePageViewRect = Rect.zero;
 
   /// [buttonArray] builds a linear horizontal or vertical array of buttons.
   ///
@@ -46,9 +43,8 @@ class _BasePageState extends State<BasePage> {
   /// so must be instantiated at the point of [BasePage] creation.
   final ButtonArray buttonArray = ButtonArray();
 
-  /// [buttonArrayRectNotifier] stores Rect information associated with
-  /// [buttonArray] for use by widgets below this in the widget tree.
-  final ValueNotifier<Rect?> buttonArrayRectNotifier = ValueNotifier(Rect.zero);
+  /// [buttonArrayRect] stores Rect information associated with [buttonArray].
+  Rect? buttonArrayRect = Rect.zero;
 
   /// [pageContents] (initially null) is updated by setState in a
   /// postFrameCallback.
@@ -63,18 +59,18 @@ class _BasePageState extends State<BasePage> {
   @override
   void initState() {
     super.initState();
-    /// BasePage is built in two parts: (i) [buttonArray], by the build
-    /// function; and then (ii) [buttonArray] + [pageContents], initiated by
+    /// BasePage is built in two parts: (i) buttonArray, by the build
+    /// function; and then (ii) buttonArray + pageContents, initiated by
     /// this post-frame callback.
     ///
-    /// BasePage is built in two parts as [pageContents] may require
-    /// the position of [buttonArray] -- see for example SettingsPageContents.
+    /// BasePage is built in two parts as pageContents may require
+    /// the position of buttonArray -- see for example SettingsPageContents.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //  Get [basePageView] Rect data and update [basePageViewRectNotifier].
-      basePageViewRectNotifier.value = basePageViewKey.globalPaintBounds;
+      //  Get basePageView Rect data and update basePageViewRect.
+      basePageViewRect = basePageViewKey.globalPaintBounds;
 
-      //  Get [buttonArray] Rect data and update [buttonArrayRectNotifier].
-      buttonArrayRectNotifier.value = buttonArray.rect;
+      //  Get buttonArray Rect data and update buttonArrayRect.
+      buttonArrayRect = buttonArray.rect;
 
       //  Rebuild widget with pageSpec.contents instead of Container().
       if (pageContents == null) {
@@ -104,31 +100,31 @@ class _BasePageState extends State<BasePage> {
           return BottomAppBar(
             color: Colors.blue,
             child: SizedBox(
-              //  Set height of BottomAppBar using SizedBox, [appBarHeight]
-              //  and [AppSettings.appBarHeightScaleFactor].
+              //  Set height of BottomAppBar using SizedBox, appBarHeight
+              //  and AppSettings.appBarHeightScaleFactor.
               height: appBarHeight * AppSettings.appBarHeightScaleFactor,
             ),
           );
         },
       ),
       //  The Scaffold body contents are placed within two instances of
-      //  DataNotifier in order to transfer [buttonArrayRectNotifier] and
-      //  [basePageViewRectNotifier] down the widget tree.
-      body: GlobalDataTmp<ValueNotifier<Rect?>>(
+      //  DataNotifier in order to transfer buttonArrayRect and
+      //  basePageViewRect down the widget tree.
+      body: GlobalDataTmp<Rect?>(
         key: const ValueKey('buttonArrayRect'),
-        data: buttonArrayRectNotifier,
-        child: GlobalData(
+        data: buttonArrayRect,
+        child: GlobalDataTmp<Rect?>(
           key: const ValueKey('basePageViewRect'),
-          data: basePageViewRectNotifier,
-          //  Place page contents and [buttonArray] on screen using Stack.
+          data: basePageViewRect,
+          //  Place page contents and buttonArray on screen using Stack.
           //
-          //  Ensure that [buttonArray] sits above the page content by placing
+          //  Ensure that buttonArray sits above the page content by placing
           //  it last in a Stack list of children.
           //
-          //  If [pageContents] is null then put an empty container into Stack,
+          //  If pageContents is null then put an empty container into Stack,
           //  otherwise use its value (see ?? operator below).
           //
-          //  Note: [pageContents] equates to widget.pageSpec.contents.
+          //  Note: pageContents equates to widget.pageSpec.contents.
           //  after setState.
           child: Stack(
             key: basePageViewKey,
@@ -136,7 +132,7 @@ class _BasePageState extends State<BasePage> {
               pageContents ?? Container(),
               buttonArray,
               //  Add two additional guidance circles for checking the sliding
-              //  motion of [SettingsPageListTile].
+              //  motion of SettingsPageListTile.
               (AppSettings.buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,

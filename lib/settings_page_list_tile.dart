@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
-import 'package:kar_kam/lib/global_data.dart';
 import 'package:kar_kam/lib/double_extension.dart';
+import 'package:kar_kam/lib/global_data_tmp.dart';
 import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
@@ -348,7 +348,7 @@ class SettingsPageListTile extends StatelessWidget {
     //  Build [SettingsPageListTile] each time the scroll position changes..
     return ValueListenableBuilder<double>(
       valueListenable:
-          GlobalData.of(context, ValueKey('scrollPosition')).data,
+          GlobalDataTmp.of<ValueNotifier<double>>(context, ValueKey('scrollPosition')).data,
       builder: (BuildContext context, double value, __) {
         //  Calculate the degree of indentation/horizontal shrinkage to
         //  be applied to this instance of [SettingsPageListTile].
