@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 // import 'package:kar_kam/lib/global_data.dart';
-import 'package:kar_kam/lib/global_data_tmp.dart';
+import 'package:kar_kam/lib/global_data.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
 /// [SettingsPageContents] implements a settings page with

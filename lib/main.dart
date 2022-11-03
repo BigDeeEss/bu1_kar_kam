@@ -26,20 +26,33 @@ class _KarKam extends StatelessWidget {
     //  GlobalAppSettings catches GlobalAppSettingsNotification being sent up
     //  the widget tree from and notifies any relevant widgets below it
     //  of any changes.
-    return GlobalASettings(
-      child: GlobalAppSettings(
-        child: GlobalAppSettingsDevel(
-          child: MaterialApp(
-            title: '_KarKam',
-            //  BasePage invokes a generic page layout so that a similar UI is
-            //  presented for each page (route).
-            home: BasePage(
-              pageSpec: settingsPage,
-              // pageSpec: filesPage,
-            ),
+    return GlobalAppSettings(
+      child: GlobalAppSettingsDevel(
+        child: MaterialApp(
+          title: '_KarKam',
+          //  BasePage invokes a generic page layout so that a similar UI is
+          //  presented for each page (route).
+          home: BasePage(
+            pageSpec: settingsPage,
+            // pageSpec: filesPage,
           ),
         ),
       ),
     );
+    // return GlobalASettings(
+    //   child: GlobalAppSettings(
+    //     child: GlobalAppSettingsDevel(
+    //       child: MaterialApp(
+    //         title: '_KarKam',
+    //         //  BasePage invokes a generic page layout so that a similar UI is
+    //         //  presented for each page (route).
+    //         home: BasePage(
+    //           pageSpec: settingsPage,
+    //           // pageSpec: filesPage,
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

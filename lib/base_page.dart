@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
-import 'package:kar_kam/lib/global_data_tmp.dart';
+import 'package:kar_kam/lib/global_data.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
