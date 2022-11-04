@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
-import 'package:kar_kam/lib/global_data.dart';
+import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 /// [SettingsPageListTile] implements a ListTile effect that is able to

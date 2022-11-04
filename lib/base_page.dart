@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/button_array.dart';
-import 'package:kar_kam/lib/global_data.dart';
+import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
@@ -110,10 +110,10 @@ class _BasePageState extends State<BasePage> {
       //  The Scaffold body contents are placed within two instances of
       //  DataNotifier in order to transfer buttonArrayRect and
       //  basePageViewRect down the widget tree.
-      body: GlobalDataTmp<Rect?>(
+      body: DataStore<Rect?>(
         key: const ValueKey('buttonArrayRect'),
         data: buttonArrayRect,
-        child: GlobalDataTmp<Rect?>(
+        child: DataStore<Rect?>(
           key: const ValueKey('basePageViewRect'),
           data: basePageViewRect,
           //  Place page contents and buttonArray on screen using Stack.

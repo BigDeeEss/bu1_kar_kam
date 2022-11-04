@@ -2,7 +2,7 @@
 // import 'package:flutter/material.dart';
 //
 // // Import project-specific files.
-// import 'package:kar_kam/lib/global_data.dart';
+// import 'package:kar_kam/lib/data_store.dart';
 //
 // class GlobalASettings extends StatefulWidget {
 //   GlobalASettings({

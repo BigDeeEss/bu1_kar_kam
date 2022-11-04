@@ -1,37 +1,37 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 
-/// [GlobalDataTmp] stores data of type T in [data] and makes it
-/// available to all of its descendants via the [_GlobalDataTmpService] class.
-class GlobalDataTmp<T> extends StatelessWidget {
-  const GlobalDataTmp({
+/// [DataStore] stores data of type T in [data] and makes it
+/// available to all of its descendants via the [_DataStoreService] class.
+class DataStore<T> extends StatelessWidget {
+  const DataStore({
     required Key? key,
     required this.child,
     required this.data,
   }) : super(key: key);
 
-  /// [child] is the immediate descendant of [GlobalDataTmp].
+  /// [child] is the immediate descendant of [DataStore].
   final Widget child;
 
-  /// [data] is passed to [_GlobalDataTmpService] which makes
+  /// [data] is passed to [_DataStoreService] which makes
   /// it available to all descendants in the widget tree.
   final T data;
 
-  /// Allow widgets below [GlobalDataTmp] in the widget tree to access
+  /// Allow widgets below [DataStore] in the widget tree to access
   /// the data stored in [data].
-  static _GlobalDataTmpService<T> of<T>(BuildContext context, Key key) {
+  static _DataStoreService<T> of<T>(BuildContext context, Key key) {
     //  Get instance of _GlobalDataTmpService<T> immediately above this
     //  instance of GlobalDataTmp<T> in the widget tree.
-    _GlobalDataTmpService<T>? result =
-        context.dependOnInheritedWidgetOfExactType<_GlobalDataTmpService<T>>();
+    _DataStoreService<T>? result =
+        context.dependOnInheritedWidgetOfExactType<_DataStoreService<T>>();
 
     //  Using 'is' promotes result to type _GlobalDataService<T> in what
     //  follows so that the comparison 'key != result.key' can be made.
     //  Without 'is' result.key has no specific meaning.
-    if (result is _GlobalDataTmpService<T>) {
+    if (result is _DataStoreService<T>) {
       if (key != result.key) {
         //  If keys do not match then continue search up the widget tree.
-        result = GlobalDataTmp.of<T>(result.context, key);
+        result = DataStore.of<T>(result.context, key);
       }
     } else {
       //  Attempt to assert a contradiction so that 'of' fails.
@@ -49,7 +49,7 @@ class GlobalDataTmp<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     //  Insert an instance of _GlobalDataTmpService before child so that
     //  descendant widgets can access data via 'of'.
-    return _GlobalDataTmpService(
+    return _DataStoreService(
       key: key,
       child: child,
       context: context,
@@ -58,9 +58,9 @@ class GlobalDataTmp<T> extends StatelessWidget {
   }
 }
 
-/// [_GlobalDataTmpService] allows descendant widgets to access [data].
-class _GlobalDataTmpService<T> extends InheritedWidget {
-  const _GlobalDataTmpService({
+/// [_DataStoreService] allows descendant widgets to access [data].
+class _DataStoreService<T> extends InheritedWidget {
+  const _DataStoreService({
     Key? key,
     required Widget child,
     required this.context,
@@ -68,14 +68,14 @@ class _GlobalDataTmpService<T> extends InheritedWidget {
   }) : super(key: key, child: child);
 
   /// [context] is used when passing on the search for further instances of
-  /// [_GlobalDataTmpService] up the widget tree.
+  /// [_DataStoreService] up the widget tree.
   final BuildContext context;
 
   /// [data] is made accessible to descendant widgets via GlobalDataTmp.of.
   final T data;
 
-  /// Allow [_GlobalDataTmpService] to notify listenable objects
+  /// Allow [_DataStoreService] to notify listenable objects
   /// of updates to [data].
   @override
-  bool updateShouldNotify(_GlobalDataTmpService<T> old) => data != old.data;
+  bool updateShouldNotify(_DataStoreService<T> old) => data != old.data;
 }
