@@ -34,12 +34,12 @@
 //     return widget.child;
 //   }
 // }
-//
-// class GlobalASettingsData {
-//   /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
-//   ///
-//   /// Used for debugging widget screen location.
-//   bool drawLayoutBounds = true;
-//
-// // bool get drawLayoutBounds => drawLayoutBoundsVal;
-// }
+
+class GlobalASettingsData {
+  /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
+  ///
+  /// Used for debugging widget screen location.
+  bool drawLayoutBounds = true;
+
+// bool get drawLayoutBounds => drawLayoutBoundsVal;
+}

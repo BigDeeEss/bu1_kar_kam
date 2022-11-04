@@ -17,7 +17,7 @@ class GlobalAppSettingsDevel extends StatefulWidget {
       notificationData: globalAppSettingsDevel,
       onNotification: (notification) {
         print('Test dispatch method---GlobalAppSettingsDevelState...complete');
-        return true;
+        return false;
       },
     );
   }
