@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_orig.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
@@ -102,7 +102,7 @@ class _BasePageState extends State<BasePage> {
             child: SizedBox(
               //  Set height of BottomAppBar using SizedBox, appBarHeight
               //  and AppSettings.appBarHeightScaleFactor.
-              height: appBarHeight * AppSettings.appBarHeightScaleFactor,
+              height: appBarHeight * AppSettingsOrig.appBarHeightScaleFactor,
             ),
           );
         },
@@ -133,14 +133,14 @@ class _BasePageState extends State<BasePage> {
               buttonArray,
               //  Add two additional guidance circles for checking the sliding
               //  motion of SettingsPageListTile.
-              (AppSettings.buttonAxis == Axis.horizontal)
+              (AppSettingsOrig.buttonAxis == Axis.horizontal)
                   ? Positioned(
-                      top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
-                      bottom: (AppSettings.buttonAlignment.y > 0) ? 0 : null,
-                      left: (AppSettings.buttonAlignment.x < 0)
+                      top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
+                      bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
+                      left: (AppSettingsOrig.buttonAlignment.x < 0)
                           ? buttonArray.buttonCoords.first
                           : null,
-                      right: (AppSettings.buttonAlignment.x > 0)
+                      right: (AppSettingsOrig.buttonAlignment.x > 0)
                           ? buttonArray.buttonCoords.first
                           : null,
                       child: CustomPaint(
@@ -152,14 +152,14 @@ class _BasePageState extends State<BasePage> {
                       ),
                     )
                   : Positioned(
-                      top: (AppSettings.buttonAlignment.y < 0)
+                      top: (AppSettingsOrig.buttonAlignment.y < 0)
                           ? buttonArray.buttonCoords.last
                           : null,
-                      bottom: (AppSettings.buttonAlignment.y > 0)
+                      bottom: (AppSettingsOrig.buttonAlignment.y > 0)
                           ? buttonArray.buttonCoords.last
                           : null,
-                      left: (AppSettings.buttonAlignment.x < 0) ? 0.0 : null,
-                      right: (AppSettings.buttonAlignment.x > 0) ? 0.0 : null,
+                      left: (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
+                      right: (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
                       child: CustomPaint(
                         painter: OpenPainter(
                           shiftVal: (buttonArray.rect != null)
@@ -168,14 +168,14 @@ class _BasePageState extends State<BasePage> {
                         ),
                       ),
                     ),
-              (AppSettings.buttonAxis == Axis.horizontal)
+              (AppSettingsOrig.buttonAxis == Axis.horizontal)
                   ? Positioned(
-                      top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
-                      bottom: (AppSettings.buttonAlignment.y > 0) ? 0 : null,
-                      left: (AppSettings.buttonAlignment.x < 0)
+                      top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
+                      bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
+                      left: (AppSettingsOrig.buttonAlignment.x < 0)
                           ? buttonArray.buttonCoords.last
                           : null,
-                      right: (AppSettings.buttonAlignment.x > 0)
+                      right: (AppSettingsOrig.buttonAlignment.x > 0)
                           ? buttonArray.buttonCoords.last
                           : null,
                       child: CustomPaint(
@@ -185,14 +185,14 @@ class _BasePageState extends State<BasePage> {
                       ),
                     )
                   : Positioned(
-                      top: (AppSettings.buttonAlignment.y < 0)
+                      top: (AppSettingsOrig.buttonAlignment.y < 0)
                           ? buttonArray.buttonCoords.last
                           : null,
-                      bottom: (AppSettings.buttonAlignment.y > 0)
+                      bottom: (AppSettingsOrig.buttonAlignment.y > 0)
                           ? buttonArray.buttonCoords.last
                           : null,
-                      left: (AppSettings.buttonAlignment.x < 0) ? 0.0 : null,
-                      right: (AppSettings.buttonAlignment.x > 0) ? 0.0 : null,
+                      left: (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
+                      right: (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
                       child: CustomPaint(
                         painter: OpenPainter(
                           shiftVal: 0.0,
@@ -215,46 +215,46 @@ class OpenPainter extends CustomPainter {
 
   final double shiftVal;
 
-  double r = AppSettings.buttonRadius + AppSettings.buttonPaddingMainAxis;
+  double r = AppSettingsOrig.buttonRadius + AppSettingsOrig.buttonPaddingMainAxis;
 
   @override
   void paint(Canvas canvas, Size size) {
     var paint1 = Paint()
       ..color = Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
-    if (AppSettings.buttonAxis == Axis.horizontal) {
-      if (AppSettings.buttonAlignment.y < 0 &&
-          AppSettings.buttonAlignment.x > 0) {
+    if (AppSettingsOrig.buttonAxis == Axis.horizontal) {
+      if (AppSettingsOrig.buttonAlignment.y < 0 &&
+          AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);
       }
-      if (AppSettings.buttonAlignment.y < 0 &&
-          AppSettings.buttonAlignment.x < 0) {
+      if (AppSettingsOrig.buttonAlignment.y < 0 &&
+          AppSettingsOrig.buttonAlignment.x < 0) {
         canvas.drawCircle(Offset(r, r + shiftVal), r, paint1);
       }
-      if (AppSettings.buttonAlignment.y > 0 &&
-          AppSettings.buttonAlignment.x > 0) {
+      if (AppSettingsOrig.buttonAlignment.y > 0 &&
+          AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, -r - shiftVal), r, paint1);
       }
-      if (AppSettings.buttonAlignment.y > 0 &&
-          AppSettings.buttonAlignment.x < 0) {
+      if (AppSettingsOrig.buttonAlignment.y > 0 &&
+          AppSettingsOrig.buttonAlignment.x < 0) {
         canvas.drawCircle(Offset(r, -r - shiftVal), r, paint1);
       }
     }
-    if (AppSettings.buttonAxis == Axis.vertical) {
-      if (AppSettings.buttonAlignment.y < 0 &&
-          AppSettings.buttonAlignment.x > 0) {
+    if (AppSettingsOrig.buttonAxis == Axis.vertical) {
+      if (AppSettingsOrig.buttonAlignment.y < 0 &&
+          AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);
       }
-      if (AppSettings.buttonAlignment.y < 0 &&
-          AppSettings.buttonAlignment.x < 0) {
+      if (AppSettingsOrig.buttonAlignment.y < 0 &&
+          AppSettingsOrig.buttonAlignment.x < 0) {
         canvas.drawCircle(Offset(r, r + shiftVal), r, paint1);
       }
-      if (AppSettings.buttonAlignment.y > 0 &&
-          AppSettings.buttonAlignment.x > 0) {
+      if (AppSettingsOrig.buttonAlignment.y > 0 &&
+          AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, -r - shiftVal), r, paint1);
       }
-      if (AppSettings.buttonAlignment.y > 0 &&
-          AppSettings.buttonAlignment.x < 0) {
+      if (AppSettingsOrig.buttonAlignment.y > 0 &&
+          AppSettingsOrig.buttonAlignment.x < 0) {
         canvas.drawCircle(Offset(r, -r - shiftVal), r, paint1);
       }
     }

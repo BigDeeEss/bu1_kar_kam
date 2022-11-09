@@ -20,13 +20,14 @@ class DataStore<T> extends StatelessWidget {
   /// Allow widgets below [DataStore] in the widget tree to access
   /// the data stored in [data].
   static DataStoreService<T> of<T>(BuildContext context, Key key) {
-    //  Get instance of _GlobalDataTmpService<T> immediately above this
-    //  instance of GlobalDataTmp<T> in the widget tree.
+    //  Get instance of DataStoreService<T> immediately above the location
+    //  in the widget tree where 'of' is called.
     DataStoreService<T>? result =
         context.dependOnInheritedWidgetOfExactType<DataStoreService<T>>();
 
-    //  Using 'is' promotes result to type _GlobalDataService<T> in what
+    //  Using 'is' promotes result to type DataStoreService<T> in what
     //  follows so that the comparison 'key != result.key' can be made.
+    //
     //  Without 'is' result.key has no specific meaning.
     if (result is DataStoreService<T>) {
       if (key != result.key) {
@@ -34,12 +35,12 @@ class DataStore<T> extends StatelessWidget {
         result = DataStore.of<T>(result.context, key);
       }
     } else {
-      //  Attempt to assert a contradiction so that 'of' fails.
+      //  Assert a contradiction so that 'of' fails with error message.
       assert(
           result != null,
-          'No _GlobalDataTmpService of the correct type found in context: '
+          'No DataStoreService of the correct type found in context: '
           'Try wrapping the call to [of] in a builder or specifying the type, '
-          'for example GlobalDataTmp<int>(...).'
+          'for example DataStoreService<int>(...).'
       );
     }
     return result!;
@@ -47,7 +48,7 @@ class DataStore<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  Insert an instance of _GlobalDataTmpService before child so that
+    //  Insert an instance of DataStoreService before child so that
     //  descendant widgets can access data via 'of'.
     return DataStoreService<T>(
       key: key,
@@ -71,7 +72,7 @@ class DataStoreService<T> extends InheritedWidget {
   /// [DataStoreService] up the widget tree.
   final BuildContext context;
 
-  /// [data] is made accessible to descendant widgets via GlobalDataTmp.of.
+  /// [data] is made accessible to descendant widgets via DataStore.of<T>.
   final T data;
 
   /// Allow [DataStoreService] to notify listenable objects

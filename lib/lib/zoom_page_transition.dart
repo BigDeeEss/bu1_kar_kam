@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_orig.dart';
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/page_specs.dart';
 
@@ -24,7 +24,7 @@ class ZoomPageTransition extends PageRouteBuilder {
     ),
 
     //  Define page transition animation time.
-    transitionDuration: Duration(milliseconds: AppSettings.pageTransitionTime),
+    transitionDuration: Duration(milliseconds: AppSettingsOrig.pageTransitionTime),
 
     transitionsBuilder: (
       BuildContext context,

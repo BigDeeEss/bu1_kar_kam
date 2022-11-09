@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_orig.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
@@ -32,8 +32,8 @@ class ButtonArray extends StatelessWidget {
     //  for each Button overlap.
     // double dim = 2 * (AppSettings.buttonRadiusInner +
     //         AppSettings.buttonPaddingMainAxisExtra);
-    double dim = 2 * (AppSettings.buttonRadius +
-            AppSettings.buttonPaddingMainAxisAlt);
+    double dim = 2 * (AppSettingsOrig.buttonRadius +
+            AppSettingsOrig.buttonPaddingMainAxisAlt);
 
     //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding position.
@@ -89,7 +89,7 @@ class ButtonArray extends StatelessWidget {
       );
 
       //  Treat horizontal and vertical axes differently.
-      if (AppSettings.buttonAxis == Axis.horizontal) {
+      if (AppSettingsOrig.buttonAxis == Axis.horizontal) {
         //  The top and bottom inputs to Positioned must be 0.0 or null,
         //  depending on whether the selected alignment is top or bottom.
         //
@@ -97,16 +97,16 @@ class ButtonArray extends StatelessWidget {
         //  coordinates or null, depending on whether the selected alignment is
         //  left or right.
         buttonList.add(Positioned(
-          top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
-          bottom: (AppSettings.buttonAlignment.y > 0) ? 0 : null,
-          left: (AppSettings.buttonAlignment.x < 0) ? coords[i] : null,
-          right: (AppSettings.buttonAlignment.x > 0) ? coords[i] : null,
+          top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
+          bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
+          left: (AppSettingsOrig.buttonAlignment.x < 0) ? coords[i] : null,
+          right: (AppSettingsOrig.buttonAlignment.x > 0) ? coords[i] : null,
           child: button,
         ));
       }
 
       //  Treat horizontal and vertical axes differently.
-      if (AppSettings.buttonAxis == Axis.vertical) {
+      if (AppSettingsOrig.buttonAxis == Axis.vertical) {
         //  The left and right inputs to Positioned must be 0.0 or null,
         //  depending on whether the selected alignment is left or right.
         //
@@ -114,10 +114,10 @@ class ButtonArray extends StatelessWidget {
         //  coordinates or null, depending on whether the selected alignment is
         //  top or bottom.
         buttonList.add(Positioned(
-          top: (AppSettings.buttonAlignment.y < 0) ? coords[i] : null,
-          bottom: (AppSettings.buttonAlignment.y > 0) ? coords[i] : null,
-          left: (AppSettings.buttonAlignment.x < 0) ? 0.0 : null,
-          right: (AppSettings.buttonAlignment.x > 0) ? 0.0 : null,
+          top: (AppSettingsOrig.buttonAlignment.y < 0) ? coords[i] : null,
+          bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? coords[i] : null,
+          left: (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
+          right: (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
           child: button,
         ));
       }

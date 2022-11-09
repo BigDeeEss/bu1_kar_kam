@@ -1,8 +1,9 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:kar_kam/app_settings.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_orig.dart';
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/global_a_settings.dart';
 import 'package:kar_kam/global_app_settings_devel.dart';
@@ -30,27 +31,51 @@ class _KarKam extends StatelessWidget {
     //  of any changes.
     GlobalASettingsData globalAppSettingsData = GlobalASettingsData();
 
-    return NotificationDataStore<DataNotification, GlobalASettingsData>(
-      key: const ValueKey('buttonArrayRect'),
-      data: globalAppSettingsData,
-      child: GlobalAppSettings(
-        child: GlobalAppSettingsDevel(
-          child: MaterialApp(
-            title: '_KarKam',
-            //  BasePage invokes a generic page layout so that a similar UI is
-            //  presented for each page (route).
-            home: BasePage(
-              pageSpec: settingsPage,
-              // pageSpec: filesPage,
+    return AppSettings(
+      key: const ValueKey('AppSettings'),
+      child: NotificationDataStore<GlobalASettingsData, DataNotification>(
+        key: const ValueKey('NotificationDataStore'),
+        data: globalAppSettingsData,
+        child: GlobalAppSettings(
+          child: GlobalAppSettingsDevel(
+            child: MaterialApp(
+              title: '_KarKam',
+              //  BasePage invokes a generic page layout so that a similar UI is
+              //  presented for each page (route).
+              home: BasePage(
+                pageSpec: settingsPage,
+                // pageSpec: filesPage,
+              ),
             ),
           ),
         ),
-      ),
-      onNotification: (notification) {
-        print('Test dispatch method---NotificationDataStore...complete');
-        return true;
-      },
+        onNotification: (notification) {
+          print('Test dispatch method---NotificationDataStore...complete');
+          return false;
+        },
+      )
     );
+    // return NotificationDataStore<DataNotification, GlobalASettingsData>(
+    //   key: const ValueKey('buttonArrayRect'),
+    //   data: globalAppSettingsData,
+    //   child: GlobalAppSettings(
+    //     child: GlobalAppSettingsDevel(
+    //       child: MaterialApp(
+    //         title: '_KarKam',
+    //         //  BasePage invokes a generic page layout so that a similar UI is
+    //         //  presented for each page (route).
+    //         home: BasePage(
+    //           pageSpec: settingsPage,
+    //           // pageSpec: filesPage,
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    //   onNotification: (notification) {
+    //     print('Test dispatch method---NotificationDataStore...complete');
+    //     return true;
+    //   },
+    // );
     // return GlobalAppSettings(
     //   child: GlobalAppSettingsDevel(
     //     child: MaterialApp(

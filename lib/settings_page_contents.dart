@@ -1,11 +1,14 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:kar_kam/app_settings.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_orig.dart';
 import 'package:kar_kam/lib/data_notification.dart';
+
 // import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/data_store.dart';
+import 'package:kar_kam/lib/notification_data_store.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
 /// [SettingsPageContents] implements a settings page with
@@ -46,8 +49,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
   @override
   Widget build(BuildContext context) {
     //  Get [buttonArrayRect] from NataNotifier in [BasePage].
-    Rect? buttonArrayRect = DataStore.of<Rect?>(
-        context, const ValueKey('buttonArrayRect')).data;
+    Rect? buttonArrayRect =
+        DataStore.of<Rect?>(context, const ValueKey('buttonArrayRect')).data;
 
     //  Get [basePageViewRect] from NataNotifier in [BasePage].
     Rect? basePageViewRect =
@@ -64,7 +67,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           index: index,
           leading: Icon(
             Icons.favorite,
-            size: AppSettings.settingsPageListTileIconSize,
+            size: AppSettingsOrig.settingsPageListTileIconSize,
           ),
         );
       }),
@@ -76,15 +79,18 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         index: 5,
         leading: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettings.settingsPageListTileIconSize,
+          size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: () {
           print('SettingsPageLstTile: tapped...!');
+          // AppSettingsData appSettingsData =
+          //     AppSettings.of(context, ValueKey('AppSettings')).data;
+          // var tmp = NotificationDataStore.of(context, ValueKey('NotificationDataStore')).data;
           DataNotification(data: 'drawLayoutBounds').dispatch(context);
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettings.settingsPageListTileIconSize,
+          size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
       ),
       ...List<Widget>.generate(100, (int index) {
@@ -96,7 +102,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           index: index + 6,
           leading: Icon(
             Icons.favorite,
-            size: AppSettings.settingsPageListTileIconSize,
+            size: AppSettingsOrig.settingsPageListTileIconSize,
           ),
         );
       }),

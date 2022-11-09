@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_orig.dart';
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/page_specs.dart';
 // import 'package:kar_kam/lib/zoom_page_transition.dart';
@@ -25,10 +25,10 @@ class ButtonSpec {
   final void Function(BuildContext context) onPressed;
 
   /// [buttonPadding] is a radial padding beyond [buttonRadius].
-  final EdgeInsetsDirectional buttonPadding = AppSettings.buttonPadding;
+  final EdgeInsetsDirectional buttonPadding = AppSettingsOrig.buttonPadding;
 
   /// [size] is the button characteristic dimension.
-  final double size = AppSettings.buttonRadius;
+  final double size = AppSettingsOrig.buttonRadius;
 }
 
 //  Home page button specs.
