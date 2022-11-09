@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/global_app_settings_devel.dart';
-import 'package:kar_kam/lib/data_notification.dart';
+// import 'package:kar_kam/global_app_settings_devel.dart';
+// import 'package:kar_kam/lib/data_notification.dart';
 
 /// BoxedContainer implements a Container and prints its bounding box.
 ///
@@ -72,7 +72,8 @@ class BoxedContainer extends StatelessWidget {
       borderColor: borderColor,
       borderWidth: borderWidth,
       borderRadius: borderRadius,
-      drawLayoutBounds: GlobalAppSettingsDevel.of<DataNotification, GlobalAppSettingsDevelStore>(context).notificationData.value.drawLayoutBounds,
+      drawLayoutBounds: true,
+      // drawLayoutBounds: GlobalAppSettingsDevel.of<DataNotification, GlobalAppSettingsDevelStore>(context).notificationData.value.drawLayoutBounds,
     );
   }
 }

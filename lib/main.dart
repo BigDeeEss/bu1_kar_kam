@@ -1,12 +1,13 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
-import 'package:kar_kam/app_settings.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings_orig.dart';
+// import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_callback_and_data.dart';
+// import 'package:kar_kam/app_settings_orig.dart';
 import 'package:kar_kam/base_page.dart';
-import 'package:kar_kam/global_a_settings.dart';
-import 'package:kar_kam/global_app_settings_devel.dart';
+// import 'package:kar_kam/global_a_settings.dart';
+// import 'package:kar_kam/global_app_settings_devel.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 import 'package:kar_kam/page_specs.dart';
@@ -29,32 +30,51 @@ class _KarKam extends StatelessWidget {
     //  GlobalAppSettings catches GlobalAppSettingsNotification being sent up
     //  the widget tree from and notifies any relevant widgets below it
     //  of any changes.
-    GlobalASettingsData globalAppSettingsData = GlobalASettingsData();
+    // GlobalASettingsData globalAppSettingsData = GlobalASettingsData();
+    AppSettingsData appSettingsData = AppSettingsData();
 
-    return AppSettings(
-      key: const ValueKey('AppSettings'),
-      child: NotificationDataStore<GlobalASettingsData, DataNotification>(
-        key: const ValueKey('NotificationDataStore'),
-        data: globalAppSettingsData,
-        child: GlobalAppSettings(
-          child: GlobalAppSettingsDevel(
-            child: MaterialApp(
-              title: '_KarKam',
-              //  BasePage invokes a generic page layout so that a similar UI is
-              //  presented for each page (route).
-              home: BasePage(
-                pageSpec: settingsPage,
-                // pageSpec: filesPage,
-              ),
-            ),
+    return NotificationDataStore<AppSettingsData, DataNotification>(
+        key: const ValueKey('AppSettings'),
+        data: appSettingsData,
+        child: MaterialApp(
+          title: '_KarKam',
+          //  BasePage invokes a generic page layout so that a similar UI is
+          //  presented for each page (route).
+          home: BasePage(
+            pageSpec: settingsPage,
+            // pageSpec: filesPage,
           ),
         ),
-        onNotification: (notification) {
-          print('Test dispatch method---NotificationDataStore...complete');
-          return false;
-        },
-      )
-    );
+        onNotification: appSettingsOnNotification,
+        // onNotification: (notification) {
+        //   print('Test dispatch method---NotificationDataStore...complete');
+        //   return false;
+        // },
+      );
+    // return AppSettings(
+    //   key: const ValueKey('AppSettings'),
+    //   child: NotificationDataStore<GlobalASettingsData, DataNotification>(
+    //     key: const ValueKey('NotificationDataStore'),
+    //     data: globalAppSettingsData,
+    //     child: GlobalAppSettings(
+    //       child: GlobalAppSettingsDevel(
+    //         child: MaterialApp(
+    //           title: '_KarKam',
+    //           //  BasePage invokes a generic page layout so that a similar UI is
+    //           //  presented for each page (route).
+    //           home: BasePage(
+    //             pageSpec: settingsPage,
+    //             // pageSpec: filesPage,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //     onNotification: (notification) {
+    //       print('Test dispatch method---NotificationDataStore...complete');
+    //       return false;
+    //     },
+    //   )
+    // );
     // return NotificationDataStore<DataNotification, GlobalASettingsData>(
     //   key: const ValueKey('buttonArrayRect'),
     //   data: globalAppSettingsData,

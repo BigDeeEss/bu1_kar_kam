@@ -1,54 +1,54 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 
-// Import project-specific files.
-import 'package:kar_kam/lib/data_notification.dart';
-
-/// A notification that explicitly carries GlobalAppSettings data.
-class GlobalAppSettingsNotification extends LayoutChangedNotification {
-  GlobalAppSettingsNotification({
-    required this.data,
-  });
-
-  var data;
-}
-
-/// Dynamic storage of app settings data.
-class GlobalAppSettings extends StatefulWidget {
-  GlobalAppSettings({
-    required this.child,
-    Key? key,
-  }) : super(key: key);
-
-  final Widget child;
-
-  //  Set appSettings as default values or updates from storage.
-  AppSettingsOrig appSettings = AppSettingsOrig();
-
-  @override
-  State<GlobalAppSettings> createState() => _GlobalAppSettingsState();
-}
-
-class _GlobalAppSettingsState extends State<GlobalAppSettings> {
-  @override
-  Widget build(BuildContext context) {
-    //  This instance of NotificationNotifier catches new AppSettings
-    //  data that bubbles up from SettingsPageContents.
-    return NotificationListener<DataNotification>(
-      child: widget.child,
-      onNotification: (notification) {
-        print(notification.data);
-        setState(() {
-          widget.appSettings.drawLayoutBounds =
-              !widget.appSettings.drawLayoutBounds;
-        });
-        print('Test dispatch method...complete');
-        return false;
-      },
-    );
-  }
-}
-
+// // Import project-specific files.
+// import 'package:kar_kam/lib/data_notification.dart';
+//
+// /// A notification that explicitly carries GlobalAppSettings data.
+// class GlobalAppSettingsNotification extends LayoutChangedNotification {
+//   GlobalAppSettingsNotification({
+//     required this.data,
+//   });
+//
+//   var data;
+// }
+//
+// /// Dynamic storage of app settings data.
+// class GlobalAppSettings extends StatefulWidget {
+//   GlobalAppSettings({
+//     required this.child,
+//     Key? key,
+//   }) : super(key: key);
+//
+//   final Widget child;
+//
+//   //  Set appSettings as default values or updates from storage.
+//   AppSettingsOrig appSettings = AppSettingsOrig();
+//
+//   @override
+//   State<GlobalAppSettings> createState() => _GlobalAppSettingsState();
+// }
+//
+// class _GlobalAppSettingsState extends State<GlobalAppSettings> {
+//   @override
+//   Widget build(BuildContext context) {
+//     //  This instance of NotificationNotifier catches new AppSettings
+//     //  data that bubbles up from SettingsPageContents.
+//     return NotificationListener<DataNotification>(
+//       child: widget.child,
+//       onNotification: (notification) {
+//         print(notification.data);
+//         setState(() {
+//           widget.appSettings.drawLayoutBounds =
+//               !widget.appSettings.drawLayoutBounds;
+//         });
+//         print('Test dispatch method...complete');
+//         return false;
+//       },
+//     );
+//   }
+// }
+//
 /// Class container for all app settings.
 class AppSettingsOrig {
   /// [appBarHeightScaleFactor] defines a simple scale factor to apply to
