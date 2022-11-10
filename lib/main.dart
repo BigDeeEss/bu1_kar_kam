@@ -33,6 +33,8 @@ class _KarKam extends StatelessWidget {
     // GlobalASettingsData globalAppSettingsData = GlobalASettingsData();
     AppSettingsData appSettingsData = AppSettingsData();
 
+    //ToDo: Make NotificationDataStore trigger a rebuild when a notification
+    //  is received.
     return NotificationDataStore<AppSettingsData, DataNotification>(
         key: const ValueKey('AppSettings'),
         data: appSettingsData,
@@ -45,84 +47,19 @@ class _KarKam extends StatelessWidget {
             // pageSpec: filesPage,
           ),
         ),
-        onNotification: appSettingsOnNotification,
-        // onNotification: (notification) {
-        //   print('Test dispatch method---NotificationDataStore...complete');
-        //   return false;
-        // },
+        // onNotification: appSettingsOnNotification,
+        onNotification: (notification) {
+          print('Test dispatch method---NotificationDataStore in main...complete');
+          print(appSettingsData.drawLayoutBounds);
+          print(notification);
+          print(notification.data);
+          print(notification.data.drawLayoutBounds);
+          print("test");
+          appSettingsData = notification.data;
+          print(appSettingsData.drawLayoutBounds);
+          print(notification.data.drawLayoutBounds);
+          return true;
+        },
       );
-    // return AppSettings(
-    //   key: const ValueKey('AppSettings'),
-    //   child: NotificationDataStore<GlobalASettingsData, DataNotification>(
-    //     key: const ValueKey('NotificationDataStore'),
-    //     data: globalAppSettingsData,
-    //     child: GlobalAppSettings(
-    //       child: GlobalAppSettingsDevel(
-    //         child: MaterialApp(
-    //           title: '_KarKam',
-    //           //  BasePage invokes a generic page layout so that a similar UI is
-    //           //  presented for each page (route).
-    //           home: BasePage(
-    //             pageSpec: settingsPage,
-    //             // pageSpec: filesPage,
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //     onNotification: (notification) {
-    //       print('Test dispatch method---NotificationDataStore...complete');
-    //       return false;
-    //     },
-    //   )
-    // );
-    // return NotificationDataStore<DataNotification, GlobalASettingsData>(
-    //   key: const ValueKey('buttonArrayRect'),
-    //   data: globalAppSettingsData,
-    //   child: GlobalAppSettings(
-    //     child: GlobalAppSettingsDevel(
-    //       child: MaterialApp(
-    //         title: '_KarKam',
-    //         //  BasePage invokes a generic page layout so that a similar UI is
-    //         //  presented for each page (route).
-    //         home: BasePage(
-    //           pageSpec: settingsPage,
-    //           // pageSpec: filesPage,
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    //   onNotification: (notification) {
-    //     print('Test dispatch method---NotificationDataStore...complete');
-    //     return true;
-    //   },
-    // );
-    // return GlobalAppSettings(
-    //   child: GlobalAppSettingsDevel(
-    //     child: MaterialApp(
-    //       title: '_KarKam',
-    //       //  BasePage invokes a generic page layout so that a similar UI is
-    //       //  presented for each page (route).
-    //       home: BasePage(
-    //         pageSpec: settingsPage,
-    //         // pageSpec: filesPage,
-    //       ),
-    //     ),
-    //   ),
-    // );
-    // return GlobalASettings(
-    //   child: GlobalAppSettings(
-    //     child: GlobalAppSettingsDevel(
-    //       child: MaterialApp(
-    //         title: '_KarKam',
-    //         //  BasePage invokes a generic page layout so that a similar UI is
-    //         //  presented for each page (route).
-    //         home: BasePage(
-    //           pageSpec: settingsPage,
-    //           // pageSpec: filesPage,
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

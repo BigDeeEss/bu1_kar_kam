@@ -17,5 +17,8 @@ class AppSettingsData {
 NotificationDataStoreCallback<DataNotification> appSettingsOnNotification =
   (notification) {
     print('Test dispatch method---NotificationDataStore...complete');
-    return false;
+    // data = notification.data
+    print(notification);
+    print(notification.data);
+    return true;
   };

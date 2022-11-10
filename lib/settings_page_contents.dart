@@ -5,6 +5,7 @@ import 'package:kar_kam/app_settings.dart';
 //  Import project-specific files.
 import 'package:kar_kam/app_settings_orig.dart';
 import 'package:kar_kam/lib/data_notification.dart';
+import 'package:kar_kam/app_settings_callback_and_data.dart';
 
 // import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/data_store.dart';
@@ -83,10 +84,19 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ),
         onTap: () {
           print('SettingsPageLstTile: tapped...!');
-          // AppSettingsData appSettingsData =
-          //     AppSettings.of(context, ValueKey('AppSettings')).data;
-          // var tmp = NotificationDataStore.of(context, ValueKey('NotificationDataStore')).data;
-          DataNotification(data: 'drawLayoutBounds').dispatch(context);
+          AppSettingsData appSettingsData =
+              NotificationDataStore.of <AppSettingsData, DataNotification>(
+                context, const ValueKey('AppSettings')
+              ).data;
+          print(appSettingsData.drawLayoutBounds);
+          appSettingsData.drawLayoutBounds = !appSettingsData.drawLayoutBounds;
+          print(appSettingsData.drawLayoutBounds);
+          AppSettingsData appSettingsData2 =
+              NotificationDataStore.of <AppSettingsData, DataNotification>(
+                context, const ValueKey('AppSettings')
+              ).data;
+          print(appSettingsData2.drawLayoutBounds);
+          DataNotification(data: appSettingsData).dispatch(context);
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,

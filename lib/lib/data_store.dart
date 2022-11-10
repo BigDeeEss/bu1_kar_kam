@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// available to all of its descendants via the [DataStoreService] class.
 class DataStore<T> extends StatelessWidget {
   const DataStore({
-    required Key? key,
+    required Key key,
     required this.child,
     required this.data,
   }) : super(key: key);

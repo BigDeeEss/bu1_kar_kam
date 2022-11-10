@@ -30,7 +30,7 @@ class NotificationDataStore<T, U extends Notification> extends StatelessWidget {
 
   /// Allow widgets below [DataStore] in the widget tree to access
   /// the data stored in [data].
-  static DataStoreService<T> of<T>(BuildContext context, Key key) {
+  static DataStoreService<T> of<T, U>(BuildContext context, Key key) {
     //  Get instance of DataStoreService<T> immediately above the location
     //  in the widget tree where 'of' is called.
     DataStoreService<T>? result =
@@ -43,10 +43,10 @@ class NotificationDataStore<T, U extends Notification> extends StatelessWidget {
     if (result is DataStoreService<T>) {
       if (key != result.key) {
         //  If keys do not match then continue search up the widget tree.
-        result = NotificationDataStore.of<T>(result.context, key);
+        result = NotificationDataStore.of<T, U>(result.context, key);
       }
     } else {
-      //  Attempt to assert a contradiction so that 'of' fails.
+      //  Assert a contradiction so that 'of' fails with error message.
       assert(
           result != null,
           'No DataStoreService of the correct type found in context: '
