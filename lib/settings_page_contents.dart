@@ -88,14 +88,14 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
               NotificationDataStore.of <AppSettingsData, DataNotification>(
                 context, const ValueKey('AppSettings')
               ).data;
-          print(appSettingsData.drawLayoutBounds);
+          print('SettingsPageLstTile: drawLayoutBound before reassignment...............${appSettingsData.drawLayoutBounds}');
           appSettingsData.drawLayoutBounds = !appSettingsData.drawLayoutBounds;
-          print(appSettingsData.drawLayoutBounds);
+          print('SettingsPageLstTile: drawLayoutBound after reassignment................${appSettingsData.drawLayoutBounds}');
           AppSettingsData appSettingsData2 =
               NotificationDataStore.of <AppSettingsData, DataNotification>(
                 context, const ValueKey('AppSettings')
               ).data;
-          print(appSettingsData2.drawLayoutBounds);
+          print('SettingsPageLstTile: drawLayoutBound from a new pulled-down instance...${appSettingsData2.drawLayoutBounds}');
           DataNotification(data: appSettingsData).dispatch(context);
         },
         trailing: Icon(

@@ -49,15 +49,11 @@ class _KarKam extends StatelessWidget {
         ),
         // onNotification: appSettingsOnNotification,
         onNotification: (notification) {
-          print('Test dispatch method---NotificationDataStore in main...complete');
-          print(appSettingsData.drawLayoutBounds);
-          print(notification);
-          print(notification.data);
-          print(notification.data.drawLayoutBounds);
-          print("test");
+          print('_KarKam, NotificationDataStore, notification received...');
+          print('_KarKam, drawLayoutBounds before reassignment..........................${appSettingsData.drawLayoutBounds}');
           appSettingsData = notification.data;
-          print(appSettingsData.drawLayoutBounds);
-          print(notification.data.drawLayoutBounds);
+          print('_KarKam, drawLayoutBounds after reassignment...........................${appSettingsData.drawLayoutBounds}');
+          print('_KarKam, appSettingsData gets updated in SettingsPageLstTile...!');
           return true;
         },
       );
