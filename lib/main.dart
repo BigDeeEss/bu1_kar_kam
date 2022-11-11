@@ -24,35 +24,53 @@ void main() {
 class _KarKam extends StatelessWidget {
   _KarKam({Key? key}) : super(key: key);
 
+  //  [appSettingsData] stores all app settings.
+  //
+  //  The instance of NotificationDataStore in the build function catches
+  //  all notifications of type DataNotification being sent up the widget
+  //  tree from SettingsPageListTile and trigger a rebuild of the entire app.
+  // AppSettingsData appSettingsData = AppSettingsData();
+  // ValueNotifier<AppSettingsData> appSettingsData = ValueNotifier(AppSettingsData());
+
   @override
   Widget build(BuildContext context) {
-    //  This instance of GlobalAppSettings stores all app settings.
-    //  GlobalAppSettings catches GlobalAppSettingsNotification being sent up
-    //  the widget tree from and notifies any relevant widgets below it
-    //  of any changes.
-    // GlobalASettingsData globalAppSettingsData = GlobalASettingsData();
-    AppSettingsData appSettingsData = AppSettingsData();
-
     //ToDo: Make NotificationDataStore trigger a rebuild when a notification
     //  is received.
-    return NotificationDataStore<AppSettingsData, DataNotification>(
+    ValueNotifier<AppSettingsData> appSettingsData = ValueNotifier(AppSettingsData());
+
+    print('_KarKam, drawLayoutBounds in build.................................${appSettingsData.value.drawLayoutBounds}');
+
+    return NotificationDataStore<ValueNotifier<AppSettingsData>, DataNotification>(
         key: const ValueKey('AppSettings'),
         data: appSettingsData,
         child: MaterialApp(
           title: '_KarKam',
           //  BasePage invokes a generic page layout so that a similar UI is
           //  presented for each page (route).
-          home: BasePage(
-            pageSpec: settingsPage,
-            // pageSpec: filesPage,
+          home: ValueListenableBuilder<AppSettingsData>(
+            valueListenable: appSettingsData,
+            builder: (BuildContext context, AppSettingsData value, __) {
+
+              print('_KarKam, drawLayoutBounds in ValueListenableBuilder................${appSettingsData.value.drawLayoutBounds}');
+              print('_KarKam, value.drawLayoutBounds in ValueListenableBuilder..........${value.drawLayoutBounds}');
+
+              return BasePage(
+                pageSpec: settingsPage,
+                // pageSpec: filesPage,
+              );
+            }
           ),
+          // home: BasePage(
+          //   pageSpec: settingsPage,
+          //   // pageSpec: filesPage,
+          // ),
         ),
         // onNotification: appSettingsOnNotification,
         onNotification: (notification) {
           print('_KarKam, NotificationDataStore, notification received...');
-          print('_KarKam, drawLayoutBounds before reassignment..........................${appSettingsData.drawLayoutBounds}');
-          appSettingsData = notification.data;
-          print('_KarKam, drawLayoutBounds after reassignment...........................${appSettingsData.drawLayoutBounds}');
+          print('_KarKam, drawLayoutBounds before reassignment..........................${appSettingsData.value.drawLayoutBounds}');
+          appSettingsData.value = notification.data;
+          print('_KarKam, drawLayoutBounds after reassignment...........................${appSettingsData.value.drawLayoutBounds}');
           print('_KarKam, appSettingsData gets updated in SettingsPageLstTile...!');
           return true;
         },

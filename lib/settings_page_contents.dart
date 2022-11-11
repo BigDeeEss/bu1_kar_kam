@@ -85,17 +85,17 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         onTap: () {
           print('SettingsPageLstTile: tapped...!');
           AppSettingsData appSettingsData =
-              NotificationDataStore.of <AppSettingsData, DataNotification>(
+              NotificationDataStore.of <ValueNotifier<AppSettingsData>, DataNotification>(
                 context, const ValueKey('AppSettings')
-              ).data;
+              ).data.value;
           print('SettingsPageLstTile: drawLayoutBound before reassignment...............${appSettingsData.drawLayoutBounds}');
           appSettingsData.drawLayoutBounds = !appSettingsData.drawLayoutBounds;
           print('SettingsPageLstTile: drawLayoutBound after reassignment................${appSettingsData.drawLayoutBounds}');
-          AppSettingsData appSettingsData2 =
-              NotificationDataStore.of <AppSettingsData, DataNotification>(
-                context, const ValueKey('AppSettings')
-              ).data;
-          print('SettingsPageLstTile: drawLayoutBound from a new pulled-down instance...${appSettingsData2.drawLayoutBounds}');
+          // ValueNotifier<AppSettingsData> appSettingsData2 =
+          //     NotificationDataStore.of <ValueNotifier<AppSettingsData>, DataNotification>(
+          //       context, const ValueKey('AppSettings')
+          //     ).data;
+          // print('SettingsPageLstTile: drawLayoutBound from a new pulled-down instance...${appSettingsData2.drawLayoutBounds}');
           DataNotification(data: appSettingsData).dispatch(context);
         },
         trailing: Icon(

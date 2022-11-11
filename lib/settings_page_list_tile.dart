@@ -348,7 +348,7 @@ class SettingsPageListTile extends StatelessWidget {
     //  Build [SettingsPageListTile] each time the scroll position changes..
     return ValueListenableBuilder<double>(
       valueListenable:
-          DataStore.of<ValueNotifier<double>>(context, ValueKey('scrollPosition')).data,
+          DataStore.of<ValueNotifier<double>>(context, const ValueKey('scrollPosition')).data,
       builder: (BuildContext context, double value, __) {
         //  Calculate the degree of indentation/horizontal shrinkage to
         //  be applied to this instance of [SettingsPageListTile].
