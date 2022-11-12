@@ -29,15 +29,15 @@ class _KarKam extends StatefulWidget {
 }
 
 class _KarKamState extends State<_KarKam> {
+  //  This instance of GlobalAppSettings stores all app settings.
+  //  GlobalAppSettings catches GlobalAppSettingsNotification being sent up
+  //  the widget tree from and notifies any relevant widgets below it
+  //  of any changes.
+  // GlobalASettingsData globalAppSettingsData = GlobalASettingsData();
+  AppSettingsData appSettingsData = AppSettingsData();
+
   @override
   Widget build(BuildContext context) {
-    //  This instance of GlobalAppSettings stores all app settings.
-    //  GlobalAppSettings catches GlobalAppSettingsNotification being sent up
-    //  the widget tree from and notifies any relevant widgets below it
-    //  of any changes.
-    // GlobalASettingsData globalAppSettingsData = GlobalASettingsData();
-    AppSettingsData appSettingsData = AppSettingsData();
-
     //ToDo: Make NotificationDataStore trigger a rebuild when a notification
     //  is received.
     return NotificationDataStore<AppSettingsData, DataNotification>(
@@ -56,11 +56,16 @@ class _KarKamState extends State<_KarKam> {
         onNotification: (notification) {
           print('_KarKam, NotificationDataStore, notification received...');
           print('_KarKam, appSettingsData.drawLayoutBounds................................................${appSettingsData.drawLayoutBounds}');
-
-          print('');
+          print('_KarKam, notification.data.drawLayoutBounds..............................................${notification.data.drawLayoutBounds}');
+          print('_KarKam, compare appSettingsData and notification.data...................................${appSettingsData == notification.data}');
           // appSettingsData = notification.data;
           // print('_KarKam, drawLayoutBounds after reassignment...........................${appSettingsData.drawLayoutBounds}');
           // print('_KarKam, appSettingsData gets updated in SettingsPageLstTile...!');
+          if (!(appSettingsData == notification.data)) {
+            setState(() {
+              appSettingsData = notification.data;
+            });
+          }
           return true;
         },
       );

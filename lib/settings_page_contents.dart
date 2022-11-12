@@ -92,7 +92,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           print('SettingsPageLstTile: before reassignment...');
           print('SettingsPageLstTile: appSettingsData1.drawLayoutBounds...................................${appSettingsData1.drawLayoutBounds}');
           print('SettingsPageLstTile: appSettingsData2.drawLayoutBounds...................................${appSettingsData2.drawLayoutBounds}');
-          appSettingsData1.drawLayoutBounds = !appSettingsData1.drawLayoutBounds;
+          appSettingsData2.drawLayoutBounds = !appSettingsData2.drawLayoutBounds;
           print('SettingsPageLstTile: after reassignment...');
           print('SettingsPageLstTile: appSettingsData1.drawLayoutBounds...................................${appSettingsData1.drawLayoutBounds}');
           print('SettingsPageLstTile: appSettingsData2.drawLayoutBounds...................................${appSettingsData2.drawLayoutBounds}');
