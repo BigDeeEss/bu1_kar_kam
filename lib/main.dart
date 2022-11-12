@@ -21,9 +21,14 @@ void main() {
 ///
 /// [_KarKam] loads an instance of [BasePage]; content is determined
 /// by [pageSpec].
-class _KarKam extends StatelessWidget {
+class _KarKam extends StatefulWidget {
   _KarKam({Key? key}) : super(key: key);
 
+  @override
+  State<_KarKam> createState() => _KarKamState();
+}
+
+class _KarKamState extends State<_KarKam> {
   @override
   Widget build(BuildContext context) {
     //  This instance of GlobalAppSettings stores all app settings.
