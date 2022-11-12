@@ -7,7 +7,7 @@ import 'package:kar_kam/button_specs.dart';
 
 /// Implements a copy of FloatingActionButton.
 class Button extends StatelessWidget {
-  Button({
+  const Button({
     Key? key,
     required this.buttonSpec,
   }) : super(key: key);

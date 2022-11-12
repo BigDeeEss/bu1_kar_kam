@@ -22,6 +22,7 @@ class BasePage extends StatefulWidget {
     required this.pageSpec,
   }) : super(key: key);
 
+  /// [pageSpec] defines the page layout associated with each route.
   final PageSpec pageSpec;
 
   @override
@@ -30,7 +31,7 @@ class BasePage extends StatefulWidget {
 
 class _BasePageState extends State<BasePage> {
   /// [basePageViewKey] stores the GlobalKey which is passed to Stack so that
-  /// widgets below this -- e.g. SettingsPageContents -- are able to get
+  /// widgets below this -- e.g. [SettingsPageContents] -- are able to get
   /// the available screen dimensions.
   GlobalKey basePageViewKey = GlobalKey();
 
@@ -52,21 +53,22 @@ class _BasePageState extends State<BasePage> {
   /// [pageContents] may depend on knowledge of the existence of [buttonArray].
   /// and so must be built after [buttonArray] in a post-frame callback.
   ///
-  /// An example is SettingsPageContents which requires the Rect data
+  /// An example is [SettingsPageContents] which requires the Rect data
   /// associated with [buttonArray] to be known before it is built.
   Widget? pageContents;
 
   @override
   void initState() {
     super.initState();
-    /// BasePage is built in two parts: (i) buttonArray, by the build
-    /// function; and then (ii) buttonArray + pageContents, initiated by
-    /// this post-frame callback.
-    ///
-    /// BasePage is built in two parts as pageContents may require
-    /// the position of buttonArray -- see for example SettingsPageContents.
+
+    //  BasePage is built in two parts: (i) buttonArray, by the build
+    //  function; and then (ii) buttonArray + pageContents, initiated by
+    //  this post-frame callback.
+    //
+    //  BasePage is built in two parts as pageContents may require
+    //  the position of buttonArray -- see for example SettingsPageContents.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //  Get basePageView Rect data and update basePageViewRect.
+      //  Get basePageView Rect data and update basePageViewRect].
       basePageViewRect = basePageViewKey.globalPaintBounds;
 
       //  Get buttonArray Rect data and update buttonArrayRect.
@@ -108,7 +110,7 @@ class _BasePageState extends State<BasePage> {
         },
       ),
       //  The Scaffold body contents are placed within two instances of
-      //  DataNotifier in order to transfer buttonArrayRect and
+      //  DataStore in order to transfer buttonArrayRect and
       //  basePageViewRect down the widget tree.
       body: DataStore<Rect?>(
         key: const ValueKey('buttonArrayRect'),
@@ -123,12 +125,12 @@ class _BasePageState extends State<BasePage> {
           //
           //  If pageContents is null then put an empty container into Stack,
           //  otherwise use its value (see ?? operator below).
-          //
-          //  Note: pageContents equates to widget.pageSpec.contents.
-          //  after setState.
           child: Stack(
             key: basePageViewKey,
             children: <Widget>[
+              //  To avoid errors place a temporary blank instance of Container
+              //  in place of pageContents whilst [buttonArrayRect] data is
+              //  obtained.
               pageContents ?? Container(),
               buttonArray,
               //  Add two additional guidance circles for checking the sliding
@@ -136,7 +138,8 @@ class _BasePageState extends State<BasePage> {
               (AppSettingsOrig.buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
-                      bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
+                      bottom:
+                          (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
                       left: (AppSettingsOrig.buttonAlignment.x < 0)
                           ? buttonArray.buttonCoords.first
                           : null,
@@ -158,8 +161,10 @@ class _BasePageState extends State<BasePage> {
                       bottom: (AppSettingsOrig.buttonAlignment.y > 0)
                           ? buttonArray.buttonCoords.last
                           : null,
-                      left: (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
-                      right: (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
+                      left:
+                          (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
+                      right:
+                          (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
                       child: CustomPaint(
                         painter: OpenPainter(
                           shiftVal: (buttonArray.rect != null)
@@ -171,7 +176,8 @@ class _BasePageState extends State<BasePage> {
               (AppSettingsOrig.buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
-                      bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
+                      bottom:
+                          (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
                       left: (AppSettingsOrig.buttonAlignment.x < 0)
                           ? buttonArray.buttonCoords.last
                           : null,
@@ -191,8 +197,10 @@ class _BasePageState extends State<BasePage> {
                       bottom: (AppSettingsOrig.buttonAlignment.y > 0)
                           ? buttonArray.buttonCoords.last
                           : null,
-                      left: (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
-                      right: (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
+                      left:
+                          (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
+                      right:
+                          (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
                       child: CustomPaint(
                         painter: OpenPainter(
                           shiftVal: 0.0,
@@ -215,7 +223,8 @@ class OpenPainter extends CustomPainter {
 
   final double shiftVal;
 
-  double r = AppSettingsOrig.buttonRadius + AppSettingsOrig.buttonPaddingMainAxis;
+  double r =
+      AppSettingsOrig.buttonRadius + AppSettingsOrig.buttonPaddingMainAxis;
 
   @override
   void paint(Canvas canvas, Size size) {

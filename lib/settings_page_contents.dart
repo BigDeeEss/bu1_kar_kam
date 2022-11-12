@@ -1,13 +1,10 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
-import 'package:kar_kam/app_settings.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings_orig.dart';
-import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/app_settings_callback_and_data.dart';
-
-// import 'package:kar_kam/lib/data_store.dart';
+import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
@@ -22,12 +19,12 @@ class SettingsPageContents extends StatefulWidget {
 }
 
 class _SettingsPageContentsState extends State<SettingsPageContents> {
-  /// [scrollController] is added to the ListView instance below in order
-  /// to get the scroll position offset value.
+  //  scrollController is added to the ListView instance below in order
+  //  to get the scroll position offset value.
   final ScrollController scrollController = ScrollController();
 
-  /// [scrollPositionNotifier] is passed to an instance of DataNotifier in
-  /// order to pass the scroll position down to SettingsPageListTile.
+  //  scrollPositionNotifier is passed to an instance of DataNotifier in
+  //  order to pass the scroll position down to SettingsPageListTile.
   final ValueNotifier<double> scrollPositionNotifier = ValueNotifier(0.0);
 
   @override
@@ -40,8 +37,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
   void initState() {
     super.initState();
 
-    //  Update [scrollPositionNotifier] with new scroll position whenever
-    //  [scrollController] registers a change.
+    //  Update scrollPositionNotifier with new scroll position whenever
+    //  scrollController registers a change.
     scrollController.addListener(() {
       scrollPositionNotifier.value = scrollController.offset;
     });
@@ -49,11 +46,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
   @override
   Widget build(BuildContext context) {
-    //  Get [buttonArrayRect] from NataNotifier in [BasePage].
+    //  Get buttonArrayRect from NataNotifier in BasePage.
     Rect? buttonArrayRect =
         DataStore.of<Rect?>(context, const ValueKey('buttonArrayRect')).data;
 
-    //  Get [basePageViewRect] from NataNotifier in [BasePage].
+    //  Get basePageViewRect from NataNotifier in BasePage.
     Rect? basePageViewRect =
         DataStore.of<Rect?>(context, const ValueKey('basePageViewRect')).data;
 
@@ -83,21 +80,14 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: () {
-          print('SettingsPageLstTile: tapped...!');
-          AppSettingsData appSettingsData1 =
+          AppSettingsData appSettingsData=
               NotificationDataStore.of <AppSettingsData, DataNotification>(
                 context, const ValueKey('AppSettings')
               ).data;
-          AppSettingsData appSettingsData2 = appSettingsData1.copy();
-          print('SettingsPageLstTile: before reassignment...');
-          print('SettingsPageLstTile: appSettingsData1.drawLayoutBounds...................................${appSettingsData1.drawLayoutBounds}');
-          print('SettingsPageLstTile: appSettingsData2.drawLayoutBounds...................................${appSettingsData2.drawLayoutBounds}');
-          appSettingsData2.drawLayoutBounds = !appSettingsData2.drawLayoutBounds;
-          print('SettingsPageLstTile: after reassignment...');
-          print('SettingsPageLstTile: appSettingsData1.drawLayoutBounds...................................${appSettingsData1.drawLayoutBounds}');
-          print('SettingsPageLstTile: appSettingsData2.drawLayoutBounds...................................${appSettingsData2.drawLayoutBounds}');
-          DataNotification(data: appSettingsData2).dispatch(context);
-          print('SettingsPageLstTile: notification sent...!');
+          AppSettingsData appSettingsDataCopy = appSettingsData.copy();
+          appSettingsDataCopy.drawLayoutBounds =
+              !appSettingsData.drawLayoutBounds;
+          DataNotification(data: appSettingsDataCopy).dispatch(context);
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -120,9 +110,9 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
     ];
 
     //  Encapsulate ListViewBuilder in an instance of DataNotifier in order
-    //  to pass [scrollPositionNotifier] notifier down to [SettingsPageListTile].
+    //  to pass scrollPositionNotifier down to SettingsPageListTile.
     return DataStore<ValueNotifier<double>>(
-      key: ValueKey('scrollPosition'),
+      key: const ValueKey('scrollPosition'),
       data: scrollPositionNotifier,
       child: ListView.builder(
         controller: scrollController,
