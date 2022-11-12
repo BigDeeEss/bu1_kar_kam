@@ -2,6 +2,10 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_settings_callback_and_data.dart';
+import 'package:kar_kam/lib/data_notification.dart';
+import 'package:kar_kam/lib/notification_data_store.dart';
+
 // import 'package:kar_kam/global_app_settings_devel.dart';
 // import 'package:kar_kam/lib/data_notification.dart';
 
@@ -72,8 +76,12 @@ class BoxedContainer extends StatelessWidget {
       borderColor: borderColor,
       borderWidth: borderWidth,
       borderRadius: borderRadius,
-      drawLayoutBounds: true,
-      // drawLayoutBounds: GlobalAppSettingsDevel.of<DataNotification, GlobalAppSettingsDevelStore>(context).notificationData.value.drawLayoutBounds,
+      // drawLayoutBounds: true,
+      drawLayoutBounds:
+          NotificationDataStore.of<AppSettingsData, DataNotification>(
+            context,
+            const ValueKey('AppSettings')
+          ).data.drawLayoutBounds,
     );
   }
 }
@@ -98,22 +106,25 @@ class _BoxedContainer extends Container {
     double? borderWidth,
     double? borderRadius,
     bool? drawLayoutBounds,
-  })  : super(
+  }) : super(
           key: key,
           alignment: alignment,
           child: child,
           clipBehavior: clipBehavior,
           constraints: constraints,
-          decoration: decoration ?? BoxDecoration(
-            border: (drawLayoutBounds ?? true) ? Border.all(
-              width: borderWidth ?? 0.1,
-              color: borderColor ?? Colors.black,
-            ) : null,
-            borderRadius: BorderRadius.all(
-              Radius.circular(borderRadius ?? 0.0),
-            ),
-            color: color,
-          ),
+          decoration: decoration ??
+              BoxDecoration(
+                border: (drawLayoutBounds ?? true)
+                    ? Border.all(
+                        width: borderWidth ?? 0.1,
+                        color: borderColor ?? Colors.black,
+                      )
+                    : null,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(borderRadius ?? 0.0),
+                ),
+                color: color,
+              ),
           foregroundDecoration: foregroundDecoration,
           height: height,
           margin: margin,
