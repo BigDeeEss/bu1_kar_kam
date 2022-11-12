@@ -84,19 +84,20 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ),
         onTap: () {
           print('SettingsPageLstTile: tapped...!');
-          AppSettingsData appSettingsData =
+          AppSettingsData appSettingsData1 =
               NotificationDataStore.of <AppSettingsData, DataNotification>(
                 context, const ValueKey('AppSettings')
               ).data;
-          print('SettingsPageLstTile: drawLayoutBound before reassignment...............${appSettingsData.drawLayoutBounds}');
-          appSettingsData.drawLayoutBounds = !appSettingsData.drawLayoutBounds;
-          print('SettingsPageLstTile: drawLayoutBound after reassignment................${appSettingsData.drawLayoutBounds}');
-          AppSettingsData appSettingsData2 =
-              NotificationDataStore.of <AppSettingsData, DataNotification>(
-                context, const ValueKey('AppSettings')
-              ).data;
-          print('SettingsPageLstTile: drawLayoutBound from a new pulled-down instance...${appSettingsData2.drawLayoutBounds}');
-          DataNotification(data: appSettingsData).dispatch(context);
+          AppSettingsData appSettingsData2 = appSettingsData1.copy();
+          print('SettingsPageLstTile: before reassignment...');
+          print('SettingsPageLstTile: appSettingsData1.drawLayoutBounds...................................${appSettingsData1.drawLayoutBounds}');
+          print('SettingsPageLstTile: appSettingsData2.drawLayoutBounds...................................${appSettingsData2.drawLayoutBounds}');
+          appSettingsData1.drawLayoutBounds = !appSettingsData1.drawLayoutBounds;
+          print('SettingsPageLstTile: after reassignment...');
+          print('SettingsPageLstTile: appSettingsData1.drawLayoutBounds...................................${appSettingsData1.drawLayoutBounds}');
+          print('SettingsPageLstTile: appSettingsData2.drawLayoutBounds...................................${appSettingsData2.drawLayoutBounds}');
+          DataNotification(data: appSettingsData2).dispatch(context);
+          print('SettingsPageLstTile: notification sent...!');
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,

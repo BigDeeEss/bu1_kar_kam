@@ -55,10 +55,12 @@ class _KarKamState extends State<_KarKam> {
         // onNotification: appSettingsOnNotification,
         onNotification: (notification) {
           print('_KarKam, NotificationDataStore, notification received...');
-          print('_KarKam, drawLayoutBounds before reassignment..........................${appSettingsData.drawLayoutBounds}');
-          appSettingsData = notification.data;
-          print('_KarKam, drawLayoutBounds after reassignment...........................${appSettingsData.drawLayoutBounds}');
-          print('_KarKam, appSettingsData gets updated in SettingsPageLstTile...!');
+          print('_KarKam, appSettingsData.drawLayoutBounds................................................${appSettingsData.drawLayoutBounds}');
+
+          print('');
+          // appSettingsData = notification.data;
+          // print('_KarKam, drawLayoutBounds after reassignment...........................${appSettingsData.drawLayoutBounds}');
+          // print('_KarKam, appSettingsData gets updated in SettingsPageLstTile...!');
           return true;
         },
       );

@@ -8,7 +8,17 @@ class AppSettingsData {
   /// Used for debugging widget screen location.
   bool drawLayoutBounds = true;
 
-// bool get drawLayoutBounds => drawLayoutBoundsVal;
+  AppSettingsData copy() {
+    AppSettingsData appSettingsData = AppSettingsData();
+    appSettingsData.drawLayoutBounds = drawLayoutBounds;
+    return appSettingsData;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return (other is AppSettingsData)
+        && other.drawLayoutBounds == drawLayoutBounds;
+  }
 }
 
 
