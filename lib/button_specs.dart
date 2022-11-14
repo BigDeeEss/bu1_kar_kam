@@ -15,9 +15,6 @@ class ButtonSpec {
     required this.onPressed,
   });
 
-  /// [drawLayoutBounds] toggles whether layout bounds are drawn or not.
-  // final bool drawLayoutBounds = AppSettings.drawLayoutBounds;
-
   /// [icon] indicating the destination page or action.
   final Icon icon;
 
@@ -25,10 +22,10 @@ class ButtonSpec {
   final void Function(BuildContext context) onPressed;
 
   /// [buttonPadding] is a radial padding beyond [buttonRadius].
-  final EdgeInsetsDirectional buttonPadding = AppSettingsOrig.buttonPadding;
+  EdgeInsetsDirectional buttonPadding = AppSettingsOrig.buttonPadding;
 
   /// [size] is the button characteristic dimension.
-  final double size = AppSettingsOrig.buttonRadius;
+  double size = AppSettingsOrig.buttonRadius;
 }
 
 //  Home page button specs.

@@ -6,15 +6,12 @@ import 'package:kar_kam/app_settings_callback_and_data.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 
-// import 'package:kar_kam/global_app_settings_devel.dart';
-// import 'package:kar_kam/lib/data_notification.dart';
-
-/// BoxedContainer implements a Container and prints its bounding box.
+/// [BoxedContainer] implements a Container and prints its bounding box.
 ///
-/// BoxedContainer essentially calls an instance of Container with an
+/// [BoxedContainer] essentially calls an instance of Container with an
 /// updated decoration if one is not specifically given.
 ///
-/// BoxedContainer defaults to Container if AppSettings.drawLayoutBounds
+/// [BoxedContainer] defaults to Container if AppSettings.drawLayoutBounds
 /// is false.
 class BoxedContainer extends StatelessWidget {
   const BoxedContainer({
@@ -59,13 +56,6 @@ class BoxedContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // print('In BoxedContainer: ${NotificationDataStore.of<ValueNotifier<AppSettingsData>,
-    //     DataNotification>(context, const ValueKey('AppSettings'))
-    //     .data
-    //     .value
-    //     .drawLayoutBounds}');
-
     return _BoxedContainer(
       alignment: alignment,
       child: child,
@@ -83,11 +73,10 @@ class BoxedContainer extends StatelessWidget {
       borderColor: borderColor,
       borderWidth: borderWidth,
       borderRadius: borderRadius,
-      drawLayoutBounds: NotificationDataStore.of<ValueNotifier<AppSettingsData>,
-              DataNotification>(context, const ValueKey('AppSettings'))
-          .data
-          .value
-          .drawLayoutBounds,
+      drawLayoutBounds:
+          NotificationDataStore.of<AppSettingsData, DataNotification>(
+                  context, const ValueKey('AppSettings')
+          ).data.drawLayoutBounds,
     );
   }
 }

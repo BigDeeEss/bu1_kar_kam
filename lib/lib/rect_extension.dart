@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 extension RectExtension on Rect {
-  /// Return a bool depending on whether [offset] lies within rect.
+  /// Return a bool depending on whether offset lies within rect.
   ///
   /// Differs to [contains] method as the right and bottom tests include <=.
   bool boundsContain(Offset offset) {
@@ -24,13 +24,13 @@ extension RectExtension on Rect {
   }
 
   /// Return a new instance of Rect with left and right edges moved
-  /// symmetrically so that the new width equates to [newWidth].
+  /// symmetrically so that the new width equates to newWidth.
   Rect inflateToWidth(double newWidth) {
     return Rect.fromCenter(center: center, width: newWidth, height: height);
   }
 
   /// Return a new instance of Rect with top and bottom edges moved
-  /// symmetrically so that the new height equates to [newHeight].
+  /// symmetrically so that the new height equates to newHeight.
   Rect inflateToHeight(double newHeight) {
     return Rect.fromCenter(center: center, width: width, height: newHeight);
   }
