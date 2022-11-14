@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings_callback_and_data.dart';
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 
