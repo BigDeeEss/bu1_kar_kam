@@ -29,7 +29,7 @@ class _KarKamState extends State<_KarKam> {
   //
   //  The instance of NotificationDataStore catches notifications of type
   //  DataNotification being sent up the widget tree from SettingsPageListTile.
-  AppSettingsData appSettingsData = AppSettingsData();
+  AppSettings appSettingsData = AppSettings();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _KarKamState extends State<_KarKam> {
     //  A DataNotification sent from SettingsPageListTile contains an updated
     //  instance of AppSettingsData. This update is checked against the original
     //  value and, if different, uploaded by setState.
-    return NotificationDataStore<AppSettingsData, DataNotification>(
+    return NotificationDataStore<AppSettings, DataNotification>(
       key: const ValueKey('AppSettings'),
       data: appSettingsData,
       child: MaterialApp(

@@ -80,11 +80,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: () {
-          AppSettingsData appSettingsData=
-              NotificationDataStore.of <AppSettingsData, DataNotification>(
+          AppSettings appSettingsData=
+              NotificationDataStore.of <AppSettings, DataNotification>(
                 context, const ValueKey('AppSettings')
               ).data;
-          AppSettingsData appSettingsDataCopy = appSettingsData.copy();
+          AppSettings appSettingsDataCopy = appSettingsData.copy();
           appSettingsDataCopy.drawLayoutBounds =
               !appSettingsData.drawLayoutBounds;
           DataNotification(data: appSettingsDataCopy).dispatch(context);
