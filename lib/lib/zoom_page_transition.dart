@@ -25,7 +25,7 @@ class ZoomPageTransition extends PageRouteBuilder {
 
     //  Define page transition animation time.
     transitionDuration:
-        Duration(milliseconds: AppSettingsOrig.pageTransitionTime),
+        Duration(milliseconds: AppSettingsData.pageTransitionTime),
 
     transitionsBuilder: (
       BuildContext context,

@@ -246,7 +246,7 @@ class SettingsPageListTile extends StatelessWidget {
         return Container(
           //  Draw bounding box around [SettingsPageListTile].
           decoration: BoxDecoration(
-            border: AppSettingsOrig.drawLayoutBounds
+            border: AppSettingsData.drawLayoutBounds
                 ? Border.all(width: 0.0, color: Colors.green)
                 : null,
             color: Colors.blue.withOpacity(0.5),
@@ -254,14 +254,14 @@ class SettingsPageListTile extends StatelessWidget {
               Radius.circular(12.0),
             ),
           ),
-          margin: AppSettingsOrig.buttonAlignment.isLeft
+          margin: AppSettingsData.buttonAlignment.isLeft
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
           child: Container(
             //  Draw bounding box around [SettingsPageListTile].
             decoration: BoxDecoration(
-              border: AppSettingsOrig.drawLayoutBounds
+              border: AppSettingsData.drawLayoutBounds
                   ? Border.all(width: 0.0, color: Colors.redAccent)
                   : null,
               borderRadius: BorderRadius.all(
@@ -275,7 +275,7 @@ class SettingsPageListTile extends StatelessWidget {
                 child: Container(
                   //  Draw bounding box around [SettingsPageListTile].
                   decoration: BoxDecoration(
-                    border: AppSettingsOrig.drawLayoutBounds
+                    border: AppSettingsData.drawLayoutBounds
                         ? Border.all(width: 0.0, color: Colors.purple)
                         : null,
                     borderRadius: BorderRadius.all(
@@ -293,7 +293,7 @@ class SettingsPageListTile extends StatelessWidget {
                             child: Container(
                               //  Draw bounding box around [SettingsPageListTile].
                               decoration: BoxDecoration(
-                                border: AppSettingsOrig.drawLayoutBounds
+                                border: AppSettingsData.drawLayoutBounds
                                     ? Border.all(width: 0.0, color: Colors.pink)
                                     : null,
                                 borderRadius: BorderRadius.all(

@@ -65,7 +65,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           index: index,
           leading: Icon(
             Icons.favorite,
-            size: AppSettingsOrig.settingsPageListTileIconSize,
+            size: AppSettingsData.settingsPageListTileIconSize,
           ),
         );
       }),
@@ -77,7 +77,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         index: 5,
         leading: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettingsOrig.settingsPageListTileIconSize,
+          size: AppSettingsData.settingsPageListTileIconSize,
         ),
         onTap: () {
           AppSettings appSettingsData=
@@ -91,7 +91,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettingsOrig.settingsPageListTileIconSize,
+          size: AppSettingsData.settingsPageListTileIconSize,
         ),
       ),
       ...List<Widget>.generate(100, (int index) {
@@ -103,7 +103,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           index: index + 6,
           leading: Icon(
             Icons.favorite,
-            size: AppSettingsOrig.settingsPageListTileIconSize,
+            size: AppSettingsData.settingsPageListTileIconSize,
           ),
         );
       }),

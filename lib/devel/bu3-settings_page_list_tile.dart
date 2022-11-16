@@ -38,8 +38,8 @@ class SettingsPageListTile extends StatelessWidget {
 
     //  Upload the [AppSettings.settingsPageListTileRadius]
     //  and [AppSettings.settingsPageListTilePadding] combined corer radius
-    cornerRadius = AppSettingsOrig.settingsPageListTileRadius +
-        AppSettingsOrig.settingsPageListTilePadding;
+    cornerRadius = AppSettingsData.settingsPageListTileRadius +
+        AppSettingsData.settingsPageListTilePadding;
   }
 
   /// The visible area on screen that contains [SettingsPageContents].
@@ -69,8 +69,8 @@ class SettingsPageListTile extends StatelessWidget {
   Rect? lowerRect;
 
   /// The combined corner radius derived from
-  /// [AppSettingsOrig.settingsPageListTileRadius] and
-  /// [AppSettingsOrig.settingsPageListTilePadding].
+  /// [AppSettingsData.settingsPageListTileRadius] and
+  /// [AppSettingsData.settingsPageListTilePadding].
   double cornerRadius = 0.0;
 
   /// The radius associated with the curved path segment that defines
@@ -326,13 +326,13 @@ class SettingsPageListTile extends StatelessWidget {
         //  The topmost instance of Container, with the use of  xP to
         //  define margin, implements the variable width settings panel.
         return BoxedContainer(
-          margin: AppSettingsOrig.buttonAlignment.isLeft
+          margin: AppSettingsData.buttonAlignment.isLeft
               ? EdgeInsets.only(left: xP)
               : EdgeInsets.only(right: xP),
           height: height,
-          padding: EdgeInsets.all(AppSettingsOrig.settingsPageListTilePadding),
+          padding: EdgeInsets.all(AppSettingsData.settingsPageListTilePadding),
           child: BoxedContainer(
-            borderRadius: AppSettingsOrig.settingsPageListTileRadius,
+            borderRadius: AppSettingsData.settingsPageListTileRadius,
             color: Colors.pink[50],
             child: Stack(
               children: [
@@ -359,11 +359,11 @@ class SettingsPageListTile extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: BoxedContainer(
-                    width: 2 * AppSettingsOrig.settingsPageListTileIconSize,
+                    width: 2 * AppSettingsData.settingsPageListTileIconSize,
                     height: height,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(
-                          AppSettingsOrig.settingsPageListTileRadius),
+                          AppSettingsData.settingsPageListTileRadius),
                       //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
                       gradient: LinearGradient(
                           begin: Alignment.centerLeft,

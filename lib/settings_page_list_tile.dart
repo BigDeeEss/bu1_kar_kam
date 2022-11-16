@@ -47,11 +47,11 @@ class SettingsPageListTile extends StatelessWidget {
 
     //  Upload the AppSettings.settingsPageListTileRadius
     //  and AppSettings.settingsPageListTilePadding combined corner radius.
-    cornerRadius = AppSettingsOrig.settingsPageListTileRadius +
-        AppSettingsOrig.settingsPageListTilePadding;
+    cornerRadius = AppSettingsData.settingsPageListTileRadius +
+        AppSettingsData.settingsPageListTilePadding;
 
     // Calculate xPMax from basePageViewRect.
-    xPMax = basePageViewRect.width - 3 * AppSettingsOrig.buttonRadius;
+    xPMax = basePageViewRect.width - 3 * AppSettingsData.buttonRadius;
   }
 
   /// The visible area on screen that contains [SettingsPageContents].
@@ -88,8 +88,8 @@ class SettingsPageListTile extends StatelessWidget {
   /// [guestRect.bottomRight] and has the same width as [guestRect].
   Rect? lowerRect;
 
-  /// A combined corner radius using [AppSettingsOrig.settingsPageListTileRadius]
-  /// and [AppSettingsOrig.settingsPageListTilePadding].
+  /// A combined corner radius using [AppSettingsData.settingsPageListTileRadius]
+  /// and [AppSettingsData.settingsPageListTilePadding].
   double cornerRadius = 0.0;
 
   /// The radius associated with the curved path segment that defines
@@ -127,7 +127,7 @@ class SettingsPageListTile extends StatelessWidget {
       //
       //  Use this Offset to generate a Rect.
       Offset offset = Offset.zero;
-      if (AppSettingsOrig.buttonAlignment.y > 0) {
+      if (AppSettingsData.buttonAlignment.y > 0) {
         offset = lRect.bottomRight - uRect.bottomLeft;
 
         //  Convert offset to a Size and then construct output value.
@@ -365,15 +365,15 @@ class SettingsPageListTile extends StatelessWidget {
           //  The topmost instance of Container, with the use of xP to
           //  define margin, implements the variable width settings panel.
           child: BoxedContainer(
-            margin: AppSettingsOrig.buttonAlignment.isLeft
+            margin: AppSettingsData.buttonAlignment.isLeft
                 ? EdgeInsets.only(left: xP)
                 : EdgeInsets.only(right: xP),
             height: height,
-            padding: EdgeInsets.all(AppSettingsOrig.settingsPageListTilePadding),
+            padding: EdgeInsets.all(AppSettingsData.settingsPageListTilePadding),
             child: InkWell(
               onTap: onTap,
               child: BoxedContainer(
-                borderRadius: AppSettingsOrig.settingsPageListTileRadius,
+                borderRadius: AppSettingsData.settingsPageListTileRadius,
                 color: Colors.pink[200],
                 child: Row(
                   children: <Widget>[
@@ -396,14 +396,14 @@ class SettingsPageListTile extends StatelessWidget {
                           //  The following widget is either an instance of Align,
                           //  in which case it implements a fade effect for the
                           //  Text widget, or Container().
-                          AppSettingsOrig.settingsPageListTileFadeEffect ? Align(
+                          AppSettingsData.settingsPageListTileFadeEffect ? Align(
                             alignment: Alignment.centerRight,
                             child: BoxedContainer(
-                              width: AppSettingsOrig.settingsPageListTileIconSize,
+                              width: AppSettingsData.settingsPageListTileIconSize,
                               height: height,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(
-                                    AppSettingsOrig.settingsPageListTileRadius),
+                                    AppSettingsData.settingsPageListTileRadius),
                                 //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
