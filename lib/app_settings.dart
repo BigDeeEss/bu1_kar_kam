@@ -4,6 +4,8 @@
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 
+
+//  ToDo: Add instance of AppSettingsData to AppSettings.
 class AppSettings {
   /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
   ///
