@@ -1,5 +1,6 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
