@@ -12,6 +12,9 @@ class AppSettings {
   /// Used for debugging widget screen location.
   bool drawLayoutBounds = true;
 
+  /// [buttonRadius] defines the button radius in Button class.
+  double buttonRadius = 28.0;
+
   /// Creates a copy of the current instance of [AppSettings].
   AppSettings copy() {
     AppSettings appSettingsData = AppSettings();

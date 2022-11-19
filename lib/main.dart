@@ -43,13 +43,16 @@ class _KarKamState extends State<_KarKam> {
     return NotificationDataStore<AppSettings, DataNotification>(
       key: const ValueKey('AppSettings'),
       data: appSettingsData,
-      child: MaterialApp(
-        title: '_KarKam',
-        //  BasePage invokes a generic page layout so that a similar UI is
-        //  presented for each page (route).
-        home: BasePage(
-          pageSpec: settingsPage,
-          // pageSpec: filesPage,
+      child: Provider(
+        create: (_) => AppSettings(),
+        child: MaterialApp(
+          title: '_KarKam',
+          //  BasePage invokes a generic page layout so that a similar UI is
+          //  presented for each page (route).
+          home: BasePage(
+            pageSpec: settingsPage,
+            // pageSpec: filesPage,
+          ),
         ),
       ),
       onNotification: (notification) {

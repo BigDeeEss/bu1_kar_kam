@@ -141,10 +141,10 @@ class _BasePageState extends State<BasePage> {
                       bottom:
                           (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
                       left: (AppSettingsOrig.buttonAlignment.x < 0)
-                          ? buttonArray.buttonCoords.first
+                          ? buttonArray.buttonCoords(context).first
                           : null,
                       right: (AppSettingsOrig.buttonAlignment.x > 0)
-                          ? buttonArray.buttonCoords.first
+                          ? buttonArray.buttonCoords(context).first
                           : null,
                       child: CustomPaint(
                         painter: OpenPainter(
@@ -156,10 +156,10 @@ class _BasePageState extends State<BasePage> {
                     )
                   : Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoords(context).last
                           : null,
                       bottom: (AppSettingsOrig.buttonAlignment.y > 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoords(context).last
                           : null,
                       left:
                           (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
@@ -179,10 +179,10 @@ class _BasePageState extends State<BasePage> {
                       bottom:
                           (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
                       left: (AppSettingsOrig.buttonAlignment.x < 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoords(context).last
                           : null,
                       right: (AppSettingsOrig.buttonAlignment.x > 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoords(context).last
                           : null,
                       child: CustomPaint(
                         painter: OpenPainter(
@@ -192,10 +192,10 @@ class _BasePageState extends State<BasePage> {
                     )
                   : Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoords(context).last
                           : null,
                       bottom: (AppSettingsOrig.buttonAlignment.y > 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoords(context).last
                           : null,
                       left:
                           (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,

@@ -1,7 +1,9 @@
 //  Import dart and flutter packages.
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
@@ -23,7 +25,7 @@ class ButtonArray extends StatelessWidget {
   final buttonArrayGlobalKeys = <GlobalKey>[];
 
   /// [buttonCoords] gets coordinates relative to any corner.
-  List<double> get buttonCoords {
+  List<double> buttonCoords(context) {
     //  Initialise coordsList so that it is ready for population.
     List<double> coordsList = [];
 
@@ -34,6 +36,11 @@ class ButtonArray extends StatelessWidget {
     //         AppSettings.buttonPaddingMainAxisExtra);
     double dim = 2 * (AppSettingsOrig.buttonRadius +
             AppSettingsOrig.buttonPaddingMainAxisAlt);
+    // var test = context.read<AppSettings>();
+    var test = Provider.of<AppSettings>(context);
+    print(test);
+    // double dim = 2 * (context.watch<AppSettings>().buttonRadius +
+    //         AppSettingsOrig.buttonPaddingMainAxisAlt);
 
     //  Loop over items in buttonSpecList and convert each to its
     //  corresponding position.
@@ -75,7 +82,7 @@ class ButtonArray extends StatelessWidget {
     List<Widget> buttonList = [];
 
     //  Take a local copy of buttonCoords for speed.
-    List<double> coords = buttonCoords;
+    List<double> coords = buttonCoords(context);
 
     //  Loop over items in buttonSpecList and convert each to its
     //  corresponding button.
