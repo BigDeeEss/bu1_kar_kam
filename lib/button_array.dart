@@ -34,13 +34,12 @@ class ButtonArray extends StatelessWidget {
     //  for each Button overlap.
     // double dim = 2 * (AppSettings.buttonRadiusInner +
     //         AppSettings.buttonPaddingMainAxisExtra);
-    double dim = 2 * (AppSettingsOrig.buttonRadius +
-            AppSettingsOrig.buttonPaddingMainAxisAlt);
-    // var test = context.read<AppSettings>();
-    var test = Provider.of<AppSettings>(context);
-    print(test);
-    // double dim = 2 * (context.watch<AppSettings>().buttonRadius +
+    // double dim = 2 * (AppSettingsOrig.buttonRadius +
     //         AppSettingsOrig.buttonPaddingMainAxisAlt);
+    // var test = context.read<AppSettings>();
+    // var test = Provider.of<AppSettings>(context).buttonRadius;
+    double dim = 2 * (Provider.of<AppSettings>(context).buttonRadius +
+            AppSettingsOrig.buttonPaddingMainAxisAlt);
 
     //  Loop over items in buttonSpecList and convert each to its
     //  corresponding position.

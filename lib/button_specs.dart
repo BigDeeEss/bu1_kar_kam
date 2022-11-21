@@ -1,8 +1,10 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/page_specs.dart';
@@ -11,9 +13,12 @@ import 'package:kar_kam/page_specs.dart';
 /// [ButtonSpec] is a simple class containing the specs for on-screen buttons.
 class ButtonSpec {
   ButtonSpec({
+    required this.context,
     required this.icon,
     required this.onPressed,
   });
+
+  final BuildContext context;
 
   /// [icon] indicating the destination page or action.
   final Icon icon;
@@ -30,6 +35,7 @@ class ButtonSpec {
 
 //  Home page button specs.
 ButtonSpec homeButton = ButtonSpec(
+  context: context,
   icon: Icon(FontAwesomeIcons.home),
   onPressed: (context) {
     Navigator.of(context).pushReplacement(
