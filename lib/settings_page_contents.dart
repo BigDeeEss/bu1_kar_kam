@@ -87,7 +87,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           AppSettings appSettingsDataCopy = appSettingsData.copy();
           appSettingsDataCopy.drawLayoutBounds =
               !appSettingsData.drawLayoutBounds;
-          DataNotification(data: appSettingsDataCopy).dispatch(context);
+          DataNotification<AppSettings>(data: appSettingsDataCopy).dispatch(context);
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,

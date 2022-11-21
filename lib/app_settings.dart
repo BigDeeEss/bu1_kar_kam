@@ -29,13 +29,13 @@ class AppSettings {
 }
 
 
-/// [NotificationDataStoreCallback] defines the form of callback that is
-/// acceptable to [NotificationDataStore].
-NotificationDataStoreCallback<DataNotification> appSettingsOnNotification =
-  (notification) {
-    print('Test dispatch method---NotificationDataStore...complete');
-    // data = notification.data
-    print(notification);
-    print(notification.data);
-    return true;
-  };
+// /// [NotificationDataStoreCallback] defines the form of callback that is
+// /// acceptable to [NotificationDataStore].
+// NotificationDataStoreCallback<DataNotification> appSettingsOnNotification =
+//   (notification) {
+//     print('Test dispatch method---NotificationDataStore...complete');
+//     // data = notification.data
+//     print(notification);
+//     print(notification.data);
+//     return true;
+//   };
