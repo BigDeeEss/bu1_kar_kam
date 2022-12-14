@@ -1,8 +1,10 @@
 //  Import flutter packages.
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
@@ -347,6 +349,9 @@ class SettingsPageListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //  Get AppSettingsData held by GetIt in main.
+    AppSettings appSettings = GetIt.instance<AppSettings>();
+
     //  Build SettingsPageListTile each time the scroll position changes..
     return ValueListenableBuilder<double>(
       valueListenable: DataStore.of<ValueNotifier<double>>(
@@ -396,7 +401,7 @@ class SettingsPageListTile extends StatelessWidget {
                           //  The following widget is either an instance of Align,
                           //  in which case it implements a fade effect for the
                           //  Text widget, or Container().
-                          AppSettingsOrig.settingsPageListTileFadeEffect ? Align(
+                          appSettings.settingsPageListTileFadeEffect ? Align(
                             alignment: Alignment.centerRight,
                             child: BoxedContainer(
                               width: AppSettingsOrig.settingsPageListTileIconSize,

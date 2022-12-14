@@ -12,6 +12,9 @@ class AppSettings {
   /// Used for debugging widget screen location.
   bool drawLayoutBounds = true;
 
+  /// [settingsPageListTileFadeEffect] switches in/out the Text fade effect.
+  bool settingsPageListTileFadeEffect = true;
+
   /// Creates a copy of the current instance of [AppSettings].
   AppSettings copy() {
     AppSettings appSettingsData = AppSettings();
