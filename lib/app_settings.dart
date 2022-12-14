@@ -1,12 +1,17 @@
 //  Import flutter packages.
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 
+class AppSettings extends ChangeNotifier {
+  AppSettings() {
+    /// lets pretend we have to do some async initialization
+    // GetIt.instance.signalReady(this);
+  }
 
-//  ToDo: Add instance of AppSettingsData to AppSettings.
-class AppSettings {
   /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
   ///
   /// Used for debugging widget screen location.
@@ -14,6 +19,12 @@ class AppSettings {
 
   /// [settingsPageListTileFadeEffect] switches in/out the Text fade effect.
   bool settingsPageListTileFadeEffect = true;
+
+  void toggleSettingsPageListTileFadeEffect() {
+    print('Executing toggleSettingsPageListTileFadeEffect...');
+    settingsPageListTileFadeEffect = !settingsPageListTileFadeEffect;
+    notifyListeners();
+  }
 
   /// Creates a copy of the current instance of [AppSettings].
   AppSettings copy() {

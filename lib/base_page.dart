@@ -59,8 +59,6 @@ class _BasePageState extends State<BasePage> {
 
   @override
   void initState() {
-    super.initState();
-
     //  BasePage is built in two parts: (i) buttonArray, by the build
     //  function; and then (ii) buttonArray + pageContents, initiated by
     //  this post-frame callback.
@@ -81,6 +79,8 @@ class _BasePageState extends State<BasePage> {
         });
       }
     });
+
+    super.initState();
   }
 
   @override

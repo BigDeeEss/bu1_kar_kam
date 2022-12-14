@@ -1,5 +1,6 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings_data.dart';
@@ -80,15 +81,32 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: () {
-          AppSettings appSettingsData=
-              NotificationDataStore.of <AppSettings, DataNotification>(
-                context, const ValueKey('AppSettings')
-              ).data;
+          AppSettings appSettingsData =
+              NotificationDataStore.of<AppSettings, DataNotification>(
+                      context, const ValueKey('AppSettings'))
+                  .data;
           AppSettings appSettingsDataCopy = appSettingsData.copy();
           appSettingsDataCopy.drawLayoutBounds =
               !appSettingsData.drawLayoutBounds;
-          DataNotification<AppSettings>(data: appSettingsDataCopy).dispatch(context);
+          DataNotification<AppSettings>(data: appSettingsDataCopy)
+              .dispatch(context);
         },
+        trailing: Icon(
+          Icons.circle_notifications_outlined,
+          size: AppSettingsOrig.settingsPageListTileIconSize,
+        ),
+      ),
+      SettingsPageListTile(
+        basePageViewRect:
+            basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
+        guestRect: buttonArrayRect,
+        height: 75.0,
+        index: 6,
+        leading: Icon(
+          Icons.circle_notifications_outlined,
+          size: AppSettingsOrig.settingsPageListTileIconSize,
+        ),
+        onTap: GetIt.instance<AppSettings>().toggleSettingsPageListTileFadeEffect,
         trailing: Icon(
           Icons.circle_notifications_outlined,
           size: AppSettingsOrig.settingsPageListTileIconSize,
@@ -100,7 +118,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
           height: 75.0,
-          index: index + 6,
+          index: index + 7,
           leading: Icon(
             Icons.favorite,
             size: AppSettingsOrig.settingsPageListTileIconSize,
