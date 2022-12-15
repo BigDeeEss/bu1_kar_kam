@@ -10,6 +10,8 @@ class AppSettings extends ChangeNotifier {
   AppSettings() {
     /// lets pretend we have to do some async initialization
     // GetIt.instance.signalReady(this);
+    /// lets pretend we have to do some async initialization
+    // Future.delayed(Duration(seconds: 1)).then((_) => GetIt.instance.signalReady(this));
   }
 
   /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
