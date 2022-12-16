@@ -15,5 +15,5 @@ void main() {
   );
 
   //  Run the app.
-  runApp(const KarKam())
+  runApp(const KarKam());
 }
