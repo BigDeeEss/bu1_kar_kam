@@ -68,27 +68,67 @@ class _KarKamState extends State<_KarKam> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: GetIt.instance.allReady(),
-      builder: (context, snapshot) {
-        return NotificationDataStore<SettingsService, DataNotification>(
-          key: const ValueKey('AppSettings'),
-          data: appSettingsData,
-          child: BasePage(
-            pageSpec: settingsPage,
-            // pageSpec: filesPage,
-          ),
-          onNotification: (notification) {
-            //  Compare old to new and trigger setState if different.
-            if (!(appSettingsData == notification.data)) {
-              setState(() {
-                appSettingsData = notification.data;
-              });
-            }
-            return true;
-          },
-        );
+    return NotificationDataStore<SettingsService, DataNotification>(
+      key: const ValueKey('AppSettings'),
+      data: appSettingsData,
+      child: FutureBuilder(
+        future: GetIt.instance.allReady(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return BasePage(
+              pageSpec: settingsPage,
+              // pageSpec: filesPage,
+            );
+          } else {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Waiting for initialisation'),
+                SizedBox(
+                  height: 16,
+                ),
+                CircularProgressIndicator(),
+              ],
+            );
+          }
+        }
+      ),
+      onNotification: (notification) {
+        //  Compare old to new and trigger setState if different.
+        if (!(appSettingsData == notification.data)) {
+          setState(() {
+            appSettingsData = notification.data;
+          });
+        }
+        return true;
       },
     );
+
+
+
+
+    // return FutureBuilder(
+    //   future: GetIt.instance.allReady(),
+    //   builder: (context, snapshot) {
+    //     return NotificationDataStore<SettingsService, DataNotification>(
+    //       key: const ValueKey('AppSettings'),
+    //       data: appSettingsData,
+    //       child: BasePage(
+    //         pageSpec: settingsPage,
+    //         // pageSpec: filesPage,
+    //       ),
+    //       onNotification: (notification) {
+    //         //  Compare old to new and trigger setState if different.
+    //         if (!(appSettingsData == notification.data)) {
+    //           setState(() {
+    //             appSettingsData = notification.data;
+    //           });
+    //         }
+    //         return true;
+    //       },
+    //     );
+    //   },
+    // );
   }
 }

@@ -8,7 +8,9 @@ import 'package:kar_kam/lib/notification_data_store.dart';
 
 abstract class SettingsBase extends ChangeNotifier {
   bool get settingsPageListTileFadeEffect;
+
   void toggleSettingsPageListTileFadeEffect();
+
   set settingsPageListTileFadeEffect(bool value);
 }
 
@@ -17,7 +19,8 @@ class SettingsService extends SettingsBase {
     /// lets pretend we have to do some async initialization
     // GetIt.instance.signalReady(this);
     /// lets pretend we have to do some async initialization
-    Future.delayed(Duration(seconds: 1)).then((_) => GetIt.instance.signalReady(this));
+    Future.delayed(Duration(seconds: 1))
+        .then((_) => GetIt.instance.signalReady(this));
   }
 
   /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
@@ -53,12 +56,11 @@ class SettingsService extends SettingsBase {
   /// Checks equality between the current instance of [SettingsService]
   /// and other.
   @override
-  bool operator ==(Object other) {
-    return (other is SettingsService)
-        && other.drawLayoutBounds == drawLayoutBounds;
+  bool operator == (Object other) {
+    return (other is SettingsService) &&
+        other.drawLayoutBounds == drawLayoutBounds;
   }
 }
-
 
 // /// [NotificationDataStoreCallback] defines the form of callback that is
 // /// acceptable to [NotificationDataStore].
