@@ -6,12 +6,18 @@ import 'package:get_it/get_it.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 
-class AppSettings extends ChangeNotifier {
-  AppSettings() {
+abstract class SettingsBase extends ChangeNotifier {
+  bool get settingsPageListTileFadeEffect;
+  void toggleSettingsPageListTileFadeEffect();
+  set settingsPageListTileFadeEffect(bool value);
+}
+
+class SettingsService extends SettingsBase {
+  SettingsService() {
     /// lets pretend we have to do some async initialization
     // GetIt.instance.signalReady(this);
     /// lets pretend we have to do some async initialization
-    // Future.delayed(Duration(seconds: 1)).then((_) => GetIt.instance.signalReady(this));
+    Future.delayed(Duration(seconds: 1)).then((_) => GetIt.instance.signalReady(this));
   }
 
   /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
@@ -20,26 +26,35 @@ class AppSettings extends ChangeNotifier {
   bool drawLayoutBounds = true;
 
   /// [settingsPageListTileFadeEffect] switches in/out the Text fade effect.
-  bool settingsPageListTileFadeEffect = true;
+  bool _settingsPageListTileFadeEffect = true;
 
+  @override
+  bool get settingsPageListTileFadeEffect => _settingsPageListTileFadeEffect;
+
+  @override
+  set settingsPageListTileFadeEffect(bool value) {
+    _settingsPageListTileFadeEffect = value;
+  }
+
+  @override
   void toggleSettingsPageListTileFadeEffect() {
     print('Executing toggleSettingsPageListTileFadeEffect...');
     settingsPageListTileFadeEffect = !settingsPageListTileFadeEffect;
     notifyListeners();
   }
 
-  /// Creates a copy of the current instance of [AppSettings].
-  AppSettings copy() {
-    AppSettings appSettingsData = AppSettings();
+  /// Creates a copy of the current instance of [SettingsService].
+  SettingsService copy() {
+    SettingsService appSettingsData = SettingsService();
     appSettingsData.drawLayoutBounds = drawLayoutBounds;
     return appSettingsData;
   }
 
-  /// Checks equality between the current instance of [AppSettings]
+  /// Checks equality between the current instance of [SettingsService]
   /// and other.
   @override
   bool operator ==(Object other) {
-    return (other is AppSettings)
+    return (other is SettingsService)
         && other.drawLayoutBounds == drawLayoutBounds;
   }
 }

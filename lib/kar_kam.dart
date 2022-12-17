@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 import 'package:kar_kam/page_specs.dart';
@@ -38,7 +38,7 @@ class _KarKamState extends State<_KarKam> {
   //
   //  The instance of NotificationDataStore catches notifications of type
   //  DataNotification being sent up the widget tree from SettingsPageListTile.
-  AppSettings appSettingsData = AppSettings();
+  SettingsService appSettingsData = SettingsService();
 
   /// The [update] callback is used by the Listener attached to the registered
   /// instance of AppSettings
@@ -50,7 +50,7 @@ class _KarKamState extends State<_KarKam> {
 
   @override
   void dispose() {
-    GetIt.instance<AppSettings>().removeListener(update);
+    GetIt.instance<SettingsService>().removeListener(update);
 
     super.dispose();
   }
@@ -60,8 +60,8 @@ class _KarKamState extends State<_KarKam> {
     //  Get AppSettingsData held by GetIt in main.
     //  Access instance of the registered AppSettings (see GetIt in main).
     GetIt.instance
-        .isReady<AppSettings>()
-        .then((_) => GetIt.instance<AppSettings>().addListener(update));
+        .isReady<SettingsService>()
+        .then((_) => GetIt.instance<SettingsService>().addListener(update));
 
     super.initState();
   }
@@ -71,7 +71,7 @@ class _KarKamState extends State<_KarKam> {
     return FutureBuilder(
       future: GetIt.instance.allReady(),
       builder: (context, snapshot) {
-        return NotificationDataStore<AppSettings, DataNotification>(
+        return NotificationDataStore<SettingsService, DataNotification>(
           key: const ValueKey('AppSettings'),
           data: appSettingsData,
           child: BasePage(

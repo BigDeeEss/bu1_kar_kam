@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 
@@ -74,7 +74,7 @@ class BoxedContainer extends StatelessWidget {
       borderWidth: borderWidth,
       borderRadius: borderRadius,
       drawLayoutBounds:
-          NotificationDataStore.of<AppSettings, DataNotification>(
+          NotificationDataStore.of<SettingsService, DataNotification>(
                   context, const ValueKey('AppSettings')
           ).data.drawLayoutBounds,
     );

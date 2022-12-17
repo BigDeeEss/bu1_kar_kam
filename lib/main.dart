@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/kar_kam.dart';
 
 //  App start point.
 void main() {
   //  Define an instance of GetIt and register AppSettings.
-  GetIt.instance.registerSingleton<AppSettings>(
-    AppSettings(),
+  GetIt.instance.registerSingleton<SettingsService>(
+    SettingsService(),
     signalsReady: true,
   );
 

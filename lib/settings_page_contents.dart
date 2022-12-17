@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings_data.dart';
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
@@ -81,14 +81,14 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: () {
-          AppSettings appSettingsData =
-              NotificationDataStore.of<AppSettings, DataNotification>(
+          SettingsService appSettingsData =
+              NotificationDataStore.of<SettingsService, DataNotification>(
                       context, const ValueKey('AppSettings'))
                   .data;
-          AppSettings appSettingsDataCopy = appSettingsData.copy();
+          SettingsService appSettingsDataCopy = appSettingsData.copy();
           appSettingsDataCopy.drawLayoutBounds =
               !appSettingsData.drawLayoutBounds;
-          DataNotification<AppSettings>(data: appSettingsDataCopy)
+          DataNotification<SettingsService>(data: appSettingsDataCopy)
               .dispatch(context);
         },
         trailing: Icon(
@@ -106,7 +106,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           Icons.circle_notifications_outlined,
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
-        onTap: GetIt.instance<AppSettings>().toggleSettingsPageListTileFadeEffect,
+        onTap: GetIt.instance<SettingsService>().toggleSettingsPageListTileFadeEffect,
         trailing: Icon(
           Icons.circle_notifications_outlined,
           size: AppSettingsOrig.settingsPageListTileIconSize,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
@@ -350,7 +350,7 @@ class SettingsPageListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //  Get AppSettingsData held by GetIt in main.
-    AppSettings appSettings = GetIt.instance<AppSettings>();
+    SettingsService appSettings = GetIt.instance<SettingsService>();
 
     //  Build SettingsPageListTile each time the scroll position changes..
     return ValueListenableBuilder<double>(
