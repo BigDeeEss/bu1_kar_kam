@@ -9,14 +9,7 @@ import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 
-/// [BasePage] implements a generic page layout design.
-///
-/// [BasePage] presents a similar UI for each page/route with:
-///     1. an AppBar at the top with a title,
-///     2. specific screen contents including buttons for navigation
-///        and functionality, and
-///     3. a bottom navigation bar.
-class BasePage extends StatefulWidget {
+class BasePage extends StatelessWidget {
   const BasePage({
     Key? key,
     required this.pageSpec,
@@ -26,10 +19,35 @@ class BasePage extends StatefulWidget {
   final PageSpec pageSpec;
 
   @override
-  State<BasePage> createState() => _BasePageState();
+  Widget build(BuildContext context) {
+    return _BasePage(
+      pageSpec: pageSpec,
+    );
+  }
 }
 
-class _BasePageState extends State<BasePage> {
+
+/// [_BasePage] implements a generic page layout design.
+///
+/// [_BasePage] presents a similar UI for each page/route with:
+///     1. an AppBar at the top with a title,
+///     2. specific screen contents including buttons for navigation
+///        and functionality, and
+///     3. a bottom navigation bar.
+class _BasePage extends StatefulWidget {
+  const _BasePage({
+    Key? key,
+    required this.pageSpec,
+  }) : super(key: key);
+
+  /// [pageSpec] defines the page layout associated with each route.
+  final PageSpec pageSpec;
+
+  @override
+  State<_BasePage> createState() => _BasePageState();
+}
+
+class _BasePageState extends State<_BasePage> {
   /// [basePageViewKey] stores the GlobalKey which is passed to Stack so that
   /// widgets below this -- e.g. [SettingsPageContents] -- are able to get
   /// the available screen dimensions.
@@ -41,7 +59,7 @@ class _BasePageState extends State<BasePage> {
   /// [buttonArray] builds a linear horizontal or vertical array of buttons.
   ///
   /// [buttonArray] is referenced in the build and initState methods and
-  /// so must be instantiated at the point of [BasePage] creation.
+  /// so must be instantiated at the point of [_BasePage] creation.
   final ButtonArray buttonArray = ButtonArray();
 
   /// [buttonArrayRect] stores Rect information associated with [buttonArray].

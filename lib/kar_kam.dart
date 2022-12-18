@@ -24,10 +24,7 @@ class KarKam extends StatelessWidget {
 }
 
 class _KarKam extends StatefulWidget {
-  // _KarKam({super.key});
-  const _KarKam({
-    Key? key,
-  }) : super(key: key);
+  _KarKam({super.key});
 
   @override
   State<_KarKam> createState() => _KarKamState();
