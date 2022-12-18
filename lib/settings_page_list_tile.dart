@@ -349,8 +349,8 @@ class SettingsPageListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  Get AppSettingsData held by GetIt in main.
-    AppSettings appSettings = GetIt.instance<AppSettings>();
+    // //  Get AppSettingsData held by GetIt in main.
+    // AppSettings appSettings = GetIt.instance<AppSettings>();
 
     //  Build SettingsPageListTile each time the scroll position changes..
     return ValueListenableBuilder<double>(
@@ -401,7 +401,7 @@ class SettingsPageListTile extends StatelessWidget {
                           //  The following widget is either an instance of Align,
                           //  in which case it implements a fade effect for the
                           //  Text widget, or Container().
-                          appSettings.settingsPageListTileFadeEffect ? Align(
+                          AppSettingsOrig.settingsPageListTileFadeEffect ? Align(
                             alignment: Alignment.centerRight,
                             child: BoxedContainer(
                               width: AppSettingsOrig.settingsPageListTileIconSize,
