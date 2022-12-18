@@ -23,9 +23,17 @@ class KarKam extends StatelessWidget {
   }
 }
 
-class _KarKam extends StatelessWidget {
-  _KarKam({super.key});
+class _KarKam extends StatefulWidget {
+  // _KarKam({super.key});
+  const _KarKam({
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  State<_KarKam> createState() => _KarKamState();
+}
+
+class _KarKamState extends State<_KarKam> {
   /// [appSettingsData] stores all app settings.
   //
   //  The instance of NotificationDataStore catches notifications of type
@@ -55,9 +63,9 @@ class _KarKam extends StatelessWidget {
       onNotification: (notification) {
         //  Compare old to new and trigger setState if different.
         if (!(appSettingsData == notification.data)) {
-          // setState(() {
-          //   appSettingsData = notification.data;
-          // });
+          setState(() {
+            appSettingsData = notification.data;
+          });
         }
         return true;
       },
