@@ -107,7 +107,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: (() {}),
-        // onTap: GetIt.instance<AppSettings>().toggleSettingsPageListTileFadeEffect,
+        // onTap: () => GetIt.instance<APSettings>().toggleSettingsPageListTileFadeEffect,
         trailing: Icon(
           Icons.circle_notifications_outlined,
           size: AppSettingsOrig.settingsPageListTileIconSize,

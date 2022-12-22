@@ -9,10 +9,10 @@ import 'package:kar_kam/kar_kam.dart';
 //  App start point.
 void main() {
   //  Define an instance of GetIt and register AppSettings.
-  GetIt.instance.registerSingleton<AppSettings>(
-    AppSettings(),
-    signalsReady: true,
-  );
+  // GetIt.instance.registerSingleton<APSettings>(
+  //   AppSettings(),
+  //   signalsReady: true,
+  // );
 
   //  Run the app.
   runApp(const KarKam());

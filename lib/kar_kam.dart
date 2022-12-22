@@ -1,5 +1,6 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
@@ -36,6 +37,33 @@ class _KarKamState extends State<_KarKam> {
   //  The instance of NotificationDataStore catches notifications of type
   //  DataNotification being sent up the widget tree from SettingsPageListTile.
   AppSettings appSettingsData = AppSettings();
+
+  @override
+  void dispose() {
+    print('dispose executing...');
+    // GetIt.instance<APSettings>().removeListener(update);
+
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    //  Get AppSettingsData held by GetIt in main.
+    //  Access instance of the registered AppSettings (see GetIt in main).
+    // GetIt.instance
+    //     .isReady<AppSettings>()
+    //     .then((_) => GetIt.instance<APSettings>().addListener(update));
+
+    super.initState();
+  }
+
+  /// The [update] callback is used by the Listener attached to the registered
+  /// instance of AppSettings
+  // void update() => setState(() => {});
+  void update() {
+    print('update executing...');
+    setState(() => {});
+  }
 
   @override
   Widget build(BuildContext context) {
