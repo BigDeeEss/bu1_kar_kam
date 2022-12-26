@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import 'main.dart';
-
 abstract class AppModel extends ChangeNotifier {
   void incrementCounter();
 
@@ -14,7 +12,7 @@ class AppModelImplementation extends AppModel {
 
   AppModelImplementation() {
     /// lets pretend we have to do some async initialization
-    // Future.delayed(Duration(seconds: 3)).then((_) => GetIt.instance.signalReady(this));
+    Future.delayed(Duration(seconds: 3)).then((_) => GetIt.instance.signalReady(this));
   }
 
   @override
@@ -23,6 +21,7 @@ class AppModelImplementation extends AppModel {
   @override
   void incrementCounter() {
     _counter++;
+    print(_counter);
     notifyListeners();
   }
 }
