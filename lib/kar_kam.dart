@@ -1,6 +1,7 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kar_kam/app_model.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_settings.dart';
@@ -43,6 +44,7 @@ class _KarKamState extends State<_KarKam> {
     print('dispose executing...');
     // GetIt.instance<APSettings>().removeListener(update);
 
+    GetIt.instance<AppModel>().removeListener(update);
     super.dispose();
   }
 
@@ -53,6 +55,9 @@ class _KarKamState extends State<_KarKam> {
     // GetIt.instance
     //     .isReady<AppSettings>()
     //     .then((_) => GetIt.instance<APSettings>().addListener(update));
+    GetIt.instance
+        .isReady<AppModel>()
+        .then((_) => GetIt.instance<AppModel>().addListener(update));
 
     super.initState();
   }
@@ -67,33 +72,60 @@ class _KarKamState extends State<_KarKam> {
 
   @override
   Widget build(BuildContext context) {
-    //  NotificationDataStore catches notifications of type DataNotification
-    //  being sent up the widget tree from SettingsPageListTile.
-    //
-    //  A DataNotification sent from SettingsPageListTile contains an updated
-    //  instance of AppSettingsData. This update is checked against the original
-    //  value and, if different, uploaded by setState.
-    return NotificationDataStore<AppSettings, DataNotification>(
-      key: const ValueKey('AppSettings'),
-      data: appSettingsData,
-      child: MaterialApp(
-        title: '_KarKam',
-        //  BasePage invokes a generic page layout so that a similar UI is
-        //  presented for each page (route).
-        home: BasePage(
-          pageSpec: settingsPage,
-          // pageSpec: filesPage,
-        ),
+    //  Wrap FutureBuilder in Material in order to access theme data
+    //  for putting the 'has no data' text widget on screen.
+    return Material(
+      child: FutureBuilder(
+        future: GetIt.instance.allReady(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            //  The 'has no data' case.
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Waiting for initialisation'),
+                SizedBox(
+                  height: 16,
+                ),
+                CircularProgressIndicator(),
+              ],
+            );
+          } else {
+            //  The 'has data' case.
+
+            //  NotificationDataStore catches notifications of type DataNotification
+            //  being sent up the widget tree from SettingsPageListTile.
+            //
+            //  A DataNotification sent from SettingsPageListTile contains an updated
+            //  instance of AppSettingsData. This update is checked against the original
+            //  value and, if different, uploaded by setState.
+            return NotificationDataStore<AppSettings, DataNotification>(
+              key: const ValueKey('AppSettings'),
+              data: appSettingsData,
+              child: MaterialApp(
+                title: '_KarKam',
+                //  BasePage invokes a generic page layout so that a similar UI is
+                //  presented for each page (route).
+                home: BasePage(
+                  pageSpec: homePage,
+                  // pageSpec: settingsPage,
+                  // pageSpec: filesPage,
+                ),
+              ),
+              onNotification: (notification) {
+                //  Compare old to new and trigger setState if different.
+                if (!(appSettingsData == notification.data)) {
+                  setState(() {
+                    appSettingsData = notification.data;
+                  });
+                }
+                return true;
+              },
+            );
+          }
+        },
       ),
-      onNotification: (notification) {
-        //  Compare old to new and trigger setState if different.
-        if (!(appSettingsData == notification.data)) {
-          setState(() {
-            appSettingsData = notification.data;
-          });
-        }
-        return true;
-      },
     );
   }
 }

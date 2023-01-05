@@ -12,6 +12,7 @@ class AppModelImplementation extends AppModel {
 
   AppModelImplementation() {
     /// lets pretend we have to do some async initialization
+    print('executing AppModelImplementation constructor...');
     Future.delayed(Duration(seconds: 3)).then((_) => GetIt.instance.signalReady(this));
   }
 
