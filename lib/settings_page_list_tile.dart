@@ -29,6 +29,7 @@ class SettingsPageListTile extends StatelessWidget {
     this.leading,
     this.onTap,
     this.trailing,
+    this.widget,
   }) : super(key: key) {
     //  Create a representation of SettingsPageListTile at the correct
     //  initial location.
@@ -78,6 +79,9 @@ class SettingsPageListTile extends StatelessWidget {
 
   /// A widget to display on the right within [SettingsPageListTile].
   final Widget? trailing;
+
+  /// A widget to display between leading and trailing..
+  final Widget? widget;
 
   /// A construction Rect situated directly between [upperRect]
   /// and [lowerRect] having the same width as [guestRect].
@@ -391,11 +395,12 @@ class SettingsPageListTile extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: BoxedContainer(
-                              child: Text(
-                                '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                                maxLines: 1,
-                                softWrap: false,
-                              ),
+                              child: widget ?? Container(),
+                              // child: Text(
+                              //   '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+                              //   maxLines: 1,
+                              //   softWrap: false,
+                              // ),
                             ),
                           ),
                           //  The following widget is either an instance of Align,

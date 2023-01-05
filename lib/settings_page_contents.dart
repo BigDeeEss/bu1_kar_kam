@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_model.dart';
 import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
@@ -68,6 +69,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
             Icons.favorite,
             size: AppSettingsOrig.settingsPageListTileIconSize,
           ),
+          widget: Text(
+            '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+            maxLines: 1,
+            softWrap: false,
+          ),
         );
       }),
       SettingsPageListTile(
@@ -95,6 +101,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           Icons.circle_notifications_outlined,
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
+        widget: Text(
+          '5. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+          maxLines: 1,
+          softWrap: false,
+        ),
       ),
       SettingsPageListTile(
         basePageViewRect:
@@ -106,11 +117,18 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           Icons.circle_notifications_outlined,
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
-        onTap: (() {}),
+        onTap: (() {
+          GetIt.instance<AppModel>().incrementCounter;
+        }),
         // onTap: () => GetIt.instance<APSettings>().toggleSettingsPageListTileFadeEffect,
         trailing: Icon(
           Icons.circle_notifications_outlined,
           size: AppSettingsOrig.settingsPageListTileIconSize,
+        ),
+        widget: Text(
+          '6. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+          maxLines: 1,
+          softWrap: false,
         ),
       ),
       ...List<Widget>.generate(100, (int index) {
@@ -123,6 +141,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           leading: Icon(
             Icons.favorite,
             size: AppSettingsOrig.settingsPageListTileIconSize,
+          ),
+          widget: Text(
+            '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+            maxLines: 1,
+            softWrap: false,
           ),
         );
       }),
