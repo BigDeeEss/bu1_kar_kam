@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_model.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
@@ -406,7 +407,8 @@ class SettingsPageListTile extends StatelessWidget {
                           //  The following widget is either an instance of Align,
                           //  in which case it implements a fade effect for the
                           //  Text widget, or Container().
-                          AppSettingsOrig.settingsPageListTileFadeEffect ? Align(
+                          // AppSettingsOrig.settingsPageListTileFadeEffect ? Align(
+                          GetIt.instance<AppModel>().settingsPageListTileFadeEffect ? Align(
                             alignment: Alignment.centerRight,
                             child: BoxedContainer(
                               width: AppSettingsOrig.settingsPageListTileIconSize,

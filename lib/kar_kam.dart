@@ -39,6 +39,8 @@ class _KarKamState extends State<_KarKam> {
   //  DataNotification being sent up the widget tree from SettingsPageListTile.
   AppSettings appSettingsData = AppSettings();
 
+  bool test = true;
+
   @override
   void dispose() {
     print('dispose executing...');
@@ -67,7 +69,10 @@ class _KarKamState extends State<_KarKam> {
   // void update() => setState(() => {});
   void update() {
     print('update executing...');
-    setState(() => {});
+    setState(() {
+      print('setState executing...');
+      test = !test;
+    });
   }
 
   @override
