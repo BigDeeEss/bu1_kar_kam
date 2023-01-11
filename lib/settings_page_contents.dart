@@ -119,7 +119,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ),
         onTap: (() {
           GetIt.instance<AppModel>().toggleSettingsPageListTileFadeEffect();
-          GetIt.instance<AppModel>().incrementCounter();
+          setState(() => {});
+          // GetIt.instance<AppModel>().incrementCounter();
         }),
         // onTap: () => GetIt.instance<APSettings>().toggleSettingsPageListTileFadeEffect,
         trailing: Icon(
