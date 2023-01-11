@@ -102,7 +102,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         widget: Text(
-          '5. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+          '5. Click to switch drawLayoutBounds',
           maxLines: 1,
           softWrap: false,
         ),
@@ -118,7 +118,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: (() {
-          GetIt.instance<AppModel>().incrementCounter;
+          GetIt.instance<AppModel>().toggleSettingsPageListTileFadeEffect();
+          GetIt.instance<AppModel>().incrementCounter();
         }),
         // onTap: () => GetIt.instance<APSettings>().toggleSettingsPageListTileFadeEffect,
         trailing: Icon(
@@ -126,7 +127,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         widget: Text(
-          '6. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
+          '6. Click to toggle settingsPageListTileFadeEffect!',
           maxLines: 1,
           softWrap: false,
         ),

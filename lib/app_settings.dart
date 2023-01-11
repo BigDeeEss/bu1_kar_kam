@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/lib/data_notification.dart';
-import 'package:kar_kam/lib/notification_data_store.dart';
 
 abstract class APSettings extends ChangeNotifier {
   bool get settingsPageListTileFadeEffect;
