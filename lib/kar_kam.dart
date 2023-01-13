@@ -1,15 +1,17 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:kar_kam/app_model.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_model.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 import 'package:kar_kam/page_specs.dart';
 
+/// KarKam is a StatelessWidget wrapper for _KarKam, which encapsulates
+/// a FutureBuilder that waits for saved app settings data to be loaded.
 class KarKam extends StatelessWidget {
   const KarKam({super.key});
 
@@ -20,13 +22,15 @@ class KarKam extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: _KarKam(),
+      home: const _KarKam(),
     );
   }
 }
 
+/// _KarKam builds a FutureBuilder widget in order to take account of
+/// the async process associated with loading saved app setting data.
 class _KarKam extends StatefulWidget {
-  _KarKam({super.key});
+  const _KarKam({Key? key}) : super(key: key);
 
   @override
   State<_KarKam> createState() => _KarKamState();
@@ -39,24 +43,18 @@ class _KarKamState extends State<_KarKam> {
   //  DataNotification being sent up the widget tree from SettingsPageListTile.
   AppSettings appSettingsData = AppSettings();
 
-  bool test = true;
-
   @override
   void dispose() {
-    print('dispose executing...');
-    // GetIt.instance<APSettings>().removeListener(update);
-
     GetIt.instance<AppModel>().removeListener(update);
+
     super.dispose();
   }
 
   @override
   void initState() {
-    //  Get AppSettingsData held by GetIt in main.
-    //  Access instance of the registered AppSettings (see GetIt in main).
-    // GetIt.instance
-    //     .isReady<AppSettings>()
-    //     .then((_) => GetIt.instance<APSettings>().addListener(update));
+    //  Access the instance of the registered AppModel
+    //  As we don't know for sure if AppModel is already ready we use the
+    //  then method to add a listener only when it is ready.
     GetIt.instance
         .isReady<AppModel>()
         .then((_) => GetIt.instance<AppModel>().addListener(update));
@@ -65,21 +63,14 @@ class _KarKamState extends State<_KarKam> {
   }
 
   /// The [update] callback is used by the Listener attached to the registered
-  /// instance of AppSettings
-  // void update() => setState(() => {});
-  void update() {
-    print('update executing...');
-    setState(() {
-      print('setState executing...');
-      print('test = $test');
-      test = !test;
-    });
-  }
+  /// instance of AppModel.
+  void update() => setState(() => {});
 
   @override
   Widget build(BuildContext context) {
-    //  Wrap FutureBuilder in Material in order to access theme data
-    //  for putting the 'has no data' text widget on screen.
+    //  Wrap FutureBuilder in Material widget in order to access theme data
+    //  for putting the 'has no data' text widget on screen. Without this
+    //  the default is rather ugly.
     return Material(
       child: FutureBuilder(
         future: GetIt.instance.allReady(),
@@ -99,7 +90,7 @@ class _KarKamState extends State<_KarKam> {
             );
           } else {
             //  The 'has data' case.
-
+            //
             //  NotificationDataStore catches notifications of type DataNotification
             //  being sent up the widget tree from SettingsPageListTile.
             //
