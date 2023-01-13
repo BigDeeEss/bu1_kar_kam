@@ -9,6 +9,11 @@ import 'package:kar_kam/lib/data_store.dart' show DataStoreService;
 typedef NotificationDataStoreCallback<T extends Notification> = bool Function(
     T notification);
 
+/// NotificationDataStore listens for notifications of type U and then actions
+/// the callback [onNotification].
+/// In principle [onNotification] could be internalised, but since setState
+/// associated with a parent widget may be called as an action,
+/// [onNotification] is left to be defined.
 class NotificationDataStore<T, U extends Notification> extends StatelessWidget {
   const NotificationDataStore({
     required Key key,
@@ -20,12 +25,13 @@ class NotificationDataStore<T, U extends Notification> extends StatelessWidget {
   /// [child] is the immediate descendant of [NotificationDataStore].
   final Widget child;
 
-  /// [data] is passed to [DataStoreService] which makes
-  /// it available to all descendants in the widget tree.
+  /// [data] is passed to [DataStoreService] which makes it available
+  /// to all descendants in the widget tree.
   final T data;
 
-  /// [onNotification] is the user-supplied callback that defines what to
-  /// do when [data] is updated.
+  /// [onNotification] is the user-supplied callback that defines the
+  /// action when notifications of type U are received.
+  /// Usually, [onNotification] updates [data].
   final NotificationDataStoreCallback<U> onNotification;
 
   /// Allow widgets below [DataStore] in the widget tree to access
