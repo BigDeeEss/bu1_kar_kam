@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_model.dart';
-import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
@@ -354,9 +353,6 @@ class SettingsPageListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // //  Get AppSettingsData held by GetIt in main.
-    // AppSettings appSettings = GetIt.instance<AppSettings>();
-
     //  Build SettingsPageListTile each time the scroll position changes..
     return ValueListenableBuilder<double>(
       valueListenable: DataStore.of<ValueNotifier<double>>(
@@ -397,17 +393,11 @@ class SettingsPageListTile extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: BoxedContainer(
                               child: widget ?? Container(),
-                              // child: Text(
-                              //   '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
-                              //   maxLines: 1,
-                              //   softWrap: false,
-                              // ),
                             ),
                           ),
                           //  The following widget is either an instance of Align,
                           //  in which case it implements a fade effect for the
                           //  Text widget, or Container().
-                          // AppSettingsOrig.settingsPageListTileFadeEffect ? Align(
                           GetIt.instance<AppModel>().settingsPageListTileFadeEffect ? Align(
                             alignment: Alignment.centerRight,
                             child: BoxedContainer(

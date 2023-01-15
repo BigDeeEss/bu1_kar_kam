@@ -118,11 +118,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: (() {
+          //  Toggle bool variable in AppModel that controls the fade effect
+          //  and call setState so that the ListView is updated with 
           GetIt.instance<AppModel>().toggleSettingsPageListTileFadeEffect();
           setState(() => {});
-          // GetIt.instance<AppModel>().incrementCounter();
         }),
-        // onTap: () => GetIt.instance<APSettings>().toggleSettingsPageListTileFadeEffect,
         trailing: Icon(
           Icons.circle_notifications_outlined,
           size: AppSettingsOrig.settingsPageListTileIconSize,

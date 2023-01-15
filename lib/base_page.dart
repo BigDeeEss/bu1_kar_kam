@@ -9,6 +9,8 @@ import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 
+/// A wrapper for [_BasePage] which draws a similar UI for
+/// each page/route in _KarKam.
 class BasePage extends StatelessWidget {
   const BasePage({
     Key? key,
