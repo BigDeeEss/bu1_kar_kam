@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 abstract class AppModel extends ChangeNotifier {
   bool get settingsPageListTileFadeEffect;
 
-  void set settingsPageListTileFadeEffect(bool value);
+  set settingsPageListTileFadeEffect(bool value);
 
   void incrementCounter();
 
@@ -20,9 +20,10 @@ class AppModelImplementation extends AppModel {
   bool _settingsPageListTileFadeEffect = true;
 
   AppModelImplementation() {
-    /// lets pretend we have to do some async initialization
-    print('executing AppModelImplementation constructor...');
-    Future.delayed(Duration(seconds: 3)).then((_) => GetIt.instance.signalReady(this));
+    /// The loading of settings data from file will require some async
+    /// initialization, so simulate it here with a Future.delayed function.
+    Future.delayed(Duration(seconds: 3))
+        .then((_) => GetIt.instance.signalReady(this));
   }
 
   @override
@@ -32,23 +33,19 @@ class AppModelImplementation extends AppModel {
   bool get settingsPageListTileFadeEffect => _settingsPageListTileFadeEffect;
 
   @override
-  void set settingsPageListTileFadeEffect(bool value) {
+  set settingsPageListTileFadeEffect(bool value) {
     _settingsPageListTileFadeEffect = value;
   }
 
   @override
   void incrementCounter() {
     _counter++;
-    print(_counter);
     notifyListeners();
   }
 
   @override
   void toggleSettingsPageListTileFadeEffect() {
-    print('Toggling _settingsPageListTileFadeEffect...');
-    print(_settingsPageListTileFadeEffect);
     _settingsPageListTileFadeEffect = !_settingsPageListTileFadeEffect;
-    print(_settingsPageListTileFadeEffect);
     notifyListeners();
   }
 }
