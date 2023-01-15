@@ -1,7 +1,9 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
+import 'package:kar_kam/app_model.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
@@ -73,10 +75,11 @@ class BoxedContainer extends StatelessWidget {
       borderColor: borderColor,
       borderWidth: borderWidth,
       borderRadius: borderRadius,
-      drawLayoutBounds:
-          NotificationDataStore.of<AppSettings, DataNotification>(
-                  context, const ValueKey('AppSettings')
-          ).data.drawLayoutBounds,
+      drawLayoutBounds: GetIt.instance<AppModel>().drawLayoutBounds,
+      // drawLayoutBounds:
+      //     NotificationDataStore.of<AppSettings, DataNotification>(
+      //             context, const ValueKey('AppSettings')
+      //     ).data.drawLayoutBounds,
     );
   }
 }
