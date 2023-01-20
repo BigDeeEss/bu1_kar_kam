@@ -31,7 +31,7 @@ PageSpec filesPage = PageSpec(
 );
 
 //  Settings Home page specs.
-PageSpec settingsPage = PageSpec(
+PageSpec settingsPage = const PageSpec(
   title: 'Settings',
   contents: SettingsPageContents(),
 );

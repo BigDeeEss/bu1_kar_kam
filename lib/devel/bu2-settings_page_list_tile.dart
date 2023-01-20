@@ -3,10 +3,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
-import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 /// [SettingsPageListTile] implements a ListTile effect that is able to
@@ -180,7 +180,7 @@ class SettingsPageListTile extends StatelessWidget {
     //
     //  P sits on radii associated with the curved path segment and
     //  [SettingsPageLitTile] curved corner. Both radii lie on the same line.
-    double yP = (y + AppSettings.settingsPageListTileRadius) * r / (r + AppSettings.settingsPageListTileRadius);
+    double yP = (y + AppSettingsOrig.settingsPageListTileRadius) * r / (r + AppSettingsOrig.settingsPageListTileRadius);
 
     //  In order to avoid generating complex numbers aa + bb - 2ra > 0.
     assert(
@@ -215,7 +215,7 @@ class SettingsPageListTile extends StatelessWidget {
          print('a = $a');
          print('b = $b');
          print('r = $r');
-         print('rr = ${AppSettings.settingsPageListTileRadius}');
+         print('rr = ${AppSettingsOrig.settingsPageListTileRadius}');
          print('y = $y');
          print('yP = $yP');
          print('xP = $xP');
@@ -255,7 +255,7 @@ class SettingsPageListTile extends StatelessWidget {
     //  Build [SettingsPageListTile] each time the scroll position changes..
     return ValueListenableBuilder<double>(
       valueListenable:
-          DataNotifier.of(context, ValueKey('scrollPosition')).data,
+          GlobalData.of(context, ValueKey('scrollPosition')).data,
       builder: (BuildContext context, double value, __) {
         //  Calculate the degree of indentation/horizontal shrinkage to
         //  be applied to this instance of [SettingsPageListTile].
@@ -264,13 +264,13 @@ class SettingsPageListTile extends StatelessWidget {
         //  The topmost instance of Container, with the use of  xP to
         //  define margin, implements the variable width settings panel.
         return BoxedContainer(
-          margin: AppSettings.buttonAlignment.isLeft
+          margin: AppSettingsOrig.buttonAlignment.isLeft
               ? EdgeInsets.only(left:  xP)
               : EdgeInsets.only(right:  xP),
           height: height,
-          padding: AppSettings.settingsPageListTilePadding,
+          padding: AppSettingsOrig.settingsPageListTilePadding,
           child: BoxedContainer(
-            borderRadius: AppSettings.settingsPageListTileRadius,
+            borderRadius: AppSettingsOrig.settingsPageListTileRadius,
             color: Colors.pink[50],
             child: Stack(
               children: [
@@ -297,10 +297,10 @@ class SettingsPageListTile extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: BoxedContainer(
-                    width: 2 * AppSettings.settingsPageListTileIconSize,
+                    width: 2 * AppSettingsOrig.settingsPageListTileIconSize,
                     height: height,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSettings.settingsPageListTileRadius),
+                      borderRadius: BorderRadius.circular(AppSettingsOrig.settingsPageListTileRadius),
                       //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
                       gradient: LinearGradient(
                         begin: Alignment.centerLeft,

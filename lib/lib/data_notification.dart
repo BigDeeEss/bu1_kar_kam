@@ -1,12 +1,11 @@
 //  Import dart and flutter packages.
 import 'package:flutter/material.dart';
 
-/// [DataNotification] allows data of any sort to be bubbled up the
-/// widget tree.
-class DataNotification extends LayoutChangedNotification {
-  DataNotification({
+/// [DataNotification] bubbles data of any sort up the widget tree.
+class DataNotification<T> extends Notification {
+  const DataNotification({
     required this.data,
   });
 
-  var data;
+  final T data;
 }

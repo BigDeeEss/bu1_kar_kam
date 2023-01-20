@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
@@ -11,7 +11,7 @@ import 'package:kar_kam/lib/global_key_extension.dart';
 class ButtonArray extends StatelessWidget {
   ButtonArray({Key? key}) : super(key: key);
 
-  /// [buttonSpecList] defines the specs for each button in ButtonArray.
+  /// [buttonSpecList] defines the specs for each button in [ButtonArray].
   static List<ButtonSpec> buttonSpecList = [
     settingsButton,
     filesButton,
@@ -24,18 +24,18 @@ class ButtonArray extends StatelessWidget {
 
   /// [buttonCoords] gets coordinates relative to any corner.
   List<double> get buttonCoords {
-    //  Initialise [coordsList] so that it is ready for population.
+    //  Initialise coordsList so that it is ready for population.
     List<double> coordsList = [];
 
-    //  A length -- button width plus padding -- for defining [coordsList].
+    //  A length -- button width plus padding -- for defining coordsList.
     //  Two different values for dim determine whether the bounding boxes
     //  for each Button overlap.
     // double dim = 2 * (AppSettings.buttonRadiusInner +
     //         AppSettings.buttonPaddingMainAxisExtra);
-    double dim = 2 * (AppSettings.buttonRadius +
-            AppSettings.buttonPaddingMainAxisAlt);
+    double dim = 2 * (AppSettingsOrig.buttonRadius +
+            AppSettingsOrig.buttonPaddingMainAxisAlt);
 
-    //  Loop over items in [buttonSpecList] and convert each to its
+    //  Loop over items in buttonSpecList and convert each to its
     //  corresponding position.
     for (int i = 0; i < buttonSpecList.length; i++) {
       coordsList.add(dim * i);
@@ -48,13 +48,13 @@ class ButtonArray extends StatelessWidget {
     // Instantiate output variable as null initially.
     Rect? rect;
 
-    //  Loop over [buttonArrayGlobalKeys]. [buttonArrayGlobalKeys] has the
-    //  same length as [buttonSpecList].
+    //  Loop over buttonArrayGlobalKeys. buttonArrayGlobalKeys has the
+    //  same length as buttonSpecList.
     for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
       //  Get Rect data for ith button.
       Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
 
-      //  Build [rect] by giving it buttonRect initially, and then expanding
+      //  Build rect by giving it buttonRect initially, and then expanding
       //  it by sequentially adding the Rect value for each button.
       if (buttonRect != null) {
         //  If rect is null then overwrite with buttonRect, else expand
@@ -71,25 +71,25 @@ class ButtonArray extends StatelessWidget {
 
   /// [buttonArrayGenerator] generates a list of buttons from buttonSpecList.
   List<Widget> buttonArrayGenerator(BuildContext context) {
-    //  Initialise [button] and [buttonList] ready for population.
+    //  Initialise button and buttonList ready for population.
     List<Widget> buttonList = [];
 
-    //  Take a local copy of [buttonCoords] for speed.
+    //  Take a local copy of buttonCoords for speed.
     List<double> coords = buttonCoords;
 
-    //  Loop over items in [buttonSpecList] and convert each to its
+    //  Loop over items in buttonSpecList and convert each to its
     //  corresponding button.
     for (int i = 0; i < buttonSpecList.length; i++) {
       buttonArrayGlobalKeys.add(GlobalKey());
 
-      //  Define the button to be added to [buttonList] in this iteration.
+      //  Define the button to be added to buttonList in this iteration.
       Button button = Button(
         buttonSpec: buttonSpecList[i],
         key: buttonArrayGlobalKeys[i],
       );
 
       //  Treat horizontal and vertical axes differently.
-      if (AppSettings.buttonAxis == Axis.horizontal) {
+      if (AppSettingsOrig.buttonAxis == Axis.horizontal) {
         //  The top and bottom inputs to Positioned must be 0.0 or null,
         //  depending on whether the selected alignment is top or bottom.
         //
@@ -97,16 +97,16 @@ class ButtonArray extends StatelessWidget {
         //  coordinates or null, depending on whether the selected alignment is
         //  left or right.
         buttonList.add(Positioned(
-          top: (AppSettings.buttonAlignment.y < 0) ? 0 : null,
-          bottom: (AppSettings.buttonAlignment.y > 0) ? 0 : null,
-          left: (AppSettings.buttonAlignment.x < 0) ? coords[i] : null,
-          right: (AppSettings.buttonAlignment.x > 0) ? coords[i] : null,
+          top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
+          bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
+          left: (AppSettingsOrig.buttonAlignment.x < 0) ? coords[i] : null,
+          right: (AppSettingsOrig.buttonAlignment.x > 0) ? coords[i] : null,
           child: button,
         ));
       }
 
       //  Treat horizontal and vertical axes differently.
-      if (AppSettings.buttonAxis == Axis.vertical) {
+      if (AppSettingsOrig.buttonAxis == Axis.vertical) {
         //  The left and right inputs to Positioned must be 0.0 or null,
         //  depending on whether the selected alignment is left or right.
         //
@@ -114,10 +114,10 @@ class ButtonArray extends StatelessWidget {
         //  coordinates or null, depending on whether the selected alignment is
         //  top or bottom.
         buttonList.add(Positioned(
-          top: (AppSettings.buttonAlignment.y < 0) ? coords[i] : null,
-          bottom: (AppSettings.buttonAlignment.y > 0) ? coords[i] : null,
-          left: (AppSettings.buttonAlignment.x < 0) ? 0.0 : null,
-          right: (AppSettings.buttonAlignment.x > 0) ? 0.0 : null,
+          top: (AppSettingsOrig.buttonAlignment.y < 0) ? coords[i] : null,
+          bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? coords[i] : null,
+          left: (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
+          right: (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
           child: button,
         ));
       }
@@ -131,7 +131,7 @@ class ButtonArray extends StatelessWidget {
     List<Widget> buttonArray = buttonArrayGenerator(context);
 
     //  Return an instance of Stack with its children defined to be a
-    //  list of buttons. [buttonArray] is generated by [buttonArrayGenerator]
+    //  list of buttons. buttonArray is generated by buttonArrayGenerato
     //  and has length equal to buttonSpecList.length.
     return Stack(
       alignment: Alignment.bottomRight,

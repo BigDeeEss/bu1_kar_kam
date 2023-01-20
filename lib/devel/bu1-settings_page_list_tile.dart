@@ -3,9 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_settings.dart';
+import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
-import 'package:kar_kam/lib/data_notifier.dart';
+import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 /// [SettingsPageListTile] implements a ListTile effect that is able to
@@ -230,7 +230,7 @@ class SettingsPageListTile extends StatelessWidget {
     //  Build [SettingsPageListTile] each time the scroll position changes..
     return ValueListenableBuilder<double>(
       valueListenable:
-          DataNotifier.of(context, ValueKey('scrollPosition')).data,
+          GlobalData.of(context, ValueKey('scrollPosition')).data,
       builder: (BuildContext context, double value, __) {
         //  Calculate the degree of indentation/horizontal shrinkage to
         //  be applied to this instance of [SettingsPageListTile].
@@ -246,7 +246,7 @@ class SettingsPageListTile extends StatelessWidget {
         return Container(
           //  Draw bounding box around [SettingsPageListTile].
           decoration: BoxDecoration(
-            border: AppSettings.drawLayoutBounds
+            border: AppSettingsOrig.drawLayoutBounds
                 ? Border.all(width: 0.0, color: Colors.green)
                 : null,
             color: Colors.blue.withOpacity(0.5),
@@ -254,14 +254,14 @@ class SettingsPageListTile extends StatelessWidget {
               Radius.circular(12.0),
             ),
           ),
-          margin: AppSettings.buttonAlignment.isLeft
+          margin: AppSettingsOrig.buttonAlignment.isLeft
               ? EdgeInsets.only(left: deltaX)
               : EdgeInsets.only(right: deltaX),
           height: height,
           child: Container(
             //  Draw bounding box around [SettingsPageListTile].
             decoration: BoxDecoration(
-              border: AppSettings.drawLayoutBounds
+              border: AppSettingsOrig.drawLayoutBounds
                   ? Border.all(width: 0.0, color: Colors.redAccent)
                   : null,
               borderRadius: BorderRadius.all(
@@ -275,7 +275,7 @@ class SettingsPageListTile extends StatelessWidget {
                 child: Container(
                   //  Draw bounding box around [SettingsPageListTile].
                   decoration: BoxDecoration(
-                    border: AppSettings.drawLayoutBounds
+                    border: AppSettingsOrig.drawLayoutBounds
                         ? Border.all(width: 0.0, color: Colors.purple)
                         : null,
                     borderRadius: BorderRadius.all(
@@ -293,7 +293,7 @@ class SettingsPageListTile extends StatelessWidget {
                             child: Container(
                               //  Draw bounding box around [SettingsPageListTile].
                               decoration: BoxDecoration(
-                                border: AppSettings.drawLayoutBounds
+                                border: AppSettingsOrig.drawLayoutBounds
                                     ? Border.all(width: 0.0, color: Colors.pink)
                                     : null,
                                 borderRadius: BorderRadius.all(

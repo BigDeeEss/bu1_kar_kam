@@ -1,32 +1,17 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/base_page.dart';
-import 'package:kar_kam/page_specs.dart';
+import 'package:kar_kam/app_model.dart';
+import 'package:kar_kam/kar_kam.dart';
 
 //  App start point.
 void main() {
-  runApp(const _KarKam());
-}
+  //  Define an instance of GetIt and register AppModel.
+  GetIt.instance.registerSingleton<AppModel>(AppModelImplementation(),
+      signalsReady: true);
 
-/// [_KarKam] is the root widget of this project.
-///
-/// [_KarKam] loads an instance of [BasePage]; content is determined
-/// by [pageSpec].
-class _KarKam extends StatelessWidget {
-  const _KarKam({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '_KarKam',
-      //  BasePage invokes a generic page layout so that a similar UI is
-      //  presented for each page (route).
-      home: BasePage(
-        pageSpec: settingsPage,
-        // pageSpec: filesPage,
-      ),
-    );
-  }
+  //  Run the app.
+  runApp(KarKam());
 }
