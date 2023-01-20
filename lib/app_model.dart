@@ -33,7 +33,7 @@ class AppModelImplementation extends AppModel {
   AppModelImplementation() {
     /// The loading of settings data from file will require some async
     /// initialization, so simulate it here with a Future.delayed function.
-    Future.delayed(Duration(seconds: 3))
+    Future.delayed(Duration(seconds: 1))
         .then((_) => GetIt.instance.signalReady(this));
   }
 

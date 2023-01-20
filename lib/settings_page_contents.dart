@@ -89,8 +89,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         onTap: () {
           //  Toggle bool variable in AppModel that controls the fade effect
           //  and call setState so that the ListView is updated with
+          print(GetIt.instance<AppModel>().drawLayoutBounds);
           GetIt.instance<AppModel>().toggleDrawLayoutBounds();
-          setState(() => {});
+          print(GetIt.instance<AppModel>().drawLayoutBounds);
+          // setState(() => {});
           // AppSettings appSettingsData =
           //     NotificationDataStore.of<AppSettings, DataNotification>(
           //             context, const ValueKey('AppSettings'))

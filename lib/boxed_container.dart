@@ -1,6 +1,7 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:get_it_mixin/get_it_mixin.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_model.dart';
@@ -15,8 +16,8 @@ import 'package:kar_kam/lib/notification_data_store.dart';
 ///
 /// [BoxedContainer] defaults to Container if AppSettings.drawLayoutBounds
 /// is false.
-class BoxedContainer extends StatelessWidget {
-  const BoxedContainer({
+class BoxedContainer extends StatelessWidget with GetItMixin {
+  BoxedContainer({
     Key? key,
     this.alignment,
     this.child,
@@ -58,6 +59,7 @@ class BoxedContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool localDrawLayoutBounds = watchOnly((AppModel m) => m.drawLayoutBounds);
     return _BoxedContainer(
       alignment: alignment,
       child: child,
@@ -75,7 +77,8 @@ class BoxedContainer extends StatelessWidget {
       borderColor: borderColor,
       borderWidth: borderWidth,
       borderRadius: borderRadius,
-      drawLayoutBounds: GetIt.instance<AppModel>().drawLayoutBounds,
+      drawLayoutBounds: localDrawLayoutBounds,
+      // drawLayoutBounds: GetIt.instance<AppModel>().drawLayoutBounds,
       // drawLayoutBounds:
       //     NotificationDataStore.of<AppSettings, DataNotification>(
       //             context, const ValueKey('AppSettings')

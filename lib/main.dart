@@ -13,5 +13,5 @@ void main() {
       signalsReady: true);
 
   //  Run the app.
-  runApp(const KarKam());
+  runApp(KarKam());
 }
