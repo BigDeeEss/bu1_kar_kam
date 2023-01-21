@@ -2,6 +2,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:get_it_mixin/get_it_mixin.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_model.dart';
@@ -19,6 +20,7 @@ import 'package:kar_kam/lib/rect_extension.dart';
 double sf = 1.125;
 
 /// Implements a ListTile that is able to slide around [guestRect].
+//  ignore: must_be_immutable
 class SettingsPageListTile extends StatelessWidget {
   SettingsPageListTile({
     Key? key,
@@ -85,14 +87,14 @@ class SettingsPageListTile extends StatelessWidget {
 
   /// A construction Rect situated directly between [upperRect]
   /// and [lowerRect] having the same width as [guestRect].
-  Rect? centreRect;
+  late Rect? centreRect;
 
   /// A representation of [SettingsPageListTile] at its initial location.
   late Rect hostRect;
 
   /// The construction Rect that overlaps with [guestRect.bottomLeft] and
   /// [guestRect.bottomRight] and has the same width as [guestRect].
-  Rect? lowerRect;
+  late Rect? lowerRect;
 
   /// A combined corner radius using [AppSettingsOrig.settingsPageListTileRadius]
   /// and [AppSettingsOrig.settingsPageListTilePadding].
@@ -104,7 +106,7 @@ class SettingsPageListTile extends StatelessWidget {
 
   /// The construction Rect that overlaps with [guestRect.topLeft] and
   /// [guestRect.topRight] and has the same width as [guestRect].
-  Rect? upperRect;
+  late Rect? upperRect;
 
   /// The maximum xP before the Opacity widget hides [SettingsPageListTile].
   late double xPMax;
@@ -375,7 +377,8 @@ class SettingsPageListTile extends StatelessWidget {
                 ? EdgeInsets.only(left: xP)
                 : EdgeInsets.only(right: xP),
             height: height,
-            padding: EdgeInsets.all(AppSettingsOrig.settingsPageListTilePadding),
+            padding:
+                EdgeInsets.all(AppSettingsOrig.settingsPageListTilePadding),
             child: InkWell(
               onTap: onTap,
               child: BoxedContainer(
@@ -395,36 +398,42 @@ class SettingsPageListTile extends StatelessWidget {
                               child: widget ?? Container(),
                             ),
                           ),
-                          //  The following widget is either an instance of Align,
-                          //  in which case it implements a fade effect for the
-                          //  Text widget, or Container().
-                          GetIt.instance<AppModel>().settingsPageListTileFadeEffect ? Align(
-                            alignment: Alignment.centerRight,
-                            child: BoxedContainer(
-                              width: AppSettingsOrig.settingsPageListTileIconSize,
-                              height: height,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    AppSettingsOrig.settingsPageListTileRadius),
-                                //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-                                gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  stops: [
-                                    0.0,
-                                    0.5,
-                                    1.0,
-                                  ],
-                                  colors: [
-                                    //create 2 white colors, one transparent
-                                    Colors.pink[200]!.withOpacity(0.0),
-                                    Colors.pink[200]!.withOpacity(1.0),
-                                    Colors.pink[200]!.withOpacity(1.0),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ) : Container(),
+                          _FadingOverlay(height: height),
+                          // //  The following widget is either an instance of Align,
+                          // //  in which case it implements a fade effect for the
+                          // //  Text widget, or Container().
+                          // GetIt.instance<AppModel>()
+                          //         .settingsPageListTileFadeEffect
+                          //     ? Align(
+                          //         alignment: Alignment.centerRight,
+                          //         child: BoxedContainer(
+                          //           width: AppSettingsOrig
+                          //               .settingsPageListTileIconSize,
+                          //           height: height,
+                          //           decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(
+                          //                 AppSettingsOrig
+                          //                     .settingsPageListTileRadius),
+                          //             //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
+                          //             gradient: LinearGradient(
+                          //               begin: Alignment.centerLeft,
+                          //               end: Alignment.centerRight,
+                          //               stops: [
+                          //                 0.0,
+                          //                 0.5,
+                          //                 1.0,
+                          //               ],
+                          //               colors: [
+                          //                 //create 2 white colors, one transparent
+                          //                 Colors.pink[200]!.withOpacity(0.0),
+                          //                 Colors.pink[200]!.withOpacity(1.0),
+                          //                 Colors.pink[200]!.withOpacity(1.0),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       )
+                          //     : Container(),
                         ],
                       ),
                     ),
@@ -439,5 +448,51 @@ class SettingsPageListTile extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class _FadingOverlay extends StatelessWidget with GetItMixin {
+  _FadingOverlay({
+    Key? key,
+    required this.height,
+  }) : super(key: key);
+
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool localSettingsPageListTileFadeEffect =
+        watchOnly((AppModel m) => m.settingsPageListTileFadeEffect);
+
+    //  The following widget is either an instance of Align,
+    //  in which case it implements a fade effect for the
+    //  Text widget, or Container().
+    return localSettingsPageListTileFadeEffect ? Align(
+      alignment: Alignment.centerRight,
+      child: BoxedContainer(
+        width: AppSettingsOrig.settingsPageListTileIconSize,
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+              AppSettingsOrig.settingsPageListTileRadius),
+          //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            stops: [
+              0.0,
+              0.5,
+              1.0,
+            ],
+            colors: [
+              //create 2 white colors, one transparent
+              Colors.pink[200]!.withOpacity(0.0),
+              Colors.pink[200]!.withOpacity(1.0),
+              Colors.pink[200]!.withOpacity(1.0),
+            ],
+          ),
+        ),
+      ),
+    ) : Container();
   }
 }

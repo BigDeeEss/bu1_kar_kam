@@ -87,21 +87,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: () {
-          //  Toggle bool variable in AppModel that controls the fade effect
-          //  and call setState so that the ListView is updated with
-          print(GetIt.instance<AppModel>().drawLayoutBounds);
+          //  Toggle bool variable in AppModel that controls the fade effect.
           GetIt.instance<AppModel>().toggleDrawLayoutBounds();
-          print(GetIt.instance<AppModel>().drawLayoutBounds);
-          // setState(() => {});
-          // AppSettings appSettingsData =
-          //     NotificationDataStore.of<AppSettings, DataNotification>(
-          //             context, const ValueKey('AppSettings'))
-          //         .data;
-          // AppSettings appSettingsDataCopy = appSettingsData.copy();
-          // appSettingsDataCopy.drawLayoutBounds =
-          //     !appSettingsData.drawLayoutBounds;
-          // DataNotification<AppSettings>(data: appSettingsDataCopy)
-          //     .dispatch(context);
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -124,10 +111,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: (() {
-          //  Toggle bool variable in AppModel that controls the fade effect
-          //  and call setState so that the ListView is updated with 
+          //  Toggle bool variable in AppModel that controls the fade effect.
           GetIt.instance<AppModel>().toggleSettingsPageListTileFadeEffect();
-          setState(() => {});
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
