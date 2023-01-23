@@ -9,7 +9,7 @@ import 'package:kar_kam/kar_kam.dart';
 //  App start point.
 void main() {
   //  Define an instance of GetIt and register AppModel.
-  GetIt.instance.registerSingleton<AppModel>(AppModelImplementation(),
+  GetIt.instance.registerSingleton<AppModel>(AppModel(),
       signalsReady: true);
 
   //  Run the app.

@@ -399,41 +399,6 @@ class SettingsPageListTile extends StatelessWidget {
                             ),
                           ),
                           _FadingOverlay(height: height),
-                          // //  The following widget is either an instance of Align,
-                          // //  in which case it implements a fade effect for the
-                          // //  Text widget, or Container().
-                          // GetIt.instance<AppModel>()
-                          //         .settingsPageListTileFadeEffect
-                          //     ? Align(
-                          //         alignment: Alignment.centerRight,
-                          //         child: BoxedContainer(
-                          //           width: AppSettingsOrig
-                          //               .settingsPageListTileIconSize,
-                          //           height: height,
-                          //           decoration: BoxDecoration(
-                          //             borderRadius: BorderRadius.circular(
-                          //                 AppSettingsOrig
-                          //                     .settingsPageListTileRadius),
-                          //             //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-                          //             gradient: LinearGradient(
-                          //               begin: Alignment.centerLeft,
-                          //               end: Alignment.centerRight,
-                          //               stops: [
-                          //                 0.0,
-                          //                 0.5,
-                          //                 1.0,
-                          //               ],
-                          //               colors: [
-                          //                 //create 2 white colors, one transparent
-                          //                 Colors.pink[200]!.withOpacity(0.0),
-                          //                 Colors.pink[200]!.withOpacity(1.0),
-                          //                 Colors.pink[200]!.withOpacity(1.0),
-                          //               ],
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       )
-                          //     : Container(),
                         ],
                       ),
                     ),
@@ -451,6 +416,8 @@ class SettingsPageListTile extends StatelessWidget {
   }
 }
 
+/// [_FadingOverlay] is either an instance of Align, in which case it
+/// implements a right-aligned fade effect on top of the widget, or Container().
 class _FadingOverlay extends StatelessWidget with GetItMixin {
   _FadingOverlay({
     Key? key,
@@ -464,9 +431,6 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
     final bool localSettingsPageListTileFadeEffect =
         watchOnly((AppModel m) => m.settingsPageListTileFadeEffect);
 
-    //  The following widget is either an instance of Align,
-    //  in which case it implements a fade effect for the
-    //  Text widget, or Container().
     return localSettingsPageListTileFadeEffect ? Align(
       alignment: Alignment.centerRight,
       child: BoxedContainer(
