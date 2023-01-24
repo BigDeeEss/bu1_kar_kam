@@ -75,7 +75,7 @@ class BoxedContainer extends StatelessWidget {
       borderColor: borderColor,
       borderWidth: borderWidth,
       borderRadius: borderRadius,
-      drawLayoutBounds: GetIt.instance<AppModel>().drawLayoutBounds,
+      drawLayoutBounds: GetIt.instance<AppModel>().drawLayoutBounds.value,
       // drawLayoutBounds:
       //     NotificationDataStore.of<AppSettings, DataNotification>(
       //             context, const ValueKey('AppSettings')

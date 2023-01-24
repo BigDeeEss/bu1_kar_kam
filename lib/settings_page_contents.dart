@@ -90,7 +90,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           //  Toggle bool variable in AppModel that controls the fade effect
           //  and call setState so that the ListView is updated with
           GetIt.instance<AppModel>().toggleDrawLayoutBounds();
-          setState(() => {});
+          // setState(() => {});
           // AppSettings appSettingsData =
           //     NotificationDataStore.of<AppSettings, DataNotification>(
           //             context, const ValueKey('AppSettings'))
@@ -125,7 +125,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           //  Toggle bool variable in AppModel that controls the fade effect
           //  and call setState so that the ListView is updated with 
           GetIt.instance<AppModel>().toggleSettingsPageListTileFadeEffect();
-          setState(() => {});
+          // setState(() => {});
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
