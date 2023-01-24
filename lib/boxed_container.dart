@@ -33,7 +33,6 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
     this.transformAlignment,
     this.width,
     this.borderColor,
-    this.borderWidth,
     this.borderRadius,
   }) : super(key: key);
 
@@ -54,12 +53,12 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
 
   //  _BoxedContainer-specific variables.
   final Color? borderColor;
-  final double? borderWidth;
   final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
     final bool localDrawLayoutBounds = watchOnly((AppModel m) => m.drawLayoutBounds);
+    final double localBoxedContainerBorderWidth = watchOnly((AppModel m) => m.boxedContainerBorderWidth);
     return _BoxedContainer(
       alignment: alignment,
       child: child,
@@ -75,7 +74,7 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
       transformAlignment: transformAlignment,
       width: width,
       borderColor: borderColor,
-      borderWidth: borderWidth,
+      borderWidth: localBoxedContainerBorderWidth,
       borderRadius: borderRadius,
       drawLayoutBounds: localDrawLayoutBounds,
       // drawLayoutBounds: GetIt.instance<AppModel>().drawLayoutBounds,

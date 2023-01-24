@@ -31,6 +31,8 @@ class AppModel extends ChangeNotifier {
   /// [settingsPageListTileFadeEffect] switches in/out the Text fade effect.
   bool _settingsPageListTileFadeEffect = true;
 
+  double _boxedContainerBorderWidth = 0.1;
+
   AppModel() {
     /// The loading of settings data from file will require some async
     /// initialization, so simulate it here with a Future.delayed function.
@@ -40,6 +42,8 @@ class AppModel extends ChangeNotifier {
 
   // @override
   int get counter => _counter;
+
+  double get boxedContainerBorderWidth => _boxedContainerBorderWidth;
 
   // @override
   bool get drawLayoutBounds => _drawLayoutBounds;

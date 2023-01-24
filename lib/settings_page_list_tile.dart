@@ -431,8 +431,8 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
     final bool localSettingsPageListTileFadeEffect =
         watchOnly((AppModel m) => m.settingsPageListTileFadeEffect);
 
-    return localSettingsPageListTileFadeEffect ? Align(
-      alignment: Alignment.centerRight,
+    return localSettingsPageListTileFadeEffect ? Positioned(
+      right: 0.0,
       child: BoxedContainer(
         width: AppSettingsOrig.settingsPageListTileIconSize,
         height: height,
