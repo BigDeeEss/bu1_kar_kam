@@ -7,7 +7,9 @@ class GetItService {
   //   getItServiceInitialise();
   // }
 
-  static void dispose<T extends ChangeNotifier>() {}
+  static void dispose<T extends ChangeNotifier>(VoidCallback callBack) {
+    GetIt.instance<T>().removeListener(callBack);
+  }
 
   static void init<T extends ChangeNotifier>(VoidCallback callBack) {
     print('executing init...');
@@ -16,10 +18,18 @@ class GetItService {
         .then((_) => GetIt.instance<T>().addListener(callBack));
   }
 
+  static T instance<T extends ChangeNotifier>() {
+    return GetIt.instance<T>();
+  }
+
   //  Define an instance of GetIt and register T.
   static void register<T extends ChangeNotifier>(T instance) {
     print('executing register...');
     GetIt.instance.registerSingleton<T>(instance, signalsReady: true);
+  }
+
+  static void signalReady<T extends ChangeNotifier>(T instance) {
+    GetIt.instance.signalReady(instance);
   }
 
   // void getItServiceInitialise() {

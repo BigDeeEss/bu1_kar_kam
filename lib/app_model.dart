@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:kar_kam/get_it_service.dart';
 
 // abstract class AppModel extends ChangeNotifier {
 //   bool get drawLayoutBounds;
@@ -36,8 +36,10 @@ class AppModel extends ChangeNotifier {
   AppModel() {
     /// The loading of settings data from file will require some async
     /// initialization, so simulate it here with a Future.delayed function.
+    // Future.delayed(Duration(seconds: 1))
+    //     .then((_) => GetIt.instance.signalReady(this));
     Future.delayed(Duration(seconds: 1))
-        .then((_) => GetIt.instance.signalReady(this));
+        .then((_) => GetItService.signalReady<AppModel>(this));
   }
 
   // @override

@@ -12,5 +12,5 @@ void main() {
   GetItService.register<AppModel>(AppModel());
 
   //  Run the app.
-  runApp(KarKam());
+  runApp(const KarKam());
 }

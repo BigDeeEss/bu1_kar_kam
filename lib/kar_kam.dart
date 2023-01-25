@@ -47,7 +47,11 @@ class _KarKamState extends State<_KarKam> {
 
   @override
   void dispose() {
-    GetIt.instance<AppModel>().removeListener(update);
+    print('executing dispose...');
+    // GetIt.instance<AppModel>().removeListener(update);
+    GetItService.dispose<AppModel>(update);
+    // // GetIt.instance<AppModel>().removeListener(update);
+    // GetItService.dispose<AppModel>(update);
 
     super.dispose();
   }
