@@ -9,9 +9,18 @@ import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 
-/// A wrapper for [_BasePage] which draws a similar UI for
-/// each page/route in _KarKam.
-class BasePage extends StatelessWidget {
+/// [BasePage] implements a generic page layout design.
+///
+/// [BasePage] presents a similar UI for each page/route with:
+///     1. an AppBar at the top with a title,
+///     2. specific screen contents including buttons for navigation
+///        and functionality, and
+///     3. a bottom navigation bar.
+///
+/// [BasePage] is an extension of StatefulWidget because a combination of
+/// initState and WidgetsBinding.instance.addPostFrameCallback is used for
+/// getting [buttonArrayRect].
+class BasePage extends StatefulWidget {
   const BasePage({
     Key? key,
     required this.pageSpec,
@@ -21,38 +30,15 @@ class BasePage extends StatelessWidget {
   final PageSpec pageSpec;
 
   @override
-  Widget build(BuildContext context) {
-    return _BasePage(
-      pageSpec: pageSpec,
-    );
-  }
+  State<BasePage> createState() => BasePageState();
 }
 
-
-/// [_BasePage] implements a generic page layout design.
-///
-/// [_BasePage] presents a similar UI for each page/route with:
-///     1. an AppBar at the top with a title,
-///     2. specific screen contents including buttons for navigation
-///        and functionality, and
-///     3. a bottom navigation bar.
-class _BasePage extends StatefulWidget {
-  const _BasePage({
-    Key? key,
-    required this.pageSpec,
-  }) : super(key: key);
-
-  /// [pageSpec] defines the page layout associated with each route.
-  final PageSpec pageSpec;
-
-  @override
-  State<_BasePage> createState() => _BasePageState();
-}
-
-class _BasePageState extends State<_BasePage> {
-  /// [basePageViewKey] stores the GlobalKey which is passed to Stack so that
-  /// widgets below this -- e.g. [SettingsPageContents] -- are able to get
-  /// the available screen dimensions.
+class BasePageState extends State<BasePage> {
+  /// [basePageViewKey] stores the GlobalKey required for calculating
+  /// available screen dimensions.
+  ///
+  /// [basePageViewKey] is passed to Stack so that widgets below
+  /// this -- e.g. [SettingsPageContents] -- can calculate screen dimensions.
   GlobalKey basePageViewKey = GlobalKey();
 
   /// [basePageViewRect] stores the available screen dimensions as Rect data.
@@ -61,38 +47,38 @@ class _BasePageState extends State<_BasePage> {
   /// [buttonArray] builds a linear horizontal or vertical array of buttons.
   ///
   /// [buttonArray] is referenced in the build and initState methods and
-  /// so must be instantiated at the point of [_BasePage] creation.
+  /// so must be instantiated at the point of [BasePage] creation.
   final ButtonArray buttonArray = ButtonArray();
 
   /// [buttonArrayRect] stores Rect information associated with [buttonArray].
   Rect? buttonArrayRect = Rect.zero;
 
+  /// [pageContents] specifies UI characteristics.
+  ///
   /// [pageContents] (initially null) is updated by setState in a
-  /// postFrameCallback.
-  ///
-  /// [pageContents] may depend on knowledge of the existence of [buttonArray].
-  /// and so must be built after [buttonArray] in a post-frame callback.
-  ///
-  /// An example is [SettingsPageContents] which requires the Rect data
-  /// associated with [buttonArray] to be known before it is built.
+  /// postFrameCallback. [pageContents] may depend on knowledge of the
+  /// existence of [buttonArray], and so therefore must be built after
+  /// [buttonArray] in a post-frame callback. An example is
+  /// [SettingsPageContents] which requires [buttonArratRect] to be known
+  /// before it is built.
   Widget? pageContents;
 
   @override
   void initState() {
     //  BasePage is built in two parts: (i) buttonArray, by the build
     //  function; and then (ii) buttonArray + pageContents, initiated by
-    //  this post-frame callback.
+    //  the following post-frame callback.
     //
-    //  BasePage is built in two parts as pageContents may require
-    //  the position of buttonArray -- see for example SettingsPageContents.
+    //  BasePage is built in two parts because pageContents may require
+    //  [buttonArrayRect] -- e.g. SettingsPageContents -- to be known.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //  Get basePageView Rect data and update basePageViewRect].
+      //  Get basePageView Rect data and update [basePageViewRect].
       basePageViewRect = basePageViewKey.globalPaintBounds;
 
-      //  Get buttonArray Rect data and update buttonArrayRect.
+      //  Get buttonArray Rect data and update [buttonArrayRect].
       buttonArrayRect = buttonArray.rect;
 
-      //  Rebuild widget with pageSpec.contents instead of Container().
+      //  Rebuild widget with [pageSpec.contents] instead of Container().
       if (pageContents == null) {
         setState(() {
           pageContents = widget.pageSpec.contents;
@@ -109,16 +95,16 @@ class _BasePageState extends State<_BasePage> {
       appBar: AppBar(
         title: Text(widget.pageSpec.title),
       ),
-      //  Use Builder widget to generate a BottomAppBar because it is not
-      //  possible to get the appBar height from the current BuildContext since
-      //  this instance of Scaffold hasn't been built yet.
+      //  Use Builder widget to generate a BottomAppBar.
+      //
+      //  It is not possible to get the appBar height from the current
+      //  BuildContext since this instance of Scaffold hasn't been built yet.
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           //  Get appBar height from context.
           double appBarHeight =
               MediaQuery.of(context).padding.top + kToolbarHeight;
 
-          // This instance of Builder returns BottomAppBar.
           return BottomAppBar(
             color: Colors.blue,
             child: SizedBox(
