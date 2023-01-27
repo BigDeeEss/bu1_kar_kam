@@ -1,14 +1,11 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_model.dart';
 import 'package:kar_kam/app_settings_data.dart';
-import 'package:kar_kam/app_settings.dart';
-import 'package:kar_kam/lib/data_notification.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/data_store.dart';
-import 'package:kar_kam/lib/notification_data_store.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
 /// [SettingsPageContents] implements a settings page with
@@ -88,7 +85,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ),
         onTap: () {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetIt.instance<AppModel>().toggleDrawLayoutBounds();
+          GetItService.instance<AppModel>().toggleDrawLayoutBounds();
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -112,7 +109,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ),
         onTap: (() {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetIt.instance<AppModel>().toggleSettingsPageListTileFadeEffect();
+          GetItService.instance<AppModel>().toggleSettingsPageListTileFadeEffect();
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,

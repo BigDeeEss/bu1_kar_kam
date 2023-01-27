@@ -1,12 +1,11 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_model.dart';
 import 'package:kar_kam/app_settings.dart';
 import 'package:kar_kam/base_page.dart';
-import 'package:kar_kam/get_it_service.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/data_notification.dart';
 import 'package:kar_kam/lib/notification_data_store.dart';
 import 'package:kar_kam/page_specs.dart';
@@ -63,7 +62,7 @@ class _KarKamState extends State<_KarKam> {
     //  Access the instance of the registered AppModel
     //  As we don't know for sure if AppModel is already ready we use the
     //  then method to add a listener only when it is ready.
-    GetItService.init<AppModel>(() {});
+    GetItService.addListener<AppModel>(() {});
     // GetIt.instance
     //     .isReady<AppModel>()
     //     .then((_) => GetIt.instance<AppModel>().addListener(update));
@@ -83,7 +82,7 @@ class _KarKamState extends State<_KarKam> {
     return Settings(
       child: Material(
         child: FutureBuilder(
-          future: GetIt.instance.allReady(),
+          future: GetItService.allReady(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               //  The 'has no data' case.

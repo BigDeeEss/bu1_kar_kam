@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kar_kam/get_it_service.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 
 // abstract class AppModel extends ChangeNotifier {
 //   bool get drawLayoutBounds;
