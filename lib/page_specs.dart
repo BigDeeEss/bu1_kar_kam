@@ -11,26 +11,26 @@ class PageSpec {
     required this.contents,
   });
 
-  /// Page [title].
+  /// The [title] associated with each page/route.
   final String title;
 
-  /// Page [contents].
+  /// The [contents] associated with each page/route.
   final Widget contents;
 }
 
-//  Home page specs.
+/// Home page specs.
 PageSpec homePage = PageSpec(
   title: 'Home',
   contents: Container(),
 );
 
-//  Home page specs.
+/// Files page specs.
 PageSpec filesPage = PageSpec(
   title: 'Files',
   contents: Container(),
 );
 
-//  Settings Home page specs.
+/// Settings page specs.
 PageSpec settingsPage = const PageSpec(
   title: 'Settings',
   contents: SettingsPageContents(),

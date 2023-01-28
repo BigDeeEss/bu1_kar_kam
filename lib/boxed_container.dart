@@ -1,21 +1,15 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/app_model.dart';
-import 'package:kar_kam/app_settings.dart';
-import 'package:kar_kam/lib/data_notification.dart';
-import 'package:kar_kam/lib/notification_data_store.dart';
 
 /// [BoxedContainer] implements a Container and prints its bounding box.
 ///
-/// [BoxedContainer] essentially calls an instance of Container with an
-/// updated decoration if one is not specifically given.
-///
-/// [BoxedContainer] defaults to Container if AppSettings.drawLayoutBounds
-/// is false.
+/// The [BoxedContainer] essentially calls an instance of Container with
+/// a default decoration if one is not specifically given. [BoxedContainer]
+/// defaults to Container if AppSettings.drawLayoutBounds is false.
 class BoxedContainer extends StatelessWidget with GetItMixin {
   BoxedContainer({
     Key? key,
@@ -57,15 +51,29 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    final bool localDrawLayoutBounds = watchOnly((AppModel m) => m.drawLayoutBounds);
-    final double localBoxedContainerBorderWidth = watchOnly((AppModel m) => m.boxedContainerBorderWidth);
-    return _BoxedContainer(
+    final bool localDrawLayoutBounds =
+        watchOnly((AppModel m) => m.drawLayoutBounds);
+    final double localBoxedContainerBorderWidth =
+        watchOnly((AppModel m) => m.boxedContainerBorderWidth);
+    return Container(
       alignment: alignment,
       child: child,
       clipBehavior: clipBehavior,
-      color: color,
+      // color: color,
       constraints: constraints,
-      decoration: decoration,
+      decoration: decoration ??
+          BoxDecoration(
+            border: localDrawLayoutBounds
+                ? Border.all(
+                    width: localBoxedContainerBorderWidth,
+                    color: borderColor ?? Colors.black,
+                  )
+                : null,
+            borderRadius: BorderRadius.all(
+              Radius.circular(borderRadius ?? 0.0),
+            ),
+            color: color,
+          ),
       foregroundDecoration: foregroundDecoration,
       height: height,
       margin: margin,
@@ -73,64 +81,6 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
       transform: transform,
       transformAlignment: transformAlignment,
       width: width,
-      borderColor: borderColor,
-      borderWidth: localBoxedContainerBorderWidth,
-      borderRadius: borderRadius,
-      drawLayoutBounds: localDrawLayoutBounds,
-      // drawLayoutBounds: GetIt.instance<AppModel>().drawLayoutBounds,
-      // drawLayoutBounds:
-      //     NotificationDataStore.of<AppSettings, DataNotification>(
-      //             context, const ValueKey('AppSettings')
-      //     ).data.drawLayoutBounds,
     );
   }
-}
-
-class _BoxedContainer extends Container {
-  _BoxedContainer({
-    Key? key,
-    AlignmentGeometry? alignment,
-    Widget? child,
-    Clip clipBehavior = Clip.none,
-    Color? color,
-    BoxConstraints? constraints,
-    Decoration? decoration,
-    Decoration? foregroundDecoration,
-    double? height,
-    EdgeInsetsGeometry? margin,
-    EdgeInsetsGeometry? padding,
-    Matrix4? transform,
-    AlignmentGeometry? transformAlignment,
-    double? width,
-    Color? borderColor,
-    double? borderWidth,
-    double? borderRadius,
-    bool? drawLayoutBounds,
-  }) : super(
-          key: key,
-          alignment: alignment,
-          child: child,
-          clipBehavior: clipBehavior,
-          constraints: constraints,
-          decoration: decoration ??
-              BoxDecoration(
-                border: (drawLayoutBounds ?? true)
-                    ? Border.all(
-                        width: borderWidth ?? 0.1,
-                        color: borderColor ?? Colors.black,
-                      )
-                    : null,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(borderRadius ?? 0.0),
-                ),
-                color: color,
-              ),
-          foregroundDecoration: foregroundDecoration,
-          height: height,
-          margin: margin,
-          padding: padding,
-          transform: transform,
-          transformAlignment: transformAlignment,
-          width: width,
-        );
 }
