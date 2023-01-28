@@ -117,8 +117,8 @@ class BasePageState extends State<BasePage> {
         },
       ),
       //  The Scaffold body contents are placed within two instances of
-      //  DataStore in order to transfer buttonArrayRect and
-      //  basePageViewRect down the widget tree.
+      //  [DataStore] in order to transfer [buttonArrayRect] and
+      //  [basePageViewRect] down the widget tree.
       body: DataStore<Rect?>(
         key: const ValueKey('buttonArrayRect'),
         data: buttonArrayRect,

@@ -8,8 +8,11 @@ import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
-/// [SettingsPageContents] implements a settings page with
-/// tiles that are able scroll around (not behind) [buttonArray].
+/// [SettingsPageContents] provides the settings page PageSpec contents.
+///
+/// [SettingsPageContents] implements a scrollable ListView using the
+/// [SettingsPageListTile] class. These tile are able to scroll around
+/// (not behind) [buttonArray].
 class SettingsPageContents extends StatefulWidget {
   const SettingsPageContents({Key? key}) : super(key: key);
 
@@ -18,11 +21,11 @@ class SettingsPageContents extends StatefulWidget {
 }
 
 class _SettingsPageContentsState extends State<SettingsPageContents> {
-  //  scrollController is added to the ListView instance below in order
+  //  [scrollController] is added to the ListView instance below in order
   //  to get the scroll position offset value.
   final ScrollController scrollController = ScrollController();
 
-  //  scrollPositionNotifier is passed to an instance of DataNotifier in
+  //  [scrollPositionNotifier] is passed to an instance of DataNotifier in
   //  order to pass the scroll position down to SettingsPageListTile.
   final ValueNotifier<double> scrollPositionNotifier = ValueNotifier(0.0);
 
@@ -36,8 +39,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
   void initState() {
     super.initState();
 
-    //  Update scrollPositionNotifier with new scroll position whenever
-    //  scrollController registers a change.
+    //  Update [scrollPositionNotifier] with new scroll position whenever
+    //  [scrollController] registers a change.
     scrollController.addListener(() {
       scrollPositionNotifier.value = scrollController.offset;
     });
@@ -45,7 +48,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
 
   @override
   Widget build(BuildContext context) {
-    //  Get buttonArrayRect from NataNotifier in BasePage.
+    //  Get [buttonArrayRect] from NataNotifier in BasePage.
     Rect? buttonArrayRect =
         DataStore.of<Rect?>(context, const ValueKey('buttonArrayRect')).data;
 
