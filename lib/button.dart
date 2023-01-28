@@ -25,7 +25,7 @@ class Button extends StatelessWidget {
       child: Padding(
         padding: buttonSpec.buttonPadding,
         child: BoxedContainer(
-          borderColor: Colors.redAccent,
+          borderColor: Colors.greenAccent,
           child: CircleAvatar(
             radius: buttonSpec.size,
             backgroundColor: Colors.lightBlue,

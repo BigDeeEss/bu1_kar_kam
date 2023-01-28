@@ -22,25 +22,23 @@ class ButtonArray extends StatelessWidget {
   /// for each button to be obtained using globalPaintBounds (see [getRect]).
   final buttonArrayGlobalKeys = <GlobalKey>[];
 
-  /// [buttonCoords] gets coordinates relative to any corner.
-  List<double> get buttonCoords {
-    //  Initialise coordsList so that it is ready for population.
-    List<double> coordsList = [];
+  /// [buttonCoordinates] gets coordinates relative to any corner.
+  List<double> get buttonCoordinates {
+    //  Initialise [coordinateList] so that it is ready for population.
+    List<double> coordinateList = [];
 
-    //  A length -- button width plus padding -- for defining coordsList.
+    //  A length -- button width plus padding -- for defining [coordinateList].
     //  Two different values for dim determine whether the bounding boxes
     //  for each Button overlap.
-    // double dim = 2 * (AppSettings.buttonRadiusInner +
-    //         AppSettings.buttonPaddingMainAxisExtra);
     double dim = 2 * (AppSettingsOrig.buttonRadius +
             AppSettingsOrig.buttonPaddingMainAxisAlt);
 
-    //  Loop over items in buttonSpecList and convert each to its
+    //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding position.
     for (int i = 0; i < buttonSpecList.length; i++) {
-      coordsList.add(dim * i);
+      coordinateList.add(dim * i);
     }
-    return coordsList;
+    return coordinateList;
   }
 
   /// [rect] calculates the Rect data associated with [buttonArray].
@@ -48,17 +46,17 @@ class ButtonArray extends StatelessWidget {
     // Instantiate output variable as null initially.
     Rect? rect;
 
-    //  Loop over buttonArrayGlobalKeys. buttonArrayGlobalKeys has the
+    //  Loop over [buttonArrayGlobalKeys]. [buttonArrayGlobalKeys] has the
     //  same length as buttonSpecList.
     for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
       //  Get Rect data for ith button.
       Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
 
-      //  Build rect by giving it buttonRect initially, and then expanding
+      //  Build rect by giving it [buttonRect] initially, and then expanding
       //  it by sequentially adding the Rect value for each button.
       if (buttonRect != null) {
-        //  If rect is null then overwrite with buttonRect, else expand
-        //  rect to include buttonRect.
+        //  If rect is null then overwrite with [buttonRect], else expand
+        //  rect to include [buttonRect].
         if (rect == null) {
           rect = buttonRect;
         } else {
@@ -69,20 +67,20 @@ class ButtonArray extends StatelessWidget {
     return rect;
   }
 
-  /// [buttonArrayGenerator] generates a list of buttons from buttonSpecList.
+  /// [buttonArrayGenerator] generates a list of buttons from [buttonSpecList].
   List<Widget> buttonArrayGenerator(BuildContext context) {
-    //  Initialise button and buttonList ready for population.
+    //  Initialise [buttonList] ready for population.
     List<Widget> buttonList = [];
 
-    //  Take a local copy of buttonCoords for speed.
-    List<double> coords = buttonCoords;
+    //  Take a local copy of [buttonCoordinates] for speed.
+    List<double> coords = buttonCoordinates;
 
-    //  Loop over items in buttonSpecList and convert each to its
-    //  corresponding button.
+    //  Loop over items in [buttonSpecList] and convert each to its
+    //  corresponding [button].
     for (int i = 0; i < buttonSpecList.length; i++) {
       buttonArrayGlobalKeys.add(GlobalKey());
 
-      //  Define the button to be added to buttonList in this iteration.
+      //  Define the [button] to be added to [buttonList] in this iteration.
       Button button = Button(
         buttonSpec: buttonSpecList[i],
         key: buttonArrayGlobalKeys[i],
@@ -94,8 +92,8 @@ class ButtonArray extends StatelessWidget {
         //  depending on whether the selected alignment is top or bottom.
         //
         //  The left and right inputs to Positioned must be non-zero
-        //  coordinates or null, depending on whether the selected alignment is
-        //  left or right.
+        //  coordinates or null, depending on whether the selected alignment
+        //  is left or right.
         buttonList.add(Positioned(
           top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
           bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
@@ -111,8 +109,8 @@ class ButtonArray extends StatelessWidget {
         //  depending on whether the selected alignment is left or right.
         //
         //  The top and bottom inputs to Positioned must be non-zero
-        //  coordinates or null, depending on whether the selected alignment is
-        //  top or bottom.
+        //  coordinates or null, depending on whether the selected alignment
+        //  is top or bottom.
         buttonList.add(Positioned(
           top: (AppSettingsOrig.buttonAlignment.y < 0) ? coords[i] : null,
           bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? coords[i] : null,
@@ -131,7 +129,7 @@ class ButtonArray extends StatelessWidget {
     List<Widget> buttonArray = buttonArrayGenerator(context);
 
     //  Return an instance of Stack with its children defined to be a
-    //  list of buttons. buttonArray is generated by buttonArrayGenerato
+    //  list of buttons. [buttonArray] is generated by [buttonArrayGenerator]
     //  and has length equal to buttonSpecList.length.
     return Stack(
       alignment: Alignment.bottomRight,
