@@ -10,9 +10,13 @@ import 'package:kar_kam/settings_page_list_tile.dart';
 
 /// [SettingsPageContents] provides the settings page PageSpec contents.
 ///
-/// [SettingsPageContents] implements a scrollable ListView using the
-/// [SettingsPageListTile] class. These tile are able to scroll around
-/// (not behind) [buttonArray].
+/// [SettingsPageContents] uses the [SettingsPageListTile] class. These tiles
+/// are able to scroll around (not behind) [buttonArray].
+///
+/// [SettingsPageContents] defines a [scrollController] in order to access
+/// the scroll position relative to th top of the page. The value is passed
+/// to a ValueNotifier and passed down the widget tree to listeners via
+/// DataStore<ValueNotifier<double>>.
 class SettingsPageContents extends StatefulWidget {
   const SettingsPageContents({Key? key}) : super(key: key);
 
@@ -21,12 +25,12 @@ class SettingsPageContents extends StatefulWidget {
 }
 
 class _SettingsPageContentsState extends State<SettingsPageContents> {
-  //  [scrollController] is added to the ListView instance below in order
-  //  to get the scroll position offset value.
+  //  [scrollController] is added to the ListView instance below in build
+  //  in order to get the scroll position offset value.
   final ScrollController scrollController = ScrollController();
 
-  //  [scrollPositionNotifier] is passed to an instance of DataNotifier in
-  //  order to pass the scroll position down to SettingsPageListTile.
+  //  [scrollPositionNotifier] will be passed in to an instance of DataStore
+  //  so that the scroll position can be used within SettingsPageListTile.
   final ValueNotifier<double> scrollPositionNotifier = ValueNotifier(0.0);
 
   @override
@@ -39,8 +43,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
   void initState() {
     super.initState();
 
-    //  Update [scrollPositionNotifier] with new scroll position whenever
-    //  [scrollController] registers a change.
+    //  Add listener to [scrollController] and use it to update
+    //  [scrollPositionNotifier] whenever [scrollController.offset] changes.
     scrollController.addListener(() {
       scrollPositionNotifier.value = scrollController.offset;
     });
@@ -57,6 +61,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         DataStore.of<Rect?>(context, const ValueKey('basePageViewRect')).data;
 
     //  Generate a temporary list of tiles to build.
+    //  ToDo: replace temporary list with final version.
     List<Widget> tileList = [
       ...List<Widget>.generate(5, (int index) {
         return SettingsPageListTile(
