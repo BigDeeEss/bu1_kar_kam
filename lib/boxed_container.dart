@@ -51,10 +51,10 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
+    //  Watch for changes to AppModel fields.
     final bool localDrawLayoutBounds =
         watchOnly((AppModel m) => m.drawLayoutBounds);
-    final double localBoxedContainerBorderWidth =
-        watchOnly((AppModel m) => m.boxedContainerBorderWidth);
+
     return Container(
       alignment: alignment,
       child: child,
@@ -65,7 +65,7 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
           BoxDecoration(
             border: localDrawLayoutBounds
                 ? Border.all(
-                    width: localBoxedContainerBorderWidth,
+                    width: 0.1,
                     color: borderColor ?? Colors.black,
                   )
                 : null,
