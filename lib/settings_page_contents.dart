@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/data_store.dart';
-import 'package:kar_kam/settings.dart';
+import 'package:kar_kam/settings_service.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
 /// [SettingsPageContents] provides the settings page PageSpec contents.
@@ -93,7 +93,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ),
         onTap: () {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<Settings>().toggleDrawLayoutBounds();
+          GetItService.instance<SettingsService>()
+              .changeSettings('drawLayoutBounds');
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -117,7 +118,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         ),
         onTap: (() {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<Settings>().toggleSettingsPageListTileFadeEffect();
+          GetItService.instance<SettingsService>()
+              .toggleSettingsPageListTileFadeEffect();
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
