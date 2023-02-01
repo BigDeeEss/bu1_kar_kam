@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_model.dart';
+import 'package:kar_kam/settings.dart';
 
 /// [BoxedContainer] implements a Container and prints its bounding box.
 ///
@@ -51,9 +51,9 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    //  Watch for changes to AppModel fields.
+    //  Watch for changes to Settings fields.
     final bool localDrawLayoutBounds =
-        watchOnly((AppModel m) => m.drawLayoutBounds);
+        watchOnly((Settings m) => m.drawLayoutBounds);
 
     return Container(
       alignment: alignment,

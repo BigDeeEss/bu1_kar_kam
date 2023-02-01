@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/settings.dart';
-import 'package:kar_kam/app_settings_data.dart';
+import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';

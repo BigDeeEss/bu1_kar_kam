@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings_data.dart';
+import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
@@ -236,7 +236,7 @@ class OpenPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint1 = Paint()
-      ..color = Color.fromRGBO(66, 165, 245, 0.5)
+      ..color = const Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
     if (AppSettingsOrig.buttonAxis == Axis.horizontal) {
       if (AppSettingsOrig.buttonAlignment.y < 0 &&

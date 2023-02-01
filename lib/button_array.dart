@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings_data.dart';
+import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
@@ -73,7 +73,7 @@ class ButtonArray extends StatelessWidget {
     List<Widget> buttonList = [];
 
     //  Take a local copy of [buttonCoordinates] for speed.
-    List<double> coords = buttonCoordinates;
+    List<double> coordinate = buttonCoordinates;
 
     //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding [button].
@@ -97,8 +97,8 @@ class ButtonArray extends StatelessWidget {
         buttonList.add(Positioned(
           top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
           bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
-          left: (AppSettingsOrig.buttonAlignment.x < 0) ? coords[i] : null,
-          right: (AppSettingsOrig.buttonAlignment.x > 0) ? coords[i] : null,
+          left: (AppSettingsOrig.buttonAlignment.x < 0) ? coordinate[i] : null,
+          right: (AppSettingsOrig.buttonAlignment.x > 0) ? coordinate[i] : null,
           child: button,
         ));
       }
@@ -112,8 +112,8 @@ class ButtonArray extends StatelessWidget {
         //  coordinates or null, depending on whether the selected alignment
         //  is top or bottom.
         buttonList.add(Positioned(
-          top: (AppSettingsOrig.buttonAlignment.y < 0) ? coords[i] : null,
-          bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? coords[i] : null,
+          top: (AppSettingsOrig.buttonAlignment.y < 0) ? coordinate[i] : null,
+          bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? coordinate[i] : null,
           left: (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
           right: (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
           child: button,

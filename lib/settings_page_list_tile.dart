@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_model.dart';
-import 'package:kar_kam/app_settings_data.dart';
+import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/double_extension.dart';
 import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
+import 'package:kar_kam/settings.dart';
 
 //  A temporary double for determining the slope of the connecting
 //  straight line segment that constitutes the path by which tiles
@@ -433,7 +433,7 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
   @override
   Widget build(BuildContext context) {
     final bool localSettingsPageListTileFadeEffect =
-        watchOnly((AppModel m) => m.settingsPageListTileFadeEffect);
+        watchOnly((Settings m) => m.settingsPageListTileFadeEffect);
 
     return localSettingsPageListTileFadeEffect ? Positioned(
       right: 0.0,
@@ -447,7 +447,7 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
-            stops: [
+            stops: const [
               0.0,
               0.5,
               1.0,
