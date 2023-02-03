@@ -16,7 +16,14 @@ class SettingsData {
 
   void toggleDrawLayoutBounds() => drawLayoutBounds = !drawLayoutBounds;
 
+  void toggleSettingsPageListTileFadeEffect() =>
+      settingsPageListTileFadeEffect = !settingsPageListTileFadeEffect;
+
   void init() {
-    map = {'drawLayoutBounds': () => toggleDrawLayoutBounds()};
+    map = {
+      'drawLayoutBounds': () => toggleDrawLayoutBounds(),
+      'settingsPageListTileFadeEffect': () =>
+          toggleSettingsPageListTileFadeEffect(),
+    };
   }
 }

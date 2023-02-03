@@ -51,7 +51,8 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    //  Watch for changes to Settings fields.
+    //  Watch for changes to SettingsService, specifically
+    //  SettingsService.settingsData.
     final bool localDrawLayoutBounds =
         watchOnly((SettingsService m) => m.settingsData.drawLayoutBounds);
 

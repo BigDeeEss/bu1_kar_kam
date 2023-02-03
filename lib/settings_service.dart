@@ -7,13 +7,8 @@ import 'package:kar_kam/settings_data.dart';
 
 /// Settings implements saved user preferences with shared_preferences.
 class SettingsService extends ChangeNotifier {
-  /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
-  ///
-  /// Used for debugging widget screen location.
-  bool drawLayoutBounds = true;
-
-  /// [settingsPageListTileFadeEffect] switches in/out the Text fade effect.
-  bool settingsPageListTileFadeEffect = true;
+  // /// [settingsPageListTileFadeEffect] switches in/out the Text fade effect.
+  // bool settingsPageListTileFadeEffect = true;
 
   SettingsData settingsData = SettingsData();
 
@@ -26,15 +21,10 @@ class SettingsService extends ChangeNotifier {
         .then((_) => GetItService.signalReady<SettingsService>(this));
   }
 
-  void toggleDrawLayoutBounds() {
-    drawLayoutBounds = !drawLayoutBounds;
-    notifyListeners();
-  }
-
-  void toggleSettingsPageListTileFadeEffect() {
-    settingsPageListTileFadeEffect = !settingsPageListTileFadeEffect;
-    notifyListeners();
-  }
+  // void toggleSettingsPageListTileFadeEffect() {
+  //   settingsPageListTileFadeEffect = !settingsPageListTileFadeEffect;
+  //   notifyListeners();
+  // }
 
   void changeSettings(String str) {
     settingsData.map[str]!();

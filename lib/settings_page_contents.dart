@@ -119,7 +119,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
         onTap: (() {
           //  Toggle bool variable in AppModel that controls the fade effect.
           GetItService.instance<SettingsService>()
-              .toggleSettingsPageListTileFadeEffect();
+              .changeSettings('settingsPageListTileFadeEffect');
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,

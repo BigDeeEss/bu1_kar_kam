@@ -432,35 +432,37 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    final bool localSettingsPageListTileFadeEffect =
-        watchOnly((SettingsService m) => m.settingsPageListTileFadeEffect);
+    final bool localSettingsPageListTileFadeEffect = watchOnly(
+        (SettingsService m) => m.settingsData.settingsPageListTileFadeEffect);
 
-    return localSettingsPageListTileFadeEffect ? Positioned(
-      right: 0.0,
-      child: BoxedContainer(
-        width: AppSettingsOrig.settingsPageListTileIconSize,
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              AppSettingsOrig.settingsPageListTileRadius),
-          //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            stops: const [
-              0.0,
-              0.5,
-              1.0,
-            ],
-            colors: [
-              //  create 2 white colors, one transparent
-              Colors.pink[200]!.withOpacity(0.0),
-              Colors.pink[200]!.withOpacity(1.0),
-              Colors.pink[200]!.withOpacity(1.0),
-            ],
-          ),
-        ),
-      ),
-    ) : Container();
+    return localSettingsPageListTileFadeEffect
+        ? Positioned(
+            right: 0.0,
+            child: BoxedContainer(
+              width: AppSettingsOrig.settingsPageListTileIconSize,
+              height: height,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                    AppSettingsOrig.settingsPageListTileRadius),
+                //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  stops: const [
+                    0.0,
+                    0.5,
+                    1.0,
+                  ],
+                  colors: [
+                    //  create 2 white colors, one transparent
+                    Colors.pink[200]!.withOpacity(0.0),
+                    Colors.pink[200]!.withOpacity(1.0),
+                    Colors.pink[200]!.withOpacity(1.0),
+                  ],
+                ),
+              ),
+            ),
+          )
+        : Container();
   }
 }
