@@ -131,13 +131,38 @@ class _SettingsPageContentsState extends State<SettingsPageContents> {
           softWrap: false,
         ),
       ),
+      SettingsPageListTile(
+        basePageViewRect:
+            basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
+        guestRect: buttonArrayRect,
+        height: 75.0,
+        index: 7,
+        leading: Icon(
+          Icons.circle_notifications_outlined,
+          size: AppSettingsOrig.settingsPageListTileIconSize,
+        ),
+        onTap: (() {
+          //  Toggle bool variable in AppModel that controls the fade effect.
+          GetItService.instance<SettingsService>()
+              .changeSettings('buttonAxis');
+        }),
+        trailing: Icon(
+          Icons.circle_notifications_outlined,
+          size: AppSettingsOrig.settingsPageListTileIconSize,
+        ),
+        widget: const Text(
+          '7. Click to toggle buttonAxis!',
+          maxLines: 1,
+          softWrap: false,
+        ),
+      ),
       ...List<Widget>.generate(100, (int index) {
         return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           guestRect: buttonArrayRect,
           height: 75.0,
-          index: index + 7,
+          index: index + 8,
           leading: Icon(
             Icons.favorite,
             size: AppSettingsOrig.settingsPageListTileIconSize,

@@ -6,10 +6,16 @@ import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
+import 'package:kar_kam/settings_data.dart';
 
 /// Implements a linear horizontal or vertical array of Buttons.
 class ButtonArray extends StatelessWidget {
-  ButtonArray({Key? key}) : super(key: key);
+  ButtonArray({
+    Key? key,
+    required this.settingsData,
+  }) : super(key: key);
+
+  final SettingsData settingsData;
 
   /// [buttonSpecList] defines the specs for each button in [ButtonArray].
   static List<ButtonSpec> buttonSpecList = [
@@ -87,7 +93,7 @@ class ButtonArray extends StatelessWidget {
       );
 
       //  Treat horizontal and vertical axes differently.
-      if (AppSettingsOrig.buttonAxis == Axis.horizontal) {
+      if (settingsData.buttonAxis == Axis.horizontal) {
         //  The top and bottom inputs to Positioned must be 0.0 or null,
         //  depending on whether the selected alignment is top or bottom.
         //
@@ -104,7 +110,7 @@ class ButtonArray extends StatelessWidget {
       }
 
       //  Treat horizontal and vertical axes differently.
-      if (AppSettingsOrig.buttonAxis == Axis.vertical) {
+      if (settingsData.buttonAxis == Axis.vertical) {
         //  The left and right inputs to Positioned must be 0.0 or null,
         //  depending on whether the selected alignment is left or right.
         //

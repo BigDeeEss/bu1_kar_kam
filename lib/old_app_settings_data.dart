@@ -64,7 +64,7 @@ class AppSettingsOrig {
   // static Alignment buttonAlignment = Alignment.topRight;
 
   /// [buttonAxis] sets the button axis type in ButtonArray.
-  static Axis buttonAxis = Axis.horizontal;
+  // static Axis buttonAxis = Axis.horizontal;
 
   // static Axis buttonAxis = Axis.vertical;
 
