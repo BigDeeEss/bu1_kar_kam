@@ -24,7 +24,7 @@ class BasePage extends StatefulWidget {
   }) : super(key: key);
 
   /// [pageSpec] defines the page layout associated with each route.
-  final PageSpec pageSpec;
+  final PageSpecOld pageSpec;
 
   @override
   State<BasePage> createState() => _BasePageState();

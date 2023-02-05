@@ -30,7 +30,7 @@ class BasePage extends StatefulWidget with GetItStatefulWidgetMixin{
   }) : super(key: key);
 
   /// [pageSpec] defines the page layout associated with each route.
-  final PageSpec pageSpec;
+  final PageSpecOld pageSpec;
 
   @override
   State<BasePage> createState() => BasePageState();
