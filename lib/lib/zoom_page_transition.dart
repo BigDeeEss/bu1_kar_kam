@@ -8,7 +8,7 @@ import 'package:kar_kam/old_app_settings_data.dart';
 
 /// [ZoomPageTransition] implements a zoom page transition from the centre out.
 class ZoomPageTransition extends PageRouteBuilder {
-  final PageSpecOld pageSpec;
+  final PageSpec pageSpec;
 
   ZoomPageTransition({
     //  Add constructor details specific to ZoomPageTransition.

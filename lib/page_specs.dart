@@ -4,29 +4,9 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/settings_page_contents.dart';
 
-class PageSpec extends StatelessWidget {
+/// [PageSpec] allows for ease of reference to specific page settings.
+class PageSpec {
   const PageSpec({
-    Key? key,
-    required this.contents,
-    required this.title,
-  }) : super(key: key);
-
-  /// The [contents] associated with each page/route.
-  final Widget contents;
-
-  /// The [title] associated with each page/route.
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return const contents;
-  }
-}
-
-
-/// [PageSpecOld] allows for ease of reference to specific page settings.
-class PageSpecOld {
-  const PageSpecOld({
     required this.title,
     required this.contents,
   });
@@ -39,19 +19,19 @@ class PageSpecOld {
 }
 
 /// Home page specs.
-PageSpecOld homePage = PageSpecOld(
+PageSpec homePage = PageSpec(
   title: 'Home',
   contents: Container(),
 );
 
 /// Files page specs.
-PageSpecOld filesPage = PageSpecOld(
+PageSpec filesPage = PageSpec(
   title: 'Files',
   contents: Container(),
 );
 
 /// Settings page specs.
-PageSpecOld settingsPage = const PageSpecOld(
+PageSpec settingsPage = const PageSpec(
   title: 'Settings',
   contents: SettingsPageContents(),
 );

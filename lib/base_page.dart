@@ -1,6 +1,5 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
-import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/old_app_settings_data.dart';
@@ -8,9 +7,7 @@ import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
-import 'package:kar_kam/settings_data.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
-import 'package:kar_kam/settings_service.dart';
 
 /// [BasePage] implements a generic page layout design.
 ///
@@ -23,20 +20,20 @@ import 'package:kar_kam/settings_service.dart';
 /// [BasePage] is an extension of StatefulWidget because a combination of
 /// initState and WidgetsBinding.instance.addPostFrameCallback is used for
 /// getting [buttonArrayRect].
-class BasePage extends StatefulWidget with GetItStatefulWidgetMixin{
-  BasePage({
+class BasePage extends StatefulWidget {
+  const BasePage({
     Key? key,
     required this.pageSpec,
   }) : super(key: key);
 
   /// [pageSpec] defines the page layout associated with each route.
-  final PageSpecOld pageSpec;
+  final PageSpec pageSpec;
 
   @override
   State<BasePage> createState() => BasePageState();
 }
 
-class BasePageState extends State<BasePage> with GetItStateMixin{
+class BasePageState extends State<BasePage> {
   /// [basePageViewKey] stores the GlobalKey required for calculating
   /// available screen dimensions.
   ///
@@ -51,7 +48,7 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
   ///
   /// [buttonArray] is referenced in the build and initState methods and
   /// so must be instantiated at the point of [BasePage] creation.
-  late ButtonArray buttonArray;
+  final ButtonArray buttonArray = ButtonArray();
 
   /// [buttonArrayRect] stores Rect information associated with [buttonArray].
   Rect? buttonArrayRect = Rect.zero;
@@ -62,24 +59,12 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
   /// postFrameCallback. [pageContents] may depend on knowledge of the
   /// existence of [buttonArray], and so therefore must be built after
   /// [buttonArray] in a post-frame callback. An example is
-  /// [SettingsPageContents] which requires [buttonArrayRect] to be known
+  /// [SettingsPageContents] which requires [buttonArratRect] to be known
   /// before it is built.
   Widget? pageContents;
 
-  late SettingsData settingsData;
-
   @override
   void initState() {
-    //  Instantiate settingsData.
-    settingsData = watchOnly((SettingsService m) {
-      setState(() {
-        // settingsData = m.settingsData;
-      });
-      return m.settingsData;
-    });
-
-    buttonArray = ButtonArray(settingsData: settingsData);
-
     //  BasePage is built in two parts: (i) buttonArray, by the build
     //  function; and then (ii) buttonArray + pageContents, initiated by
     //  the following post-frame callback.
@@ -106,11 +91,6 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    //  Watch for changes to SettingsService, specifically
-    //  SettingsService.settingsData.
-    // SettingsData settingsData =
-    //     watchOnly((SettingsService m) => m.settingsData);
-    buttonArray = ButtonArray(settingsData: settingsData);
 
     return Scaffold(
       appBar: AppBar(
@@ -162,7 +142,7 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
               buttonArray,
               //  Add two additional guidance circles for checking the sliding
               //  motion of SettingsPageListTile.
-              (settingsData.buttonAxis == Axis.horizontal)
+              (AppSettingsOrig.buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
                       bottom:
@@ -178,7 +158,6 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
                           shiftVal: (buttonArray.rect != null)
                               ? buttonArray.rect!.shortestSide * sf
                               : 0.0,
-                          axis: settingsData.buttonAxis,
                         ),
                       ),
                     )
@@ -198,11 +177,10 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
                           shiftVal: (buttonArray.rect != null)
                               ? buttonArray.rect!.shortestSide * sf
                               : 0.0,
-                          axis: settingsData.buttonAxis,
                         ),
                       ),
                     ),
-              (settingsData.buttonAxis == Axis.horizontal)
+              (AppSettingsOrig.buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
                       bottom:
@@ -216,7 +194,6 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
                       child: CustomPaint(
                         painter: OpenPainter(
                           shiftVal: 0.0,
-                          axis: settingsData.buttonAxis,
                         ),
                       ),
                     )
@@ -234,7 +211,6 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
                       child: CustomPaint(
                         painter: OpenPainter(
                           shiftVal: 0.0,
-                          axis: settingsData.buttonAxis,
                         ),
                       ),
                     ),
@@ -249,11 +225,8 @@ class BasePageState extends State<BasePage> with GetItStateMixin{
 //  A custom painter for producing the guidance circles.
 class OpenPainter extends CustomPainter {
   OpenPainter({
-    required this.axis,
     required this.shiftVal,
   });
-
-  final Axis axis;
 
   final double shiftVal;
 
@@ -265,7 +238,7 @@ class OpenPainter extends CustomPainter {
     var paint1 = Paint()
       ..color = const Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
-    if (axis == Axis.horizontal) {
+    if (AppSettingsOrig.buttonAxis == Axis.horizontal) {
       if (AppSettingsOrig.buttonAlignment.y < 0 &&
           AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);
@@ -283,7 +256,7 @@ class OpenPainter extends CustomPainter {
         canvas.drawCircle(Offset(r, -r - shiftVal), r, paint1);
       }
     }
-    if (axis == Axis.vertical) {
+    if (AppSettingsOrig.buttonAxis == Axis.vertical) {
       if (AppSettingsOrig.buttonAlignment.y < 0 &&
           AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);

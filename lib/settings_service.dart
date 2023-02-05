@@ -27,7 +27,7 @@ class SettingsService extends ChangeNotifier {
   // }
 
   void changeSettings(String str) {
-    settingsData.fieldToFunc[str]!();
+    settingsData.map[str]!();
     notifyListeners();
   }
 }
