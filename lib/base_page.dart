@@ -1,5 +1,6 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/old_app_settings_data.dart';
@@ -7,7 +8,9 @@ import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
+import 'package:kar_kam/settings_data.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
+import 'package:kar_kam/settings_service.dart';
 
 /// [BasePage] implements a generic page layout design.
 ///
@@ -20,8 +23,8 @@ import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 /// [BasePage] is an extension of StatefulWidget because a combination of
 /// initState and WidgetsBinding.instance.addPostFrameCallback is used for
 /// getting [buttonArrayRect].
-class BasePage extends StatefulWidget {
-  const BasePage({
+class BasePage extends StatefulWidget with GetItStatefulWidgetMixin {
+  BasePage({
     Key? key,
     required this.pageSpec,
   }) : super(key: key);
@@ -33,7 +36,7 @@ class BasePage extends StatefulWidget {
   State<BasePage> createState() => BasePageState();
 }
 
-class BasePageState extends State<BasePage> {
+class BasePageState extends State<BasePage> with GetItStateMixin {
   /// [basePageViewKey] stores the GlobalKey required for calculating
   /// available screen dimensions.
   ///
@@ -91,6 +94,8 @@ class BasePageState extends State<BasePage> {
 
   @override
   Widget build(BuildContext context) {
+    Axis buttonAxis =
+        watchOnly((SettingsService m) => m.settingsData.buttonAxis);
 
     return Scaffold(
       appBar: AppBar(
@@ -142,7 +147,7 @@ class BasePageState extends State<BasePage> {
               buttonArray,
               //  Add two additional guidance circles for checking the sliding
               //  motion of SettingsPageListTile.
-              (AppSettingsOrig.buttonAxis == Axis.horizontal)
+              (buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
                       bottom:
@@ -155,6 +160,7 @@ class BasePageState extends State<BasePage> {
                           : null,
                       child: CustomPaint(
                         painter: OpenPainter(
+                          axis: buttonAxis,
                           shiftVal: (buttonArray.rect != null)
                               ? buttonArray.rect!.shortestSide * sf
                               : 0.0,
@@ -174,13 +180,14 @@ class BasePageState extends State<BasePage> {
                           (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
                       child: CustomPaint(
                         painter: OpenPainter(
+                          axis: buttonAxis,
                           shiftVal: (buttonArray.rect != null)
                               ? buttonArray.rect!.shortestSide * sf
                               : 0.0,
                         ),
                       ),
                     ),
-              (AppSettingsOrig.buttonAxis == Axis.horizontal)
+              (buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
                       bottom:
@@ -193,6 +200,7 @@ class BasePageState extends State<BasePage> {
                           : null,
                       child: CustomPaint(
                         painter: OpenPainter(
+                          axis: buttonAxis,
                           shiftVal: 0.0,
                         ),
                       ),
@@ -210,6 +218,7 @@ class BasePageState extends State<BasePage> {
                           (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
                       child: CustomPaint(
                         painter: OpenPainter(
+                          axis: buttonAxis,
                           shiftVal: 0.0,
                         ),
                       ),
@@ -225,8 +234,11 @@ class BasePageState extends State<BasePage> {
 //  A custom painter for producing the guidance circles.
 class OpenPainter extends CustomPainter {
   OpenPainter({
+    required this.axis,
     required this.shiftVal,
   });
+
+  final Axis axis;
 
   final double shiftVal;
 
@@ -238,7 +250,7 @@ class OpenPainter extends CustomPainter {
     var paint1 = Paint()
       ..color = const Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
-    if (AppSettingsOrig.buttonAxis == Axis.horizontal) {
+    if (axis == Axis.horizontal) {
       if (AppSettingsOrig.buttonAlignment.y < 0 &&
           AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);
@@ -256,7 +268,7 @@ class OpenPainter extends CustomPainter {
         canvas.drawCircle(Offset(r, -r - shiftVal), r, paint1);
       }
     }
-    if (AppSettingsOrig.buttonAxis == Axis.vertical) {
+    if (axis == Axis.vertical) {
       if (AppSettingsOrig.buttonAlignment.y < 0 &&
           AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);

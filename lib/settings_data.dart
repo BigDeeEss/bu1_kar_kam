@@ -1,8 +1,10 @@
 //  Import flutter packages.
 
+import 'package:flutter/material.dart';
+
 class SettingsData {
-  // SettingsData() : map = {'drawLayoutBounds': () => toggleDrawLayoutBounds()};
-  // SettingsData() : init();
+  /// [buttonAxis] sets the button axis type in ButtonArray.
+  Axis buttonAxis = Axis.horizontal;
 
   /// [drawLayoutBounds] triggers whether layout bounds are drawn or not.
   ///
@@ -14,6 +16,8 @@ class SettingsData {
 
   late Map<String, Function> map;
 
+  void toggleButtonAxis() => buttonAxis = flipAxis(buttonAxis);
+
   void toggleDrawLayoutBounds() => drawLayoutBounds = !drawLayoutBounds;
 
   void toggleSettingsPageListTileFadeEffect() =>
@@ -21,6 +25,7 @@ class SettingsData {
 
   void init() {
     map = {
+      'buttonAxis': () => toggleButtonAxis(),
       'drawLayoutBounds': () => toggleDrawLayoutBounds(),
       'settingsPageListTileFadeEffect': () =>
           toggleSettingsPageListTileFadeEffect(),

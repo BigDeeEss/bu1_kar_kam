@@ -53,7 +53,7 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
   Widget build(BuildContext context) {
     //  Watch for changes to SettingsService, specifically
     //  SettingsService.settingsData.
-    final bool localDrawLayoutBounds =
+    bool drawLayoutBounds =
         watchOnly((SettingsService m) => m.settingsData.drawLayoutBounds);
 
     return Container(
@@ -64,7 +64,7 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
       constraints: constraints,
       decoration: decoration ??
           BoxDecoration(
-            border: localDrawLayoutBounds
+            border: drawLayoutBounds
                 ? Border.all(
                     width: 0.1,
                     color: borderColor ?? Colors.black,
