@@ -8,7 +8,7 @@ import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
-import 'package:kar_kam/settings_data.dart';
+import 'package:kar_kam/settings_data_one.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 import 'package:kar_kam/settings_service_one.dart';
 

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 //  Import project-specific files.
 import 'package:kar_kam/lib/get_it_service.dart';
-import 'package:kar_kam/settings_data.dart';
+import 'package:kar_kam/settings_data_one.dart';
 
 /// Settings implements saved user preferences with shared_preferences.
 class SettingsServiceOne extends ChangeNotifier {
   // /// [settingsPageListTileFadeEffect] switches in/out the Text fade effect.
   // bool settingsPageListTileFadeEffect = true;
 
-  SettingsData settingsData = SettingsData();
+  SettingsDataOne settingsData = SettingsDataOne();
 
   SettingsServiceOne() {
     settingsData.init();

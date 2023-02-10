@@ -6,7 +6,7 @@ import 'package:get_it_mixin/get_it_mixin.dart';
 import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/data_store.dart';
-import 'package:kar_kam/settings_data.dart';
+import 'package:kar_kam/settings_data_one.dart';
 import 'package:kar_kam/settings_service_one.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
@@ -37,7 +37,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
   //  so that the scroll position can be used within SettingsPageListTile.
   final ValueNotifier<double> scrollPositionNotifier = ValueNotifier(0.0);
 
-  late SettingsData settingsData;
+  late SettingsDataOne settingsData;
 
   @override
   void dispose() {
