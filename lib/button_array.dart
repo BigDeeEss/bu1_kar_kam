@@ -7,7 +7,7 @@ import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
-import 'package:kar_kam/settings_service.dart';
+import 'package:kar_kam/settings_service_one.dart';
 
 /// Implements a linear horizontal or vertical array of Buttons.
 class ButtonArray extends StatelessWidget with GetItMixin {
@@ -131,7 +131,7 @@ class ButtonArray extends StatelessWidget with GetItMixin {
     //  SettingsService.settingsData.buttonAxis.
     // bool drawLayoutBounds =
     //     watchOnly((SettingsService m) => m.settingsData.drawLayoutBounds);
-    Axis buttonAxis = watchOnly((SettingsService m) => m.settingsData.buttonAxis);
+    Axis buttonAxis = watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
 
     //  Generate the array of buttons.
     List<Widget> buttonArray = buttonArrayGenerator(context, buttonAxis);
