@@ -87,10 +87,10 @@ packages:
     dependency: transitive
     description:
       name: functional_listener
-      sha256: "18f4f43478b78b037c9a64c3c10d4067a8c9a5d510f3e174775705ce4337414a"
+      sha256: "2c719b5619e9560c6c3bb965f55222c39d04a63e8013b303ab0ea4a1eadfe437"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   get_it:
     dependency: "direct main"
     description:
@@ -218,4 +218,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=2.18.0 <3.0.0"
-  flutter: ">=2.0.0"
+  flutter: ">=3.0.0"
