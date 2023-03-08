@@ -6,9 +6,10 @@ import 'package:get_it_mixin/get_it_mixin.dart';
 import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/data_store.dart';
-import 'package:kar_kam/settings_data.dart';
+import 'package:kar_kam/settings_data_one.dart';
 import 'package:kar_kam/settings_service_one.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
+import 'package:kar_kam/settings_service_seven.dart';
 
 /// [SettingsPageContents] provides the settings page PageSpec contents.
 ///
@@ -37,7 +38,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
   //  so that the scroll position can be used within SettingsPageListTile.
   final ValueNotifier<double> scrollPositionNotifier = ValueNotifier(0.0);
 
-  late SettingsData settingsData;
+  late SettingsDataOne settingsData;
 
   @override
   void dispose() {
@@ -101,8 +102,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: () {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsServiceOne>()
-              .changeSettings('drawLayoutBounds');
+          // print('SettingsPageContents, ${GetItService.instance<SettingsServiceEight>().value.drawLayoutBounds}');
+          GetItService.instance<SettingsServiceEight>()
+              .change(identifier: 'drawLayoutBounds');
+          // print('SettingsPageContents, ${GetItService.instance<SettingsServiceEight>().value.drawLayoutBounds}');
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -126,8 +129,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: (() {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsServiceOne>()
-              .changeSettings('settingsPageListTileFadeEffect');
+          // GetItService.instance<SettingsServiceOne>()
+          //     .changeSettings('settingsPageListTileFadeEffect');
+          GetItService.instance<SettingsServiceEight>()
+              .change(identifier: 'settingsPageListTileFadeEffect');
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -151,7 +156,9 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: (() {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsServiceOne>().changeSettings('buttonAxis');
+          // GetItService.instance<SettingsServiceOne>().changeSettings('buttonAxis');
+          GetItService.instance<SettingsServiceEight>()
+              .change(identifier: 'buttonAxis');
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,

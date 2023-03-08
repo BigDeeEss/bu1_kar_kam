@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-class SettingsData {
+class SettingsDataOne {
   /// [buttonAxis] sets the button axis type in ButtonArray.
   Axis buttonAxis = Axis.horizontal;
 
