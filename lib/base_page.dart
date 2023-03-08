@@ -94,8 +94,9 @@ class BasePageState extends State<BasePage> with GetItStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Axis buttonAxis =
-        watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
+    // Axis buttonAxis =
+    //     watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
+    Axis buttonAxis = Axis.horizontal;
 
     return Scaffold(
       appBar: AppBar(

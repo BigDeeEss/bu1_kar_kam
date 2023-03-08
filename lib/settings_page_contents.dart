@@ -9,6 +9,7 @@ import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/settings_data_one.dart';
 import 'package:kar_kam/settings_service_one.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
+import 'package:kar_kam/settings_service_seven.dart';
 
 /// [SettingsPageContents] provides the settings page PageSpec contents.
 ///
@@ -101,8 +102,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: () {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsServiceOne>()
-              .changeSettings('drawLayoutBounds');
+          print('SettingsPageContents, ${GetItService.instance<SettingsServiceSeven>().value.drawLayoutBounds}');
+          GetItService.instance<SettingsServiceSeven>()
+              .change(identifier: 'drawLayoutBounds');
+          print('SettingsPageContents, ${GetItService.instance<SettingsServiceSeven>().value.drawLayoutBounds}');
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -126,8 +129,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: (() {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsServiceOne>()
-              .changeSettings('settingsPageListTileFadeEffect');
+          // GetItService.instance<SettingsServiceOne>()
+          //     .changeSettings('settingsPageListTileFadeEffect');
+          GetItService.instance<SettingsServiceSeven>()
+              .change(identifier: 'settingsPageListTileFadeEffect');
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -151,7 +156,9 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: (() {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsServiceOne>().changeSettings('buttonAxis');
+          // GetItService.instance<SettingsServiceOne>().changeSettings('buttonAxis');
+          GetItService.instance<SettingsServiceSeven>()
+              .change(identifier: 'buttonAxis');
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,

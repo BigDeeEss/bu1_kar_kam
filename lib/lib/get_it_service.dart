@@ -4,26 +4,26 @@ import 'package:get_it/get_it.dart';
 
 /// A simple service provider offering a single interface between GetIt and app.
 class GetItService {
-  //  [allReady] indicates that all GetIt instances are ready for use.
+  /// [allReady] indicates that all GetIt instances are ready for use.
   static Future<void> allReady() {
     return GetIt.instance.allReady();
   }
 
-  //  Avoid memory leaks by not properly disposing of listenables
-  //  attached to GetIt instance of T.
+  /// Avoid memory leaks by properly disposing of the listenable attached
+  /// to T registered with GetIt.
   static void dispose<T extends ChangeNotifier>(VoidCallback callBack) {
     GetIt.instance<T>().removeListener(callBack);
   }
 
-  //  Add listener to GetIt instance of T.
+  /// Add listener to T, an extension of ChangeNotifier, registered with GetIt.sd
   static void addListener<T extends ChangeNotifier>(VoidCallback callBack) {
     GetIt.instance
         .isReady<T>()
         .then((_) => GetIt.instance<T>().addListener(callBack));
   }
 
-  //  The main service, returning the registered instance of T
-  //  so that associated fields and methods can be accessed.
+  /// Returns the instance of T registered with GetIt so that the
+  /// associated fields and methods can be accessed.
   static T instance<T extends ChangeNotifier>() {
     return GetIt.instance<T>();
   }

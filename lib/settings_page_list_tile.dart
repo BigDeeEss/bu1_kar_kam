@@ -432,8 +432,9 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    final bool localSettingsPageListTileFadeEffect = watchOnly(
-        (SettingsServiceOne m) => m.settingsData.settingsPageListTileFadeEffect);
+    // final bool localSettingsPageListTileFadeEffect = watchOnly(
+    //     (SettingsServiceOne m) => m.settingsData.settingsPageListTileFadeEffect);
+    bool localSettingsPageListTileFadeEffect = true;
 
     return localSettingsPageListTileFadeEffect
         ? Positioned(

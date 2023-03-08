@@ -131,7 +131,8 @@ class ButtonArray extends StatelessWidget with GetItMixin {
     //  SettingsService.settingsData.buttonAxis.
     // bool drawLayoutBounds =
     //     watchOnly((SettingsService m) => m.settingsData.drawLayoutBounds);
-    Axis buttonAxis = watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
+    // Axis buttonAxis = watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
+    Axis buttonAxis = Axis.horizontal;
 
     //  Generate the array of buttons.
     List<Widget> buttonArray = buttonArrayGenerator(context, buttonAxis);

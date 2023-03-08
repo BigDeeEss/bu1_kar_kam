@@ -1,9 +1,11 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
+import 'package:kar_kam/settings_data_seven.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/settings_service_one.dart';
+// import 'package:kar_kam/settings_service_one.dart';
+import 'package:kar_kam/settings_service_seven.dart';
 
 /// [BoxedContainer] implements a Container and prints its bounding box.
 ///
@@ -53,8 +55,22 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
   Widget build(BuildContext context) {
     //  Watch for changes to SettingsService, specifically
     //  SettingsService.settingsData.
+    // bool drawLayoutBounds =
+    //     watchOnly((SettingsServiceOne m) => m.settingsData.drawLayoutBounds);
+    // SettingsServiceSevenImplementation<SettingsDataSeven> test2 = SettingsServiceSevenImplementation<SettingsDataSeven>(SettingsDataSeven());
+    // bool drawLayoutBounds =
+    //     watch<SettingsServiceSevenImplementation, SettingsDataSeven>(
+    //       // target: test2,
+    //       // instanceName: 'value',
+    //     ).drawLayoutBounds;
     bool drawLayoutBounds =
-        watchOnly((SettingsServiceOne m) => m.settingsData.drawLayoutBounds);
+    watchOnly((SettingsServiceSeven m) => m.value.drawLayoutBounds);
+    print('BoxedContainer, $drawLayoutBounds');
+
+    // print(drawLayoutBounds);
+    // print(test2);
+
+    // bool drawLayoutBounds = true;
 
     return Container(
       alignment: alignment,
