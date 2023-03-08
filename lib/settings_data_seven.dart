@@ -42,12 +42,12 @@ class SettingsDataSeven {
     };
 
 
-    print('SettingsDataSeven, change...$drawLayoutBounds');
+    // print('SettingsDataSeven, change...$drawLayoutBounds');
 
     //  Call the function determined from map.
     map[identifier]?.call(newValue);
 
-    print('SettingsDataSeven, change...$drawLayoutBounds');
+    // print('SettingsDataSeven, change...$drawLayoutBounds');
 
     //  Return this instance of SettingsDataSeven.
     return this;

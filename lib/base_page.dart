@@ -9,8 +9,10 @@ import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings_data_one.dart';
+import 'package:kar_kam/settings_data_seven.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
 import 'package:kar_kam/settings_service_one.dart';
+import 'package:kar_kam/settings_service_seven.dart';
 
 /// [BasePage] implements a generic page layout design.
 ///
@@ -94,9 +96,14 @@ class BasePageState extends State<BasePage> with GetItStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    Axis buttonAxis =
+        watch<SettingsServiceEight, SettingsDataSeven>(
+          // target: test2,
+          // instanceName: 'value',
+        ).buttonAxis;
     // Axis buttonAxis =
     //     watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
-    Axis buttonAxis = Axis.horizontal;
+    // Axis buttonAxis = Axis.horizontal;
 
     return Scaffold(
       appBar: AppBar(

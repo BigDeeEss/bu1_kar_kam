@@ -102,10 +102,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: () {
           //  Toggle bool variable in AppModel that controls the fade effect.
-          print('SettingsPageContents, ${GetItService.instance<SettingsServiceSeven>().value.drawLayoutBounds}');
-          GetItService.instance<SettingsServiceSeven>()
+          // print('SettingsPageContents, ${GetItService.instance<SettingsServiceEight>().value.drawLayoutBounds}');
+          GetItService.instance<SettingsServiceEight>()
               .change(identifier: 'drawLayoutBounds');
-          print('SettingsPageContents, ${GetItService.instance<SettingsServiceSeven>().value.drawLayoutBounds}');
+          // print('SettingsPageContents, ${GetItService.instance<SettingsServiceEight>().value.drawLayoutBounds}');
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -131,7 +131,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           //  Toggle bool variable in AppModel that controls the fade effect.
           // GetItService.instance<SettingsServiceOne>()
           //     .changeSettings('settingsPageListTileFadeEffect');
-          GetItService.instance<SettingsServiceSeven>()
+          GetItService.instance<SettingsServiceEight>()
               .change(identifier: 'settingsPageListTileFadeEffect');
         }),
         trailing: Icon(
@@ -157,7 +157,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         onTap: (() {
           //  Toggle bool variable in AppModel that controls the fade effect.
           // GetItService.instance<SettingsServiceOne>().changeSettings('buttonAxis');
-          GetItService.instance<SettingsServiceSeven>()
+          GetItService.instance<SettingsServiceEight>()
               .change(identifier: 'buttonAxis');
         }),
         trailing: Icon(

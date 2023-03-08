@@ -13,7 +13,7 @@ void main() {
   //  Use GetItService as the single point of access to GetIt to
   //  register an instance of Settings.
   // GetItService.register<SettingsServiceOne>(SettingsServiceOne());
-  GetItService.register<SettingsServiceSeven>(SettingsServiceSeven(SettingsDataSeven()));
+  GetItService.register<SettingsServiceEight>(SettingsServiceEight(SettingsDataSeven()));
 
   //  Run the app.
   runApp(const KarKam());

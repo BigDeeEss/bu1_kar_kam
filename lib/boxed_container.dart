@@ -58,14 +58,14 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
     // bool drawLayoutBounds =
     //     watchOnly((SettingsServiceOne m) => m.settingsData.drawLayoutBounds);
     // SettingsServiceSevenImplementation<SettingsDataSeven> test2 = SettingsServiceSevenImplementation<SettingsDataSeven>(SettingsDataSeven());
-    // bool drawLayoutBounds =
-    //     watch<SettingsServiceSevenImplementation, SettingsDataSeven>(
-    //       // target: test2,
-    //       // instanceName: 'value',
-    //     ).drawLayoutBounds;
     bool drawLayoutBounds =
-    watchOnly((SettingsServiceSeven m) => m.value.drawLayoutBounds);
-    print('BoxedContainer, $drawLayoutBounds');
+        watch<SettingsServiceEight, SettingsDataSeven>(
+          // target: test2,
+          // instanceName: 'value',
+        ).drawLayoutBounds;
+    // bool drawLayoutBounds =
+    // watchOnly((SettingsServiceEight m) => m.value.drawLayoutBounds);
+    // print('BoxedContainer, $drawLayoutBounds');
 
     // print(drawLayoutBounds);
     // print(test2);

@@ -12,6 +12,9 @@ import 'package:kar_kam/lib/double_extension.dart';
 import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 import 'package:kar_kam/settings_service_one.dart';
+import 'package:kar_kam/settings_service_seven.dart';
+
+import 'settings_data_seven.dart';
 
 //  A temporary double for determining the slope of the connecting
 //  straight line segment that constitutes the path by which tiles
@@ -434,7 +437,11 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
   Widget build(BuildContext context) {
     // final bool localSettingsPageListTileFadeEffect = watchOnly(
     //     (SettingsServiceOne m) => m.settingsData.settingsPageListTileFadeEffect);
-    bool localSettingsPageListTileFadeEffect = true;
+    bool localSettingsPageListTileFadeEffect =
+        watch<SettingsServiceEight, SettingsDataSeven>(
+          // target: test2,
+          // instanceName: 'value',
+        ).settingsPageListTileFadeEffect;
 
     return localSettingsPageListTileFadeEffect
         ? Positioned(
