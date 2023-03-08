@@ -1,43 +1,32 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings_data.dart';
+import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
+import 'package:kar_kam/settings_data_one.dart';
+import 'package:kar_kam/settings_data_seven.dart';
 import 'package:kar_kam/settings_page_list_tile.dart' show sf;
+import 'package:kar_kam/settings_service_one.dart';
+import 'package:kar_kam/settings_service_seven.dart';
 
-/// A wrapper for [_BasePage] which draws a similar UI for
-/// each page/route in _KarKam.
-class BasePage extends StatelessWidget {
-  const BasePage({
-    Key? key,
-    required this.pageSpec,
-  }) : super(key: key);
-
-  /// [pageSpec] defines the page layout associated with each route.
-  final PageSpec pageSpec;
-
-  @override
-  Widget build(BuildContext context) {
-    return _BasePage(
-      pageSpec: pageSpec,
-    );
-  }
-}
-
-
-/// [_BasePage] implements a generic page layout design.
+/// [BasePage] implements a generic page layout design.
 ///
-/// [_BasePage] presents a similar UI for each page/route with:
+/// [BasePage] presents a similar UI for each page/route with:
 ///     1. an AppBar at the top with a title,
 ///     2. specific screen contents including buttons for navigation
 ///        and functionality, and
 ///     3. a bottom navigation bar.
-class _BasePage extends StatefulWidget {
-  const _BasePage({
+///
+/// [BasePage] is an extension of StatefulWidget because a combination of
+/// initState and WidgetsBinding.instance.addPostFrameCallback is used for
+/// getting [buttonArrayRect].
+class BasePage extends StatefulWidget with GetItStatefulWidgetMixin {
+  BasePage({
     Key? key,
     required this.pageSpec,
   }) : super(key: key);
@@ -46,13 +35,15 @@ class _BasePage extends StatefulWidget {
   final PageSpec pageSpec;
 
   @override
-  State<_BasePage> createState() => _BasePageState();
+  State<BasePage> createState() => BasePageState();
 }
 
-class _BasePageState extends State<_BasePage> {
-  /// [basePageViewKey] stores the GlobalKey which is passed to Stack so that
-  /// widgets below this -- e.g. [SettingsPageContents] -- are able to get
-  /// the available screen dimensions.
+class BasePageState extends State<BasePage> with GetItStateMixin {
+  /// [basePageViewKey] stores the GlobalKey required for calculating
+  /// available screen dimensions.
+  ///
+  /// [basePageViewKey] is passed to Stack so that widgets below
+  /// this -- e.g. [SettingsPageContents] -- can calculate screen dimensions.
   GlobalKey basePageViewKey = GlobalKey();
 
   /// [basePageViewRect] stores the available screen dimensions as Rect data.
@@ -61,38 +52,38 @@ class _BasePageState extends State<_BasePage> {
   /// [buttonArray] builds a linear horizontal or vertical array of buttons.
   ///
   /// [buttonArray] is referenced in the build and initState methods and
-  /// so must be instantiated at the point of [_BasePage] creation.
+  /// so must be instantiated at the point of [BasePage] creation.
   final ButtonArray buttonArray = ButtonArray();
 
   /// [buttonArrayRect] stores Rect information associated with [buttonArray].
   Rect? buttonArrayRect = Rect.zero;
 
+  /// [pageContents] specifies UI characteristics.
+  ///
   /// [pageContents] (initially null) is updated by setState in a
-  /// postFrameCallback.
-  ///
-  /// [pageContents] may depend on knowledge of the existence of [buttonArray].
-  /// and so must be built after [buttonArray] in a post-frame callback.
-  ///
-  /// An example is [SettingsPageContents] which requires the Rect data
-  /// associated with [buttonArray] to be known before it is built.
+  /// postFrameCallback. [pageContents] may depend on knowledge of the
+  /// existence of [buttonArray], and so therefore must be built after
+  /// [buttonArray] in a post-frame callback. An example is
+  /// [SettingsPageContents] which requires [buttonArratRect] to be known
+  /// before it is built.
   Widget? pageContents;
 
   @override
   void initState() {
     //  BasePage is built in two parts: (i) buttonArray, by the build
     //  function; and then (ii) buttonArray + pageContents, initiated by
-    //  this post-frame callback.
+    //  the following post-frame callback.
     //
-    //  BasePage is built in two parts as pageContents may require
-    //  the position of buttonArray -- see for example SettingsPageContents.
+    //  BasePage is built in two parts because pageContents may require
+    //  [buttonArrayRect] -- e.g. SettingsPageContents -- to be known.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //  Get basePageView Rect data and update basePageViewRect].
+      //  Get basePageView Rect data and update [basePageViewRect].
       basePageViewRect = basePageViewKey.globalPaintBounds;
 
-      //  Get buttonArray Rect data and update buttonArrayRect.
+      //  Get buttonArray Rect data and update [buttonArrayRect].
       buttonArrayRect = buttonArray.rect;
 
-      //  Rebuild widget with pageSpec.contents instead of Container().
+      //  Rebuild widget with [pageSpec.contents] instead of Container().
       if (pageContents == null) {
         setState(() {
           pageContents = widget.pageSpec.contents;
@@ -105,20 +96,29 @@ class _BasePageState extends State<_BasePage> {
 
   @override
   Widget build(BuildContext context) {
+    Axis buttonAxis =
+        watch<SettingsServiceEight, SettingsDataSeven>(
+          // target: test2,
+          // instanceName: 'value',
+        ).buttonAxis;
+    // Axis buttonAxis =
+    //     watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
+    // Axis buttonAxis = Axis.horizontal;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.pageSpec.title),
       ),
-      //  Use Builder widget to generate a BottomAppBar because it is not
-      //  possible to get the appBar height from the current BuildContext since
-      //  this instance of Scaffold hasn't been built yet.
+      //  Use Builder widget to generate a BottomAppBar.
+      //
+      //  It is not possible to get the appBar height from the current
+      //  BuildContext since this instance of Scaffold hasn't been built yet.
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           //  Get appBar height from context.
           double appBarHeight =
               MediaQuery.of(context).padding.top + kToolbarHeight;
 
-          // This instance of Builder returns BottomAppBar.
           return BottomAppBar(
             color: Colors.blue,
             child: SizedBox(
@@ -130,8 +130,8 @@ class _BasePageState extends State<_BasePage> {
         },
       ),
       //  The Scaffold body contents are placed within two instances of
-      //  DataStore in order to transfer buttonArrayRect and
-      //  basePageViewRect down the widget tree.
+      //  [DataStore] in order to transfer [buttonArrayRect] and
+      //  [basePageViewRect] down the widget tree.
       body: DataStore<Rect?>(
         key: const ValueKey('buttonArrayRect'),
         data: buttonArrayRect,
@@ -155,19 +155,20 @@ class _BasePageState extends State<_BasePage> {
               buttonArray,
               //  Add two additional guidance circles for checking the sliding
               //  motion of SettingsPageListTile.
-              (AppSettingsOrig.buttonAxis == Axis.horizontal)
+              (buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
                       bottom:
                           (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
                       left: (AppSettingsOrig.buttonAlignment.x < 0)
-                          ? buttonArray.buttonCoords.first
+                          ? buttonArray.buttonCoordinates.first
                           : null,
                       right: (AppSettingsOrig.buttonAlignment.x > 0)
-                          ? buttonArray.buttonCoords.first
+                          ? buttonArray.buttonCoordinates.first
                           : null,
                       child: CustomPaint(
                         painter: OpenPainter(
+                          axis: buttonAxis,
                           shiftVal: (buttonArray.rect != null)
                               ? buttonArray.rect!.shortestSide * sf
                               : 0.0,
@@ -176,10 +177,10 @@ class _BasePageState extends State<_BasePage> {
                     )
                   : Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoordinates.last
                           : null,
                       bottom: (AppSettingsOrig.buttonAlignment.y > 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoordinates.last
                           : null,
                       left:
                           (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
@@ -187,35 +188,37 @@ class _BasePageState extends State<_BasePage> {
                           (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
                       child: CustomPaint(
                         painter: OpenPainter(
+                          axis: buttonAxis,
                           shiftVal: (buttonArray.rect != null)
                               ? buttonArray.rect!.shortestSide * sf
                               : 0.0,
                         ),
                       ),
                     ),
-              (AppSettingsOrig.buttonAxis == Axis.horizontal)
+              (buttonAxis == Axis.horizontal)
                   ? Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
                       bottom:
                           (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
                       left: (AppSettingsOrig.buttonAlignment.x < 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoordinates.last
                           : null,
                       right: (AppSettingsOrig.buttonAlignment.x > 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoordinates.last
                           : null,
                       child: CustomPaint(
                         painter: OpenPainter(
+                          axis: buttonAxis,
                           shiftVal: 0.0,
                         ),
                       ),
                     )
                   : Positioned(
                       top: (AppSettingsOrig.buttonAlignment.y < 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoordinates.last
                           : null,
                       bottom: (AppSettingsOrig.buttonAlignment.y > 0)
-                          ? buttonArray.buttonCoords.last
+                          ? buttonArray.buttonCoordinates.last
                           : null,
                       left:
                           (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
@@ -223,6 +226,7 @@ class _BasePageState extends State<_BasePage> {
                           (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
                       child: CustomPaint(
                         painter: OpenPainter(
+                          axis: buttonAxis,
                           shiftVal: 0.0,
                         ),
                       ),
@@ -238,8 +242,11 @@ class _BasePageState extends State<_BasePage> {
 //  A custom painter for producing the guidance circles.
 class OpenPainter extends CustomPainter {
   OpenPainter({
+    required this.axis,
     required this.shiftVal,
   });
+
+  final Axis axis;
 
   final double shiftVal;
 
@@ -249,9 +256,9 @@ class OpenPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint1 = Paint()
-      ..color = Color.fromRGBO(66, 165, 245, 0.5)
+      ..color = const Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
-    if (AppSettingsOrig.buttonAxis == Axis.horizontal) {
+    if (axis == Axis.horizontal) {
       if (AppSettingsOrig.buttonAlignment.y < 0 &&
           AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);
@@ -269,7 +276,7 @@ class OpenPainter extends CustomPainter {
         canvas.drawCircle(Offset(r, -r - shiftVal), r, paint1);
       }
     }
-    if (AppSettingsOrig.buttonAxis == Axis.vertical) {
+    if (axis == Axis.vertical) {
       if (AppSettingsOrig.buttonAlignment.y < 0 &&
           AppSettingsOrig.buttonAlignment.x > 0) {
         canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);

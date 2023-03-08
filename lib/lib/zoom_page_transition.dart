@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/app_settings_data.dart';
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/page_specs.dart';
+import 'package:kar_kam/old_app_settings_data.dart';
 
 /// [ZoomPageTransition] implements a zoom page transition from the centre out.
 class ZoomPageTransition extends PageRouteBuilder {

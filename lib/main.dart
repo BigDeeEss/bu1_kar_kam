@@ -1,17 +1,20 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 //  Import project-specific files.
-import 'package:kar_kam/app_model.dart';
+import 'package:kar_kam/settings_service_one.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/kar_kam.dart';
+import 'package:kar_kam/settings_data_seven.dart';
+import 'package:kar_kam/settings_service_seven.dart';
 
-//  App start point.
+///  App start point.
 void main() {
-  //  Define an instance of GetIt and register AppModel.
-  GetIt.instance.registerSingleton<AppModel>(AppModelImplementation(),
-      signalsReady: true);
+  //  Use GetItService as the single point of access to GetIt to
+  //  register an instance of Settings.
+  // GetItService.register<SettingsServiceOne>(SettingsServiceOne());
+  GetItService.register<SettingsServiceEight>(SettingsServiceEight(SettingsDataSeven()));
 
   //  Run the app.
-  runApp(KarKam());
+  runApp(const KarKam());
 }
