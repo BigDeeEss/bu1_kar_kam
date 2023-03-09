@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/button_specs.dart';
 
-/// Implements a copy of FloatingActionButton.
+/// Implements a copy of [FloatingActionButton].
 class Button extends StatelessWidget {
   const Button({
     Key? key,
     required this.buttonSpec,
   }) : super(key: key);
 
-  /// [buttonSpec] defines the visual characteristics and activation rules.
+  /// Defines visual characteristics and activation rules.
   final ButtonSpec buttonSpec;
 
   @override
   Widget build(BuildContext context) {
-    //  An IconButton with a circular background.
+    // An IconButton with a circular background.
     //
-    //  Insert an instance of Container in order to offer layout bounds.
+    // Insert an instance of [BoxedContainer] in order to offer layout bounds.
     return BoxedContainer(
       borderColor: Colors.redAccent,
       child: Padding(
