@@ -1,11 +1,11 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
-import 'package:kar_kam/settings_data_seven.dart';
+import 'package:kar_kam/settings.dart';
 
 //  Import project-specific files.
 // import 'package:kar_kam/settings_service_one.dart';
-import 'package:kar_kam/settings_service_seven.dart';
+import 'package:kar_kam/settings_service.dart';
 
 /// [BoxedContainer] implements a Container and prints its bounding box.
 ///
@@ -59,7 +59,7 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
     //     watchOnly((SettingsServiceOne m) => m.settingsData.drawLayoutBounds);
     // SettingsServiceSevenImplementation<SettingsDataSeven> test2 = SettingsServiceSevenImplementation<SettingsDataSeven>(SettingsDataSeven());
     bool drawLayoutBounds =
-        watch<SettingsServiceEight, SettingsDataSeven>(
+        watch<SettingsService, Settings>(
           // target: test2,
           // instanceName: 'value',
         ).drawLayoutBounds;

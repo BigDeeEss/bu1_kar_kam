@@ -7,9 +7,9 @@ import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
-import 'package:kar_kam/settings_data_seven.dart';
-import 'package:kar_kam/settings_service_one.dart';
-import 'package:kar_kam/settings_service_seven.dart';
+import 'package:kar_kam/settings.dart';
+// import 'package:kar_kam/settings_service_one.dart';
+import 'package:kar_kam/settings_service.dart';
 
 /// Implements a linear horizontal or vertical array of Buttons.
 class ButtonArray extends StatelessWidget with GetItMixin {
@@ -136,7 +136,7 @@ class ButtonArray extends StatelessWidget with GetItMixin {
     // Axis buttonAxis = watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
     // Axis buttonAxis = Axis.horizontal;
     Axis buttonAxis =
-        watch<SettingsServiceEight, SettingsDataSeven>(
+        watch<SettingsService, Settings>(
           // target: test2,
           // instanceName: 'value',
         ).buttonAxis;

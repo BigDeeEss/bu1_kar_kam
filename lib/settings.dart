@@ -1,7 +1,7 @@
 //  Import flutter packages.
 import 'package:flutter/material.dart';
 
-class SettingsDataSeven {
+class Settings {
   /// Sets the button axis in ButtonArray.
   Axis buttonAxis = Axis.horizontal;
 
@@ -29,7 +29,7 @@ class SettingsDataSeven {
   }
 
   /// Updates this using string to determine which field is set to newValue.
-  SettingsDataSeven change({
+  Settings change({
     required String identifier,
     var newValue,
   }) {
