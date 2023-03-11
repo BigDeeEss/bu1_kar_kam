@@ -8,23 +8,23 @@ import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/page_specs.dart';
 // import 'package:kar_kam/lib/zoom_page_transition.dart';
 
-/// [ButtonSpec] contains the specs for on-screen buttons.
+/// Contains the specs for an on-screen button.
 class ButtonSpec {
   ButtonSpec({
     required this.icon,
     required this.onPressed,
   });
 
-  /// [icon] indicating the destination page or action.
+  /// Graphical indicator of the destination page and/or action.
   final Icon icon;
 
-  /// [onPressed] defines the action to be taken when the button is activated.
+  /// Defines the action to be taken when the button is activated.
   final void Function(BuildContext context) onPressed;
 
-  /// [buttonPadding] is a radial padding beyond [buttonRadius].
+  /// A radial padding beyond [buttonRadius].
   EdgeInsetsDirectional buttonPadding = AppSettingsOrig.buttonPadding;
 
-  /// [size] is the button characteristic dimension.
+  /// A size for the button.
   double size = AppSettingsOrig.buttonRadius;
 }
 
@@ -39,7 +39,7 @@ ButtonSpec homeButton = ButtonSpec(
         ),
       ),
     );
-    //  The following is required for implementing [ZoomPageTransition].
+    // The following is required for implementing [ZoomPageTransition].
     // Navigator.of(context).pushReplacement(ZoomPageTransition(
     //   pageSpec: homePage,
     // ));
@@ -57,7 +57,7 @@ ButtonSpec filesButton = ButtonSpec(
         ),
       ),
     );
-    //  The following is required for implementing [ZoomPageTransition].
+    // The following is required for implementing [ZoomPageTransition].
     // Navigator.of(context).pushReplacement(ZoomPageTransition(
     //   pageSpec: filesPage,
     // ));
@@ -75,7 +75,7 @@ ButtonSpec settingsButton = ButtonSpec(
         ),
       ),
     );
-    //  The following is required for implementing [ZoomPageTransition].
+    // The following is required for implementing [ZoomPageTransition].
     // Navigator.of(context).pushReplacement(ZoomPageTransition(
     //   pageSpec: settingsPage,
     // ));
