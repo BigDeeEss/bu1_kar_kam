@@ -1,17 +1,17 @@
-//  Import flutter packages.
+// Import flutter packages.
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/settings_page_contents.dart';
 
-/// [PageSpec] allows for ease of reference to specific page settings.
+/// Prototype class allowing for referencing specific page settings.
 class PageSpec {
   const PageSpec({
     required this.title,
     required this.contents,
   });
 
-  /// The [title] associated with each page/route.
+  /// A [title] for each page/route.
   final String title;
 
   /// The [contents] associated with each page/route.

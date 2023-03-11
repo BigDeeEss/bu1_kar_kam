@@ -1,8 +1,8 @@
-//  Import flutter packages.
+// Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
-//  Import project-specific files.
+// mport project-specific files.
 import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_service.dart';
 

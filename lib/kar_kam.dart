@@ -1,14 +1,14 @@
-//  Import flutter packages.
+// Import flutter packages.
 import 'package:flutter/material.dart';
 
-//  Import project-specific files.
+// Import project-specific files.
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/page_specs.dart';
 
 /// KarKam is the root widget of this application.
 ///
-/// KarKam is a StatelessWidget wrapper for an instance of FutureBuilder.
+/// KarKam is just a StatelessWidget wrapper for an instance of FutureBuilder.
 /// FutureBuilder waits for the async process of loading saved app settings.
 class KarKam extends StatelessWidget {
   const KarKam({super.key});
@@ -25,8 +25,8 @@ class KarKam extends StatelessWidget {
           future: GetItService.allReady(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              //  For the 'has no data' case present a progress indicator.
-              //  Case where async load of app settings is still in progress.
+              // For the 'has no data' case present a progress indicator.
+              // Case where async load of app settings is still in progress.
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -37,11 +37,11 @@ class KarKam extends StatelessWidget {
                 ],
               );
             } else {
-              //  Fot the 'has data' case continue with building BasePage.
+              // For the 'has data' case continue with building BasePage.
               return MaterialApp(
                 title: '_KarKam',
-                //  BasePage invokes a generic page layout so that a similar
-                //  UI is presented for each page (route).
+                // BasePage invokes a generic page layout so that a similar
+                // UI is presented for each page (route).
                 home: BasePage(
                   // pageSpec: homePage,
                   pageSpec: settingsPage,
