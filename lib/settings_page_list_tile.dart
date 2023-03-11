@@ -1,9 +1,9 @@
-//  Import flutter packages.
+// Import flutter packages.
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
-//  Import project-specific files.
+// Import project-specific files.
 import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
@@ -11,17 +11,14 @@ import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/double_extension.dart';
 import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
-// import 'package:kar_kam/settings_service_one.dart';
+import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_service.dart';
 
-import 'settings.dart';
-
-//  A temporary double for determining the slope of the connecting
-//  straight line segment that constitutes the path by which tiles
-//  pass around ButtonArray.
+// A temporary double for determining the slope of the connecting
+// straight line segment that tilesnfollow as they pass around ButtonArray.
 double sf = 1.125;
 
-/// Implements a ListTile that is able to slide around [guestRect].
+/// Implements a [ListTile] that is able to slide around [guestRect].
 //
 // ignore: must_be_immutable
 class SettingsPageListTile extends StatelessWidget {
@@ -36,46 +33,42 @@ class SettingsPageListTile extends StatelessWidget {
     this.trailing,
     this.widget,
   }) : super(key: key) {
-    //  Create a Rect representation of SettingsPageListTile at the
-    //  correct initial location.
+    // Create a [Rect] representation of [SettingsPageListTile] at the
+    // correct initial location.
     hostRect = basePageViewRect
         .inflateToHeight(height)
         .moveTopLeftTo(basePageViewRect.topLeft)
         .translate(0, height * index);
 
-    //  Three Rect variables that help define the path that determines
-    //  the sliding motion of SettingsPageListTile.
+    // Helps define the sliding motion of [SettingsPageListTile].
     centreRect = centreConstructionRect;
     lowerRect = lowerConstructionRect;
     upperRect = upperConstructionRect;
 
-    //  Upload the radius of curvature associated with the path that
-    //  determines the sliding motion of SettingsPageListTile.
+    // Upload radius that defines the sliding motion of [SettingsPageListTile].
     if (guestRect != null) pathRadius = guestRect!.shortestSide / 2;
 
-    //  Define the combined [cornerRadius] from
-    //  [AppSettings.settingsPageListTileRadius] and
-    //  [AppSettings.settingsPageListTilePadding].
+    // The corner radius associated with [SettingsPageListTile].
     cornerRadius = AppSettingsOrig.settingsPageListTileRadius +
         AppSettingsOrig.settingsPageListTilePadding;
 
-    // Calculate [xPMax] from basePageViewRect.
+    // Calculate [xPMax] from [basePageViewRect].
     xPMax = basePageViewRect.width - 3 * AppSettingsOrig.buttonRadius;
   }
 
   /// The visible area on screen that contains [SettingsPageContents].
   final Rect basePageViewRect;
 
-  /// The Rect on screen which [SettingsPageListTile] will avoid when scrolling.
+  /// The on-screen [Rect] that [SettingsPageListTile] avoids when scrolling.
   final Rect? guestRect;
 
-  /// The height of the absolute bounding box for [SettingsPageListTile].
+  /// Height of the bounding box for [SettingsPageListTile].
   final double height;
 
   /// Unique identifier for [SettingsPageListTile].
   //
-  //  [index] is a temporary measure.
-  //  ToDo: replace index with an offset representing distance from origin.
+  // [index] is a temporary measure.
+  // ToDo: replace index with an offset representing distance from origin.
   final int index;
 
   /// A widget to display on the left within [SettingsPageListTile].
@@ -88,17 +81,17 @@ class SettingsPageListTile extends StatelessWidget {
   /// A widget to display on the right within [SettingsPageListTile].
   final Widget? trailing;
 
-  /// A widget to display between leading and trailing..
+  /// A widget to display between [leading] and [trailing].
   final Widget? widget;
 
-  /// A construction Rect situated directly between [upperRect]
+  /// A construction [Rect] situated directly between [upperRect]
   /// and [lowerRect] having the same width as [guestRect].
   late Rect? centreRect;
 
   /// A representation of [SettingsPageListTile] at its initial location.
   late Rect hostRect;
 
-  /// The construction Rect that overlaps with [guestRect.bottomLeft] and
+  /// The construction [Rect] that overlaps with [guestRect.bottomLeft] and
   /// [guestRect.bottomRight] and has the same width as [guestRect].
   late Rect? lowerRect;
 
@@ -110,46 +103,46 @@ class SettingsPageListTile extends StatelessWidget {
   /// the sliding motion of [SettingsPageListTile].
   double pathRadius = 0.0;
 
-  /// The construction Rect that overlaps with [guestRect.topLeft] and
+  /// The construction [Rect] that overlaps with [guestRect.topLeft] and
   /// [guestRect.topRight] and has the same width as [guestRect].
   late Rect? upperRect;
 
-  /// The maximum xP before the Opacity widget hides [SettingsPageListTile].
+  /// The maximum [xP] before the [Opacity] widget hides [SettingsPageListTile].
   late double xPMax;
 
   /// Getter for [centreRect].
   Rect? get centreConstructionRect {
-    //  Generates a Rect bounded by the bottom of [upperConstructionRect]
-    //  and the top of [lowerConstructionRect].
+    // Generates a [Rect] bounded by the bottom of [upperConstructionRect]
+    // and the top of [lowerConstructionRect].
     //
-    //  Returns null only if [guestRect] is null.
+    // Returns null only if [guestRect] is null.
     if (guestRect != null) {
       Rect uRect = upperConstructionRect!;
       Rect lRect = lowerConstructionRect!;
 
-      //  Ensure that [lowerConstructionRect] and [upperConstructionRect]
-      //  do not overlap.
+      // Ensure that [lowerConstructionRect] and [upperConstructionRect]
+      // do not overlap.
       assert(
           !uRect.overlaps(lRect),
           'SettingsPageListTile, get centreConstructionRect: error, '
           'lRect and uRect overlap.');
 
-      //  Create an Offset that represents the diagonal displacement
-      //  between corresponding end offsets on [lRect] and [uRect].
+      // Create an [Offset] that represents the diagonal displacement
+      // between corresponding end offsets on [lRect] and [uRect].
       //
-      //  Recall that the positive [y] direction is vertically down the screen.
+      // Recall that the positive [y] direction is vertically down the screen.
       //
-      //  Use this Offset to generate a Rect.
+      // Use this [Offset] to generate a [Rect].
       Offset offset = Offset.zero;
       if (AppSettingsOrig.buttonAlignment.y > 0) {
         offset = lRect.bottomRight - uRect.bottomLeft;
 
-        //  Convert offset to a Size and then construct output value.
+        // Convert [offset] to a [Size] and then construct output value.
         return uRect.bottomLeft & offset.toSize;
       } else {
         offset = lRect.topRight - uRect.topLeft;
 
-        //  Convert offset to a Size and then construct output value.
+        // Convert [offset] to a [Size] and then construct output value.
         return uRect.topLeft & offset.toSize;
       }
     } else {
@@ -160,10 +153,10 @@ class SettingsPageListTile extends StatelessWidget {
   /// Getter for [lowerRect].
   Rect? get lowerConstructionRect {
     if (guestRect != null) {
-      //  Inflate [guestRect] to a new height centered on the original, then
-      //  move it so that its top left corner is coincident with
-      //  [guestRect.bottomLeft], finally translate it upwards by
-      //  [guestRect!.shortestSide].
+      // Inflate [guestRect] to a new height centered on the original, then
+      // move it so that its top left corner is coincident with
+      // [guestRect.bottomLeft], finally translate it upwards by
+      // [guestRect!.shortestSide].
       return guestRect!
           .inflateToHeight(sf * guestRect!.shortestSide)
           .moveTopLeftTo(guestRect!.bottomLeft)
@@ -176,10 +169,10 @@ class SettingsPageListTile extends StatelessWidget {
   /// Getter for [upperRect].
   Rect? get upperConstructionRect {
     if (guestRect != null) {
-      //  Inflate [guestRect] to a new height centered on the original, then
-      //  move it so that its bottom left corner is coincident with
-      //  [guestRect.topLeft], finally translate it downwards by
-      //  [guestRect!.shortestSide].
+      // Inflate [guestRect] to a new height centered on the original, then
+      // move it so that its bottom left corner is coincident with
+      // [guestRect.topLeft], finally translate it downwards by
+      // [guestRect!.shortestSide].
       return guestRect!
           .inflateToHeight(sf * guestRect!.shortestSide)
           .moveBottomLeftTo(guestRect!.topLeft)
@@ -206,39 +199,39 @@ class SettingsPageListTile extends StatelessWidget {
     //  The output variable.
     double deltaX = 0.0;
 
-    //  Generate a copy of [hostRect] and translate it vertically so that
-    //  it has the correct current [y]-value for [scrollPosition].
+    // Generate a copy of [hostRect] and translate it vertically so that
+    // it has the correct current [y]-value for [scrollPosition].
     Rect rect = hostRect.shift(Offset(0.0, -scrollPosition));
 
-    //  Determine which method to use for calculating [deltaX].
+    // Determine which method to use for calculating [deltaX].
     if (guestRect != null) {
       if (centreRect!.inflateHeight(-cornerRadius).overlaps(rect)) {
-        //  [centreRect] overlaps with rect so set maximum deltaX value.
+        // [centreRect] overlaps with rect so set maximum deltaX value.
         deltaX = guestRect!.width;
       } else if (lowerRect!
               .boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||
           lowerRect!
               .boundsContain(rect.translate(0.0, cornerRadius).topRight)) {
-        //  Use the [y]-value associated with [rect.top] relative to
-        //  [lowerRect!.bottom], modified to account for [cornerRadius].
+        // Use the [y]-value associated with [rect.top] relative to
+        // [lowerRect!.bottom], modified to account for [cornerRadius].
         //
-        //  The positive [y]-axis points vertically upwards in this function.
+        // The positive [y]-axis points vertically upwards in this function.
         double y = rect.top - lowerRect!.top;
 
-        //  Calculate [deltaX].
+        // Calculate [deltaX].
         deltaX = getXFromY(lowerRect!, y);
         deltaX = guestRect!.width - deltaX;
       } else if (upperRect!
               .boundsContain(rect.translate(0.0, -cornerRadius).bottomLeft) ||
           upperRect!
               .boundsContain(rect.translate(0.0, -cornerRadius).bottomRight)) {
-        //  Use the [y]-value associated with [rect.bottom] relative to
-        //  [upperRect!.bottom], modified to account for [cornerRadius].
+        // Use the [y]-value associated with [rect.bottom] relative to
+        // [upperRect!.bottom], modified to account for [cornerRadius].
         //
-        //  The positive [y]-axis points vertically upwards in this function.
+        // The positive [y]-axis points vertically upwards in this function.
         double y = upperRect!.bottom - rect.bottom;
 
-        //  Calculate [deltaX].
+        // Calculate [deltaX].
         deltaX = getXFromY(upperRect!, y);
         deltaX = guestRect!.width - deltaX;
       }
@@ -294,23 +287,23 @@ class SettingsPageListTile extends StatelessWidget {
   }
 
   double getXFromY(Rect rect, double y) {
-    //  S is the point of symmetry, taken to be the centre of rect, with
-    //  coordinates ([xS], [yS]).
+    // S is the point of symmetry, taken to be the centre of [rect], with
+    // coordinates ([xS], [yS]).
     //
-    //  Relative to the bottom left corner of rect, [xS] and [yS] have
-    //  the values as follows.
+    // Relative to the bottom left corner of [rect], [xS] and [yS] have
+    // the values as follows.
     double xS = rect.width / 2.0;
     double yS = rect.height / 2.0;
 
-    //  In order to avoid generating complex numbers aa + bb - 2ra > 0.
+    // In order to avoid generating complex numbers aa + bb - 2ra > 0.
     assert(
         xS * xS + yS * yS - 2 * pathRadius * xS >= 0,
         'SettingsPageListTile, get xPFromY: '
         'error, complex number generated by square root.');
 
-    //  The negative square root is taken as otherwise, with
-    //      ([xS], [yS]) = (2 * [pathRadius], [pathRadius]),
-    //  the positive root implies a vertical line segment with [yCrit] < 0.
+    // The negative square root is taken as otherwise, with
+    //    ([xS], [yS]) = (2 * [pathRadius], [pathRadius]),
+    // the positive root implies a vertical line segment with [yCrit] < 0.
     double xCrit = (xS * xS +
             yS * yS -
             pathRadius * xS -
@@ -318,8 +311,8 @@ class SettingsPageListTile extends StatelessWidget {
         pathRadius /
         (yS * yS + (xS - pathRadius) * (xS - pathRadius));
 
-    //  To get [yCrit] invert the equation of a circle,
-    //      (x - r)^2 + (y - 0)^2 = r^2.
+    // To get [yCrit] invert the equation of a circle,
+    //    (x - r)^2 + (y - 0)^2 = r^2.
     double yCrit = math.sqrt(
         pathRadius * pathRadius - (xCrit - pathRadius) * (xCrit - pathRadius));
 
@@ -361,24 +354,24 @@ class SettingsPageListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  Use ValueListenableBuilder to build SettingsPageListTile each
-    //  time the scroll position changes..
+    // Use [ValueListenableBuilder] to build [SettingsPageListTile] each
+    // time the scroll position changes.
     return ValueListenableBuilder<double>(
       valueListenable: DataStore.of<ValueNotifier<double>>(
               context, const ValueKey('scrollPosition'))
           .data,
       builder: (BuildContext context, double value, __) {
-        //  Calculate the degree of indentation/horizontal shrinkage to
-        //  be applied to this instance of SettingsPageListTile.
+        // Calculate the degree of indentation/horizontal shrinkage to
+        // be applied to this instance of [SettingsPageListTile].
         double xP = getDeltaX(value);
 
-        //  Use an Opacity widget to implement a vanishing SettingsPageListTile
-        //  for when the space between [guestRect] and the edge of the screen
-        //  is insufficient.
+        // Use an [Opacity] widget to implement a vanishing
+        // [SettingsPagelistTile] for when the space between [guestRect]
+        // and the edge of the screen is insufficient.
         return Opacity(
           opacity: (xP > xPMax) ? 0.0 : 1.0,
-          //  The topmost instance of BoxedContainer, with the use of [xP] to
-          //  define margin, implements the variable width settings panel.
+          // The topmost instance of [BoxedContainer], with the use of [xP] to
+          // define margin, implements the variable width settings panel.
           child: BoxedContainer(
             margin: AppSettingsOrig.buttonAlignment.isLeft
                 ? EdgeInsets.only(left: xP)
@@ -423,8 +416,8 @@ class SettingsPageListTile extends StatelessWidget {
   }
 }
 
-/// [_FadingOverlay] is either an instance of Align, in which case it
-/// implements a right-aligned fade effect on top of the widget, or Container().
+/// [_FadingOverlay] is either an instance of [Align], in which case it
+/// implements a right-aligned fade effect on top of the widget, or [Container].
 class _FadingOverlay extends StatelessWidget with GetItMixin {
   _FadingOverlay({
     Key? key,
@@ -435,13 +428,9 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    // final bool localSettingsPageListTileFadeEffect = watchOnly(
-    //     (SettingsServiceOne m) => m.settingsData.settingsPageListTileFadeEffect);
+    // Watch for changes to [SettingsService] registered with GetIt.
     bool localSettingsPageListTileFadeEffect =
-        watch<SettingsService, Settings>(
-          // target: test2,
-          // instanceName: 'value',
-        ).settingsPageListTileFadeEffect;
+        watch<SettingsService, Settings>().settingsPageListTileFadeEffect;
 
     return localSettingsPageListTileFadeEffect
         ? Positioned(
@@ -452,7 +441,7 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
                     AppSettingsOrig.settingsPageListTileRadius),
-                //  https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
+                // https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,

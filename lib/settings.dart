@@ -1,35 +1,33 @@
-//  Import flutter packages.
+// Import flutter packages.
 import 'package:flutter/material.dart';
 
+/// Stores app settings.
 class Settings {
-  /// [appBarHeightScaleFactor] defines a simple scale factor to apply to
-  /// appBar when calculating bottomNavigationBar height in BasePage class.
+  /// A scale factor which is applied to [appBarHeight] in order to calculate
+  /// the [BottomAppBar] height in [BasePage] class.
   double appBarHeightScaleFactor = 1.0;
 
-  /// [buttonAlignment] defines the position of the anchor that determines
-  /// button placement in the ButtonArray class.
+  /// The anchor location that determines button placement in [ButtonArray].
   // static Alignment buttonAlignment = Alignment.bottomLeft;
   // static Alignment buttonAlignment = Alignment.bottomRight;
   Alignment buttonAlignment = Alignment.topLeft;
 
-  /// Sets the button axis in ButtonArray.
+  /// The button axis in [ButtonArray].
   Axis buttonAxis = Axis.horizontal;
 
-  /// [buttonPaddingMainAxis] defines the main axis padding between buttons.
+  /// Main axis padding between buttons in [ButtonArray].
   double buttonPaddingMainAxis = 15.0;
 
-  /// [buttonPaddingMainAxisAlt] defines an alternative main axis padding
-  /// between buttons.
+  /// An alternative main axis padding between buttons in [ButtonArray].
   double buttonPaddingMainAxisAlt = 12.5;
 
-  /// [buttonRadius] defines the button radius in Button class.
+  /// Button radius in [Button] class.
   double buttonRadius = 28.0;
 
-  /// Determines whether BoxedContainer draws bounding boxes or not.
+  /// Whether [BoxedContainer] draws bounding boxes or not.
   bool drawLayoutBounds = true;
 
-  /// Determines whether the fade effect in SettingsPageListTile
-  /// is active or not.
+  /// Whether fade effect in SettingsPageListTile is active or not.
   bool settingsPageListTileFadeEffect = true;
 
   /// Toggles [buttonAxis].
@@ -42,6 +40,7 @@ class Settings {
   void toggleSettingsPageListTileFadeEffect() =>
       settingsPageListTileFadeEffect = !settingsPageListTileFadeEffect;
 
+  // For diagnostics.
   void printThis() {
     print('Settings, buttonAxis = ${buttonAxis}');
     print('Settings, drawLayoutBounds = ${drawLayoutBounds}');
@@ -54,7 +53,7 @@ class Settings {
     required String identifier,
     var newValue,
   }) {
-    // Define a map that converts string to a class method.
+    // Define a map that converts [string] to a class method.
     // ToDo: add functionality for other fields in Settings class.
     Map<String, Function> map = {
       'appBarHeightScaleFactor': (double newValue) =>
@@ -65,14 +64,10 @@ class Settings {
           toggleSettingsPageListTileFadeEffect(),
     };
 
-    // print('SettingsDataSeven, change...$drawLayoutBounds');
-
-    //  Call the function determined from map.
+    // Call the function determined from [map] and update relevant field.
     map[identifier]?.call(newValue);
 
-    // print('SettingsDataSeven, change...$drawLayoutBounds');
-
-    //  Return this instance of SettingsDataSeven.
+    // Return this instance of [Settings].
     return this;
   }
 }

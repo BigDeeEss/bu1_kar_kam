@@ -1,25 +1,23 @@
-//  Import flutter packages.
+// Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
-//  Import project-specific files.
+// Import project-specific files.
 import 'package:kar_kam/old_app_settings_data.dart';
-import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/data_store.dart';
-// import 'package:kar_kam/settings_data_one.dart';
-// import 'package:kar_kam/settings_service_one.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 import 'package:kar_kam/settings_service.dart';
 
-/// [SettingsPageContents] provides the settings page PageSpec contents.
+/// Provides [PageSpec] contents for [settingsPage].
 ///
 /// [SettingsPageContents] uses the [SettingsPageListTile] class. These tiles
-/// are able to scroll around (not behind) [buttonArray].
+/// are able to scroll around (not behind) [ButtonArray].
 ///
 /// [SettingsPageContents] defines a [scrollController] in order to access
-/// the scroll position relative to th top of the page. The value is passed
-/// to a ValueNotifier and passed down the widget tree to listeners via
-/// DataStore<ValueNotifier<double>>.
+/// the scroll position relative to the top of the page. The value is passed
+/// to a [ValueNotifier] and passed down the widget tree to listeners via
+/// [DataStore<ValueNotifier<double>>].
 class SettingsPageContents extends StatefulWidget
     with GetItStatefulWidgetMixin {
   SettingsPageContents({Key? key}) : super(key: key);
@@ -30,15 +28,13 @@ class SettingsPageContents extends StatefulWidget
 
 class _SettingsPageContentsState extends State<SettingsPageContents>
     with GetItStateMixin {
-  //  [scrollController] is added to the ListView instance below in build
-  //  in order to get the scroll position offset value.
+  // [scrollController] is added to the [ListView] instance below in [build]
+  // in order to get the scroll position [Offset] value.
   final ScrollController scrollController = ScrollController();
 
-  //  [scrollPositionNotifier] will be passed in to an instance of DataStore
-  //  so that the scroll position can be used within SettingsPageListTile.
+  // [scrollPositionNotifier] will be passed to an instance of [DataStore]
+  // so that the scroll position can be used within [SettingsPageListTile].
   final ValueNotifier<double> scrollPositionNotifier = ValueNotifier(0.0);
-
-  // late SettingsDataOne settingsData;
 
   @override
   void dispose() {
@@ -50,8 +46,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
   void initState() {
     super.initState();
 
-    //  Add listener to [scrollController] and use it to update
-    //  [scrollPositionNotifier] whenever [scrollController.offset] changes.
+    // Add listener to [scrollController] and use it to update
+    // [scrollPositionNotifier] whenever [scrollController.offset] changes.
     scrollController.addListener(() {
       scrollPositionNotifier.value = scrollController.offset;
     });
@@ -59,18 +55,16 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
 
   @override
   Widget build(BuildContext context) {
-
-
-    //  Get [buttonArrayRect] from NataNotifier in BasePage.
+    // Get [buttonArrayRect] (from [DataNotifier] in [BasePage]).
     Rect? buttonArrayRect =
         DataStore.of<Rect?>(context, const ValueKey('buttonArrayRect')).data;
 
-    //  Get basePageViewRect from NataNotifier in BasePage.
+    // Get [basePageViewRect] (from [DataNotifier] in [BasePage]).
     Rect? basePageViewRect =
         DataStore.of<Rect?>(context, const ValueKey('basePageViewRect')).data;
 
-    //  Generate a temporary list of tiles to build.
-    //  ToDo: replace temporary list with final version.
+    // Generate a temporary list of tiles to build.
+    // ToDo: replace temporary list with final version.
     List<Widget> tileList = [
       ...List<Widget>.generate(5, (int index) {
         return SettingsPageListTile(
@@ -101,11 +95,9 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: () {
-          //  Toggle bool variable in AppModel that controls the fade effect.
-          // print('SettingsPageContents, ${GetItService.instance<SettingsServiceEight>().value.drawLayoutBounds}');
+          // Toggle bool variable in AppModel that controls the fade effect.
           GetItService.instance<SettingsService>()
               .change(identifier: 'drawLayoutBounds');
-          // print('SettingsPageContents, ${GetItService.instance<SettingsServiceEight>().value.drawLayoutBounds}');
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -128,9 +120,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: (() {
-          //  Toggle bool variable in AppModel that controls the fade effect.
-          // GetItService.instance<SettingsServiceOne>()
-          //     .changeSettings('settingsPageListTileFadeEffect');
+          // Toggle bool variable in AppModel that controls the fade effect.
           GetItService.instance<SettingsService>()
               .change(identifier: 'settingsPageListTileFadeEffect');
         }),
@@ -155,8 +145,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           size: AppSettingsOrig.settingsPageListTileIconSize,
         ),
         onTap: (() {
-          //  Toggle bool variable in AppModel that controls the fade effect.
-          // GetItService.instance<SettingsServiceOne>().changeSettings('buttonAxis');
+          // Toggle bool variable in AppModel that controls the fade effect.
           GetItService.instance<SettingsService>()
               .change(identifier: 'buttonAxis');
         }),
@@ -190,8 +179,8 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
       }),
     ];
 
-    //  Encapsulate ListViewBuilder in an instance of DataNotifier in order
-    //  to pass scrollPositionNotifier down to SettingsPageListTile.
+    // Encapsulate [ListViewBuilder] in an instance of [DataNotifier] in order
+    // to pass [scrollPositionNotifier] down to [SettingsPageListTile].
     return DataStore<ValueNotifier<double>>(
       key: const ValueKey('scrollPosition'),
       data: scrollPositionNotifier,
