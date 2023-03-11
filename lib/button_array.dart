@@ -1,63 +1,66 @@
-//  Import dart and flutter packages.
+// Import dart and flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/settings.dart';
-// import 'package:kar_kam/settings_service_one.dart';
 import 'package:kar_kam/settings_service.dart';
 
 /// Implements a linear horizontal or vertical array of Buttons.
+//
+// Need to override the @immutable feature of [StatelessWidget] due to
+// [settings] being initialised and then potentially overwritten in [build].
+// ignore: must_be_immutable
 class ButtonArray extends StatelessWidget with GetItMixin {
   ButtonArray({Key? key}) : super(key: key);
 
-  /// [buttonSpecList] defines the specs for each button in [ButtonArray].
-  static List<ButtonSpec> buttonSpecList = [
+  /// For obtaining [Rect] for each button using [globalPaintBounds].
+  final buttonArrayGlobalKeys = <GlobalKey>[];
+
+  /// Specs for each button in [ButtonArray].
+  final List<ButtonSpec> buttonSpecList = [
     settingsButton,
     filesButton,
     homeButton,
   ];
 
-  /// [buttonArrayGlobalKeys] is a list of GlobalKeys that enable Rect data
-  /// for each button to be obtained using globalPaintBounds (see [getRect]).
-  final buttonArrayGlobalKeys = <GlobalKey>[];
+  /// A current copy of app settings that may be updated during [build].
+  Settings settings = GetItService.instance<SettingsService>().value;
 
-  /// [buttonCoordinates] gets coordinates relative to any corner.
+  /// Generates a list of coordinates relative to any corner.
   List<double> get buttonCoordinates {
-    //  Initialise [coordinateList] so that it is ready for population.
+    // Initialise [coordinateList] so that it is ready for population.
     List<double> coordinateList = [];
 
-    //  A length -- button width plus padding -- for defining [coordinateList].
-    //  Two different values for dim determine whether the bounding boxes
-    //  for each Button overlap.
-    double dim = 2 * (AppSettingsOrig.buttonRadius +
-            AppSettingsOrig.buttonPaddingMainAxisAlt);
+    // A length -- button width plus padding -- for defining [coordinateList].
+    // Using two parameters allows for the bounding boxes of buttons to overlap.
+    double dim =
+        2 * (settings.buttonRadius + settings.buttonPaddingMainAxisAlt);
 
-    //  Loop over items in [buttonSpecList] and convert each to its
-    //  corresponding position.
+    // Loop over items in [buttonSpecList] and convert each to its
+    // corresponding position.
     for (int i = 0; i < buttonSpecList.length; i++) {
       coordinateList.add(dim * i);
     }
     return coordinateList;
   }
 
-  /// [rect] calculates the Rect data associated with [buttonArray].
+  /// [rect] calculates the [Rect] data associated with [buttonArray].
   Rect? get rect {
     // Instantiate output variable as null initially.
     Rect? rect;
 
-    //  Loop over [buttonArrayGlobalKeys]. [buttonArrayGlobalKeys] has the
-    //  same length as buttonSpecList.
+    //  Loop over [buttonArrayGlobalKeys], equivalent to the number of buttons.
     for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
-      //  Get Rect data for ith button.
+      //  Get [Rect] data for the ith button.
       Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
 
       //  Build rect by giving it [buttonRect] initially, and then expanding
-      //  it by sequentially adding the Rect value for each button.
+      //  it by sequentially adding the [Rect] value for each button.
       if (buttonRect != null) {
         //  If rect is null then overwrite with [buttonRect], else expand
         //  rect to include [buttonRect].
@@ -71,27 +74,27 @@ class ButtonArray extends StatelessWidget with GetItMixin {
     return rect;
   }
 
-  /// [buttonArrayGenerator] generates a list of buttons from [buttonSpecList].
-  List<Widget> buttonArrayGenerator(BuildContext context, Axis axis) {
+  /// Generates a list of buttons from [buttonSpecList].
+  List<Widget> buttonArrayGenerator(BuildContext context) {
     //  Initialise [buttonList] ready for population.
     List<Widget> buttonList = [];
 
     //  Take a local copy of [buttonCoordinates] for speed.
-    List<double> coordinate = buttonCoordinates;
+    List<double> coordinates = buttonCoordinates;
 
     //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding [button].
     for (int i = 0; i < buttonSpecList.length; i++) {
       buttonArrayGlobalKeys.add(GlobalKey());
 
-      //  Define the [button] to be added to [buttonList] in this iteration.
+      //  Defines the [button] to be added to [buttonList] in this iteration.
       Button button = Button(
         buttonSpec: buttonSpecList[i],
         key: buttonArrayGlobalKeys[i],
       );
 
       //  Treat horizontal and vertical axes differently.
-      if (axis == Axis.horizontal) {
+      if (settings.buttonAxis == Axis.horizontal) {
         //  The top and bottom inputs to Positioned must be 0.0 or null,
         //  depending on whether the selected alignment is top or bottom.
         //
@@ -99,16 +102,16 @@ class ButtonArray extends StatelessWidget with GetItMixin {
         //  coordinates or null, depending on whether the selected alignment
         //  is left or right.
         buttonList.add(Positioned(
-          top: (AppSettingsOrig.buttonAlignment.y < 0) ? 0 : null,
-          bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? 0 : null,
-          left: (AppSettingsOrig.buttonAlignment.x < 0) ? coordinate[i] : null,
-          right: (AppSettingsOrig.buttonAlignment.x > 0) ? coordinate[i] : null,
+          top: (settings.buttonAlignment.y < 0) ? 0 : null,
+          bottom: (settings.buttonAlignment.y > 0) ? 0 : null,
+          left: (settings.buttonAlignment.x < 0) ? coordinates[i] : null,
+          right: (settings.buttonAlignment.x > 0) ? coordinates[i] : null,
           child: button,
         ));
       }
 
       //  Treat horizontal and vertical axes differently.
-      if (axis == Axis.vertical) {
+      if (settings.buttonAxis == Axis.vertical) {
         //  The left and right inputs to Positioned must be 0.0 or null,
         //  depending on whether the selected alignment is left or right.
         //
@@ -116,10 +119,10 @@ class ButtonArray extends StatelessWidget with GetItMixin {
         //  coordinates or null, depending on whether the selected alignment
         //  is top or bottom.
         buttonList.add(Positioned(
-          top: (AppSettingsOrig.buttonAlignment.y < 0) ? coordinate[i] : null,
-          bottom: (AppSettingsOrig.buttonAlignment.y > 0) ? coordinate[i] : null,
-          left: (AppSettingsOrig.buttonAlignment.x < 0) ? 0.0 : null,
-          right: (AppSettingsOrig.buttonAlignment.x > 0) ? 0.0 : null,
+          top: (settings.buttonAlignment.y < 0) ? coordinates[i] : null,
+          bottom: (settings.buttonAlignment.y > 0) ? coordinates[i] : null,
+          left: (settings.buttonAlignment.x < 0) ? 0.0 : null,
+          right: (settings.buttonAlignment.x > 0) ? 0.0 : null,
           child: button,
         ));
       }
@@ -129,26 +132,17 @@ class ButtonArray extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    //  Watch for changes to SettingsService, specifically
-    //  SettingsService.settingsData.buttonAxis.
-    // bool drawLayoutBounds =
-    //     watchOnly((SettingsService m) => m.settingsData.drawLayoutBounds);
-    // Axis buttonAxis = watchOnly((SettingsServiceOne m) => m.settingsData.buttonAxis);
-    // Axis buttonAxis = Axis.horizontal;
-    Axis buttonAxis =
-        watch<SettingsService, Settings>(
-          // target: test2,
-          // instanceName: 'value',
-        ).buttonAxis;
+    // Watch for changes to [SettingsService] registered in [GetIt].
+    settings = watch<SettingsService, Settings>();
 
-    //  Generate the array of buttons.
-    List<Widget> buttonArray = buttonArrayGenerator(context, buttonAxis);
+    // Generate the array of buttons.
+    List<Widget> buttonArray = buttonArrayGenerator(context);
 
-    //  Return an instance of Stack with its children defined to be a
-    //  list of buttons. [buttonArray] is generated by [buttonArrayGenerator]
-    //  and has length equal to buttonSpecList.length.
+    // Return an instance of [Stack] with its children defined to be a
+    // list of buttons. [buttonArray] is generated by [buttonArrayGenerator]
+    // and has length equal to buttonSpecList.length.
     return Stack(
-      alignment: Alignment.bottomRight,
+      // alignment: Alignment.bottomRight,
       children: buttonArray,
     );
   }

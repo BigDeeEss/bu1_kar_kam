@@ -93,6 +93,7 @@ class BasePageState extends State<BasePage> with GetItStateMixin {
   @override
   Widget build(BuildContext context) {
     // Watch for changes to SettingsService registered in GetIt.
+    // This may or may not update the current value.
     Settings settings = watch<SettingsService, Settings>();
 
     return Scaffold(
@@ -258,36 +259,35 @@ class OpenPainter extends CustomPainter{
 
   @override
   void paint(Canvas canvas, Size size) {
-    double r = radius;
     var paint1 = Paint()
       ..color = const Color.fromRGBO(66, 165, 245, 0.5)
       ..style = PaintingStyle.fill;
     if (axis == Axis.horizontal) {
       if (alignment.y < 0 && alignment.x > 0) {
-        canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);
+        canvas.drawCircle(Offset(-radius, radius + shiftVal), radius, paint1);
       }
       if (alignment.y < 0 && alignment.x < 0) {
-        canvas.drawCircle(Offset(r, r + shiftVal), r, paint1);
+        canvas.drawCircle(Offset(radius, radius + shiftVal), radius, paint1);
       }
       if (alignment.y > 0 && alignment.x > 0) {
-        canvas.drawCircle(Offset(-r, -r - shiftVal), r, paint1);
+        canvas.drawCircle(Offset(-radius, -radius - shiftVal), radius, paint1);
       }
       if (alignment.y > 0 && alignment.x < 0) {
-        canvas.drawCircle(Offset(r, -r - shiftVal), r, paint1);
+        canvas.drawCircle(Offset(radius, -radius - shiftVal), radius, paint1);
       }
     }
     if (axis == Axis.vertical) {
       if (alignment.y < 0 && alignment.x > 0) {
-        canvas.drawCircle(Offset(-r, r + shiftVal), r, paint1);
+        canvas.drawCircle(Offset(-radius, radius + shiftVal), radius, paint1);
       }
       if (alignment.y < 0 && alignment.x < 0) {
-        canvas.drawCircle(Offset(r, r + shiftVal), r, paint1);
+        canvas.drawCircle(Offset(radius, radius + shiftVal), radius, paint1);
       }
       if (alignment.y > 0 && alignment.x > 0) {
-        canvas.drawCircle(Offset(-r, -r - shiftVal), r, paint1);
+        canvas.drawCircle(Offset(-radius, -radius - shiftVal), radius, paint1);
       }
       if (alignment.y > 0 && alignment.x < 0) {
-        canvas.drawCircle(Offset(r, -r - shiftVal), r, paint1);
+        canvas.drawCircle(Offset(radius, -radius - shiftVal), radius, paint1);
       }
     }
   }

@@ -52,9 +52,7 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    //  Watch for changes to [SettingsService], specifically
-    //  [SettingsService.value], instigated by the [notifyListeners] method
-    //  bound to [ChangeNotifier].
+    //  Watch for changes to [SettingsService] registered with GetIt.
     bool drawLayoutBounds = watch<SettingsService, Settings>().drawLayoutBounds;
 
     return Container(

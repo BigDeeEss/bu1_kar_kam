@@ -18,6 +18,10 @@ class Settings {
   /// [buttonPaddingMainAxis] defines the main axis padding between buttons.
   double buttonPaddingMainAxis = 15.0;
 
+  /// [buttonPaddingMainAxisAlt] defines an alternative main axis padding
+  /// between buttons.
+  double buttonPaddingMainAxisAlt = 12.5;
+
   /// [buttonRadius] defines the button radius in Button class.
   double buttonRadius = 28.0;
 

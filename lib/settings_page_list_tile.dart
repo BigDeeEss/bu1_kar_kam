@@ -23,7 +23,7 @@ double sf = 1.125;
 
 /// Implements a ListTile that is able to slide around [guestRect].
 //
-//  ignore: must_be_immutable
+// ignore: must_be_immutable
 class SettingsPageListTile extends StatelessWidget {
   SettingsPageListTile({
     Key? key,
