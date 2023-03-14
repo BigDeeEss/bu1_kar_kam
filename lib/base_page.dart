@@ -95,6 +95,7 @@ class BasePageState extends State<BasePage> with GetItStateMixin {
     // Watch for changes to SettingsService registered in GetIt.
     // This may or may not update the current value.
     Settings settings = watch<SettingsService, Settings>();
+    print('BasePageState, build...building...');
 
     return Scaffold(
       appBar: AppBar(

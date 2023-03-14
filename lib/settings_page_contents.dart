@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/old_app_settings_data.dart';
+// import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
+import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 import 'package:kar_kam/settings_service.dart';
 
@@ -55,6 +56,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
 
   @override
   Widget build(BuildContext context) {
+    // Watch for changes to [SettingsService] registered in [GetIt].
+    Settings settings = watch<SettingsService, Settings>();
+    print('_SettingsPageContentsState, build...building...');
+
     // Get [buttonArrayRect] (from [DataNotifier] in [BasePage]).
     Rect? buttonArrayRect =
         DataStore.of<Rect?>(context, const ValueKey('buttonArrayRect')).data;
@@ -75,7 +80,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           index: index,
           leading: Icon(
             Icons.favorite,
-            size: AppSettingsOrig.settingsPageListTileIconSize,
+            size: settings.settingsPageListTileIconSize,
           ),
           widget: Text(
             '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
@@ -92,7 +97,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         index: 5,
         leading: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettingsOrig.settingsPageListTileIconSize,
+          size: settings.settingsPageListTileIconSize,
         ),
         onTap: () {
           // Toggle bool variable in AppModel that controls the fade effect.
@@ -101,7 +106,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettingsOrig.settingsPageListTileIconSize,
+          size: settings.settingsPageListTileIconSize,
         ),
         widget: const Text(
           '5. Click to switch drawLayoutBounds',
@@ -117,7 +122,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         index: 6,
         leading: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettingsOrig.settingsPageListTileIconSize,
+          size: settings.settingsPageListTileIconSize,
         ),
         onTap: (() {
           // Toggle bool variable in AppModel that controls the fade effect.
@@ -126,7 +131,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettingsOrig.settingsPageListTileIconSize,
+          size: settings.settingsPageListTileIconSize,
         ),
         widget: const Text(
           '6. Click to toggle settingsPageListTileFadeEffect!',
@@ -142,7 +147,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         index: 7,
         leading: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettingsOrig.settingsPageListTileIconSize,
+          size: settings.settingsPageListTileIconSize,
         ),
         onTap: (() {
           // Toggle bool variable in AppModel that controls the fade effect.
@@ -151,7 +156,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
-          size: AppSettingsOrig.settingsPageListTileIconSize,
+          size: settings.settingsPageListTileIconSize,
         ),
         widget: const Text(
           '7. Click to toggle buttonAxis!',
@@ -168,7 +173,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           index: index + 8,
           leading: Icon(
             Icons.favorite,
-            size: AppSettingsOrig.settingsPageListTileIconSize,
+            size: settings.settingsPageListTileIconSize,
           ),
           widget: Text(
             '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',

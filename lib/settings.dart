@@ -30,6 +30,9 @@ class Settings {
   /// Whether fade effect in SettingsPageListTile is active or not.
   bool settingsPageListTileFadeEffect = true;
 
+  /// Defines the icon radius in Button.
+  double settingsPageListTileIconSize = 25.0;
+
   /// Toggles [buttonAxis].
   void toggleButtonAxis() => buttonAxis = flipAxis(buttonAxis);
 
