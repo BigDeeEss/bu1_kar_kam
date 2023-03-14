@@ -14,5 +14,5 @@ void main() {
   GetItService.register<SettingsService>(SettingsService(Settings()));
 
   // Run the app.
-  runApp(const KarKam());
+  runApp(KarKam());
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
+import 'package:kar_kam/page_specs.dart';
 
 /// KarKam is the root widget of this application.
 ///
@@ -37,11 +38,15 @@ class KarKam extends StatelessWidget {
               );
             } else {
               // For the 'has data' case continue with building BasePage.
-              return const MaterialApp(
-                title: '_KarKam',
+              return MaterialApp(
+                title: 'KarKam',
                 // BasePage invokes a generic page layout so that a similar
                 // UI is presented for each page (route).
-                home: BasePage(),
+                home: BasePage(
+                  // pageSpec: homePage,
+                  pageSpec: settingsPage,
+                  // pageSpec: filesPage,
+                ),
               );
             }
           },

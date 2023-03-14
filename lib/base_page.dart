@@ -1,12 +1,59 @@
 // Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:get_it_mixin/get_it_mixin.dart';
 
-class BasePage extends StatelessWidget {
-  const BasePage({Key? key}) : super(key: key);
+// Import project-specific files.
+import 'package:kar_kam/page_specs.dart';
+import 'package:kar_kam/settings.dart';
+import 'package:kar_kam/settings_service.dart';
+
+/// Implements a generic page layout design.
+///
+/// [BasePage] presents a similar UI for each page/route with:
+///     1. an AppBar at the top with a title,
+///     2. specific screen contents including buttons for navigation
+///        and functionality, and
+///     3. a bottom navigation bar.
+class BasePage extends StatelessWidget with GetItMixin{
+  BasePage({
+    Key? key,
+    required this.pageSpec,
+  }) : super(key: key);
+
+  /// Defines the page layout associated with each route.
+  final PageSpec pageSpec;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    // Watch for changes to SettingsService registered in GetIt.
+    // This may or may not update the current value.
+    Settings settings = watch<SettingsService, Settings>();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(pageSpec.title),
+      ),
+      // Use [Builder] widget to generate a [BottomAppBar].
+      //
+      // It is not possible to get the appBar height from [context] since
+      // this instance of [Scaffold] hasn't been built yet.
+      bottomNavigationBar: Builder(
+        builder: (BuildContext context) {
+          // Get appBar height from context.
+          double appBarHeight =
+              MediaQuery.of(context).padding.top + kToolbarHeight;
+
+          return BottomAppBar(
+            color: Colors.blue,
+            child: SizedBox(
+              // Set height of [BottomAppBar] using [SizedBox], [appBarHeight]
+              // and [settings.appBarHeightScaleFactor].
+              height: appBarHeight * settings.appBarHeightScaleFactor,
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 
