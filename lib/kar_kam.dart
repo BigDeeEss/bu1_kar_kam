@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 
 /// KarKam is the root widget of this application.
@@ -40,7 +41,7 @@ class KarKam extends StatelessWidget {
                 title: '_KarKam',
                 // BasePage invokes a generic page layout so that a similar
                 // UI is presented for each page (route).
-                home: Text('Kar Kam'),
+                home: BasePage(),
               );
             }
           },
