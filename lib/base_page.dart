@@ -1,9 +1,11 @@
 // Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
-import 'package:kar_kam/lib/data_store.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/base_page_view.dart';
+import 'package:kar_kam/button_array.dart';
+import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_service.dart';
@@ -64,10 +66,20 @@ class BasePage extends StatelessWidget with GetItMixin{
       ),
       // [Scaffold] body contents are placed within an instance of [DataStore]
       // in order to transfer [basePageViewKey] down the widget tree.
-      body: DataStore<Key>(
+      //
+      // [basePageViewKey] is used by widgets further down the widget tree to
+      // get the available screen dimensions.
+      body: DataStore<GlobalKey>(
         key: const ValueKey('basePageViewKey'),
         data: basePageViewKey,
-        child: const Placeholder(),
+        child: BasePageView(
+          key: basePageViewKey,
+          pageContents: <Widget>[
+            // pageSpec.contents,
+            const BasePageViewTest(),
+            ButtonArray(),
+          ],
+        ),
       ),
     );
   }
