@@ -1,6 +1,7 @@
 // Import flutter packages.
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
+import 'package:kar_kam/lib/data_store.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/page_specs.dart';
@@ -29,6 +30,14 @@ class BasePage extends StatelessWidget with GetItMixin{
     // This may or may not update the current value.
     Settings settings = watch<SettingsService, Settings>();
 
+    // The [GlobalKey] required for calculating available screen dimensions.
+    //
+    // [basePageViewKey] is passed to [Stack] in order to get available
+    // screen dimensions, and supplied to an instance of [DataStore] so that
+    // widgets below this -- e.g. [SettingsPageContents] -- can calculate
+    // screen dimensions.
+    GlobalKey basePageViewKey = GlobalKey();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(pageSpec.title),
@@ -52,6 +61,13 @@ class BasePage extends StatelessWidget with GetItMixin{
             ),
           );
         },
+      ),
+      // [Scaffold] body contents are placed within an instance of [DataStore]
+      // in order to transfer [basePageViewKey] down the widget tree.
+      body: DataStore<Key>(
+        key: const ValueKey('basePageViewKey'),
+        data: basePageViewKey,
+        child: const Placeholder(),
       ),
     );
   }
