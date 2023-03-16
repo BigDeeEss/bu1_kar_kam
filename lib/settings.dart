@@ -1,6 +1,9 @@
 // Import flutter packages.
 import 'package:flutter/material.dart';
 
+// Import project-specific files.
+import 'package:kar_kam/button_specs.dart';
+
 /// Stores app settings.
 class Settings {
   /// A scale factor which is applied to [appBarHeight] in order to calculate
@@ -23,6 +26,13 @@ class Settings {
 
   /// Button radius in [Button] class.
   double buttonRadius = 28.0;
+
+  /// Specs for each button in [ButtonArray].
+  List<ButtonSpec> buttonSpecList = [
+    settingsButton,
+    filesButton,
+    homeButton,
+  ];
 
   /// Whether [BoxedContainer] draws bounding boxes or not.
   bool drawLayoutBounds = true;

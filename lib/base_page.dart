@@ -69,6 +69,11 @@ class BasePage extends StatelessWidget with GetItMixin{
       //
       // [basePageViewKey] is used by widgets further down the widget tree to
       // get the available screen dimensions.
+      //
+      // [BasePageView] builds twice in succession, the first being an empty
+      // screen and the second being valid [pageContents], so that the
+      // available screen dimensions can be calculated and used by widgets
+      // in the second phase.
       body: DataStore<GlobalKey>(
         key: const ValueKey('basePageViewKey'),
         data: basePageViewKey,
