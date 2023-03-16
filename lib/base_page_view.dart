@@ -6,7 +6,8 @@ import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 
 /// Builds [pageContents] in two parts in order to offer a way for widgets
-/// further down the widget tree to get the available screen dimensions.
+/// further down the widget tree to get the available screen dimensions
+/// via the required key and .
 class BasePageView extends StatefulWidget {
   const BasePageView({
     required Key key,
@@ -70,10 +71,7 @@ class BasePageViewTest extends StatelessWidget {
     // Get [basePageViewRect] (from [DataStore] in [BasePage]).
     GlobalKey basePageViewKey =
         DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey')).data;
-    print(basePageViewKey);
-    print(basePageViewKey.globalPaintBounds);
-
-
+    print('BasePageViewTest, build...basePageViewRect = ${basePageViewKey.globalPaintBounds}...');
     return const Placeholder();
   }
 }

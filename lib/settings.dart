@@ -18,6 +18,10 @@ class Settings {
   /// The button axis in [ButtonArray].
   Axis buttonAxis = Axis.horizontal;
 
+  /// Defines the padding surrounding each button.
+  EdgeInsetsDirectional get buttonPadding =>
+      EdgeInsetsDirectional.all(buttonPaddingMainAxis);
+
   /// Main axis padding between buttons in [ButtonArray].
   double buttonPaddingMainAxis = 15.0;
 

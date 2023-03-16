@@ -9,6 +9,7 @@ import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_service.dart';
+import 'package:kar_kam/sliding_guides.dart';
 
 /// Implements a generic page layout design.
 ///
@@ -80,8 +81,8 @@ class BasePage extends StatelessWidget with GetItMixin{
         child: BasePageView(
           key: basePageViewKey,
           pageContents: <Widget>[
-            // pageSpec.contents,
             const BasePageViewTest(),
+            const SlidingGuides(),
             ButtonArray(),
           ],
         ),
@@ -89,4 +90,3 @@ class BasePage extends StatelessWidget with GetItMixin{
     );
   }
 }
-

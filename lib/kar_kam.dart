@@ -36,7 +36,8 @@ class KarKam extends StatelessWidget {
                   CircularProgressIndicator(),
                 ],
               );
-            } else {
+            }
+            else {
               // For the 'has data' case continue with building BasePage.
               return MaterialApp(
                 title: 'KarKam',

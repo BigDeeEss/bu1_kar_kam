@@ -4,8 +4,10 @@ import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/button.dart';
+import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
+import 'package:kar_kam/lib/rect_extension.dart';
 import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_service.dart';
 
@@ -16,9 +18,6 @@ import 'package:kar_kam/settings_service.dart';
 // ignore: must_be_immutable
 class ButtonArray extends StatelessWidget with GetItMixin {
   ButtonArray({Key? key}) : super(key: key);
-
-  /// For obtaining [Rect] for each button using [globalPaintBounds].
-  final buttonArrayGlobalKeys = <GlobalKey>[];
 
   /// Generates a list of coordinates relative to any corner.
   static List<double> get buttonCoordinates {
@@ -42,32 +41,62 @@ class ButtonArray extends StatelessWidget with GetItMixin {
   }
 
   /// [rect] calculates the [Rect] data associated with [buttonArray].
-  Rect? get rect {
-    // Instantiate output variable as null initially.
-    Rect? rect;
+  static Rect rect(BuildContext context) {
+    // Get available screen dimensions.
+    GlobalKey basePageViewKey =
+        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey')).data;
+    Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
-    //  Loop over [buttonArrayGlobalKeys], equivalent to the number of buttons.
-    for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
-      //  Get [Rect] data for the ith button.
-      Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
+    // Get a current copy of app settings.
+    Settings settings = GetItService.instance<SettingsService>().value;
 
-      //  Build rect by giving it [buttonRect] initially, and then expanding
-      //  it by sequentially adding the [Rect] value for each button.
-      if (buttonRect != null) {
-        //  If rect is null then overwrite with [buttonRect], else expand
-        //  rect to include [buttonRect].
-        if (rect == null) {
-          rect = buttonRect;
-        } else {
-          rect = rect.expandToInclude(buttonRect);
-        }
-      }
+    double dim =
+        2 * (settings.buttonRadius + settings.buttonPaddingMainAxisAlt);
+    double shortLength = 2.0 * (settings.buttonRadius + settings.buttonPaddingMainAxis);
+    double longLength = (settings.buttonSpecList.length - 1) * dim + shortLength;
+
+    Rect rect = Rect.zero;
+    if (settings.buttonAxis == Axis.vertical) {
+      rect = const Offset(0.0, 0.0) & Size(shortLength, longLength);
+    }
+    else {
+      rect = const Offset(0.0, 0.0) & Size(longLength, shortLength);
+    }
+
+    if (settings.buttonAlignment == Alignment.topRight) {
+      rect = rect.moveTopRightTo(basePageViewRect!.topRight);
+    }
+    else if (settings.buttonAlignment == Alignment.topLeft) {
+      rect = rect.moveTopLeftTo(basePageViewRect!.topLeft);
     }
     return rect;
+
+    // // Instantiate output variable as null initially.
+    // Rect? rect;
+    //
+    // //  Loop over [buttonArrayGlobalKeys], equivalent to the number of buttons.
+    // for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
+    //   //  Get [Rect] data for the ith button.
+    //   Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
+    //
+    //   //  Build rect by giving it [buttonRect] initially, and then expanding
+    //   //  it by sequentially adding the [Rect] value for each button.
+    //   if (buttonRect != null) {
+    //     //  If rect is null then overwrite with [buttonRect], else expand
+    //     //  rect to include [buttonRect].
+    //     if (rect == null) {
+    //       rect = buttonRect;
+    //     }
+    //     else {
+    //       rect = rect.expandToInclude(buttonRect);
+    //     }
+    //   }
+    // }
+    // return rect;
   }
 
   /// Generates a list of buttons from [settings.buttonSpecList].
-  List<Widget> buttonArrayGenerator(BuildContext context, Settings settings) {
+  List<Widget> buttonArrayGenerator(Settings settings) {
     //  Initialise [buttonList] ready for population.
     List<Widget> buttonList = [];
 
@@ -77,12 +106,9 @@ class ButtonArray extends StatelessWidget with GetItMixin {
     //  Loop over items in [buttonSpecList] and convert each to its
     //  corresponding [button].
     for (int i = 0; i < settings.buttonSpecList.length; i++) {
-      buttonArrayGlobalKeys.add(GlobalKey());
-
       //  Defines the [button] to be added to [buttonList] in this iteration.
       Button button = Button(
         buttonSpec: settings.buttonSpecList[i],
-        key: buttonArrayGlobalKeys[i],
       );
 
       //  Treat horizontal and vertical axes differently.
@@ -128,7 +154,7 @@ class ButtonArray extends StatelessWidget with GetItMixin {
     Settings settings = watch<SettingsService, Settings>();
 
     // Generate the array of buttons.
-    List<Widget> buttonArray = buttonArrayGenerator(context, settings);
+    List<Widget> buttonArray = buttonArrayGenerator(settings);
 
     // Return an instance of [Stack] with its children defined to be a
     // list of buttons. [buttonArray] is generated by [buttonArrayGenerator]
