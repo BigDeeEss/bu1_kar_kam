@@ -30,13 +30,15 @@ class BasePage extends StatelessWidget with GetItMixin{
   @override
   Widget build(BuildContext context) {
     // Watch for changes to SettingsService registered in GetIt.
-    // This may or may not update the current value.
     Settings settings = watch<SettingsService, Settings>();
 
     // The [GlobalKey] required for calculating available screen dimensions.
     //
-    // [basePageViewKey] is passed to [Stack] in order to get available
-    // screen dimensions, and supplied to an instance of [DataStore] so that
+    // [basePageViewKey] is passed to [BasePageView] and used, post-build,
+    // in conjunction with [globalPaintBounds] to get the available
+    // screen dimensions.
+    //
+    // [basePageViewKey] is supplied to an instance of [DataStore] so that
     // widgets below this -- e.g. [SettingsPageContents] -- can calculate
     // screen dimensions.
     GlobalKey basePageViewKey = GlobalKey();
@@ -57,11 +59,7 @@ class BasePage extends StatelessWidget with GetItMixin{
 
           return BottomAppBar(
             color: Colors.blue,
-            child: SizedBox(
-              // Set height of [BottomAppBar] using [SizedBox], [appBarHeight]
-              // and [settings.appBarHeightScaleFactor].
-              height: appBarHeight * settings.appBarHeightScaleFactor,
-            ),
+            height: appBarHeight * settings.appBarHeightScaleFactor,
           );
         },
       ),
@@ -70,11 +68,6 @@ class BasePage extends StatelessWidget with GetItMixin{
       //
       // [basePageViewKey] is used by widgets further down the widget tree to
       // get the available screen dimensions.
-      //
-      // [BasePageView] builds twice in succession, the first being an empty
-      // screen and the second being valid [pageContents], so that the
-      // available screen dimensions can be calculated and used by widgets
-      // in the second phase.
       body: DataStore<GlobalKey>(
         key: const ValueKey('basePageViewKey'),
         data: basePageViewKey,

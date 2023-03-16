@@ -6,6 +6,8 @@ import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 import 'package:kar_kam/settings_service.dart';
 
+/// Implements sliding guides - guide circles which indicate the path followed
+/// by [SettingsPageListTile] corners as they slide past [ButtonArray].
 class SlidingGuides extends StatelessWidget {
   const SlidingGuides({Key? key}) : super(key: key);
 

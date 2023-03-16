@@ -1,4 +1,4 @@
-//  Import flutter packages.
+//  Import dart packages.
 import 'dart:math' as math;
 
 extension DoubleExtension on double {

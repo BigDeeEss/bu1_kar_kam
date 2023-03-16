@@ -7,7 +7,7 @@ import 'package:kar_kam/lib/global_key_extension.dart';
 
 /// Builds [pageContents] in two parts in order to offer a way for widgets
 /// further down the widget tree to get the available screen dimensions
-/// via the required key and .
+/// via the required key and [globalPaintBounds]..
 class BasePageView extends StatefulWidget {
   const BasePageView({
     required Key key,
@@ -22,8 +22,6 @@ class BasePageView extends StatefulWidget {
 }
 
 class _BasePageViewState extends State<BasePageView> {
-  /// Specifies UI characteristics.
-  ///
   /// [pageContents] is updated by [setState] in a post-frame callback.
   ///
   /// [pageContents] may depend on knowledge of the [Rect] that defines the
@@ -32,13 +30,13 @@ class _BasePageViewState extends State<BasePageView> {
 
   @override
   void initState() {
-    // [BasePageView] is built in two parts:
+    // [BasePageView] is built in two phases:
     //    (i) with [pageContents] = [Container()], by the [build] method;
     //    and then
     //    (ii) with [pageContents] = [widget.pageContents], initiated by
     //    the following post-frame callback.
     //
-    // [BasePageView] is built in two parts because [pageContents] may require
+    // [BasePageView] is built in two phases because [pageContents] may require
     // knowledge of the available screen dimensions which this widget attempts
     // to provide.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -62,7 +60,7 @@ class _BasePageViewState extends State<BasePageView> {
   }
 }
 
-
+/// Tests whether [basePageViewRect] can be calculated using the
 class BasePageViewTest extends StatelessWidget {
   const BasePageViewTest({Key? key}) : super(key: key);
 
@@ -70,8 +68,15 @@ class BasePageViewTest extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get [basePageViewRect] (from [DataStore] in [BasePage]).
     GlobalKey basePageViewKey =
-        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey')).data;
-    print('BasePageViewTest, build...basePageViewRect = ${basePageViewKey.globalPaintBounds}...');
+        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
+            .data;
+    Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
+
+    // Print [basePageViewRect].
+    assert(basePageViewRect != null,
+        'BasePageViewTest, build...basePageViewRect is null...');
+    print('BasePageViewTest, build...basePageViewRect = $basePageViewRect...');
+
     return const Placeholder();
   }
 }

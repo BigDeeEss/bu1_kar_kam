@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
-// mport project-specific files.
+// Import project-specific files.
 import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_service.dart';
 
@@ -57,7 +57,6 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
 
     return Container(
       alignment: alignment,
-      child: child,
       clipBehavior: clipBehavior,
       constraints: constraints,
       decoration: decoration ??
@@ -80,6 +79,7 @@ class BoxedContainer extends StatelessWidget with GetItMixin {
       transform: transform,
       transformAlignment: transformAlignment,
       width: width,
+      child: child,
     );
   }
 }

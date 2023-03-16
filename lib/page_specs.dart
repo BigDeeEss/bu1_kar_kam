@@ -1,7 +1,7 @@
 // Import flutter packages.
 import 'package:flutter/material.dart';
 
-// // Import project-specific files.
+// Import project-specific files.
 // import 'package:kar_kam/settings_page_contents.dart';
 
 /// Prototype class allowing for referencing specific page settings.

@@ -21,9 +21,6 @@ class ButtonArray extends StatelessWidget with GetItMixin {
 
   /// Generates a list of coordinates relative to any corner.
   static List<double> get buttonCoordinates {
-    // Initialise [coordinateList] so that it is ready for population.
-    List<double> coordinateList = [];
-
     // Get a current copy of app settings.
     Settings settings = GetItService.instance<SettingsService>().value;
 
@@ -32,19 +29,21 @@ class ButtonArray extends StatelessWidget with GetItMixin {
     double dim =
         2 * (settings.buttonRadius + settings.buttonPaddingMainAxisAlt);
 
-    // Loop over items in [buttonSpecList] and convert each to its
+    // Loop over items in [settings.buttonSpecList] and convert each to its
     // corresponding position.
+    List<double> coordinateList = [];
     for (int i = 0; i < settings.buttonSpecList.length; i++) {
       coordinateList.add(dim * i);
     }
     return coordinateList;
   }
 
-  /// [rect] calculates the [Rect] data associated with [buttonArray].
+  /// Calculates the [Rect] data associated with [buttonArray].
   static Rect rect(BuildContext context) {
     // Get available screen dimensions.
     GlobalKey basePageViewKey =
-        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey')).data;
+        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
+            .data;
     Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
     // Get a current copy of app settings.
@@ -52,73 +51,50 @@ class ButtonArray extends StatelessWidget with GetItMixin {
 
     double dim =
         2 * (settings.buttonRadius + settings.buttonPaddingMainAxisAlt);
-    double shortLength = 2.0 * (settings.buttonRadius + settings.buttonPaddingMainAxis);
-    double longLength = (settings.buttonSpecList.length - 1) * dim + shortLength;
+    double shortLength =
+        2.0 * (settings.buttonRadius + settings.buttonPaddingMainAxis);
+    double longLength =
+        (settings.buttonSpecList.length - 1) * dim + shortLength;
 
+    // Generate Rect of the correct size at screen top left.
     Rect rect = Rect.zero;
     if (settings.buttonAxis == Axis.vertical) {
       rect = const Offset(0.0, 0.0) & Size(shortLength, longLength);
-    }
-    else {
+    } else {
       rect = const Offset(0.0, 0.0) & Size(longLength, shortLength);
     }
 
+    // Move [rect] to correct location on screen.
     if (settings.buttonAlignment == Alignment.topRight) {
       rect = rect.moveTopRightTo(basePageViewRect!.topRight);
-    }
-    else if (settings.buttonAlignment == Alignment.topLeft) {
+    } else if (settings.buttonAlignment == Alignment.topLeft) {
       rect = rect.moveTopLeftTo(basePageViewRect!.topLeft);
     }
     return rect;
-
-    // // Instantiate output variable as null initially.
-    // Rect? rect;
-    //
-    // //  Loop over [buttonArrayGlobalKeys], equivalent to the number of buttons.
-    // for (int i = 0; i < buttonArrayGlobalKeys.length; i++) {
-    //   //  Get [Rect] data for the ith button.
-    //   Rect? buttonRect = buttonArrayGlobalKeys[i].globalPaintBounds;
-    //
-    //   //  Build rect by giving it [buttonRect] initially, and then expanding
-    //   //  it by sequentially adding the [Rect] value for each button.
-    //   if (buttonRect != null) {
-    //     //  If rect is null then overwrite with [buttonRect], else expand
-    //     //  rect to include [buttonRect].
-    //     if (rect == null) {
-    //       rect = buttonRect;
-    //     }
-    //     else {
-    //       rect = rect.expandToInclude(buttonRect);
-    //     }
-    //   }
-    // }
-    // return rect;
   }
 
-  /// Generates a list of buttons from [settings.buttonSpecList].
+  /// Generates a list of buttons.
   List<Widget> buttonArrayGenerator(Settings settings) {
-    //  Initialise [buttonList] ready for population.
-    List<Widget> buttonList = [];
-
-    //  Take a local copy of [buttonCoordinates] for speed.
+    // Take a local copy of [buttonCoordinates] for speed.
     List<double> coordinates = buttonCoordinates;
 
-    //  Loop over items in [buttonSpecList] and convert each to its
-    //  corresponding [button].
+    // Loop over items in [buttonSpecList], convert each to its
+    // corresponding [button] and store result in [buttonList].
+    List<Widget> buttonList = [];
     for (int i = 0; i < settings.buttonSpecList.length; i++) {
       //  Defines the [button] to be added to [buttonList] in this iteration.
       Button button = Button(
         buttonSpec: settings.buttonSpecList[i],
       );
 
-      //  Treat horizontal and vertical axes differently.
+      // Treat horizontal and vertical axes differently.
       if (settings.buttonAxis == Axis.horizontal) {
-        //  The top and bottom inputs to Positioned must be 0.0 or null,
-        //  depending on whether the selected alignment is top or bottom.
+        // The top and bottom inputs to [Positioned] must be 0.0 or null,
+        // depending on whether the selected alignment is top or bottom.
         //
-        //  The left and right inputs to Positioned must be non-zero
-        //  coordinates or null, depending on whether the selected alignment
-        //  is left or right.
+        // The left and right inputs to [Positioned] must be non-zero
+        // coordinates or null, depending on whether the selected alignment
+        // is left or right.
         buttonList.add(Positioned(
           top: (settings.buttonAlignment.y < 0) ? 0 : null,
           bottom: (settings.buttonAlignment.y > 0) ? 0 : null,
@@ -128,14 +104,14 @@ class ButtonArray extends StatelessWidget with GetItMixin {
         ));
       }
 
-      //  Treat horizontal and vertical axes differently.
+      // Treat horizontal and vertical axes differently.
       if (settings.buttonAxis == Axis.vertical) {
-        //  The left and right inputs to Positioned must be 0.0 or null,
-        //  depending on whether the selected alignment is left or right.
+        // The left and right inputs to [Positioned] must be 0.0 or null,
+        // depending on whether the selected alignment is left or right.
         //
-        //  The top and bottom inputs to Positioned must be non-zero
-        //  coordinates or null, depending on whether the selected alignment
-        //  is top or bottom.
+        // The top and bottom inputs to [Positioned] must be non-zero
+        // coordinates or null, depending on whether the selected alignment
+        // is top or bottom.
         buttonList.add(Positioned(
           top: (settings.buttonAlignment.y < 0) ? coordinates[i] : null,
           bottom: (settings.buttonAlignment.y > 0) ? coordinates[i] : null,
