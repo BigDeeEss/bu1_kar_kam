@@ -1,5 +1,6 @@
 // Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:kar_kam/settings_page_contents.dart';
 
 // Import project-specific files.
 // import 'package:kar_kam/settings_page_contents.dart';
@@ -33,6 +34,6 @@ PageSpec filesPage = PageSpec(
 /// Settings page specs.
 PageSpec settingsPage = PageSpec(
   title: 'Settings',
-  // contents: SettingsPageContents(),
-  contents: Container(),
+  contents: SettingsPageContents(),
+  // contents: Container(),
 );

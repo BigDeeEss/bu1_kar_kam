@@ -35,7 +35,7 @@ class DataStore<T> extends StatelessWidget {
       // Assert a contradiction so that [of] fails with error message.
       assert(
           result != null,
-          'DataStore, [of]...no DataStoreService of the correct type found '
+          'DataStore, [of]...no DataStoreService of type <${T}> found '
           'in context. Try wrapping the call to [of] in a builder or '
           'specifying the type, for example DataStoreService<int>(...).');
     }

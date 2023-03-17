@@ -74,7 +74,7 @@ class BasePage extends StatelessWidget with GetItMixin{
         child: BasePageView(
           key: basePageViewKey,
           pageContents: <Widget>[
-            const BasePageViewTest(),
+            pageSpec.contents,
             const SlidingGuides(),
             ButtonArray(),
           ],
