@@ -23,7 +23,7 @@ class DataStore<T> extends StatelessWidget {
         context.dependOnInheritedWidgetOfExactType<DataStoreService<T>>();
 
     // Using 'is' in what follows promotes result to type [DataStoreService<T>]
-    // so that the comparison 'key != result.key' can be made.
+    // so that the comparison 'key != result.key' makes sense and can be made.
     //
     // Without 'is' [result.key] is not specific.
     if (result is DataStoreService<T>) {
@@ -35,7 +35,7 @@ class DataStore<T> extends StatelessWidget {
       // Assert a contradiction so that [of] fails with error message.
       assert(
           result != null,
-          'DataStore, [of]...no DataStoreService of type <${T}> found '
+          'DataStore, [of]...no DataStoreService of type <$T> found '
           'in context. Try wrapping the call to [of] in a builder or '
           'specifying the type, for example DataStoreService<int>(...).');
     }
@@ -48,9 +48,9 @@ class DataStore<T> extends StatelessWidget {
     // descendant widgets can access data via [of].
     return DataStoreService<T>(
       key: key,
-      child: child,
       context: context,
       data: data,
+      child: child,
     );
   }
 }
