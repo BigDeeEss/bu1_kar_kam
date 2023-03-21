@@ -1,30 +1,18 @@
-//  Import flutter packages.
+// Import flutter packages.
 import 'package:flutter/material.dart';
 
-//  Import project-specific files.
-// import 'package:dash_cam_app/base_page.dart';
-// import 'package:dash_cam_app/page_specs.dart';
+// Import project-specific files.
+import 'package:kar_kam/kar_kam.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
+import 'package:kar_kam/settings.dart';
+import 'package:kar_kam/settings_service.dart';
 
-//  App start point.
+/// App start point.
 void main() {
-  runApp(const _KarKam());
-}
+  // Use [GetItService] as the single point of access to GetIt to
+  // register an instance of [SettingsService].
+  GetItService.register<SettingsService>(SettingsService(Settings()));
 
-/// [_KarKam] is the root widget of this project.
-class _KarKam extends StatelessWidget {
-  const _KarKam({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '_KarKam',
-
-      //  BasePage invokes a generic page layout: a similar UI is
-      //  presented for each page(route).
-      home: Container(),
-      // home: BasePage(
-      //   pageSpec: settingsPage,
-      // ),
-    );
-  }
+  // Run the app.
+  runApp(KarKam());
 }
