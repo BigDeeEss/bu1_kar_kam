@@ -63,7 +63,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
     print('_SettingsPageContentsState, build...building...');
 
     // Get [buttonArrayRect] (from [DataNotifier] in [BasePage]).
-    Rect buttonArrayRect = ButtonArray.rect(context);
+    Rect buttonArrayRect = ButtonArray.rect;
 
     // Get [basePageViewRect] (from [DataNotifier] in [BasePage]).
     GlobalKey basePageViewKey =

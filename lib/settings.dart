@@ -10,6 +10,9 @@ class Settings {
   /// the [BottomAppBar] height in [BasePage] class.
   double appBarHeightScaleFactor = 1.0;
 
+  /// The available screen dimensions.
+  Rect? basePageViewRect;
+
   /// The anchor location that determines button placement in [ButtonArray].
   // static Alignment buttonAlignment = Alignment.bottomLeft;
   // static Alignment buttonAlignment = Alignment.bottomRight;
@@ -59,10 +62,21 @@ class Settings {
 
   // For diagnostics.
   void printThis() {
-    print('Settings, buttonAxis = ${buttonAxis}');
-    print('Settings, drawLayoutBounds = ${drawLayoutBounds}');
-    print(
-        'Settings, settingsPageListTileFadeEffect = ${settingsPageListTileFadeEffect}');
+    print('Settings, appBarHeightScaleFactor = $appBarHeightScaleFactor');
+    print('Settings, basePageViewRect = $basePageViewRect');
+    print('Settings, buttonAlignment = $buttonAlignment');
+    print('Settings, buttonAxis = $buttonAxis');
+    print('Settings, buttonPadding = $buttonPadding');
+    print('Settings, buttonPaddingMainAxis = $buttonPaddingMainAxis');
+    print('Settings, buttonPaddingMainAxisAlt = $buttonPaddingMainAxisAlt');
+    print('Settings, buttonRadius = $buttonRadius');
+    print('Settings, buttonSpecList = $buttonSpecList');
+    print('Settings, drawLayoutBounds = $drawLayoutBounds');
+    print('Settings, settingsPageListTileFadeEffect = '
+        '$settingsPageListTileFadeEffect');
+    print('Settings, settingsPageListTileIconSize = '
+        '$settingsPageListTileIconSize');
+    print('Settings, drawLayoutBounds = $drawLayoutBounds');
   }
 
   /// Updates this using string to determine which field is set to newValue.
@@ -75,6 +89,7 @@ class Settings {
     Map<String, Function> map = {
       'appBarHeightScaleFactor': (double newValue) =>
           appBarHeightScaleFactor = newValue,
+      'basePageViewRect': (Rect newValue) => basePageViewRect = newValue,
       'buttonAxis': (newValue) => toggleButtonAxis(),
       'drawLayoutBounds': (newValue) => toggleDrawLayoutBounds(),
       'settingsPageListTileFadeEffect': (newValue) =>

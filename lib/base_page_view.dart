@@ -3,13 +3,40 @@ import 'package:flutter/material.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/lib/data_store.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
+import 'package:kar_kam/settings_service.dart';
+
+/// Is a wrapper for an instance of [DataStore] and [_BasePageView].
+class BasePageView extends StatelessWidget {
+  const BasePageView({
+    Key? key,
+    required this.pageContents,
+  }) : super(key: key);
+
+  /// A list of widgets to build on the screen.
+  final List<Widget> pageContents;
+
+  @override
+  Widget build(BuildContext context) {
+    GlobalKey basePageViewKey = GlobalKey();
+
+    return DataStore<GlobalKey>(
+      key: const ValueKey('basePageViewKey'),
+      data: basePageViewKey,
+      child: _BasePageView(
+        key: basePageViewKey,
+        pageContents: pageContents,
+      ),
+    );
+  }
+}
 
 /// Builds [pageContents] in two parts in order to offer a way for widgets
 /// further down the widget tree to get the available screen dimensions
 /// via the required key and [globalPaintBounds]..
-class BasePageView extends StatefulWidget {
-  const BasePageView({
+class _BasePageView extends StatefulWidget {
+  const _BasePageView({
     required Key key,
     required this.pageContents,
   }) : super(key: key);
@@ -18,14 +45,14 @@ class BasePageView extends StatefulWidget {
   final List<Widget> pageContents;
 
   @override
-  State<BasePageView> createState() => _BasePageViewState();
+  State<_BasePageView> createState() => _BasePageViewState();
 }
 
-class _BasePageViewState extends State<BasePageView> {
+class _BasePageViewState extends State<_BasePageView> {
   /// [pageContents] is updated by [setState] in a post-frame callback.
   ///
   /// [pageContents] may depend on knowledge of the [Rect] that defines the
-  /// bounding box for [BasePageView], hence the reason for the two-part build.
+  /// bounding box for [_BasePageView], hence the reason for the two-part build.
   List<Widget>? pageContents;
 
   @override
@@ -40,6 +67,27 @@ class _BasePageViewState extends State<BasePageView> {
     // knowledge of the available screen dimensions which this widget attempts
     // to provide.
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Get [basePageViewKey] (from [DataStore] in [BasePageView]),
+      // calculate [basePageViewRect] and upload to the registered instance of
+      // SettingsService in GetIt.
+      GlobalKey basePageViewKey =
+          DataStore
+              .of<GlobalKey>(context, const ValueKey('basePageViewKey'))
+              .data;
+      Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
+
+      // Check and upload basePageViewRect to the instance of [Settings]
+      // registered with [GetItService]..
+      assert(basePageViewRect != null,
+      '_BasePageViewState, initState...error, basePageViewRect is null...');
+      print('_BasePageViewState, initState...uploading.');
+      GetItService.instance<SettingsService>().change(
+        identifier: 'basePageViewRect',
+        newValue: basePageViewRect,
+        notify: false,
+      );
+      print('_BasePageViewState, initState...uploading complete.');
+
       // Rebuild widget with [pageSpec.contents] instead of [Container].
       if (pageContents == null) {
         setState(() {
@@ -68,13 +116,14 @@ class BasePageViewTest extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get [basePageViewRect] (from [DataStore] in [BasePage]).
     GlobalKey basePageViewKey =
-        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
+        DataStore
+            .of<GlobalKey>(context, const ValueKey('basePageViewKey'))
             .data;
     Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
     // Print [basePageViewRect].
     assert(basePageViewRect != null,
-        'BasePageViewTest, build...basePageViewRect is null...');
+    'BasePageViewTest, build...basePageViewRect is null...');
     print('BasePageViewTest, build...basePageViewRect = $basePageViewRect...');
 
     return const Placeholder();

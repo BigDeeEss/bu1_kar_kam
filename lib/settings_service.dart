@@ -22,9 +22,11 @@ class SettingsService<T extends Settings> extends ChangeNotifier
   set value(T newValue) => _value = newValue;
 
   /// Update settings data, [_value], and notify listeners to trigger rebuild.
-  void change<T>({required String identifier, var newValue}) {
+  void change<T>({required String identifier, var newValue, bool notify = true}) {
     value.change(identifier: identifier, newValue: newValue);
     // ToDo: make change return a bool so that we can notifiy listeners only when there is a change.
-    notifyListeners();
+    if (notify) {
+      notifyListeners();
+    }
   }
 }

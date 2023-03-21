@@ -4,9 +4,7 @@ import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/button.dart';
-import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
-import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_service.dart';
@@ -22,7 +20,9 @@ class ButtonArray extends StatelessWidget with GetItMixin {
   /// Generates a list of coordinates relative to any corner.
   static List<double> get buttonCoordinates {
     // Get a current copy of app settings.
-    Settings settings = GetItService.instance<SettingsService>().value;
+    Settings settings = GetItService
+        .instance<SettingsService>()
+        .value;
 
     // A length -- button width plus padding -- for defining [coordinateList].
     // Using two parameters allows for the bounding boxes of buttons to overlap.
@@ -39,15 +39,11 @@ class ButtonArray extends StatelessWidget with GetItMixin {
   }
 
   /// Calculates the [Rect] data associated with [buttonArray].
-  static Rect rect(BuildContext context) {
-    // Get available screen dimensions.
-    GlobalKey basePageViewKey =
-        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
-            .data;
-    Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
-
+  static Rect get rect {
     // Get a current copy of app settings.
-    Settings settings = GetItService.instance<SettingsService>().value;
+    Settings settings = GetItService
+        .instance<SettingsService>()
+        .value;
 
     double dim =
         2 * (settings.buttonRadius + settings.buttonPaddingMainAxisAlt);
@@ -65,10 +61,17 @@ class ButtonArray extends StatelessWidget with GetItMixin {
     }
 
     // Move [rect] to correct location on screen.
-    if (settings.buttonAlignment == Alignment.topRight) {
-      rect = rect.moveTopRightTo(basePageViewRect!.topRight);
-    } else if (settings.buttonAlignment == Alignment.topLeft) {
-      rect = rect.moveTopLeftTo(basePageViewRect!.topLeft);
+    Rect? basePageViewRect = settings.basePageViewRect;
+    if (basePageViewRect is Rect) {
+      if (settings.buttonAlignment == Alignment.topRight) {
+        rect = rect.moveTopRightTo(basePageViewRect.topRight);
+      } else if (settings.buttonAlignment == Alignment.topLeft) {
+        rect = rect.moveTopLeftTo(basePageViewRect.topLeft);
+      }
+    }
+    else {
+      assert(settings.basePageViewRect != null, 'ButtonArray, rect...error, '
+          'basePageViewRect is null.');
     }
     return rect;
   }

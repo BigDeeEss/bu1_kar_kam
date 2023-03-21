@@ -35,7 +35,7 @@ class SlidingGuides extends StatelessWidget {
               alignment: settings.buttonAlignment,
               axis: settings.buttonAxis,
               radius: settings.buttonRadius + settings.buttonPaddingMainAxis,
-              shiftVal: ButtonArray.rect(context).shortestSide *
+              shiftVal: ButtonArray.rect.shortestSide *
                   SettingsPageListTile.sf,
             ),
           ),
@@ -53,7 +53,7 @@ class SlidingGuides extends StatelessWidget {
               alignment: settings.buttonAlignment,
               axis: settings.buttonAxis,
               radius: settings.buttonRadius + settings.buttonPaddingMainAxis,
-              shiftVal: ButtonArray.rect(context).shortestSide *
+              shiftVal: ButtonArray.rect.shortestSide *
                   SettingsPageListTile.sf
             ),
           ),

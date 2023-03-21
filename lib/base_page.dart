@@ -5,7 +5,6 @@ import 'package:get_it_mixin/get_it_mixin.dart';
 // Import project-specific files.
 import 'package:kar_kam/base_page_view.dart';
 import 'package:kar_kam/button_array.dart';
-import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings.dart';
 import 'package:kar_kam/settings_service.dart';
@@ -32,17 +31,6 @@ class BasePage extends StatelessWidget with GetItMixin{
     // Watch for changes to SettingsService registered in GetIt.
     Settings settings = watch<SettingsService, Settings>();
 
-    // The [GlobalKey] required for calculating available screen dimensions.
-    //
-    // [basePageViewKey] is passed to [BasePageView] and used, post-build,
-    // in conjunction with [globalPaintBounds] to get the available
-    // screen dimensions.
-    //
-    // [basePageViewKey] is supplied to an instance of [DataStore] so that
-    // widgets below this -- e.g. [SettingsPageContents] -- can calculate
-    // screen dimensions.
-    GlobalKey basePageViewKey = GlobalKey();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(pageSpec.title),
@@ -63,22 +51,14 @@ class BasePage extends StatelessWidget with GetItMixin{
           );
         },
       ),
-      // [Scaffold] body contents are placed within an instance of [DataStore]
-      // in order to transfer [basePageViewKey] down the widget tree.
-      //
-      // [basePageViewKey] is used by widgets further down the widget tree to
-      // get the available screen dimensions.
-      body: DataStore<GlobalKey>(
-        key: const ValueKey('basePageViewKey'),
-        data: basePageViewKey,
-        child: BasePageView(
-          key: basePageViewKey,
-          pageContents: <Widget>[
-            pageSpec.contents,
-            const SlidingGuides(),
-            ButtonArray(),
-          ],
-        ),
+      // [Scaffold] body is passed to an instance of [BasePageView] as this
+      // widget uploads the available screen dimensions to [Settings].
+      body: BasePageView(
+        pageContents: <Widget>[
+          pageSpec.contents,
+          const SlidingGuides(),
+          ButtonArray(),
+        ],
       ),
     );
   }
