@@ -41,6 +41,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
 
   @override
   void dispose() {
+    print('_SettingsPageContentsState, dispose...disposing.');
     scrollController.dispose();
     super.dispose();
   }
