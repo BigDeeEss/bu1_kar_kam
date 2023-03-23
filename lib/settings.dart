@@ -50,6 +50,9 @@ class Settings {
   /// Defines the icon radius in Button.
   double settingsPageListTileIconSize = 25.0;
 
+  /// Defines the icon radius in Button.
+  double settingsPageScrollPosition = 0.0;
+
   /// Toggles [buttonAxis].
   void toggleButtonAxis() => buttonAxis = flipAxis(buttonAxis);
 
@@ -76,7 +79,7 @@ class Settings {
         '$settingsPageListTileFadeEffect');
     print('Settings, settingsPageListTileIconSize = '
         '$settingsPageListTileIconSize');
-    print('Settings, drawLayoutBounds = $drawLayoutBounds');
+    print('Settings, settingsPageScrollPosition = $settingsPageScrollPosition');
   }
 
   /// Updates this using string to determine which field is set to newValue.
@@ -94,6 +97,7 @@ class Settings {
       'drawLayoutBounds': (newValue) => toggleDrawLayoutBounds(),
       'settingsPageListTileFadeEffect': (newValue) =>
           toggleSettingsPageListTileFadeEffect(),
+      'settingsPageScrollPosition': (double newValue) => settingsPageScrollPosition = newValue,
     };
 
     // Call the function determined from [map] and update relevant field.

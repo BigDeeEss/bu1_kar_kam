@@ -41,6 +41,17 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
 
   @override
   void dispose() {
+    // Upload scroll position to the instance of [Settings] registered with
+    // GetIt whenever the [ListView] is disposed of.
+    GetItService.instance<SettingsService>().change(
+      identifier: 'settingsPageScrollPosition',
+      newValue: scrollPositionNotifier.value,
+      notify: false,
+    );
+    print('scrollPositionNotifier.value = ${scrollPositionNotifier.value}');
+    print('');
+    GetItService.instance<SettingsService>().value.printThis();
+    print('');
     print('_SettingsPageContentsState, dispose...disposing.');
     scrollController.dispose();
     super.dispose();
@@ -103,9 +114,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           size: settings.settingsPageListTileIconSize,
         ),
         onTap: () {
-          // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsService>()
-              .change(identifier: 'drawLayoutBounds');
+          // Toggle [bool] variable in [Settings] registered with GetIt that
+          // controls the drawing of bounding boxes.
+          GetItService.instance<SettingsService>().change(
+            identifier: 'drawLayoutBounds',
+          );
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -128,9 +141,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           size: settings.settingsPageListTileIconSize,
         ),
         onTap: (() {
-          // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsService>()
-              .change(identifier: 'settingsPageListTileFadeEffect');
+          // Toggle [bool] variable in [Settings] registered with GetIt that
+          // controls the fade effect in [SettingsPageListTile].
+          GetItService.instance<SettingsService>().change(
+            identifier: 'settingsPageListTileFadeEffect',
+          );
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
@@ -153,9 +168,12 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           size: settings.settingsPageListTileIconSize,
         ),
         onTap: (() {
-          // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsService>()
-              .change(identifier: 'buttonAxis');
+          // Upload scrollposition to [Settings] registered with GetIt.
+          // Toggle [Axis] variable in [Settings] registered with GetIt that
+          // determines the directionality of [ButtonArray].
+          GetItService.instance<SettingsService>().change(
+            identifier: 'buttonAxis',
+          );
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
