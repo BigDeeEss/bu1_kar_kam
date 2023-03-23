@@ -80,13 +80,11 @@ class _BasePageViewState extends State<_BasePageView> {
       // registered with [GetItService]..
       assert(basePageViewRect != null,
       '_BasePageViewState, initState...error, basePageViewRect is null...');
-      print('_BasePageViewState, initState...uploading.');
       GetItService.instance<SettingsService>().change(
         identifier: 'basePageViewRect',
         newValue: basePageViewRect,
         notify: false,
       );
-      print('_BasePageViewState, initState...uploading complete.');
 
       // Rebuild widget with [pageSpec.contents] instead of [Container].
       if (pageContents == null) {

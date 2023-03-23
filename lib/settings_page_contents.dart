@@ -60,7 +60,6 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
   Widget build(BuildContext context) {
     // Watch for changes to [SettingsService] registered in [GetIt].
     Settings settings = watch<SettingsService, Settings>();
-    print('_SettingsPageContentsState, build...building...');
 
     // Get [buttonArrayRect] (from [DataNotifier] in [BasePage]).
     Rect buttonArrayRect = ButtonArray.rect;
