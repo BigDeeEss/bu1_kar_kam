@@ -17,7 +17,7 @@ import 'package:kar_kam/sliding_guides.dart';
 ///     2. specific screen contents including buttons for navigation
 ///        and functionality, and
 ///     3. a bottom navigation bar.
-class BasePage extends StatelessWidget with GetItMixin{
+class BasePage extends StatelessWidget with GetItMixin {
   BasePage({
     Key? key,
     required this.pageSpec,
@@ -28,8 +28,9 @@ class BasePage extends StatelessWidget with GetItMixin{
 
   @override
   Widget build(BuildContext context) {
-    // Watch for changes to SettingsService registered in GetIt.
-    Settings settings = watch<SettingsService, Settings>();
+    // Watch for changes to [Settings.drawLayoutBounds] registered with GetIt.
+    double appBarHeightScaleFactor =
+        watchOnly((Settings s) => s.appBarHeightScaleFactor);
 
     return Scaffold(
       appBar: AppBar(
@@ -47,7 +48,7 @@ class BasePage extends StatelessWidget with GetItMixin{
 
           return BottomAppBar(
             color: Colors.blue,
-            height: appBarHeight * settings.appBarHeightScaleFactor,
+            height: appBarHeight * appBarHeightScaleFactor,
           );
         },
       ),
@@ -56,7 +57,7 @@ class BasePage extends StatelessWidget with GetItMixin{
       body: BasePageView(
         pageContents: <Widget>[
           pageSpec.contents,
-          const SlidingGuides(),
+          SlidingGuides(),
           ButtonArray(),
         ],
       ),

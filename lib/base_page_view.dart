@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
-import 'package:kar_kam/settings_service.dart';
+import 'package:kar_kam/settings.dart';
 
 /// Is a wrapper for an instance of [DataStore] and [_BasePageView].
 class BasePageView extends StatelessWidget {
@@ -80,11 +80,16 @@ class _BasePageViewState extends State<_BasePageView> {
       // registered with [GetItService]..
       assert(basePageViewRect != null,
       '_BasePageViewState, initState...error, basePageViewRect is null...');
-      GetItService.instance<SettingsService>().change(
+      GetItService.instance<Settings>().change(
         identifier: 'basePageViewRect',
         newValue: basePageViewRect,
         notify: false,
       );
+
+      // Update the [buttonArrayRect] in in the instance of [Settings]
+      // registered with GetIt.
+      GetItService.instance<Settings>().buttonArrayRect =
+          GetItService.instance<Settings>().updateButtonArrayRect();
 
       // Rebuild widget with [pageSpec.contents] instead of [Container].
       if (pageContents == null) {

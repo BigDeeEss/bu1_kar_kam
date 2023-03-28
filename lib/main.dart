@@ -11,7 +11,7 @@ import 'package:kar_kam/settings_service.dart';
 void main() {
   // Use [GetItService] as the single point of access to GetIt to
   // register an instance of [SettingsService].
-  GetItService.register<SettingsService>(SettingsService(Settings()));
+  GetItService.register<Settings>(SettingsService());
 
   // Run the app.
   runApp(KarKam());

@@ -2,6 +2,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/old_app_settings_data.dart';
@@ -12,16 +13,15 @@ import 'package:kar_kam/lib/double_extension.dart';
 import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 import 'package:kar_kam/settings.dart';
-import 'package:kar_kam/settings_service.dart';
+// import 'package:kar_kam/settings_service.dart';
 
 /// Implements a [ListTile] that is able to slide around [guestRect].
 //
 // ignore: must_be_immutable
-class SettingsPageListTile extends StatelessWidget {
+class SettingsPageListTile extends StatelessWidget with GetItMixin {
   SettingsPageListTile({
     Key? key,
     required this.basePageViewRect,
-    required this.guestRect,
     required this.height,
     required this.index,
     this.leading,
@@ -29,6 +29,8 @@ class SettingsPageListTile extends StatelessWidget {
     this.trailing,
     this.widget,
   }) : super(key: key) {
+    guestRect = GetItService.instance<Settings>().buttonArrayRect;
+
     // Create a [Rect] representation of [SettingsPageListTile] at the
     // correct initial location.
     hostRect = basePageViewRect
@@ -36,13 +38,13 @@ class SettingsPageListTile extends StatelessWidget {
         .moveTopLeftTo(basePageViewRect.topLeft)
         .translate(0, height * index);
 
-    // Helps define the sliding motion of [SettingsPageListTile].
-    centreRect = centreConstructionRect;
-    lowerRect = lowerConstructionRect;
-    upperRect = upperConstructionRect;
-
-    // Upload radius that defines the sliding motion of [SettingsPageListTile].
-    if (guestRect != null) pathRadius = guestRect!.shortestSide / 2;
+    // // Helps define the sliding motion of [SettingsPageListTile].
+    // centreRect = centreConstructionRect;
+    // lowerRect = lowerConstructionRect;
+    // upperRect = upperConstructionRect;
+    //
+    // // Upload radius that defines the sliding motion of [SettingsPageListTile].
+    // pathRadius = guestRect!.shortestSide / 2;
 
     // The corner radius associated with [SettingsPageListTile].
     cornerRadius = AppSettingsOrig.settingsPageListTileRadius +
@@ -56,7 +58,7 @@ class SettingsPageListTile extends StatelessWidget {
   final Rect basePageViewRect;
 
   /// The on-screen [Rect] that [SettingsPageListTile] avoids when scrolling.
-  final Rect? guestRect;
+  Rect guestRect = Rect.zero;
 
   /// Height of the bounding box for [SettingsPageListTile].
   final double height;
@@ -356,6 +358,20 @@ class SettingsPageListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Watch for changes to [Settings.buttonAxis] registered with GetIt.
+    Axis buttonAxis = watchOnly((Settings s) => s.buttonAxis);
+
+    // Watch for changes to [Settings.buttonAxis] registered with GetIt.
+    guestRect = watchOnly((Settings s) => s.buttonArrayRect);
+
+    // Helps define the sliding motion of [SettingsPageListTile].
+    centreRect = centreConstructionRect;
+    lowerRect = lowerConstructionRect;
+    upperRect = upperConstructionRect;
+
+    // Upload radius that defines the sliding motion of [SettingsPageListTile].
+    pathRadius = guestRect!.shortestSide / 2;
+
     // Use [ValueListenableBuilder] to build [SettingsPageListTile] each
     // time the scroll position changes.
     return ValueListenableBuilder<double>(
@@ -430,11 +446,12 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    // Watch for changes to [SettingsService] registered with GetIt.
-    bool localSettingsPageListTileFadeEffect =
-        watch<SettingsService, Settings>().settingsPageListTileFadeEffect;
+    // Watch for changes to [Settings.settingsPageListTileFadeEffect]
+    // registered with GetIt.
+    bool settingsPageListTileFadeEffect =
+        watchOnly((Settings s) => s.settingsPageListTileFadeEffect);
 
-    return localSettingsPageListTileFadeEffect
+    return settingsPageListTileFadeEffect
         ? Positioned(
             right: 0.0,
             child: BoxedContainer(

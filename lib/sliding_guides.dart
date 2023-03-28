@@ -1,5 +1,6 @@
 // Import flutter packages.
 import 'package:flutter/material.dart';
+import 'package:get_it_mixin/get_it_mixin.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/settings.dart';
@@ -8,86 +9,92 @@ import 'package:kar_kam/settings_service.dart';
 
 /// Implements sliding guides - guide circles which indicate the path followed
 /// by [SettingsPageListTile] corners as they slide past [ButtonArray].
-class SlidingGuides extends StatelessWidget {
-  const SlidingGuides({Key? key}) : super(key: key);
+class SlidingGuides extends StatelessWidget with GetItMixin {
+  SlidingGuides({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Get a current copy of app settings.
-    Settings settings = GetItService.instance<SettingsService>().value;
+    Settings settings = GetItService.instance<Settings>();
+
+    // Watch for changes to [Settings.buttonAxis] registered with GetIt.
+    Axis buttonAxis = watchOnly((Settings s) => s.buttonAxis);
+
+    // Watch for changes to [Settings.buttonAlignment] registered with GetIt.
+    Alignment buttonAlignment = watchOnly((Settings s) => s.buttonAlignment);
 
     return Stack(
       children: [
         // Add two additional guidance circles for checking the sliding
         // motion of [SettingsPageListTile].
         // ToDo: delete these unnecessary guidance circles at some point.
-        (settings.buttonAxis == Axis.horizontal) ? Positioned(
-          top: (settings.buttonAlignment.y < 0) ? 0 : null,
-          bottom: (settings.buttonAlignment.y > 0) ? 0 : null,
-          left: (settings.buttonAlignment.x < 0)
+        (buttonAxis == Axis.horizontal) ? Positioned(
+          top: (buttonAlignment.y < 0) ? 0 : null,
+          bottom: (buttonAlignment.y > 0) ? 0 : null,
+          left: (buttonAlignment.x < 0)
               ? ButtonArray.buttonCoordinates.first
               : null,
-          right: (settings.buttonAlignment.x > 0)
+          right: (buttonAlignment.x > 0)
               ? ButtonArray.buttonCoordinates.first
               : null,
           child: CustomPaint(
             painter: OpenPainter(
-              alignment: settings.buttonAlignment,
-              axis: settings.buttonAxis,
+              alignment: buttonAlignment,
+              axis: buttonAxis,
               radius: settings.buttonRadius + settings.buttonPaddingMainAxis,
               shiftVal: ButtonArray.rect.shortestSide *
                   SettingsPageListTile.sf,
             ),
           ),
         ) : Positioned(
-          top: (settings.buttonAlignment.y < 0)
+          top: (buttonAlignment.y < 0)
               ? ButtonArray.buttonCoordinates.last
               : null,
-          bottom: (settings.buttonAlignment.y > 0)
+          bottom: (buttonAlignment.y > 0)
               ? ButtonArray.buttonCoordinates.last
               : null,
-          left: (settings.buttonAlignment.x < 0) ? 0.0 : null,
-          right: (settings.buttonAlignment.x > 0) ? 0.0 : null,
+          left: (buttonAlignment.x < 0) ? 0.0 : null,
+          right: (buttonAlignment.x > 0) ? 0.0 : null,
           child: CustomPaint(
             painter: OpenPainter(
-              alignment: settings.buttonAlignment,
-              axis: settings.buttonAxis,
+              alignment: buttonAlignment,
+              axis: buttonAxis,
               radius: settings.buttonRadius + settings.buttonPaddingMainAxis,
               shiftVal: ButtonArray.rect.shortestSide *
                   SettingsPageListTile.sf
             ),
           ),
         ),
-        (settings.buttonAxis == Axis.horizontal) ? Positioned(
-          top: (settings.buttonAlignment.y < 0) ? 0 : null,
-          bottom: (settings.buttonAlignment.y > 0) ? 0 : null,
-          left: (settings.buttonAlignment.x < 0)
+        (buttonAxis == Axis.horizontal) ? Positioned(
+          top: (buttonAlignment.y < 0) ? 0 : null,
+          bottom: (buttonAlignment.y > 0) ? 0 : null,
+          left: (buttonAlignment.x < 0)
               ? ButtonArray.buttonCoordinates.last
               : null,
-          right: (settings.buttonAlignment.x > 0)
+          right: (buttonAlignment.x > 0)
               ? ButtonArray.buttonCoordinates.last
               : null,
           child: CustomPaint(
             painter: OpenPainter(
-              alignment: settings.buttonAlignment,
-              axis: settings.buttonAxis,
+              alignment: buttonAlignment,
+              axis: buttonAxis,
               radius: settings.buttonRadius + settings.buttonPaddingMainAxis,
               shiftVal: 0.0,
             ),
           ),
         ) : Positioned(
-          top: (settings.buttonAlignment.y < 0)
+          top: (buttonAlignment.y < 0)
               ? ButtonArray.buttonCoordinates.last
               : null,
-          bottom: (settings.buttonAlignment.y > 0)
+          bottom: (buttonAlignment.y > 0)
               ? ButtonArray.buttonCoordinates.last
               : null,
-          left: (settings.buttonAlignment.x < 0) ? 0.0 : null,
-          right: (settings.buttonAlignment.x > 0) ? 0.0 : null,
+          left: (buttonAlignment.x < 0) ? 0.0 : null,
+          right: (buttonAlignment.x > 0) ? 0.0 : null,
           child: CustomPaint(
             painter: OpenPainter(
-              alignment: settings.buttonAlignment,
-              axis: settings.buttonAxis,
+              alignment: buttonAlignment,
+              axis: buttonAxis,
               radius: settings.buttonRadius + settings.buttonPaddingMainAxis,
               shiftVal: 0.0,
             ),
