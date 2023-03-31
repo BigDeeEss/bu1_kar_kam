@@ -5,14 +5,14 @@ import 'package:get_it_mixin/get_it_mixin.dart';
 // Import project-specific files.
 import 'package:kar_kam/base_page_view.dart';
 import 'package:kar_kam/button_array.dart';
+import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
 import 'package:kar_kam/settings.dart';
-import 'package:kar_kam/settings_service.dart';
 import 'package:kar_kam/sliding_guides.dart';
 
 /// Implements a generic page layout design.
 ///
-/// [BasePage] presents a similar UI for each page/route with:
+/// [BasePage] presents a similar UI for each page with:
 ///     1. an AppBar at the top with a title,
 ///     2. specific screen contents including buttons for navigation
 ///        and functionality, and
@@ -23,12 +23,13 @@ class BasePage extends StatelessWidget with GetItMixin {
     required this.pageSpec,
   }) : super(key: key);
 
-  /// Defines the page layout associated with each route.
+  /// Defines the page layout.
   final PageSpec pageSpec;
 
   @override
   Widget build(BuildContext context) {
-    // Watch for changes to [Settings.drawLayoutBounds] registered with GetIt.
+    // Watch for changes to [appBarHeightScaleFactor] in the instance of
+    // [Settings] registered with GetIt.
     double appBarHeightScaleFactor =
         watchOnly((Settings s) => s.appBarHeightScaleFactor);
 
@@ -40,6 +41,7 @@ class BasePage extends StatelessWidget with GetItMixin {
       //
       // It is not possible to get the appBar height from [context] since
       // this instance of [Scaffold] hasn't been built yet.
+      // Effectively this introduces another layer.
       bottomNavigationBar: Builder(
         builder: (BuildContext context) {
           // Get appBar height from context.
