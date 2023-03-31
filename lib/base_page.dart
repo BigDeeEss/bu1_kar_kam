@@ -69,14 +69,20 @@ class _BasePageState extends State<BasePage> with GetItStateMixin {
       // It is not possible to get the appBar height from [context] since
       // this instance of [Scaffold] hasn't been built yet.
       // Effectively this introduces another layer.
-      bottomNavigationBar: (appBarRect != null) ? Builder(
-        builder: (BuildContext context) {
-          return BottomAppBar(
+      bottomNavigationBar: (appBarRect != null) ? BottomAppBar(
             color: Colors.blue,
             height: appBarRect!.height * appBarHeightScaleFactor,
-          );
-        },
-      ) : null,
+          ) : null,
+
+      // Builder(
+      //   builder: (BuildContext context) {
+      //     return
+      //       BottomAppBar(
+      //       color: Colors.blue,
+      //       height: appBarRect!.height * appBarHeightScaleFactor,
+      //     );
+      //   },
+      // ) : null,
       // [Scaffold] body is passed to an instance of [BasePageView] as this
       // widget uploads the available screen dimensions to [Settings].
       body: BasePageView(
