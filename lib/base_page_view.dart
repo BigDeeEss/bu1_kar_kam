@@ -57,13 +57,13 @@ class _BasePageViewState extends State<_BasePageView> {
 
   @override
   void initState() {
-    // [BasePageView] is built in two phases:
+    // [_BasePageView] is built in two phases:
     //    (i) with [pageContents] = [Container()], by the [build] method;
     //    and then
     //    (ii) with [pageContents] = [widget.pageContents], initiated by
     //    the following post-frame callback.
     //
-    // [BasePageView] is built in two phases because [pageContents] may require
+    // [_BasePageView] is built in two phases because [pageContents] may require
     // knowledge of the available screen dimensions which this widget attempts
     // to provide.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -77,9 +77,9 @@ class _BasePageViewState extends State<_BasePageView> {
       Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
       // Check and upload basePageViewRect to the instance of [Settings]
-      // registered with [GetItService]..
+      // registered with [GetItService].
       assert(basePageViewRect != null,
-      '_BasePageViewState, initState...error, basePageViewRect is null...');
+          '_BasePageViewState, initState...error, basePageViewRect is null...');
       GetItService.instance<Settings>().change(
         identifier: 'basePageViewRect',
         newValue: basePageViewRect,

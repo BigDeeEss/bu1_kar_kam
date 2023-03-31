@@ -17,6 +17,9 @@ import 'package:kar_kam/sliding_guides.dart';
 ///     2. specific screen contents including buttons for navigation
 ///        and functionality, and
 ///     3. a bottom navigation bar.
+///
+///  [BasePage] is built in two parts in order to unambiguously
+///  get the [AppBar] height.
 class BasePage extends StatefulWidget with GetItStatefulWidgetMixin {
   BasePage({
     Key? key,
@@ -33,15 +36,18 @@ class BasePage extends StatefulWidget with GetItStatefulWidgetMixin {
 class _BasePageState extends State<BasePage> with GetItStateMixin {
   GlobalKey appBarKey = GlobalKey();
 
+  /// Stores the [AppBar] height when calculated in the post frame call back.
   Rect? appBarRect;
 
   @override
   void initState() {
+    // [_BasePageState] is built in two phases:
+    //    (i) with null passed to bottomNavigationBar; and then
+    //    (ii) with BottomAppBar passed using [appBarRect.height].
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Rect? rect = appBarKey.globalPaintBounds;
 
-      print('_BasePageState, initState...appBarRect = $appBarRect');
-
+      // Check rect and then setState.
       assert(rect != null, '_BasePageState, initState...error, appBarRect is null...');
       setState(() {
         appBarRect = rect;
@@ -58,33 +64,15 @@ class _BasePageState extends State<BasePage> with GetItStateMixin {
     double appBarHeightScaleFactor =
         watchOnly((Settings s) => s.appBarHeightScaleFactor);
 
-    print('_BasePageState, build...appBarRect = $appBarRect');
     return Scaffold(
       appBar: AppBar(
         key: appBarKey,
         title: Text(widget.pageSpec.title),
       ),
-      // Use [Builder] widget to generate a [BottomAppBar].
-      //
-      // It is not possible to get the appBar height from [context] since
-      // this instance of [Scaffold] hasn't been built yet.
-      // Effectively this introduces another layer.
       bottomNavigationBar: (appBarRect != null) ? BottomAppBar(
-            color: Colors.blue,
-            height: appBarRect!.height * appBarHeightScaleFactor,
-          ) : null,
-
-      // Builder(
-      //   builder: (BuildContext context) {
-      //     return
-      //       BottomAppBar(
-      //       color: Colors.blue,
-      //       height: appBarRect!.height * appBarHeightScaleFactor,
-      //     );
-      //   },
-      // ) : null,
-      // [Scaffold] body is passed to an instance of [BasePageView] as this
-      // widget uploads the available screen dimensions to [Settings].
+        color: Colors.blue,
+        height: appBarRect!.height * appBarHeightScaleFactor,
+      ) : null,
       body: BasePageView(
         pageContents: <Widget>[
           widget.pageSpec.contents,

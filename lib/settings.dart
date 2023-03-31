@@ -60,7 +60,6 @@ class Settings extends ChangeNotifier{
   Rect buttonArrayRect = Rect.zero;
 
   Rect updateButtonArrayRect() {
-    print('Settings, updateButtonArrayRect...executing.');
     double dim = 2 * (buttonRadius + buttonPaddingMainAxisAlt);
     double shortLength = 2.0 * (buttonRadius + buttonPaddingMainAxis);
     double longLength = (buttonSpecList.length - 1) * dim + shortLength;
@@ -85,7 +84,6 @@ class Settings extends ChangeNotifier{
       assert(basePageViewRect != null, 'Settings, get buttonArrayRect...error, '
           'basePageViewRect is null.');
     }
-    print('Settings, updateButtonArrayRect...rect = $rect.');
     return rect;
   }
 
