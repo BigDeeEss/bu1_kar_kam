@@ -17,7 +17,7 @@ import 'package:kar_kam/sliding_guides.dart';
 ///     2. specific screen contents including buttons for navigation
 ///        and functionality, and
 ///     3. a bottom navigation bar.
-class BasePage extends StatelessWidget with GetItMixin {
+class BasePage extends StatefulWidget with GetItStatefulWidgetMixin {
   BasePage({
     Key? key,
     required this.pageSpec,
@@ -27,38 +27,61 @@ class BasePage extends StatelessWidget with GetItMixin {
   final PageSpec pageSpec;
 
   @override
+  State<BasePage> createState() => _BasePageState();
+}
+
+class _BasePageState extends State<BasePage> with GetItStateMixin {
+  GlobalKey appBarKey = GlobalKey();
+
+  Rect? appBarRect;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Rect? rect = appBarKey.globalPaintBounds;
+
+      print('_BasePageState, initState...appBarRect = $appBarRect');
+
+      assert(rect != null, '_BasePageState, initState...error, appBarRect is null...');
+      setState(() {
+        appBarRect = rect;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Watch for changes to [appBarHeightScaleFactor] in the instance of
     // [Settings] registered with GetIt.
     double appBarHeightScaleFactor =
         watchOnly((Settings s) => s.appBarHeightScaleFactor);
 
+    print('_BasePageState, build...appBarRect = $appBarRect');
     return Scaffold(
       appBar: AppBar(
-        title: Text(pageSpec.title),
+        key: appBarKey,
+        title: Text(widget.pageSpec.title),
       ),
       // Use [Builder] widget to generate a [BottomAppBar].
       //
       // It is not possible to get the appBar height from [context] since
       // this instance of [Scaffold] hasn't been built yet.
       // Effectively this introduces another layer.
-      bottomNavigationBar: Builder(
+      bottomNavigationBar: (appBarRect != null) ? Builder(
         builder: (BuildContext context) {
-          // Get appBar height from context.
-          double appBarHeight =
-              MediaQuery.of(context).padding.top + kToolbarHeight;
-
           return BottomAppBar(
             color: Colors.blue,
-            height: appBarHeight * appBarHeightScaleFactor,
+            height: appBarRect!.height * appBarHeightScaleFactor,
           );
         },
-      ),
+      ) : null,
       // [Scaffold] body is passed to an instance of [BasePageView] as this
       // widget uploads the available screen dimensions to [Settings].
       body: BasePageView(
         pageContents: <Widget>[
-          pageSpec.contents,
+          widget.pageSpec.contents,
           SlidingGuides(),
           ButtonArray(),
         ],
