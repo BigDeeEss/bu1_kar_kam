@@ -48,7 +48,8 @@ class _BasePageState extends State<BasePage> with GetItStateMixin {
       Rect? rect = appBarKey.globalPaintBounds;
 
       // Check rect and then setState.
-      assert(rect != null, '_BasePageState, initState...error, appBarRect is null...');
+      assert(
+          rect != null, '_BasePageState, initState...error, rect is null...');
       setState(() {
         appBarRect = rect;
       });
@@ -69,10 +70,12 @@ class _BasePageState extends State<BasePage> with GetItStateMixin {
         key: appBarKey,
         title: Text(widget.pageSpec.title),
       ),
-      bottomNavigationBar: (appBarRect != null) ? BottomAppBar(
-        color: Colors.blue,
-        height: appBarRect!.height * appBarHeightScaleFactor,
-      ) : null,
+      bottomNavigationBar: (appBarRect != null)
+          ? BottomAppBar(
+              color: Colors.blue,
+              height: appBarRect!.height * appBarHeightScaleFactor,
+            )
+          : null,
       body: BasePageView(
         pageContents: <Widget>[
           widget.pageSpec.contents,

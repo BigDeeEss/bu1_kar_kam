@@ -31,13 +31,16 @@ class KarKam extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: const [
-                  Text('Initialising Kar Kam...',),
-                  SizedBox(height: 16,),
+                  Text(
+                    'Initialising Kar Kam...',
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
                   CircularProgressIndicator(),
                 ],
               );
-            }
-            else {
+            } else {
               // For the 'has data' case, when the load of app settings
               // is complete, continue with building BasePage.
               return MaterialApp(
@@ -57,4 +60,3 @@ class KarKam extends StatelessWidget {
     );
   }
 }
-

@@ -34,7 +34,7 @@ class BasePageView extends StatelessWidget {
 
 /// Builds [pageContents] in two parts in order to offer a way for widgets
 /// further down the widget tree to get the available screen dimensions
-/// via the required key and [globalPaintBounds]..
+/// via the required key and [globalPaintBounds].
 class _BasePageView extends StatefulWidget {
   const _BasePageView({
     required Key key,
@@ -71,8 +71,7 @@ class _BasePageViewState extends State<_BasePageView> {
       // calculate [basePageViewRect] and upload to the registered instance of
       // SettingsService in GetIt.
       GlobalKey basePageViewKey =
-          DataStore
-              .of<GlobalKey>(context, const ValueKey('basePageViewKey'))
+          DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
               .data;
       Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
@@ -86,8 +85,11 @@ class _BasePageViewState extends State<_BasePageView> {
         notify: false,
       );
 
-      // Update the [buttonArrayRect] in in the instance of [Settings]
+      // Update the [buttonArrayRect] in the instance of [Settings]
       // registered with GetIt.
+      // The class method [updateButtonArrayRect] generates the bounding box
+      // for [ButtonArray].
+      // Call [updateButtonArrayRect] as soon as [basePageViewRect] is known.
       GetItService.instance<Settings>().buttonArrayRect =
           GetItService.instance<Settings>().updateButtonArrayRect();
 
@@ -119,16 +121,15 @@ class BasePageViewTest extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get [basePageViewRect] (from [DataStore] in [BasePage]).
     GlobalKey basePageViewKey =
-        DataStore
-            .of<GlobalKey>(context, const ValueKey('basePageViewKey'))
+        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
             .data;
     Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
-    // Print [basePageViewRect].
     assert(basePageViewRect != null,
-    'BasePageViewTest, build...basePageViewRect is null...');
-    print('BasePageViewTest, build...basePageViewRect = $basePageViewRect...');
+        'BasePageViewTest, build...basePageViewRect is null...');
 
+    // Print basePageViewRect for test purposes and return [Placeholder]..
+    print('BasePageViewTest, build...basePageViewRect = $basePageViewRect...');
     return const Placeholder();
   }
 }
