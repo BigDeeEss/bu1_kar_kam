@@ -7,7 +7,7 @@ import 'package:kar_kam/base_page_view.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
 import 'package:kar_kam/page_specs.dart';
-import 'package:kar_kam/settings.dart';
+import 'package:kar_kam/app_data.dart';
 import 'package:kar_kam/sliding_guides.dart';
 
 /// Implements a generic page layout design.
@@ -63,7 +63,7 @@ class _BasePageState extends State<BasePage> with GetItStateMixin {
     // Watch for changes to [appBarHeightScaleFactor] in the instance of
     // [Settings] registered with GetIt.
     double appBarHeightScaleFactor =
-        watchOnly((Settings s) => s.appBarHeightScaleFactor);
+        watchOnly((AppData s) => s.appBarHeightScaleFactor);
 
     return Scaffold(
       appBar: AppBar(

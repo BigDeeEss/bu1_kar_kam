@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
-import 'package:kar_kam/settings.dart';
+import 'package:kar_kam/app_data.dart';
 
 /// Is a wrapper for an instance of [DataStore] and [_BasePageView].
 class BasePageView extends StatelessWidget {
@@ -69,29 +69,29 @@ class _BasePageViewState extends State<_BasePageView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Get [basePageViewKey] (from [DataStore] in [BasePageView]),
       // calculate [basePageViewRect] and upload to the registered instance of
-      // SettingsService in GetIt.
+      // [AppData] in [GetIt].
       GlobalKey basePageViewKey =
           DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
               .data;
       Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
-      // Check and upload basePageViewRect to the instance of [Settings]
+      // Check and upload basePageViewRect to the instance of [AppData]
       // registered with [GetItService].
       assert(basePageViewRect != null,
           '_BasePageViewState, initState...error, basePageViewRect is null...');
-      GetItService.instance<Settings>().change(
+      GetItService.instance<AppData>().change(
         identifier: 'basePageViewRect',
         newValue: basePageViewRect,
         notify: false,
       );
 
-      // Update the [buttonArrayRect] in the instance of [Settings]
+      // Update the [buttonArrayRect] in the instance of [AppData]
       // registered with GetIt.
       // The class method [updateButtonArrayRect] generates the bounding box
       // for [ButtonArray].
       // Call [updateButtonArrayRect] as soon as [basePageViewRect] is known.
-      GetItService.instance<Settings>().buttonArrayRect =
-          GetItService.instance<Settings>().updateButtonArrayRect();
+      GetItService.instance<AppData>().buttonArrayRect =
+          GetItService.instance<AppData>().updateButtonArrayRect();
 
       // Rebuild widget with [pageSpec.contents] instead of [Container].
       if (pageContents == null) {

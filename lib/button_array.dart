@@ -6,35 +6,30 @@ import 'package:get_it_mixin/get_it_mixin.dart';
 import 'package:kar_kam/button.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
-import 'package:kar_kam/settings.dart';
+import 'package:kar_kam/app_data.dart';
 
 /// Implements a linear horizontal or vertical array of Buttons.
-//
-// Need to override the @immutable feature of [StatelessWidget] due to
-// [settings] being initialised and then potentially overwritten in [build].
-//
-// ignore: must_be_immutable
 class ButtonArray extends StatelessWidget with GetItMixin {
   ButtonArray({Key? key}) : super(key: key);
 
   /// Generates a list of coordinates relative to any corner.
   static List<double> get buttonCoordinates {
-    // Get [buttonSpecList] within the instance of Settings
-    // registered with GetIt.
+    // Get [buttonSpecList] within the instance of [AppData]
+    // registered with [GetIt].
     List<ButtonSpec> buttonSpecList = GetItService
-        .instance<Settings>()
+        .instance<AppData>()
         .buttonSpecList;
 
-    // Get [buttonRadius] within the instance of Settings
-    // registered with GetIt.
+    // Get [buttonRadius] within the instance of [AppData]
+    // registered with [GetIt].
     double buttonRadius = GetItService
-        .instance<Settings>()
+        .instance<AppData>()
         .buttonRadius;
 
-    // Get [buttonPaddingMainAxisAlt] within the instance of Settings
-    // registered with GetIt.
+    // Get [buttonPaddingMainAxisAlt] within the instance of [AppData]
+    // registered with [GetIt].
     double buttonPaddingMainAxisAlt = GetItService
-        .instance<Settings>()
+        .instance<AppData>()
         .buttonPaddingMainAxisAlt;
 
     // A length -- button width plus padding -- for defining [coordinateList].
@@ -53,16 +48,16 @@ class ButtonArray extends StatelessWidget with GetItMixin {
   /// Calculates the [Rect] data associated with [buttonArray].
   static Rect get rect =>
       GetItService
-          .instance<Settings>()
+          .instance<AppData>()
           .buttonArrayRect;
 
   /// Generates a list of buttons.
   List<Widget> buttonArrayGenerator(Axis buttonAxis,
       Alignment buttonAlignment) {
-    // Get [buttonSpecList] within the instance of Settings
-    // registered with GetIt.
+    // Get [buttonSpecList] within the instance of [AppData]
+    // registered with [GetIt].
     List<ButtonSpec> buttonSpecList = GetItService
-        .instance<Settings>()
+        .instance<AppData>()
         .buttonSpecList;
 
     // Take a local copy of [buttonCoordinates] for speed.
@@ -116,11 +111,11 @@ class ButtonArray extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    // Watch for changes to [Settings.buttonAxis] registered with GetIt.
-    Axis buttonAxis = watchOnly((Settings s) => s.buttonAxis);
+    // Watch for changes to [AppData.buttonAxis] registered with [GetIt].
+    Axis buttonAxis = watchOnly((AppData a) => a.buttonAxis);
 
-    // Watch for changes to [Settings.buttonAlignment] registered with GetIt.
-    Alignment buttonAlignment = watchOnly((Settings s) => s.buttonAlignment);
+    // Watch for changes to [AppData.buttonAlignment] registered with [GetIt].
+    Alignment buttonAlignment = watchOnly((AppData a) => a.buttonAlignment);
 
     // Generate the array of buttons.
     List<Widget> buttonArray = buttonArrayGenerator(

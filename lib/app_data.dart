@@ -6,8 +6,8 @@ import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/button_specs.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
-/// Stores app settings.
-class Settings extends ChangeNotifier{
+/// Stores app data.
+class AppData extends ChangeNotifier{
   /// A scale factor which is applied to [appBarHeight] in order to calculate
   /// the [BottomAppBar] height in [BasePage] class.
   double appBarHeightScaleFactor = 1.0;
@@ -81,7 +81,7 @@ class Settings extends ChangeNotifier{
       }
     }
     else {
-      assert(basePageViewRect != null, 'Settings, get buttonArrayRect...error, '
+      assert(basePageViewRect != null, 'AppData, get buttonArrayRect...error, '
           'basePageViewRect is null.');
     }
     return rect;
@@ -102,21 +102,21 @@ class Settings extends ChangeNotifier{
 
   // For diagnostics.
   void printThis() {
-    print('Settings, appBarHeightScaleFactor = $appBarHeightScaleFactor');
-    print('Settings, basePageViewRect = $basePageViewRect');
-    print('Settings, buttonAlignment = $buttonAlignment');
-    print('Settings, buttonAxis = $buttonAxis');
-    print('Settings, buttonPadding = $buttonPadding');
-    print('Settings, buttonPaddingMainAxis = $buttonPaddingMainAxis');
-    print('Settings, buttonPaddingMainAxisAlt = $buttonPaddingMainAxisAlt');
-    print('Settings, buttonRadius = $buttonRadius');
-    print('Settings, buttonSpecList = $buttonSpecList');
-    print('Settings, drawLayoutBounds = $drawLayoutBounds');
-    print('Settings, settingsPageListTileFadeEffect = '
+    print('AppData, appBarHeightScaleFactor = $appBarHeightScaleFactor');
+    print('AppData, basePageViewRect = $basePageViewRect');
+    print('AppData, buttonAlignment = $buttonAlignment');
+    print('AppData, buttonAxis = $buttonAxis');
+    print('AppData, buttonPadding = $buttonPadding');
+    print('AppData, buttonPaddingMainAxis = $buttonPaddingMainAxis');
+    print('AppData, buttonPaddingMainAxisAlt = $buttonPaddingMainAxisAlt');
+    print('AppData, buttonRadius = $buttonRadius');
+    print('AppData, buttonSpecList = $buttonSpecList');
+    print('AppData, drawLayoutBounds = $drawLayoutBounds');
+    print('AppData, settingsPageListTileFadeEffect = '
         '$settingsPageListTileFadeEffect');
-    print('Settings, settingsPageListTileIconSize = '
+    print('AppData, settingsPageListTileIconSize = '
         '$settingsPageListTileIconSize');
-    print('Settings, drawLayoutBounds = $drawLayoutBounds');
+    print('AppData, drawLayoutBounds = $drawLayoutBounds');
   }
 
   /// Updates this using string to determine which field is set to newValue.
@@ -126,7 +126,7 @@ class Settings extends ChangeNotifier{
     bool notify = true,
   }) {
     // Define a map that converts [string] to a class method.
-    // ToDo: add functionality for other fields in Settings class.
+    // ToDo: add functionality for other fields in [AppData] class.
     Map<String, Function> map = {
       'appBarHeightScaleFactor': (double newValue) =>
           appBarHeightScaleFactor = newValue,
