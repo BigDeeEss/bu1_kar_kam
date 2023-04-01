@@ -2,18 +2,17 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
-import 'package:kar_kam/lib/get_it_service.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/app_data.dart';
 import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/double_extension.dart';
+import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/offset_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
-import 'package:kar_kam/settings.dart';
-// import 'package:kar_kam/settings_service.dart';
 
 /// Implements a [ListTile] that is able to slide around [guestRect].
 //
@@ -29,7 +28,7 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
     this.trailing,
     this.widget,
   }) : super(key: key) {
-    guestRect = GetItService.instance<Settings>().buttonArrayRect;
+    guestRect = GetItService.instance<AppData>().buttonArrayRect;
 
     // Create a [Rect] representation of [SettingsPageListTile] at the
     // correct initial location.
@@ -37,14 +36,6 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
         .inflateToHeight(height)
         .moveTopLeftTo(basePageViewRect.topLeft)
         .translate(0, height * index);
-
-    // // Helps define the sliding motion of [SettingsPageListTile].
-    // centreRect = centreConstructionRect;
-    // lowerRect = lowerConstructionRect;
-    // upperRect = upperConstructionRect;
-    //
-    // // Upload radius that defines the sliding motion of [SettingsPageListTile].
-    // pathRadius = guestRect!.shortestSide / 2;
 
     // The corner radius associated with [SettingsPageListTile].
     cornerRadius = AppSettingsOrig.settingsPageListTileRadius +
@@ -159,10 +150,10 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
       // move it so that its top left corner is coincident with
       // [guestRect.bottomLeft], finally translate it upwards by
       // [guestRect!.shortestSide].
-      return guestRect!
-          .inflateToHeight(sf * guestRect!.shortestSide)
-          .moveTopLeftTo(guestRect!.bottomLeft)
-          .translate(0.0, -guestRect!.shortestSide / 2);
+      return guestRect
+          .inflateToHeight(sf * guestRect.shortestSide)
+          .moveTopLeftTo(guestRect.bottomLeft)
+          .translate(0.0, -guestRect.shortestSide / 2);
     } else {
       return null;
     }
@@ -175,10 +166,10 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
       // move it so that its bottom left corner is coincident with
       // [guestRect.topLeft], finally translate it downwards by
       // [guestRect!.shortestSide].
-      return guestRect!
-          .inflateToHeight(sf * guestRect!.shortestSide)
-          .moveBottomLeftTo(guestRect!.topLeft)
-          .translate(0.0, guestRect!.shortestSide / 2);
+      return guestRect
+          .inflateToHeight(sf * guestRect.shortestSide)
+          .moveBottomLeftTo(guestRect.topLeft)
+          .translate(0.0, guestRect.shortestSide / 2);
     } else {
       return null;
     }
@@ -209,7 +200,7 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
     if (guestRect != null) {
       if (centreRect!.inflateHeight(-cornerRadius).overlaps(rect)) {
         // [centreRect] overlaps with rect so set maximum deltaX value.
-        deltaX = guestRect!.width;
+        deltaX = guestRect.width;
       } else if (lowerRect!
               .boundsContain(rect.translate(0.0, cornerRadius).topLeft) ||
           lowerRect!
@@ -222,7 +213,7 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
 
         // Calculate [deltaX].
         deltaX = getXFromY(lowerRect!, y);
-        deltaX = guestRect!.width - deltaX;
+        deltaX = guestRect.width - deltaX;
       } else if (upperRect!
               .boundsContain(rect.translate(0.0, -cornerRadius).bottomLeft) ||
           upperRect!
@@ -235,7 +226,7 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
 
         // Calculate [deltaX].
         deltaX = getXFromY(upperRect!, y);
-        deltaX = guestRect!.width - deltaX;
+        deltaX = guestRect.width - deltaX;
       }
     }
     return deltaX;
@@ -358,11 +349,8 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    // Watch for changes to [Settings.buttonAxis] registered with GetIt.
-    Axis buttonAxis = watchOnly((Settings s) => s.buttonAxis);
-
-    // Watch for changes to [Settings.buttonAxis] registered with GetIt.
-    guestRect = watchOnly((Settings s) => s.buttonArrayRect);
+    // Watch for changes to [AppData.buttonAxis] registered with [GetIt].
+    guestRect = watchOnly((AppData s) => s.buttonArrayRect);
 
     // Helps define the sliding motion of [SettingsPageListTile].
     centreRect = centreConstructionRect;
@@ -370,7 +358,7 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
     upperRect = upperConstructionRect;
 
     // Upload radius that defines the sliding motion of [SettingsPageListTile].
-    pathRadius = guestRect!.shortestSide / 2;
+    pathRadius = guestRect.shortestSide / 2;
 
     // Use [ValueListenableBuilder] to build [SettingsPageListTile] each
     // time the scroll position changes.
@@ -446,10 +434,10 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    // Watch for changes to [Settings.settingsPageListTileFadeEffect]
-    // registered with GetIt.
+    // Watch for changes to [AppData.settingsPageListTileFadeEffect]
+    // registered with [GetIt].
     bool settingsPageListTileFadeEffect =
-        watchOnly((Settings s) => s.settingsPageListTileFadeEffect);
+        watchOnly((AppData s) => s.settingsPageListTileFadeEffect);
 
     return settingsPageListTileFadeEffect
         ? Positioned(

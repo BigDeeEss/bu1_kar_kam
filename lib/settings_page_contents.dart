@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
-// import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
-import 'package:kar_kam/settings.dart';
+import 'package:kar_kam/app_data.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
-import 'package:kar_kam/settings_service.dart';
 
 /// Provides [PageSpec] contents for [settingsPage].
 ///
@@ -61,10 +59,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
     // Watch for changes to [Settings.settingsPageListTileIconSize]
     // registered with GetIt.
     double settingsPageListTileIconSize =
-        watchOnly((Settings s) => s.settingsPageListTileIconSize);
-
-    // Get [buttonArrayRect] (from [DataNotifier] in [BasePage]).
-    Rect buttonArrayRect = ButtonArray.rect;
+        watchOnly((AppData a) => a.settingsPageListTileIconSize);
 
     // Get [basePageViewRect] (from [DataNotifier] in [BasePage]).
     GlobalKey basePageViewKey =
@@ -103,7 +98,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: () {
           // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<Settings>()
+          GetItService.instance<AppData>()
               .change(identifier: 'drawLayoutBounds');
         },
         trailing: Icon(
@@ -127,7 +122,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: (() {
           // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<Settings>()
+          GetItService.instance<AppData>()
               .change(identifier: 'settingsPageListTileFadeEffect');
         }),
         trailing: Icon(
@@ -151,7 +146,7 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         ),
         onTap: (() {
           // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<Settings>()
+          GetItService.instance<AppData>()
               .change(identifier: 'buttonAxis');
         }),
         trailing: Icon(
