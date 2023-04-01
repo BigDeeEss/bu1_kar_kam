@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kar_kam/lib/data_store.dart';
 import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/lib/global_key_extension.dart';
-import 'package:kar_kam/settings_service.dart';
+import 'package:kar_kam/settings.dart';
 
 /// Is a wrapper for an instance of [DataStore] and [_BasePageView].
 class BasePageView extends StatelessWidget {
@@ -34,7 +34,7 @@ class BasePageView extends StatelessWidget {
 
 /// Builds [pageContents] in two parts in order to offer a way for widgets
 /// further down the widget tree to get the available screen dimensions
-/// via the required key and [globalPaintBounds]..
+/// via the required key and [globalPaintBounds].
 class _BasePageView extends StatefulWidget {
   const _BasePageView({
     required Key key,
@@ -57,13 +57,13 @@ class _BasePageViewState extends State<_BasePageView> {
 
   @override
   void initState() {
-    // [BasePageView] is built in two phases:
+    // [_BasePageView] is built in two phases:
     //    (i) with [pageContents] = [Container()], by the [build] method;
     //    and then
     //    (ii) with [pageContents] = [widget.pageContents], initiated by
     //    the following post-frame callback.
     //
-    // [BasePageView] is built in two phases because [pageContents] may require
+    // [_BasePageView] is built in two phases because [pageContents] may require
     // knowledge of the available screen dimensions which this widget attempts
     // to provide.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -71,22 +71,27 @@ class _BasePageViewState extends State<_BasePageView> {
       // calculate [basePageViewRect] and upload to the registered instance of
       // SettingsService in GetIt.
       GlobalKey basePageViewKey =
-          DataStore
-              .of<GlobalKey>(context, const ValueKey('basePageViewKey'))
+          DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
               .data;
       Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
       // Check and upload basePageViewRect to the instance of [Settings]
-      // registered with [GetItService]..
+      // registered with [GetItService].
       assert(basePageViewRect != null,
-      '_BasePageViewState, initState...error, basePageViewRect is null...');
-      print('_BasePageViewState, initState...uploading.');
-      GetItService.instance<SettingsService>().change(
+          '_BasePageViewState, initState...error, basePageViewRect is null...');
+      GetItService.instance<Settings>().change(
         identifier: 'basePageViewRect',
         newValue: basePageViewRect,
         notify: false,
       );
-      print('_BasePageViewState, initState...uploading complete.');
+
+      // Update the [buttonArrayRect] in the instance of [Settings]
+      // registered with GetIt.
+      // The class method [updateButtonArrayRect] generates the bounding box
+      // for [ButtonArray].
+      // Call [updateButtonArrayRect] as soon as [basePageViewRect] is known.
+      GetItService.instance<Settings>().buttonArrayRect =
+          GetItService.instance<Settings>().updateButtonArrayRect();
 
       // Rebuild widget with [pageSpec.contents] instead of [Container].
       if (pageContents == null) {
@@ -116,16 +121,15 @@ class BasePageViewTest extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get [basePageViewRect] (from [DataStore] in [BasePage]).
     GlobalKey basePageViewKey =
-        DataStore
-            .of<GlobalKey>(context, const ValueKey('basePageViewKey'))
+        DataStore.of<GlobalKey>(context, const ValueKey('basePageViewKey'))
             .data;
     Rect? basePageViewRect = basePageViewKey.globalPaintBounds;
 
-    // Print [basePageViewRect].
     assert(basePageViewRect != null,
-    'BasePageViewTest, build...basePageViewRect is null...');
-    print('BasePageViewTest, build...basePageViewRect = $basePageViewRect...');
+        'BasePageViewTest, build...basePageViewRect is null...');
 
+    // Print basePageViewRect for test purposes and return [Placeholder]..
+    print('BasePageViewTest, build...basePageViewRect = $basePageViewRect...');
     return const Placeholder();
   }
 }

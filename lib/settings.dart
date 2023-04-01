@@ -2,16 +2,20 @@
 import 'package:flutter/material.dart';
 
 // Import project-specific files.
+import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/button_specs.dart';
+import 'package:kar_kam/lib/rect_extension.dart';
 
 /// Stores app settings.
-class Settings {
+class Settings extends ChangeNotifier{
   /// A scale factor which is applied to [appBarHeight] in order to calculate
   /// the [BottomAppBar] height in [BasePage] class.
   double appBarHeightScaleFactor = 1.0;
 
-  /// The available screen dimensions.
-  Rect? basePageViewRect;
+  /// The Rect that represents the available screen dimensions.
+  ///
+  /// Initially Rect.zero, it is updated on first build.
+  Rect basePageViewRect = Rect.zero;
 
   /// The anchor location that determines button placement in [ButtonArray].
   // static Alignment buttonAlignment = Alignment.bottomLeft;
@@ -50,8 +54,44 @@ class Settings {
   /// Defines the icon radius in Button.
   double settingsPageListTileIconSize = 25.0;
 
+  /// The Rect that represents the layout bounds for [ButtonArray].
+  ///
+  /// Initially Rect.zero, it is updated on first build.
+  Rect buttonArrayRect = Rect.zero;
+
+  Rect updateButtonArrayRect() {
+    double dim = 2 * (buttonRadius + buttonPaddingMainAxisAlt);
+    double shortLength = 2.0 * (buttonRadius + buttonPaddingMainAxis);
+    double longLength = (buttonSpecList.length - 1) * dim + shortLength;
+
+    // Generate Rect of the correct size at screen top left.
+    Rect rect = Rect.zero;
+    if (buttonAxis == Axis.vertical) {
+      rect = const Offset(0.0, 0.0) & Size(shortLength, longLength);
+    } else {
+      rect = const Offset(0.0, 0.0) & Size(longLength, shortLength);
+    }
+
+    // Move [rect] to correct location on screen.
+    if (basePageViewRect != Rect.zero) {
+      if (buttonAlignment == Alignment.topRight) {
+        rect = rect.moveTopRightTo(basePageViewRect.topRight);
+      } else if (buttonAlignment == Alignment.topLeft) {
+        rect = rect.moveTopLeftTo(basePageViewRect.topLeft);
+      }
+    }
+    else {
+      assert(basePageViewRect != null, 'Settings, get buttonArrayRect...error, '
+          'basePageViewRect is null.');
+    }
+    return rect;
+  }
+
   /// Toggles [buttonAxis].
-  void toggleButtonAxis() => buttonAxis = flipAxis(buttonAxis);
+  void toggleButtonAxis() {
+    buttonAxis = flipAxis(buttonAxis);
+    buttonArrayRect = updateButtonArrayRect();
+  }
 
   /// Toggles [drawLayoutBounds].
   void toggleDrawLayoutBounds() => drawLayoutBounds = !drawLayoutBounds;
@@ -80,9 +120,10 @@ class Settings {
   }
 
   /// Updates this using string to determine which field is set to newValue.
-  Settings change({
+  void change({
     required String identifier,
     var newValue,
+    bool notify = true,
   }) {
     // Define a map that converts [string] to a class method.
     // ToDo: add functionality for other fields in Settings class.
@@ -99,7 +140,8 @@ class Settings {
     // Call the function determined from [map] and update relevant field.
     map[identifier]?.call(newValue);
 
-    // Return this instance of [Settings].
-    return this;
+    if (notify) {
+      notifyListeners();
+    }
   }
 }

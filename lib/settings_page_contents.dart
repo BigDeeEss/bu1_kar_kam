@@ -58,9 +58,10 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
 
   @override
   Widget build(BuildContext context) {
-    // Watch for changes to [SettingsService] registered in [GetIt].
-    Settings settings = watch<SettingsService, Settings>();
-    print('_SettingsPageContentsState, build...building...');
+    // Watch for changes to [Settings.settingsPageListTileIconSize]
+    // registered with GetIt.
+    double settingsPageListTileIconSize =
+        watchOnly((Settings s) => s.settingsPageListTileIconSize);
 
     // Get [buttonArrayRect] (from [DataNotifier] in [BasePage]).
     Rect buttonArrayRect = ButtonArray.rect;
@@ -78,12 +79,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
-          guestRect: buttonArrayRect,
           height: 75.0,
           index: index,
           leading: Icon(
             Icons.favorite,
-            size: settings.settingsPageListTileIconSize,
+            size: settingsPageListTileIconSize,
           ),
           widget: Text(
             '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
@@ -95,21 +95,20 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
       SettingsPageListTile(
         basePageViewRect:
             basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
-        guestRect: buttonArrayRect,
         height: 75.0,
         index: 5,
         leading: Icon(
           Icons.circle_notifications_outlined,
-          size: settings.settingsPageListTileIconSize,
+          size: settingsPageListTileIconSize,
         ),
         onTap: () {
           // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsService>()
+          GetItService.instance<Settings>()
               .change(identifier: 'drawLayoutBounds');
         },
         trailing: Icon(
           Icons.circle_notifications_outlined,
-          size: settings.settingsPageListTileIconSize,
+          size: settingsPageListTileIconSize,
         ),
         widget: const Text(
           '5. Click to switch drawLayoutBounds',
@@ -120,21 +119,20 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
       SettingsPageListTile(
         basePageViewRect:
             basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
-        guestRect: buttonArrayRect,
         height: 75.0,
         index: 6,
         leading: Icon(
           Icons.circle_notifications_outlined,
-          size: settings.settingsPageListTileIconSize,
+          size: settingsPageListTileIconSize,
         ),
         onTap: (() {
           // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsService>()
+          GetItService.instance<Settings>()
               .change(identifier: 'settingsPageListTileFadeEffect');
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
-          size: settings.settingsPageListTileIconSize,
+          size: settingsPageListTileIconSize,
         ),
         widget: const Text(
           '6. Click to toggle settingsPageListTileFadeEffect!',
@@ -145,21 +143,20 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
       SettingsPageListTile(
         basePageViewRect:
             basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
-        guestRect: buttonArrayRect,
         height: 75.0,
         index: 7,
         leading: Icon(
           Icons.circle_notifications_outlined,
-          size: settings.settingsPageListTileIconSize,
+          size: settingsPageListTileIconSize,
         ),
         onTap: (() {
           // Toggle bool variable in AppModel that controls the fade effect.
-          GetItService.instance<SettingsService>()
+          GetItService.instance<Settings>()
               .change(identifier: 'buttonAxis');
         }),
         trailing: Icon(
           Icons.circle_notifications_outlined,
-          size: settings.settingsPageListTileIconSize,
+          size: settingsPageListTileIconSize,
         ),
         widget: const Text(
           '7. Click to toggle buttonAxis!',
@@ -171,12 +168,11 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
         return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
-          guestRect: buttonArrayRect,
           height: 75.0,
           index: index + 8,
           leading: Icon(
             Icons.favorite,
-            size: settings.settingsPageListTileIconSize,
+            size: settingsPageListTileIconSize,
           ),
           widget: Text(
             '$index. Some very, very, very, very, very, very, very, very, very, very, very, verylongtext!',
