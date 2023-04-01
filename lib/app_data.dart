@@ -54,6 +54,12 @@ class AppData extends ChangeNotifier{
   /// Defines the icon radius in Button.
   double settingsPageListTileIconSize = 25.0;
 
+  /// Defines the padding between tiles.
+  double settingsPageListTilePadding = 0.0;
+
+  /// Defines the tile corner radius.
+  double settingsPageListTileRadius = 15.0;
+
   /// The Rect that represents the layout bounds for [ButtonArray].
   ///
   /// Initially Rect.zero, it is updated on first build.

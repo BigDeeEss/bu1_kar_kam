@@ -5,7 +5,6 @@ import 'package:get_it_mixin/get_it_mixin.dart';
 
 // Import project-specific files.
 import 'package:kar_kam/app_data.dart';
-import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/boxed_container.dart';
 import 'package:kar_kam/lib/alignment_extension.dart';
 import 'package:kar_kam/lib/data_store.dart';
@@ -28,7 +27,14 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
     this.trailing,
     this.widget,
   }) : super(key: key) {
+    // Obtain [guestRect], [buttonRadius], [settingsPageListTilePadding]
+    // and [settingsPageListTileRadius] from [AppData] registered with [GetIt].
     guestRect = GetItService.instance<AppData>().buttonArrayRect;
+    double buttonRadius = GetItService.instance<AppData>().buttonRadius;
+    double settingsPageListTilePadding =
+        GetItService.instance<AppData>().settingsPageListTilePadding;
+    double settingsPageListTileRadius =
+        GetItService.instance<AppData>().settingsPageListTileRadius;
 
     // Create a [Rect] representation of [SettingsPageListTile] at the
     // correct initial location.
@@ -38,11 +44,10 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
         .translate(0, height * index);
 
     // The corner radius associated with [SettingsPageListTile].
-    cornerRadius = AppSettingsOrig.settingsPageListTileRadius +
-        AppSettingsOrig.settingsPageListTilePadding;
+    cornerRadius = settingsPageListTileRadius + settingsPageListTilePadding;
 
     // Calculate [xPMax] from [basePageViewRect].
-    xPMax = basePageViewRect.width - 3 * AppSettingsOrig.buttonRadius;
+    xPMax = basePageViewRect.width - 3 * buttonRadius;
   }
 
   /// The visible area on screen that contains [SettingsPageContents].
@@ -110,6 +115,8 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
     //
     // Returns null only if [guestRect] is null.
     if (guestRect != null) {
+      Alignment buttonAlignment =
+          GetItService.instance<AppData>().buttonAlignment;
       Rect uRect = upperConstructionRect!;
       Rect lRect = lowerConstructionRect!;
 
@@ -127,7 +134,7 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
       //
       // Use this [Offset] to generate a [Rect].
       Offset offset = Offset.zero;
-      if (AppSettingsOrig.buttonAlignment.y > 0) {
+      if (buttonAlignment.y > 0) {
         offset = lRect.bottomRight - uRect.bottomLeft;
 
         // Convert [offset] to a [Size] and then construct output value.
@@ -352,6 +359,17 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
     // Watch for changes to [AppData.buttonAxis] registered with [GetIt].
     guestRect = watchOnly((AppData s) => s.buttonArrayRect);
 
+    // Watch for changes to [AppData.buttonAlignment] registered with [GetIt].
+    Alignment buttonAlignment = watchOnly((AppData s) => s.buttonAlignment);
+
+    // Watch for changes to [AppData.buttonAlignment] registered with [GetIt].
+    double settingsPageListTilePadding =
+        watchOnly((AppData s) => s.settingsPageListTilePadding);
+
+    // Watch for changes to [AppData.buttonAlignment] registered with [GetIt].
+    double settingsPageListTileRadius =
+        watchOnly((AppData s) => s.settingsPageListTileRadius);
+
     // Helps define the sliding motion of [SettingsPageListTile].
     centreRect = centreConstructionRect;
     lowerRect = lowerConstructionRect;
@@ -379,16 +397,15 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
           // The topmost instance of [BoxedContainer], with the use of [xP] to
           // define margin, implements the variable width settings panel.
           child: BoxedContainer(
-            margin: AppSettingsOrig.buttonAlignment.isLeft
+            margin: buttonAlignment.isLeft
                 ? EdgeInsets.only(left: xP)
                 : EdgeInsets.only(right: xP),
             height: height,
-            padding:
-                EdgeInsets.all(AppSettingsOrig.settingsPageListTilePadding),
+            padding: EdgeInsets.all(settingsPageListTilePadding),
             child: InkWell(
               onTap: onTap,
               child: BoxedContainer(
-                borderRadius: AppSettingsOrig.settingsPageListTileRadius,
+                borderRadius: settingsPageListTileRadius,
                 color: Colors.pink[200],
                 child: Row(
                   children: <Widget>[
@@ -437,17 +454,26 @@ class _FadingOverlay extends StatelessWidget with GetItMixin {
     // Watch for changes to [AppData.settingsPageListTileFadeEffect]
     // registered with [GetIt].
     bool settingsPageListTileFadeEffect =
-        watchOnly((AppData s) => s.settingsPageListTileFadeEffect);
+        watchOnly((AppData a) => a.settingsPageListTileFadeEffect);
+
+    // Watch for changes to [AppData.settingsPageListTileIconSize]
+    // registered with [GetIt].
+    double settingsPageListTileIconSize =
+        watchOnly((AppData a) => a.settingsPageListTileIconSize);
+
+    // Watch for changes to [AppData.settingsPageListTileIconSize]
+    // registered with [GetIt].
+    double settingsPageListTileRadius =
+        watchOnly((AppData a) => a.settingsPageListTileRadius);
 
     return settingsPageListTileFadeEffect
         ? Positioned(
             right: 0.0,
             child: BoxedContainer(
-              width: AppSettingsOrig.settingsPageListTileIconSize,
+              width: settingsPageListTileIconSize,
               height: height,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                    AppSettingsOrig.settingsPageListTileRadius),
+                borderRadius: BorderRadius.circular(settingsPageListTileRadius),
                 // https://stackoverflow.com/questions/62782165/how-to-create-this-linear-fading-opacity-effect-in-flutter-for-android
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,

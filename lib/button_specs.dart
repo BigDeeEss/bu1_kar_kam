@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Import project-specific files.
-import 'package:kar_kam/old_app_settings_data.dart';
 import 'package:kar_kam/base_page.dart';
 import 'package:kar_kam/page_specs.dart';
 // import 'package:kar_kam/lib/zoom_page_transition.dart';
@@ -20,12 +19,6 @@ class ButtonSpec {
 
   /// Defines the action to be taken when the button is activated.
   final void Function(BuildContext context) onPressed;
-
-  /// A radial padding beyond [buttonRadius].
-  EdgeInsetsDirectional buttonPadding = AppSettingsOrig.buttonPadding;
-
-  /// A size for the button.
-  double size = AppSettingsOrig.buttonRadius;
 }
 
 /// Home page button specs.
