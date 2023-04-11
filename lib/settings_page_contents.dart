@@ -159,12 +159,36 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           softWrap: false,
         ),
       ),
+      SettingsPageListTile(
+        basePageViewRect:
+            basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
+        height: 75.0,
+        index: 8,
+        leading: Icon(
+          Icons.circle_notifications_outlined,
+          size: settingsPageListTileIconSize,
+        ),
+        onTap: (() {
+          // Toggle bool variable in AppModel that controls the fade effect.
+          GetItService.instance<AppData>()
+              .change(identifier: 'buttonAlignment');
+        }),
+        trailing: Icon(
+          Icons.circle_notifications_outlined,
+          size: settingsPageListTileIconSize,
+        ),
+        widget: const Text(
+          '8. Cycle ButtonAlignment!',
+          maxLines: 1,
+          softWrap: false,
+        ),
+      ),
       ...List<Widget>.generate(100, (int index) {
         return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           height: 75.0,
-          index: index + 8,
+          index: index + 9,
           leading: Icon(
             Icons.favorite,
             size: settingsPageListTileIconSize,

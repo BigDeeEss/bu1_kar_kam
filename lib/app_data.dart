@@ -22,6 +22,11 @@ class AppData extends ChangeNotifier{
   // static Alignment buttonAlignment = Alignment.bottomRight;
   Alignment buttonAlignment = Alignment.topLeft;
 
+  /// The Rect that represents the layout bounds for [ButtonArray].
+  ///
+  /// Initially Rect.zero, it is updated on first build.
+  Rect buttonArrayRect = Rect.zero;
+
   /// The button axis in [ButtonArray].
   Axis buttonAxis = Axis.horizontal;
 
@@ -60,37 +65,71 @@ class AppData extends ChangeNotifier{
   /// Defines the tile corner radius.
   double settingsPageListTileRadius = 15.0;
 
-  /// The Rect that represents the layout bounds for [ButtonArray].
-  ///
-  /// Initially Rect.zero, it is updated on first build.
-  Rect buttonArrayRect = Rect.zero;
+  /// Updates this using string to determine which field is set to newValue.
+  void change({
+    required String identifier,
+    var newValue,
+    bool notify = true,
+  }) {
+    // Define a map that can convert [string] to a class method.
+    // ToDo: add functionality for other fields in [AppData] class.
+    Map<String, Function> map = {
+      'appBarHeightScaleFactor': (double newValue) =>
+          appBarHeightScaleFactor = newValue,
+      'basePageViewRect': (Rect newValue) => basePageViewRect = newValue,
+      'buttonAlignment': (newValue) => cycleButtonAlignment(),
+      'buttonAxis': (newValue) => toggleButtonAxis(),
+      'drawLayoutBounds': (newValue) => toggleDrawLayoutBounds(),
+      'settingsPageListTileFadeEffect': (newValue) =>
+          toggleSettingsPageListTileFadeEffect(),
+    };
 
-  Rect updateButtonArrayRect() {
-    double dim = 2 * (buttonRadius + buttonPaddingMainAxisAlt);
-    double shortLength = 2.0 * (buttonRadius + buttonPaddingMainAxis);
-    double longLength = (buttonSpecList.length - 1) * dim + shortLength;
+    // Call the function determined from [map] and update relevant field.
+    map[identifier]?.call(newValue);
 
-    // Generate Rect of the correct size at screen top left.
-    Rect rect = Rect.zero;
-    if (buttonAxis == Axis.vertical) {
-      rect = const Offset(0.0, 0.0) & Size(shortLength, longLength);
-    } else {
-      rect = const Offset(0.0, 0.0) & Size(longLength, shortLength);
+    if (notify) {
+      notifyListeners();
     }
+  }
 
-    // Move [rect] to correct location on screen.
-    if (basePageViewRect != Rect.zero) {
-      if (buttonAlignment == Alignment.topRight) {
-        rect = rect.moveTopRightTo(basePageViewRect.topRight);
-      } else if (buttonAlignment == Alignment.topLeft) {
-        rect = rect.moveTopLeftTo(basePageViewRect.topLeft);
-      }
-    }
-    else {
-      assert(basePageViewRect != null, 'AppData, get buttonArrayRect...error, '
-          'basePageViewRect is null.');
-    }
-    return rect;
+  void cycleButtonAlignment() {
+    // Define a map which can convert [buttonAlignment] to another
+    // [Alignment] type.
+    Map<Alignment, Alignment> map = {
+      Alignment.topLeft: Alignment.topRight,
+      Alignment.topRight: Alignment.bottomRight,
+      Alignment.bottomRight: Alignment.bottomLeft,
+      Alignment.bottomLeft: Alignment.topLeft,
+    };
+
+    // Do the conversion using [map].
+    buttonAlignment = map[buttonAlignment]!;
+
+    // Update [buttonArrayRect].
+    buttonArrayRect = updateButtonArrayRect();
+  }
+
+  // Prints all field values associated with [this] for diagnostic purposes.
+  void printThis() {
+    print('AppData, appBarHeightScaleFactor = $appBarHeightScaleFactor');
+    print('AppData, basePageViewRect = $basePageViewRect');
+    print('AppData, buttonAlignment = $buttonAlignment');
+    print('AppData, buttonArrayRect = $buttonArrayRect');
+    print('AppData, buttonAxis = $buttonAxis');
+    print('AppData, buttonPadding = $buttonPadding');
+    print('AppData, buttonPaddingMainAxis = $buttonPaddingMainAxis');
+    print('AppData, buttonPaddingMainAxisAlt = $buttonPaddingMainAxisAlt');
+    print('AppData, buttonRadius = $buttonRadius');
+    print('AppData, buttonSpecList = $buttonSpecList');
+    print('AppData, drawLayoutBounds = $drawLayoutBounds');
+    print('AppData, settingsPageListTileFadeEffect = '
+        '$settingsPageListTileFadeEffect');
+    print('AppData, settingsPageListTileIconSize = '
+        '$settingsPageListTileIconSize');
+    print('AppData, settingsPageListTilePadding = '
+        '$settingsPageListTilePadding');
+    print('AppData, settingsPageListTileRadius = '
+        '$settingsPageListTileRadius');
   }
 
   /// Toggles [buttonAxis].
@@ -106,48 +145,51 @@ class AppData extends ChangeNotifier{
   void toggleSettingsPageListTileFadeEffect() =>
       settingsPageListTileFadeEffect = !settingsPageListTileFadeEffect;
 
-  // For diagnostics.
-  void printThis() {
-    print('AppData, appBarHeightScaleFactor = $appBarHeightScaleFactor');
-    print('AppData, basePageViewRect = $basePageViewRect');
-    print('AppData, buttonAlignment = $buttonAlignment');
-    print('AppData, buttonAxis = $buttonAxis');
-    print('AppData, buttonPadding = $buttonPadding');
-    print('AppData, buttonPaddingMainAxis = $buttonPaddingMainAxis');
-    print('AppData, buttonPaddingMainAxisAlt = $buttonPaddingMainAxisAlt');
-    print('AppData, buttonRadius = $buttonRadius');
-    print('AppData, buttonSpecList = $buttonSpecList');
-    print('AppData, drawLayoutBounds = $drawLayoutBounds');
-    print('AppData, settingsPageListTileFadeEffect = '
-        '$settingsPageListTileFadeEffect');
-    print('AppData, settingsPageListTileIconSize = '
-        '$settingsPageListTileIconSize');
-    print('AppData, drawLayoutBounds = $drawLayoutBounds');
-  }
+  // Calculates the bounding box for [ButtonArray].
+  Rect updateButtonArrayRect() {
+    double dim = 2 * (buttonRadius + buttonPaddingMainAxisAlt);
+    double shortLength = 2.0 * (buttonRadius + buttonPaddingMainAxis);
+    double longLength = (buttonSpecList.length - 1) * dim + shortLength;
 
-  /// Updates this using string to determine which field is set to newValue.
-  void change({
-    required String identifier,
-    var newValue,
-    bool notify = true,
-  }) {
-    // Define a map that converts [string] to a class method.
-    // ToDo: add functionality for other fields in [AppData] class.
-    Map<String, Function> map = {
-      'appBarHeightScaleFactor': (double newValue) =>
-          appBarHeightScaleFactor = newValue,
-      'basePageViewRect': (Rect newValue) => basePageViewRect = newValue,
-      'buttonAxis': (newValue) => toggleButtonAxis(),
-      'drawLayoutBounds': (newValue) => toggleDrawLayoutBounds(),
-      'settingsPageListTileFadeEffect': (newValue) =>
-          toggleSettingsPageListTileFadeEffect(),
+    // Generate Rect of the correct size at screen top left.
+    Rect rect = Rect.zero;
+    if (buttonAxis == Axis.vertical) {
+      rect = const Offset(0.0, 0.0) & Size(shortLength, longLength);
+    } else {
+      rect = const Offset(0.0, 0.0) & Size(longLength, shortLength);
+    }
+
+    Map<Alignment, Function> map = {
+      Alignment.topLeft: (Rect rect) =>
+          rect.moveTopLeftTo(basePageViewRect.topLeft),
+      Alignment.topRight: (Rect rect) =>
+          rect.moveTopRightTo(basePageViewRect.topRight),
+      Alignment.bottomLeft: (Rect rect) =>
+          rect.moveBottomLeftTo(basePageViewRect.bottomLeft),
+      Alignment.bottomRight: (Rect rect) =>
+          rect.moveBottomRightTo(basePageViewRect.bottomRight),
     };
 
-    // Call the function determined from [map] and update relevant field.
-    map[identifier]?.call(newValue);
-
-    if (notify) {
-      notifyListeners();
+    if (basePageViewRect != Rect.zero) {
+      rect = map[buttonAlignment]?.call(rect);
     }
+    else {
+      assert(basePageViewRect != null, 'AppData, get buttonArrayRect...error, '
+          'basePageViewRect is null.');
+    }
+
+    // // Move [rect] to correct location on screen.
+    // if (basePageViewRect != Rect.zero) {
+    //   if (buttonAlignment == Alignment.topRight) {
+    //     rect = rect.moveTopRightTo(basePageViewRect.topRight);
+    //   } else if (buttonAlignment == Alignment.topLeft) {
+    //     rect = rect.moveTopLeftTo(basePageViewRect.topLeft);
+    //   }
+    // }
+    // else {
+    //   assert(basePageViewRect != null, 'AppData, get buttonArrayRect...error, '
+    //       'basePageViewRect is null.');
+    // }
+    return rect;
   }
 }
