@@ -357,18 +357,18 @@ class SettingsPageListTile extends StatelessWidget with GetItMixin {
   @override
   Widget build(BuildContext context) {
     // Watch for changes to [AppData.buttonAxis] registered with [GetIt].
-    guestRect = watchOnly((AppData s) => s.buttonArrayRect);
+    guestRect = watchOnly((AppData a) => a.buttonArrayRect);
 
     // Watch for changes to [AppData.buttonAlignment] registered with [GetIt].
-    Alignment buttonAlignment = watchOnly((AppData s) => s.buttonAlignment);
+    Alignment buttonAlignment = watchOnly((AppData a) => a.buttonAlignment);
 
     // Watch for changes to [AppData.buttonAlignment] registered with [GetIt].
     double settingsPageListTilePadding =
-        watchOnly((AppData s) => s.settingsPageListTilePadding);
+        watchOnly((AppData a) => a.settingsPageListTilePadding);
 
     // Watch for changes to [AppData.buttonAlignment] registered with [GetIt].
     double settingsPageListTileRadius =
-        watchOnly((AppData s) => s.settingsPageListTileRadius);
+        watchOnly((AppData a) => a.settingsPageListTileRadius);
 
     // Helps define the sliding motion of [SettingsPageListTile].
     centreRect = centreConstructionRect;

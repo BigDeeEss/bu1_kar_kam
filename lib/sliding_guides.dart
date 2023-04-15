@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 import 'package:kar_kam/button_array.dart';
-import 'package:kar_kam/lib/get_it_service.dart';
+// import 'package:kar_kam/lib/get_it_service.dart';
 import 'package:kar_kam/app_data.dart';
 import 'package:kar_kam/settings_page_list_tile.dart';
 
@@ -14,13 +14,19 @@ class SlidingGuides extends StatelessWidget with GetItMixin {
   @override
   Widget build(BuildContext context) {
     // Get [AppData] registered with [GetIt].
-    AppData appData = GetItService.instance<AppData>();
+    // AppData appData = GetItService.instance<AppData>();
 
     // Watch for changes to [AppData.buttonAxis] registered with GetIt.
-    Axis buttonAxis = watchOnly((AppData s) => s.buttonAxis);
+    Axis buttonAxis = watchOnly((AppData a) => a.buttonAxis);
 
     // Watch for changes to [AppData.buttonAlignment] registered with GetIt.
-    Alignment buttonAlignment = watchOnly((AppData s) => s.buttonAlignment);
+    Alignment buttonAlignment = watchOnly((AppData a) => a.buttonAlignment);
+
+    // Watch for changes to [AppData.buttonRadius] registered with GetIt.
+    double buttonRadius = watchOnly((AppData a) => a.buttonRadius);
+
+    // Watch for changes to [AppData.buttonRadius] registered with GetIt.
+    double buttonPaddingMainAxis = watchOnly((AppData a) => a.buttonPaddingMainAxis);
 
     return Stack(
       children: [
@@ -40,7 +46,7 @@ class SlidingGuides extends StatelessWidget with GetItMixin {
             painter: OpenPainter(
               alignment: buttonAlignment,
               axis: buttonAxis,
-              radius: appData.buttonRadius + appData.buttonPaddingMainAxis,
+              radius: buttonRadius + buttonPaddingMainAxis,
               shiftVal: ButtonArray.rect.shortestSide *
                   SettingsPageListTile.sf,
             ),
@@ -58,7 +64,7 @@ class SlidingGuides extends StatelessWidget with GetItMixin {
             painter: OpenPainter(
               alignment: buttonAlignment,
               axis: buttonAxis,
-              radius: appData.buttonRadius + appData.buttonPaddingMainAxis,
+              radius: buttonRadius + buttonPaddingMainAxis,
               shiftVal: ButtonArray.rect.shortestSide *
                   SettingsPageListTile.sf
             ),
@@ -77,7 +83,7 @@ class SlidingGuides extends StatelessWidget with GetItMixin {
             painter: OpenPainter(
               alignment: buttonAlignment,
               axis: buttonAxis,
-              radius: appData.buttonRadius + appData.buttonPaddingMainAxis,
+              radius: buttonRadius + buttonPaddingMainAxis,
               shiftVal: 0.0,
             ),
           ),
@@ -94,7 +100,7 @@ class SlidingGuides extends StatelessWidget with GetItMixin {
             painter: OpenPainter(
               alignment: buttonAlignment,
               axis: buttonAxis,
-              radius: appData.buttonRadius + appData.buttonPaddingMainAxis,
+              radius: buttonRadius + buttonPaddingMainAxis,
               shiftVal: 0.0,
             ),
           ),

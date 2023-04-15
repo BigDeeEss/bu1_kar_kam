@@ -183,12 +183,36 @@ class _SettingsPageContentsState extends State<SettingsPageContents>
           softWrap: false,
         ),
       ),
+      SettingsPageListTile(
+        basePageViewRect:
+        basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
+        height: 75.0,
+        index: 9,
+        leading: Icon(
+          Icons.circle_notifications_outlined,
+          size: settingsPageListTileIconSize,
+        ),
+        onTap: (() {
+          // Toggle bool variable in AppModel that controls the fade effect.
+          GetItService.instance<AppData>()
+              .change(identifier: 'buttonRadius');
+        }),
+        trailing: Icon(
+          Icons.circle_notifications_outlined,
+          size: settingsPageListTileIconSize,
+        ),
+        widget: const Text(
+          '9. Cycle ButtonRadius!',
+          maxLines: 1,
+          softWrap: false,
+        ),
+      ),
       ...List<Widget>.generate(100, (int index) {
         return SettingsPageListTile(
           basePageViewRect:
               basePageViewRect ?? Offset.zero & MediaQuery.of(context).size,
           height: 75.0,
-          index: index + 9,
+          index: index + 10,
           leading: Icon(
             Icons.favorite,
             size: settingsPageListTileIconSize,

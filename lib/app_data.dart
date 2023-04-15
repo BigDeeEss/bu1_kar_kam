@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Import project-specific files.
 import 'package:kar_kam/button_array.dart';
 import 'package:kar_kam/button_specs.dart';
+import 'package:kar_kam/lib/map_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 /// Stores app data.
@@ -79,6 +80,7 @@ class AppData extends ChangeNotifier{
       'basePageViewRect': (Rect newValue) => basePageViewRect = newValue,
       'buttonAlignment': (newValue) => cycleButtonAlignment(),
       'buttonAxis': (newValue) => toggleButtonAxis(),
+      'buttonRadius': (newValue) => cycleButtonRadius(),
       'drawLayoutBounds': (newValue) => toggleDrawLayoutBounds(),
       'settingsPageListTileFadeEffect': (newValue) =>
           toggleSettingsPageListTileFadeEffect(),
@@ -104,6 +106,23 @@ class AppData extends ChangeNotifier{
 
     // Do the conversion using [map].
     buttonAlignment = map[buttonAlignment]!;
+
+    // Update [buttonArrayRect].
+    buttonArrayRect = updateButtonArrayRect();
+  }
+
+  void cycleButtonRadius() {
+    // Define a map which can convert an integer to a double that represents
+    // a value for [buttonRadius].
+    Map<int, double> map = {
+      0: 27.5,
+      1: 28.0,
+      2: 32.5,
+    };
+
+    // Use [map], its inverse and the modulus operator to cycle [buttonRadius].
+    int buttonRadiusIntRepresentation = map.inverse()[buttonRadius]!;
+    buttonRadius = map[(buttonRadiusIntRepresentation + 1) % map.length]!;
 
     // Update [buttonArrayRect].
     buttonArrayRect = updateButtonArrayRect();
