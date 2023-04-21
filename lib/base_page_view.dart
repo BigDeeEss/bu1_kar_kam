@@ -85,13 +85,19 @@ class _BasePageViewState extends State<_BasePageView> {
         notify: false,
       );
 
-      // Update the [buttonArrayRect] in the instance of [AppData]
-      // registered with GetIt.
-      // The class method [updateButtonArrayRect] generates the bounding box
-      // for [ButtonArray].
-      // Call [updateButtonArrayRect] as soon as [basePageViewRect] is known.
-      GetItService.instance<AppData>().buttonArrayRect =
-          GetItService.instance<AppData>().updateButtonArrayRect();
+      // Update [buttonArrayRect] in the instance of [AppData] registered
+      // with GetIt.
+      GetItService.instance<AppData>().change(
+        identifier: 'buttonArrayRect',
+        notify: false,
+      );
+
+      // Update [buttonArrayRect] in the instance of [AppData] registered
+      // with GetIt.
+      GetItService.instance<AppData>().change(
+        identifier: 'buttonCoordinates',
+        notify: false,
+      );
 
       // Rebuild widget with [pageSpec.contents] instead of [Container].
       if (pageContents == null) {

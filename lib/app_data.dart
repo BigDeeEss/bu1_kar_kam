@@ -8,7 +8,19 @@ import 'package:kar_kam/lib/map_extension.dart';
 import 'package:kar_kam/lib/rect_extension.dart';
 
 /// Stores app data.
-class AppData extends ChangeNotifier{
+class AppData extends ChangeNotifier {
+  AppData() {
+    buttonCoordinates = List<double>.generate(
+      buttonSpecList.length,
+      (int index) => 0,
+      growable: false,
+    );
+  }
+
+  // ToDo: uplift [buttonCoordinates] getter from [ButtonArray] class to here.
+  // ToDo: change [buttonCoordinates] when appropriate values change as in cycleButtonRadius.
+  // ToDo: make [ButtonArray] get rebuilt evey time buttonRect changes.
+
   /// A scale factor which is applied to [appBarHeight] in order to calculate
   /// the [BottomAppBar] height in [BasePage] class.
   double appBarHeightScaleFactor = 1.0;
@@ -30,6 +42,9 @@ class AppData extends ChangeNotifier{
 
   /// The button axis in [ButtonArray].
   Axis buttonAxis = Axis.horizontal;
+
+  /// The current coordinates to build ButtonArray.
+  late List<double> buttonCoordinates;
 
   /// Defines the padding surrounding each button.
   EdgeInsetsDirectional get buttonPadding =>
@@ -77,6 +92,10 @@ class AppData extends ChangeNotifier{
     Map<String, Function> map = {
       'appBarHeightScaleFactor': (double newValue) =>
           appBarHeightScaleFactor = newValue,
+      'buttonArrayRect': (newValue) =>
+          buttonArrayRect = updateButtonArrayRect(),
+      'buttonCoordinates': (newValue) =>
+          buttonCoordinates = updateButtonCoordinates(),
       'basePageViewRect': (Rect newValue) => basePageViewRect = newValue,
       'buttonAlignment': (newValue) => cycleButtonAlignment(),
       'buttonAxis': (newValue) => toggleButtonAxis(),
@@ -115,9 +134,8 @@ class AppData extends ChangeNotifier{
     // Define a map which can convert an integer to a double that represents
     // a value for [buttonRadius].
     Map<int, double> map = {
-      0: 27.5,
+      0: 32.5,
       1: 28.0,
-      2: 32.5,
     };
 
     // Use [map], its inverse and the modulus operator to cycle [buttonRadius].
@@ -126,6 +144,8 @@ class AppData extends ChangeNotifier{
 
     // Update [buttonArrayRect].
     buttonArrayRect = updateButtonArrayRect();
+
+    buttonCoordinates = updateButtonCoordinates();
   }
 
   // Prints all field values associated with [this] for diagnostic purposes.
@@ -191,24 +211,27 @@ class AppData extends ChangeNotifier{
 
     if (basePageViewRect != Rect.zero) {
       rect = map[buttonAlignment]?.call(rect);
-    }
-    else {
-      assert(basePageViewRect != null, 'AppData, get buttonArrayRect...error, '
+    } else {
+      assert(
+          basePageViewRect != null,
+          'AppData, get buttonArrayRect...error, '
           'basePageViewRect is null.');
     }
 
-    // // Move [rect] to correct location on screen.
-    // if (basePageViewRect != Rect.zero) {
-    //   if (buttonAlignment == Alignment.topRight) {
-    //     rect = rect.moveTopRightTo(basePageViewRect.topRight);
-    //   } else if (buttonAlignment == Alignment.topLeft) {
-    //     rect = rect.moveTopLeftTo(basePageViewRect.topLeft);
-    //   }
-    // }
-    // else {
-    //   assert(basePageViewRect != null, 'AppData, get buttonArrayRect...error, '
-    //       'basePageViewRect is null.');
-    // }
     return rect;
+  }
+
+  List<double> updateButtonCoordinates() {
+    // A length -- button width plus padding -- for defining [coordinateList].
+    // Using two parameters allows for the bounding boxes of buttons to overlap.
+    double dim = 2 * (buttonRadius + buttonPaddingMainAxisAlt);
+
+    // Loop over items in [buttonSpecList] and convert each to its
+    // corresponding position.
+    List<double> coordinateList = [];
+    for (int i = 0; i < buttonSpecList.length; i++) {
+      coordinateList.add(dim * i);
+    }
+    return coordinateList;
   }
 }

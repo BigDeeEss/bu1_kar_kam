@@ -15,7 +15,7 @@ class ButtonSpec {
   });
 
   /// Graphical indicator of the destination page and/or action.
-  final Icon icon;
+  final Widget icon;
 
   /// Defines the action to be taken when the button is activated.
   final void Function(BuildContext context) onPressed;
@@ -23,7 +23,7 @@ class ButtonSpec {
 
 /// Home page button specs.
 ButtonSpec homeButton = ButtonSpec(
-  icon: const Icon(FontAwesomeIcons.house),
+  icon: const FaIcon(FontAwesomeIcons.house),
   onPressed: (context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
@@ -41,7 +41,7 @@ ButtonSpec homeButton = ButtonSpec(
 
 /// Files page button specs.
 ButtonSpec filesButton = ButtonSpec(
-  icon: const Icon(FontAwesomeIcons.fileVideo),
+  icon: const FaIcon(FontAwesomeIcons.fileVideo),
   onPressed: (context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
@@ -59,7 +59,7 @@ ButtonSpec filesButton = ButtonSpec(
 
 //  Settings page button specs.
 ButtonSpec settingsButton = ButtonSpec(
-  icon: const Icon(FontAwesomeIcons.gear),
+  icon: const FaIcon(FontAwesomeIcons.gear),
   onPressed: (context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
